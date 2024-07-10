@@ -4,4 +4,4 @@
 An innowise internship project
 
 ## Authorization database scheme
-You can check the scheme [here](https://drive.google.com/file/d/1xJ2fBvu52mzN7LL_F1bEJ80dA2Rqpv-u/view?usp=sharing).
+![databasesheme drawio](https://github.com/AntonMarkelau/GymInnowise/assets/175199226/fdac4d69-2c5c-41fc-9e5f-273de886fdc8)

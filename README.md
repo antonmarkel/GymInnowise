@@ -4,4 +4,5 @@
 An innowise internship project
 
 ## Authorization database scheme
-![databasesheme drawio (3)](https://github.com/AntonMarkelau/GymInnowise/assets/175199226/6f03dae2-579f-4d44-a8db-c210362f127c)
+![databasesheme drawio (4)](https://github.com/AntonMarkelau/GymInnowise/assets/175199226/c3c89563-70fa-4f54-b5b4-39f9de9c10a3)
+

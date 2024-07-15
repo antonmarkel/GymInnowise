@@ -22,7 +22,7 @@ namespace GymInnowise.Authorization.Persistence.Data
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=Student;Username=postgres;Password=MADL");
+            optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=GymInnowise;Username=postgres;Password=MADL");
          
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)

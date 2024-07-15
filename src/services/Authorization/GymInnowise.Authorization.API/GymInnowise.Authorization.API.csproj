@@ -11,8 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\GymInnowise.Authorization.Logic\GymInnowise.Authorization.Logic.csproj" />
-    <ProjectReference Include="..\..\GymInnowise.Authorization.Persistence\GymInnowise.Authorization.Persistence\GymInnowise.Authorization.Persistence.csproj" />
+    <ProjectReference Include="..\GymInnowise.Authorization.Logic\GymInnowise.Authorization.Logic.csproj" />
+    <ProjectReference Include="..\GymInnowise.Authorization.Persistence\GymInnowise.Authorization.Persistence.csproj" />
   </ItemGroup>
 
 </Project>

@@ -9,8 +9,8 @@ namespace GymInnowise.Authorization.Persistence.Models.Enities
         public string Email { get; set; } = string.Empty;
         public string PhoneNumber { get; set; } = string.Empty;
         public string PasswordHash { get; set; } = string.Empty;
-        public DateTime CreatedDate { get; set; }
-        public DateTime ModifiedDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public DateTime? ModifiedDate { get; set; }
         public List<RoleEntity> Roles { get; set; } = new List<RoleEntity>();
     }
 }

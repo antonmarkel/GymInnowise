@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GymInnowise.Authorization.Persistence.Migrations
 {
     [DbContext(typeof(AuthorizationDbContext))]
-    [Migration("20240711145059_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240716145348_InitialCreateWithProperNullableProps")]
+    partial class InitialCreateWithProperNullableProps
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace GymInnowise.Authorization.Persistence.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("AccountRole", b =>
+            modelBuilder.Entity("AccountEntityRoleEntity", b =>
                 {
                     b.Property<Guid>("AccountsId")
                         .HasColumnType("uuid");
@@ -37,23 +37,23 @@ namespace GymInnowise.Authorization.Persistence.Migrations
 
                     b.HasIndex("RolesId");
 
-                    b.ToTable("AccountRole");
+                    b.ToTable("AccountRole", (string)null);
                 });
 
-            modelBuilder.Entity("GymInnowise.Authorization.Persistence.Models.Account", b =>
+            modelBuilder.Entity("GymInnowise.Authorization.Persistence.Models.Enities.AccountEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("CreatedDate")
+                    b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("ModifiedDate")
+                    b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("PasswordHash")
@@ -66,10 +66,10 @@ namespace GymInnowise.Authorization.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Accounts");
+                    b.ToTable("Accounts", (string)null);
                 });
 
-            modelBuilder.Entity("GymInnowise.Authorization.Persistence.Models.RefreshToken", b =>
+            modelBuilder.Entity("GymInnowise.Authorization.Persistence.Models.Enities.RefreshTokenEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -78,13 +78,13 @@ namespace GymInnowise.Authorization.Persistence.Migrations
                     b.Property<Guid>("AccountId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("CreatedDate")
+                    b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime>("ExpiryDate")
+                    b.Property<DateTime?>("ExpiryDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime>("RevokedDate")
+                    b.Property<DateTime?>("RevokedDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Token")
@@ -98,10 +98,10 @@ namespace GymInnowise.Authorization.Persistence.Migrations
 
                     b.HasIndex("AccountId");
 
-                    b.ToTable("RefreshTokens");
+                    b.ToTable("RefreshTokens", (string)null);
                 });
 
-            modelBuilder.Entity("GymInnowise.Authorization.Persistence.Models.Role", b =>
+            modelBuilder.Entity("GymInnowise.Authorization.Persistence.Models.Enities.RoleEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -113,27 +113,27 @@ namespace GymInnowise.Authorization.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Roles", (string)null);
                 });
 
-            modelBuilder.Entity("AccountRole", b =>
+            modelBuilder.Entity("AccountEntityRoleEntity", b =>
                 {
-                    b.HasOne("GymInnowise.Authorization.Persistence.Models.Account", null)
+                    b.HasOne("GymInnowise.Authorization.Persistence.Models.Enities.AccountEntity", null)
                         .WithMany()
                         .HasForeignKey("AccountsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("GymInnowise.Authorization.Persistence.Models.Role", null)
+                    b.HasOne("GymInnowise.Authorization.Persistence.Models.Enities.RoleEntity", null)
                         .WithMany()
                         .HasForeignKey("RolesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("GymInnowise.Authorization.Persistence.Models.RefreshToken", b =>
+            modelBuilder.Entity("GymInnowise.Authorization.Persistence.Models.Enities.RefreshTokenEntity", b =>
                 {
-                    b.HasOne("GymInnowise.Authorization.Persistence.Models.Account", "Account")
+                    b.HasOne("GymInnowise.Authorization.Persistence.Models.Enities.AccountEntity", "Account")
                         .WithMany()
                         .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade)

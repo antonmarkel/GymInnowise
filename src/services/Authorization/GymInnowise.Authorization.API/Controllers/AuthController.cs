@@ -22,7 +22,6 @@ namespace GymInnowise.Authorization.API.Controllers
         public async Task<IActionResult> Login([FromBody] AccountLoginDto loginDto)
         {
             var token = await _loginService.Login(loginDto);
-
             if (string.IsNullOrEmpty(token)){
 
                 return Unauthorized("Invalid password!");

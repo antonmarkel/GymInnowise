@@ -24,7 +24,6 @@ namespace GymInnowise.Authorization.Logic.Services
         public async Task<string>Login(AccountLoginDto loginDto)
         {
             var account = await _accountsRepository.GetAccountByEmail(loginDto.Email);
-
             if (!_passwordService.VerifyPassword(loginDto.Password, account.PasswordHash)){
 
                 return null;

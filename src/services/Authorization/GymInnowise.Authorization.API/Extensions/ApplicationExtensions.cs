@@ -1,0 +1,58 @@
+﻿using GymInnowise.Authorization.Logic.Services;
+using GymInnowise.Authorization.Persistence.Data;
+using GymInnowise.Authorization.Persistence.Repositories.Implementations;
+using GymInnowise.Authorization.Persistence.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+
+namespace GymInnowise.Authorization.API.Extensions
+{
+    public static class ApplicationExtensions
+    {
+        public static void AddPersistance(this IHostApplicationBuilder builder)
+        {
+            builder.Services.AddScoped<IAccountsRepository, AccountsRepository>();
+            builder.Services.AddScoped<IRolesRepository, RolesRepository>();
+
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+            builder.Services.AddDbContext<AuthorizationDbContext>(options => options.UseNpgsql(connectionString));
+        }
+        public static void AddJwtServices(this IHostApplicationBuilder builder)
+        {
+            var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+            builder.Services.Configure<JwtSettings>(jwtSettings);
+            var key = Encoding.ASCII.GetBytes(jwtSettings.Get<JwtSettings>()!.SecretKey);
+
+            builder.Services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = jwtSettings["Issuer"],
+                    ValidAudience = jwtSettings["Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                };
+            });
+            builder.Services.AddAuthorization();
+            builder.Services.AddScoped<JwtService>();
+        }
+
+        public static void AddLogicServices(this IHostApplicationBuilder builder)
+        {
+            builder.Services.AddScoped<LoginService>();
+            builder.Services.AddScoped<RegistrationService>();
+        }
+
+    }
+}

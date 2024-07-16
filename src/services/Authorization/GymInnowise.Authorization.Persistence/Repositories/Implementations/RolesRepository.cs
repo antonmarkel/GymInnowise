@@ -31,7 +31,7 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
         public async Task<RoleEntity?> GetRoleAsync(RoleEnum role)
         {
             var roleString = role.ToString();
-            return await _context.Roles.FirstOrDefaultAsync(v => string.Equals(roleString, v.RoleName));
+            return await _context.Roles.FirstOrDefaultAsync(v => roleString.ToLower() == roleString.ToLower());
         }
 
         public async Task<IEnumerable<RolePreview>> GetAllRolesAsync()

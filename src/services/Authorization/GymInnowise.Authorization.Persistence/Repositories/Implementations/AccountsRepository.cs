@@ -25,8 +25,8 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
         public async Task<bool> DoesAccountExistAsync(AccountRegistrationRequest dto)
         {
             var account = await _context.Accounts.FirstOrDefaultAsync(v =>
-                string.Equals(v.PhoneNumber, dto.PhoneNumber, StringComparison.OrdinalIgnoreCase) ||
-                string.Equals(v.Email, dto.Email, StringComparison.OrdinalIgnoreCase));
+                v.PhoneNumber.ToLower() ==  dto.PhoneNumber.ToLower() ||
+                v.Email.ToLower() ==  dto.Email.ToLower());
             return account != null;
         }
         public async Task DeleteAccountAsync(AccountEntity account)
@@ -37,9 +37,8 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
 
         public async Task<AccountEntity?> GetAccountByEmail(string email)
         {
-            return await _context.Accounts.FirstOrDefaultAsync(a => string.Equals(email, a.Email, StringComparison.OrdinalIgnoreCase));
+            return await _context.Accounts.FirstOrDefaultAsync(a => email.ToLower() == a.Email.ToLower());
         }
-
 
         public async Task<IEnumerable<AccountPreview>> GetAllAccountsAsync()
         {

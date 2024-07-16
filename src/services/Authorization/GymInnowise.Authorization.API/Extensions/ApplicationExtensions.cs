@@ -1,4 +1,5 @@
-﻿using GymInnowise.Authorization.Logic.Services;
+﻿using GymInnowise.Authorization.Logic.Interfaces;
+using GymInnowise.Authorization.Logic.Services;
 using GymInnowise.Authorization.Persistence.Data;
 using GymInnowise.Authorization.Persistence.Repositories.Implementations;
 using GymInnowise.Authorization.Persistence.Repositories.Interfaces;
@@ -45,7 +46,7 @@ namespace GymInnowise.Authorization.API.Extensions
                 };
             });
             builder.Services.AddAuthorization();
-            builder.Services.AddScoped<JwtService>();
+            builder.Services.AddScoped<IJwtService,JwtService>();
         }
 
         public static void AddLogicServices(this IHostApplicationBuilder builder)

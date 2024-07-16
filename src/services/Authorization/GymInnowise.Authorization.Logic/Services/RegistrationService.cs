@@ -17,23 +17,11 @@ namespace GymInnowise.Authorization.Logic.Services
             _rolesRepo = rolesRepo;
         }
 
-        //TODO: add a normal validation, not this crap.
-        private bool InvalidAccountDto(AccountRegistrationRequest accountRegistrationDto)
-        {
-            return string.IsNullOrEmpty(accountRegistrationDto.PhoneNumber) ||
-                string.IsNullOrEmpty(accountRegistrationDto.Email) ||
-                string.IsNullOrEmpty(accountRegistrationDto.Password);
-        }
-
-
+ 
+    
         public async Task<bool> RegisterAccount(AccountRegistrationRequest accountRegistrationDto)
         {
-            if (this.InvalidAccountDto(accountRegistrationDto))
-            {
-
-                return false;
-            }
-
+           
             var account = new AccountEntity
             {
                 Email = accountRegistrationDto.Email,
@@ -47,9 +35,8 @@ namespace GymInnowise.Authorization.Logic.Services
                 },
             };
 
-            await _accountsRepo.CreateAccountAsync(account);
-
-            return true;
+            return await _accountsRepo.CreateAccountAsync(account);
+            
         }
     }
 }

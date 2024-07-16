@@ -1,4 +1,5 @@
 ﻿using GymInnowise.Authorization.Logic.Helpers;
+using GymInnowise.Authorization.Logic.Interfaces;
 using GymInnowise.Authorization.Persistence.Repositories.Interfaces;
 using GymInnowise.Authorization.Shared.Dtos;
 
@@ -8,9 +9,9 @@ namespace GymInnowise.Authorization.Logic.Services
     {
         private readonly IAccountsRepository _accountsRepository;
 
-        private readonly JwtService _jwtService;
+        private readonly IJwtService _jwtService;
 
-        public LoginService(IAccountsRepository accountsRepository, JwtService jwtService)
+        public LoginService(IAccountsRepository accountsRepository, IJwtService jwtService)
         {
             _accountsRepository = accountsRepository;
             _jwtService = jwtService;

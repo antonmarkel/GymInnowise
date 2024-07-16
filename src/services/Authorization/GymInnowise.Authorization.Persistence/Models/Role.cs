@@ -8,6 +8,6 @@ namespace GymInnowise.Authorization.Persistence.Models
         public Guid Id { get; set; }
         [Required]
         public string RoleName { get; set; }
-        public List<Account> Accounts { get; set; } 
+        public List<Account> Accounts { get; set; }
     }
 }

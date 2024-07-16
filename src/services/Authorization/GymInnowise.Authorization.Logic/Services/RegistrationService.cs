@@ -11,7 +11,7 @@ namespace GymInnowise.Authorization.Logic.Services
         private readonly IRolesRepository _rolesRepo;
         private readonly PasswordService _passwordService;
 
-        public RegistrationService(IAccountsRepository accountsRepo, IRolesRepository rolesRepo,PasswordService passwordService)
+        public RegistrationService(IAccountsRepository accountsRepo, IRolesRepository rolesRepo, PasswordService passwordService)
         {
             _accountsRepo = accountsRepo;
             _rolesRepo = rolesRepo;
@@ -29,7 +29,8 @@ namespace GymInnowise.Authorization.Logic.Services
 
         public async Task<bool> RegisterAccount(AccountRegistrationDto accountRegistrationDto)
         {
-            if (this.InvalidAccountDto(accountRegistrationDto)){
+            if (this.InvalidAccountDto(accountRegistrationDto))
+            {
 
                 return false;
             }
@@ -38,11 +39,11 @@ namespace GymInnowise.Authorization.Logic.Services
             {
                 Email = accountRegistrationDto.Email,
                 PhoneNumber = accountRegistrationDto.PhoneNumber,
-                PasswordHash =_passwordService.HashPassword(accountRegistrationDto.Password),
+                PasswordHash = _passwordService.HashPassword(accountRegistrationDto.Password),
                 CreatedDate = DateTime.UtcNow,
                 ModifiedDate = DateTime.UtcNow,
 
-                Roles = new List<Role>() { 
+                Roles = new List<Role>() {
                     await _rolesRepo.GetRoleAsync("Client"),
                 },
             };

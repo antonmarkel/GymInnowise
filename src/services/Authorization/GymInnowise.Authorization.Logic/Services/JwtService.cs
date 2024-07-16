@@ -1,12 +1,8 @@
 ﻿using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace GymInnowise.Authorization.Logic.Services
 {
@@ -30,7 +26,7 @@ namespace GymInnowise.Authorization.Logic.Services
             _jwtSettings = jwtSettings.Value;
         }
 
-        public string GenerateJwtToken(string phoneNumber,string email)
+        public string GenerateJwtToken(string phoneNumber, string email)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwtSettings.SecretKey);

@@ -17,7 +17,8 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
         public async Task<bool> CreateAccountAsync(Account account)
         {
             var existAccount = _context.Accounts.FirstOrDefault(a => a.Email == account.Email || a.PhoneNumber == account.PhoneNumber);
-            if (existAccount != null){
+            if (existAccount != null)
+            {
 
                 return false;
             }
@@ -31,7 +32,8 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
         public async Task<bool> DeleteAccountAsync(Guid id)
         {
             var account = await _context.Accounts.FirstOrDefaultAsync(a => a.Id == id);
-            if (account is null){
+            if (account is null)
+            {
 
                 return false;
             }
@@ -51,8 +53,10 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
         {
             return await _context.Accounts.Include(a => a.Roles)
                 .Select(a =>
-                    new AccountDto{ 
-                        Id = a.Id, Email = a.Email,
+                    new AccountDto
+                    {
+                        Id = a.Id,
+                        Email = a.Email,
                         PhoneNumber = a.PhoneNumber,
                         Roles = a.Roles.Select(ar => ar.RoleName).ToArray()
                     }

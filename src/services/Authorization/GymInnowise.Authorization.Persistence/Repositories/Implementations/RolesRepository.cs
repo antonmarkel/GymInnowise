@@ -28,14 +28,15 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
 
         public async Task<Role> GetRoleAsync(string role)
         {
-           return await _context.Roles.FirstOrDefaultAsync(v => v.RoleName == role) ?? throw new NullReferenceException();
+            return await _context.Roles.FirstOrDefaultAsync(v => v.RoleName == role) ?? throw new NullReferenceException();
         }
 
         public async Task<IEnumerable<RoleDto>> GetAllRolesAsync()
         {
-            return await _context.Roles.Include(a => a.Accounts).Select(a => new RoleDto{
-              RoleName = a.RoleName,
-              Clients = a.Accounts.Select(a => a.Email).ToArray(),
+            return await _context.Roles.Include(a => a.Accounts).Select(a => new RoleDto
+            {
+                RoleName = a.RoleName,
+                Clients = a.Accounts.Select(a => a.Email).ToArray(),
             }).ToListAsync();
         }
     }

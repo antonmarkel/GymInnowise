@@ -22,7 +22,7 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
             await _context.SaveChangesAsync();
         }
 
-        public async Task<bool> DoesAccountExist(AccountRegistrationRequest dto)
+        public async Task<bool> DoesAccountExistAsync(AccountRegistrationRequest dto)
         {
             var account = await _context.Accounts.FirstOrDefaultAsync(v =>
                 string.Equals(v.PhoneNumber, dto.PhoneNumber, StringComparison.OrdinalIgnoreCase) ||

@@ -12,6 +12,6 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Interfaces
         Task DeleteAccountAsync(AccountEntity account);
         Task<AccountEntity?> GetAccountByEmail(string email);
         Task<IEnumerable<AccountPreview>> GetAllAccountsAsync();
-        Task<bool> DoesAccountExist(AccountRegistrationRequest dto)
+        Task<bool> DoesAccountExistAsync(AccountRegistrationRequest dto);
     }
 }

@@ -34,14 +34,8 @@ namespace GymInnowise.Authorization.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] AccountRegistrationRequest registrationDto)
         {
-            var result = await _registrationService.RegisterAccount(registrationDto);
-            if (result)
-            {
-
-                return Created();
-            }
-
-            return Problem(detail: "Registration went wrong");
+            await _registrationService.RegisterAccount(registrationDto);    
+            return Created();         
         }
     }
 }

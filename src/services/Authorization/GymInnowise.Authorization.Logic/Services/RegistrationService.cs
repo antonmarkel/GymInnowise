@@ -14,6 +14,7 @@ namespace GymInnowise.Authorization.Logic.Services
 
         public RegistrationService(IAccountsRepository accountsRepo, IRolesRepository rolesRepo)
         {
+
             _accountsRepo = accountsRepo;
             _rolesRepo = rolesRepo;
         }
@@ -21,6 +22,7 @@ namespace GymInnowise.Authorization.Logic.Services
         public async Task RegisterAccount(AccountRegistrationRequest accountRegistrationDto)
         {
             if (await _accountsRepo.DoesAccountExistAsync(accountRegistrationDto)) throw new InvalidOperationException("Account already exists!");
+            
             var account = new AccountEntity
             {
                 Email = accountRegistrationDto.Email,

@@ -3,6 +3,6 @@
     public class RolePreview
     {
         public required string RoleName { get; set; }
-        public string[] Clients { get; set; } = Array.Empty<string>();
+        public IEnumerable<string> Clients { get; set; } = new List<string>();
     }
 }

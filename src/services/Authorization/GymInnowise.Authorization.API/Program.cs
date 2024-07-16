@@ -10,7 +10,6 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -46,11 +45,10 @@ builder.Services.AddAuthentication(x =>
         ValidateIssuerSigningKey = true,
         ValidIssuer = jwtSettings["Issuer"],
         ValidAudience = jwtSettings["Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(key)
+        IssuerSigningKey = new SymmetricSecurityKey(key),
     };
 });
 builder.Services.AddAuthorization();
-
 
 builder.Services.AddScoped<IAccountsRepository, AccountsRepository>();
 builder.Services.AddScoped<IRolesRepository, RolesRepository>();
@@ -59,9 +57,7 @@ builder.Services.AddScoped<LoginService>();
 builder.Services.AddScoped<RegistrationService>();
 builder.Services.AddScoped<JwtService>();
 
-
 var app = builder.Build();
-
 
 if (app.Environment.IsDevelopment())
 {
@@ -69,15 +65,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
 app.UseAuthentication();
 app.UseAuthorization(); 
 
 app.UseHttpsRedirection();
 app.MapControllers();
 
-
 app.Run();
-
 
 public record AccountDto(string email, string phonenumber);

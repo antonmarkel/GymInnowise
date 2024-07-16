@@ -5,7 +5,6 @@ using GymInnowise.Authorization.Persistence.Repositories.Interfaces;
 
 namespace GymInnowise.Authorization.Logic.Services
 {
-   
     public class RegistrationService
     {
         private readonly IAccountsRepository _accountsRepo;
@@ -21,15 +20,20 @@ namespace GymInnowise.Authorization.Logic.Services
 
         //TODO: add a normal validation, not this crap.
         private bool InvalidAccountDto(AccountRegistrationDto accountRegistrationDto)
-           =>
-              string.IsNullOrEmpty(accountRegistrationDto.PhoneNumber) ||
-              string.IsNullOrEmpty(accountRegistrationDto.Email) ||
-              string.IsNullOrEmpty(accountRegistrationDto.Password);
+        {
+            return string.IsNullOrEmpty(accountRegistrationDto.PhoneNumber) ||
+                string.IsNullOrEmpty(accountRegistrationDto.Email) ||
+                string.IsNullOrEmpty(accountRegistrationDto.Password);
+        }
 
 
         public async Task<bool> RegisterAccount(AccountRegistrationDto accountRegistrationDto)
         {
-            if (InvalidAccountDto(accountRegistrationDto)) return false;
+            if (this.InvalidAccountDto(accountRegistrationDto)){
+
+                return false;
+            }
+
             var account = new Account
             {
                 Email = accountRegistrationDto.Email,
@@ -37,10 +41,15 @@ namespace GymInnowise.Authorization.Logic.Services
                 PasswordHash =_passwordService.HashPassword(accountRegistrationDto.Password),
                 CreatedDate = DateTime.UtcNow,
                 ModifiedDate = DateTime.UtcNow,
-                Roles = new List<Role>() { await _rolesRepo.GetRoleAsync("Client")},
+
+                Roles = new List<Role>() { 
+                    await _rolesRepo.GetRoleAsync("Client"),
+                },
             };
+
             await _accountsRepo.CreateAccountAsync(account);
-            return true;    
+
+            return true;
         }
     }
 }

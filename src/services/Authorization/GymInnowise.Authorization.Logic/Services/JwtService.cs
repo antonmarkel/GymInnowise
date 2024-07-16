@@ -13,10 +13,14 @@ namespace GymInnowise.Authorization.Logic.Services
     public class JwtSettings
     {
         public string SecretKey { get; set; }
+
         public string Issuer { get; set; }
+
         public string Audience { get; set; }
+
         public int ExpiryInMinutes { get; set; }
     }
+
     public class JwtService
     {
         private readonly JwtSettings _jwtSettings;
@@ -30,20 +34,23 @@ namespace GymInnowise.Authorization.Logic.Services
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwtSettings.SecretKey);
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-                 new Claim(ClaimTypes.MobilePhone, phoneNumber),
-                 new Claim(ClaimTypes.Email, email)
+                    new Claim(ClaimTypes.MobilePhone, phoneNumber),
+                    new Claim(ClaimTypes.Email, email),
                 }),
+
                 Expires = DateTime.UtcNow.AddMinutes(_jwtSettings.ExpiryInMinutes),
                 Issuer = _jwtSettings.Issuer,
                 Audience = _jwtSettings.Audience,
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
+
             return tokenHandler.WriteToken(token);
         }
     }

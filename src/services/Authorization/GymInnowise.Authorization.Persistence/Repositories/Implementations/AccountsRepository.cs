@@ -29,24 +29,15 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
             return true;
         }
 
-        public async Task<bool> DeleteAccountAsync(Guid id)
+        public async Task DeleteAccountAsync(Account account)
         {
-            var account = await _context.Accounts.FirstOrDefaultAsync(a => a.Id == id);
-            if (account is null)
-            {
-
-                return false;
-            }
-
             _context.Accounts.Remove(account);
             await _context.SaveChangesAsync();
-
-            return true;
         }
 
-        public async Task<Account> GetAccountByEmail(string email)
+        public async Task<Account?> GetAccountByEmail(string email)
         {
-            return await _context.Accounts.FirstOrDefaultAsync(a => a.Email == email) ?? throw new NullReferenceException();
+            return await _context.Accounts.FirstOrDefaultAsync(a => a.Email == email);
         }
 
         public async Task<IEnumerable<AccountDto>> GetAllAccountsAsync()

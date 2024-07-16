@@ -20,15 +20,15 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
             await _context.SaveChangesAsync();
         }
 
-        public async void DeleteAccountAsync(Role role)
+        public async Task DeleteRoleAsync(Role role)
         {
             _context.Roles.Remove(role);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Role> GetRoleAsync(string role)
+        public async Task<Role?> GetRoleAsync(string role)
         {
-            return await _context.Roles.FirstOrDefaultAsync(v => v.RoleName == role) ?? throw new NullReferenceException();
+            return await _context.Roles.FirstOrDefaultAsync(v => v.RoleName == role);
         }
 
         public async Task<IEnumerable<RoleDto>> GetAllRolesAsync()

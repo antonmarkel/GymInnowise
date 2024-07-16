@@ -2,6 +2,7 @@
 using GymInnowise.Authorization.Persistence.Models.Enities;
 using GymInnowise.Authorization.Persistence.Repositories.Interfaces;
 using GymInnowise.Authorization.Shared.Dtos.Previews;
+using GymInnowise.Authorization.Shared.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
@@ -27,9 +28,10 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
             await _context.SaveChangesAsync();
         }
 
-        public async Task<RoleEntity?> GetRoleAsync(string role)
+        public async Task<RoleEntity?> GetRoleAsync(RoleEnum role)
         {
-            return await _context.Roles.FirstOrDefaultAsync(v => v.RoleName == role);
+            var roleString = role.ToString();
+            return await _context.Roles.FirstOrDefaultAsync(v => v.RoleName == roleString);
         }
 
         public async Task<IEnumerable<RolePreview>> GetAllRolesAsync()

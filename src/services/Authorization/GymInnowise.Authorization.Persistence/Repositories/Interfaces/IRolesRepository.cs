@@ -1,5 +1,6 @@
 ﻿using GymInnowise.Authorization.Persistence.Models.Enities;
 using GymInnowise.Authorization.Shared.Dtos.Previews;
+using GymInnowise.Authorization.Shared.Enums;
 
 
 namespace GymInnowise.Authorization.Persistence.Repositories.Interfaces
@@ -8,7 +9,7 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Interfaces
     {
         Task CreateRoleAsync(RoleEntity role);
         Task DeleteRoleAsync(RoleEntity role);
-        Task<RoleEntity?> GetRoleAsync(string role);
+        Task<RoleEntity?> GetRoleAsync(RoleEnum role);
         Task<IEnumerable<RolePreview>> GetAllRolesAsync();
     }
 }

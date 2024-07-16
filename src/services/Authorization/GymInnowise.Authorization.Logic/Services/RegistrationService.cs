@@ -2,6 +2,7 @@
 using GymInnowise.Authorization.Persistence.Models.Enities;
 using GymInnowise.Authorization.Persistence.Repositories.Interfaces;
 using GymInnowise.Authorization.Shared.Dtos;
+using GymInnowise.Authorization.Shared.Enums;
 
 
 namespace GymInnowise.Authorization.Logic.Services
@@ -31,7 +32,7 @@ namespace GymInnowise.Authorization.Logic.Services
                 ModifiedDate = DateTime.UtcNow,
 
                 Roles = new List<RoleEntity>() {
-                    await _rolesRepo.GetRoleAsync("Client") ?? throw new InvalidOperationException("a standard role wasn't found"),
+                    await _rolesRepo.GetRoleAsync(RoleEnum.Client) ?? throw new InvalidOperationException("a standard role wasn't found"),
                 },
             };
 

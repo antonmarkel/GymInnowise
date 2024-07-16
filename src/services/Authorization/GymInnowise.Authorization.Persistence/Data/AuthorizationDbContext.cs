@@ -6,9 +6,7 @@ namespace GymInnowise.Authorization.Persistence.Data
     public class AuthorizationDbContext : DbContext
     {
         public DbSet<AccountEntity> Accounts { get; set; }
-
         public DbSet<RoleEntity> Roles { get; set; }
-
         public DbSet<RefreshTokenEntity> RefreshTokens { get; set; }
 
         public AuthorizationDbContext(DbContextOptions<AuthorizationDbContext> options) : base(options)
@@ -62,7 +60,7 @@ namespace GymInnowise.Authorization.Persistence.Data
 
                 entity.HasMany(e => e.Roles)
                     .WithMany(e => e.Accounts)
-                    .UsingEntity(j => j.ToTable("AccountRole")); 
+                    .UsingEntity(j => j.ToTable("AccountRole"));
             });
         }
 

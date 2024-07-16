@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace GymInnowise.Authorization.Persistence.Models.Enities
+﻿namespace GymInnowise.Authorization.Persistence.Models.Enities
 {
     public class AccountEntity
     {

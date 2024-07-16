@@ -1,5 +1,4 @@
 ﻿using GymInnowise.Authorization.Persistence.Repositories.Interfaces;
-using GymInnowise.Authorization.Shared.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GymInnowise.Authorization.API.Controllers

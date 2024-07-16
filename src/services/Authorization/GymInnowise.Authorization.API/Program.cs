@@ -10,8 +10,6 @@ builder.AddPersistance();
 builder.AddJwtServices();
 builder.AddLogicServices();
 
-
-
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

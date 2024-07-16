@@ -18,11 +18,8 @@ namespace GymInnowise.Authorization.Logic.Services
             _rolesRepo = rolesRepo;
         }
 
- 
-    
         public async Task<bool> RegisterAccount(AccountRegistrationRequest accountRegistrationDto)
         {
-           
             var account = new AccountEntity
             {
                 Email = accountRegistrationDto.Email,
@@ -37,7 +34,7 @@ namespace GymInnowise.Authorization.Logic.Services
             };
 
             return await _accountsRepo.CreateAccountAsync(account);
-            
+
         }
     }
 }

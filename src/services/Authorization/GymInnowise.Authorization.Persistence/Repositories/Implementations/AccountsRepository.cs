@@ -1,6 +1,7 @@
 ﻿using GymInnowise.Authorization.Persistence.Data;
 using GymInnowise.Authorization.Persistence.Models.Enities;
 using GymInnowise.Authorization.Persistence.Repositories.Interfaces;
+using GymInnowise.Authorization.Shared.Dtos;
 using GymInnowise.Authorization.Shared.Dtos.Previews;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,24 +16,19 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
             _context = context;
         }
 
-        public async Task<bool> CreateAccountAsync(AccountEntity account)
-        {
-            var existAccount = _context.Accounts.FirstOrDefault(a =>
-            string.Equals(account.Email, a.Email, StringComparison.OrdinalIgnoreCase) ||
-            string.Equals(a.PhoneNumber, account.PhoneNumber, StringComparison.OrdinalIgnoreCase));
-
-            if (existAccount != null)
-            {
-
-                return false;
-            }
-
+        public async Task CreateAccountAsync(AccountEntity account)
+        {     
             await _context.Accounts.AddAsync(account);
             await _context.SaveChangesAsync();
-
-            return true;
         }
 
+        public async Task<bool> DoesAccountExist(AccountRegistrationRequest dto)
+        {
+            var account = await _context.Accounts.FirstOrDefaultAsync(v =>
+                string.Equals(v.PhoneNumber, dto.PhoneNumber, StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(v.Email, dto.Email, StringComparison.OrdinalIgnoreCase));
+            return account != null;
+        }
         public async Task DeleteAccountAsync(AccountEntity account)
         {
             _context.Accounts.Remove(account);

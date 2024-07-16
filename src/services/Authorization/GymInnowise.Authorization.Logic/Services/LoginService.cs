@@ -16,10 +16,10 @@ namespace GymInnowise.Authorization.Logic.Services
             _jwtService = jwtService;
         }
 
-        public async Task<string> Login(AccountLoginDto loginDto)
+        public async Task<string?> Login(AccountLoginRequest loginDto)
         {
             var account = await _accountsRepository.GetAccountByEmail(loginDto.Email);
-
+            if (account == null) throw new InvalidOperationException("account not found");
             if (!_passwordService.VerifyPassword(loginDto.Password, account.PasswordHash))
             {
 

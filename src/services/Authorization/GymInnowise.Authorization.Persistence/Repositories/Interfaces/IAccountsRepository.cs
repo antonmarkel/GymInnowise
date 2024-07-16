@@ -1,12 +1,13 @@
-﻿using GymInnowise.Authorization.Persistence.Models;
+﻿using GymInnowise.Authorization.Persistence.Models.Enities;
+using GymInnowise.Authorization.Persistence.Models.Previews;
 
 namespace GymInnowise.Authorization.Persistence.Repositories.Interfaces
 {
     public interface IAccountsRepository
     {
-        Task<bool> CreateAccountAsync(Account account);
-        Task DeleteAccountAsync(Account account);
-        Task<Account?> GetAccountByEmail(string email);
-        Task<IEnumerable<AccountDto>> GetAllAccountsAsync();
+        Task<bool> CreateAccountAsync(AccountEnity account);
+        Task DeleteAccountAsync(AccountEnity account);
+        Task<AccountEnity?> GetAccountByEmail(string email);
+        Task<IEnumerable<AccountPreview>> GetAllAccountsAsync();
     }
 }

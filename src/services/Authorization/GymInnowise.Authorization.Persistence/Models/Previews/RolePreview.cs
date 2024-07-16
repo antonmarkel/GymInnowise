@@ -1,9 +1,9 @@
-﻿namespace GymInnowise.Authorization.Persistence.Models
+﻿namespace GymInnowise.Authorization.Persistence.Models.Previews
 {
-    public class RoleDto
+    public class RolePreview
     {
-        public string RoleName { get; set; }
-        public string[] Clients { get; set; }
+        public required string RoleName { get; set; }
+        public string[] Clients { get; set; } = Array.Empty<string>();
 
     }
 }

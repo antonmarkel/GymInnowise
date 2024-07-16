@@ -1,15 +1,15 @@
-﻿using GymInnowise.Authorization.Persistence.Models;
+﻿using GymInnowise.Authorization.Persistence.Models.Enities;
 using Microsoft.EntityFrameworkCore;
 
 namespace GymInnowise.Authorization.Persistence.Data
 {
     public class AuthorizationDbContext : DbContext
     {
-        public DbSet<Account> Accounts { get; set; }
+        public DbSet<AccountEnity> Accounts { get; set; }
 
-        public DbSet<Role> Roles { get; set; }
+        public DbSet<RoleEntity> Roles { get; set; }
 
-        public DbSet<RefreshToken> RefreshTokens { get; set; }
+        public DbSet<RefreshTokenEntity> RefreshTokens { get; set; }
 
         public AuthorizationDbContext()
         {

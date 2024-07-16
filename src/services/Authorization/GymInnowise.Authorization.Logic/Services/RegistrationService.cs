@@ -1,5 +1,5 @@
 ﻿using GymInnowise.Authorization.Logic.Dtos;
-using GymInnowise.Authorization.Persistence.Models;
+using GymInnowise.Authorization.Persistence.Models.Enities;
 using GymInnowise.Authorization.Persistence.Repositories.Interfaces;
 
 
@@ -19,7 +19,7 @@ namespace GymInnowise.Authorization.Logic.Services
         }
 
         //TODO: add a normal validation, not this crap.
-        private bool InvalidAccountDto(AccountRegistrationDto accountRegistrationDto)
+        private bool InvalidAccountDto(AccountRegistrationRequest accountRegistrationDto)
         {
             return string.IsNullOrEmpty(accountRegistrationDto.PhoneNumber) ||
                 string.IsNullOrEmpty(accountRegistrationDto.Email) ||
@@ -27,7 +27,7 @@ namespace GymInnowise.Authorization.Logic.Services
         }
 
 
-        public async Task<bool> RegisterAccount(AccountRegistrationDto accountRegistrationDto)
+        public async Task<bool> RegisterAccount(AccountRegistrationRequest accountRegistrationDto)
         {
             if (this.InvalidAccountDto(accountRegistrationDto))
             {
@@ -35,7 +35,7 @@ namespace GymInnowise.Authorization.Logic.Services
                 return false;
             }
 
-            var account = new Account
+            var account = new AccountEnity
             {
                 Email = accountRegistrationDto.Email,
                 PhoneNumber = accountRegistrationDto.PhoneNumber,
@@ -43,8 +43,8 @@ namespace GymInnowise.Authorization.Logic.Services
                 CreatedDate = DateTime.UtcNow,
                 ModifiedDate = DateTime.UtcNow,
 
-                Roles = new List<Role>() {
-                    await _rolesRepo.GetRoleAsync("Client"),
+                Roles = new List<RoleEntity>() {
+                    await _rolesRepo.GetRoleAsync("Client") ?? throw new InvalidOperationException("a standard role wasn't found"),
                 },
             };
 

@@ -19,7 +19,7 @@ namespace GymInnowise.Authorization.API.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] AccountLoginDto loginDto)
+        public async Task<IActionResult> Login([FromBody] AccountLoginRequest loginDto)
         {
             var token = await _loginService.Login(loginDto);
             if (string.IsNullOrEmpty(token))
@@ -31,17 +31,17 @@ namespace GymInnowise.Authorization.API.Controllers
             return Ok(new { Token = token });
         }
 
-        [HttpPost("reg")]
-        public async Task<IActionResult> Register([FromBody] AccountRegistrationDto registrationDto)
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] AccountRegistrationRequest registrationDto)
         {
             var result = await _registrationService.RegisterAccount(registrationDto);
             if (result)
             {
 
-                return Ok();
+                return Created();
             }
 
-            return Problem(detail: "Sth went wrong");
+            return Problem(detail: "Registration went wrong");
         }
     }
 }

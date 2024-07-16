@@ -1,4 +1,4 @@
-﻿namespace GymInnowise.Authorization.Logic.Dtos
+﻿namespace GymInnowise.Authorization.Shared.Dtos
 {
     public class AccountRegistrationRequest
     {

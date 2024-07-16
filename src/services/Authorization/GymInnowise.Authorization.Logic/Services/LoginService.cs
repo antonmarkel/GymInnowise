@@ -1,6 +1,6 @@
-﻿using GymInnowise.Authorization.Logic.Dtos;
-using GymInnowise.Authorization.Logic.Helpers;
+﻿using GymInnowise.Authorization.Logic.Helpers;
 using GymInnowise.Authorization.Persistence.Repositories.Interfaces;
+using GymInnowise.Authorization.Shared.Dtos;
 
 namespace GymInnowise.Authorization.Logic.Services
 {

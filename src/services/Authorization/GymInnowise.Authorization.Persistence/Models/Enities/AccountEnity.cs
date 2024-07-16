@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GymInnowise.Authorization.Persistence.Models.Enities
 {
-    public class AccountEnity
+    public class AccountEntity
     {
         public Guid Id { get; set; }
         public string Email { get; set; } = string.Empty;

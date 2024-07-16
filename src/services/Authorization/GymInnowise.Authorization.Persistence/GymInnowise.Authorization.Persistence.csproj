@@ -14,4 +14,8 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\GymInnowise.Authorization.Shared\GymInnowise.Authorization.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

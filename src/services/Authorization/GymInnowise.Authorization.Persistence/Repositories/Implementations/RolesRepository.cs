@@ -1,7 +1,7 @@
 ﻿using GymInnowise.Authorization.Persistence.Data;
 using GymInnowise.Authorization.Persistence.Models.Enities;
-using GymInnowise.Authorization.Persistence.Models.Previews;
 using GymInnowise.Authorization.Persistence.Repositories.Interfaces;
+using GymInnowise.Authorization.Shared.Dtos.Previews;
 using Microsoft.EntityFrameworkCore;
 
 namespace GymInnowise.Authorization.Persistence.Repositories.Implementations

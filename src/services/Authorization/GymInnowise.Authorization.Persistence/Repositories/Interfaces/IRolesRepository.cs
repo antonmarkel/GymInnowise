@@ -1,5 +1,6 @@
 ﻿using GymInnowise.Authorization.Persistence.Models.Enities;
-using GymInnowise.Authorization.Persistence.Models.Previews;
+using GymInnowise.Authorization.Shared.Dtos.Previews;
+
 
 namespace GymInnowise.Authorization.Persistence.Repositories.Interfaces
 {

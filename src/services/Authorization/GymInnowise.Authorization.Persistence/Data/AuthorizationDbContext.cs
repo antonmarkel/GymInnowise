@@ -5,7 +5,7 @@ namespace GymInnowise.Authorization.Persistence.Data
 {
     public class AuthorizationDbContext : DbContext
     {
-        public DbSet<AccountEnity> Accounts { get; set; }
+        public DbSet<AccountEntity> Accounts { get; set; }
 
         public DbSet<RoleEntity> Roles { get; set; }
 
@@ -42,7 +42,7 @@ namespace GymInnowise.Authorization.Persistence.Data
 
         private void ConfigureAccountEntity(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<AccountEnity>(entity =>
+            modelBuilder.Entity<AccountEntity>(entity =>
             {
                 entity.ToTable("Accounts");
                 entity.HasKey(e => e.Id);

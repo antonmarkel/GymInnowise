@@ -1,4 +1,4 @@
-﻿namespace GymInnowise.Authorization.Persistence.Models.Previews
+﻿namespace GymInnowise.Authorization.Shared.Dtos.Previews
 {
     public class AccountPreview
     {

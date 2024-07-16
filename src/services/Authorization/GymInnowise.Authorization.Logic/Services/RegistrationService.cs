@@ -1,7 +1,7 @@
-﻿using GymInnowise.Authorization.Logic.Dtos;
-using GymInnowise.Authorization.Logic.Helpers;
+﻿using GymInnowise.Authorization.Logic.Helpers;
 using GymInnowise.Authorization.Persistence.Models.Enities;
 using GymInnowise.Authorization.Persistence.Repositories.Interfaces;
+using GymInnowise.Authorization.Shared.Dtos;
 
 
 namespace GymInnowise.Authorization.Logic.Services
@@ -34,7 +34,7 @@ namespace GymInnowise.Authorization.Logic.Services
                 return false;
             }
 
-            var account = new AccountEnity
+            var account = new AccountEntity
             {
                 Email = accountRegistrationDto.Email,
                 PhoneNumber = accountRegistrationDto.PhoneNumber,

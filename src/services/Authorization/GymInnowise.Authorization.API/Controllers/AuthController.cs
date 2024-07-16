@@ -1,5 +1,5 @@
-﻿using GymInnowise.Authorization.Logic.Dtos;
-using GymInnowise.Authorization.Logic.Services;
+﻿using GymInnowise.Authorization.Logic.Services;
+using GymInnowise.Authorization.Shared.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GymInnowise.Authorization.API.Controllers

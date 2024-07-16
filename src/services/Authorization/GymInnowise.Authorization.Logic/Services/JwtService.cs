@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using GymInnowise.Authorization.Logic.Interfaces;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -7,7 +8,7 @@ using System.Text;
 namespace GymInnowise.Authorization.Logic.Services
 {
 
-    public class JwtService
+    public class JwtService : IJwtService
     {
         private readonly JwtSettings _jwtSettings;
 

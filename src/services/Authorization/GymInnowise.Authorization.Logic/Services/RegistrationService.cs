@@ -1,4 +1,5 @@
 ﻿using GymInnowise.Authorization.Logic.Dtos;
+using GymInnowise.Authorization.Logic.Helpers;
 using GymInnowise.Authorization.Persistence.Models.Enities;
 using GymInnowise.Authorization.Persistence.Repositories.Interfaces;
 
@@ -9,13 +10,11 @@ namespace GymInnowise.Authorization.Logic.Services
     {
         private readonly IAccountsRepository _accountsRepo;
         private readonly IRolesRepository _rolesRepo;
-        private readonly PasswordService _passwordService;
 
-        public RegistrationService(IAccountsRepository accountsRepo, IRolesRepository rolesRepo, PasswordService passwordService)
+        public RegistrationService(IAccountsRepository accountsRepo, IRolesRepository rolesRepo)
         {
             _accountsRepo = accountsRepo;
             _rolesRepo = rolesRepo;
-            _passwordService = passwordService;
         }
 
         //TODO: add a normal validation, not this crap.
@@ -39,7 +38,7 @@ namespace GymInnowise.Authorization.Logic.Services
             {
                 Email = accountRegistrationDto.Email,
                 PhoneNumber = accountRegistrationDto.PhoneNumber,
-                PasswordHash = _passwordService.HashPassword(accountRegistrationDto.Password),
+                PasswordHash = PasswordHelper.HashPassword(accountRegistrationDto.Password),
                 CreatedDate = DateTime.UtcNow,
                 ModifiedDate = DateTime.UtcNow,
 

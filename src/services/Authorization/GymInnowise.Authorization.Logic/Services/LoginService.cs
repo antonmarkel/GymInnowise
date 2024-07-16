@@ -1,4 +1,5 @@
 ﻿using GymInnowise.Authorization.Logic.Dtos;
+using GymInnowise.Authorization.Logic.Helpers;
 using GymInnowise.Authorization.Persistence.Repositories.Interfaces;
 
 namespace GymInnowise.Authorization.Logic.Services
@@ -6,13 +7,12 @@ namespace GymInnowise.Authorization.Logic.Services
     public class LoginService
     {
         private readonly IAccountsRepository _accountsRepository;
-        private readonly PasswordService _passwordService;
+
         private readonly JwtService _jwtService;
 
-        public LoginService(IAccountsRepository accountsRepository, PasswordService passwordService, JwtService jwtService)
+        public LoginService(IAccountsRepository accountsRepository, JwtService jwtService)
         {
             _accountsRepository = accountsRepository;
-            _passwordService = passwordService;
             _jwtService = jwtService;
         }
 
@@ -20,7 +20,7 @@ namespace GymInnowise.Authorization.Logic.Services
         {
             var account = await _accountsRepository.GetAccountByEmail(loginDto.Email);
             if (account == null) throw new InvalidOperationException("account not found");
-            if (!_passwordService.VerifyPassword(loginDto.Password, account.PasswordHash))
+            if (!PasswordHelper.VerifyPassword(loginDto.Password, account.PasswordHash))
             {
 
                 return null;

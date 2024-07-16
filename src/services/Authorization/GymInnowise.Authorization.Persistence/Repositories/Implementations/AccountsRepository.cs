@@ -17,7 +17,10 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
 
         public async Task<bool> CreateAccountAsync(AccountEntity account)
         {
-            var existAccount = _context.Accounts.FirstOrDefault(a => a.Email == account.Email || a.PhoneNumber == account.PhoneNumber);
+            var existAccount = _context.Accounts.FirstOrDefault(a =>
+            string.Equals(account.Email,a.Email,StringComparison.OrdinalIgnoreCase) ||
+            string.Equals(a.PhoneNumber,account.PhoneNumber,StringComparison.OrdinalIgnoreCase));
+
             if (existAccount != null)
             {
 
@@ -38,7 +41,7 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
 
         public async Task<AccountEntity?> GetAccountByEmail(string email)
         {
-            return await _context.Accounts.FirstOrDefaultAsync(a => a.Email == email);
+            return await _context.Accounts.FirstOrDefaultAsync(a => string.Equals(email,a.Email, StringComparison.OrdinalIgnoreCase));
         }
 
        

@@ -4,6 +4,7 @@ using GymInnowise.Authorization.Persistence.Repositories.Interfaces;
 using GymInnowise.Authorization.Shared.Dtos;
 using GymInnowise.Authorization.Shared.Dtos.Previews;
 using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
 {
@@ -35,10 +36,18 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
             await _context.SaveChangesAsync();
         }
 
-        public async Task<AccountEntity?> GetAccountByEmail(string email)
+        public async Task<AccountEntity?> GetAccountByEmail(string email,bool loadRoles = false)
         {
-            return await _context.Accounts.FirstOrDefaultAsync(a => email.ToLower() == a.Email.ToLower());
+            var query = _context.Accounts.AsQueryable();
+
+            if (loadRoles)
+            {
+                query = query.Include(a => a.Roles);
+            }
+
+            return await query.FirstOrDefaultAsync(a => email.ToLower() == a.Email.ToLower());
         }
+      
 
         public async Task<IEnumerable<AccountPreview>> GetAllAccountsAsync()
         {

@@ -6,6 +6,5 @@ namespace GymInnowise.Authorization.Logic.Interfaces
     {
         public string GenerateJwtToken(AccountPreview account);
         //TODO: Add refreshToken methods
-
     }
 }

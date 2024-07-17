@@ -20,10 +20,12 @@ namespace GymInnowise.Authorization.Logic.Services
         public async Task<string?> Login(AccountLoginRequest loginDto)
         {
             var account = await _accountsRepository.GetAccountByEmail(loginDto.Email, loadRoles: true);
-            if (account == null) throw new InvalidOperationException("account not found");
+            if (account == null){
 
-            if (!PasswordHelper.VerifyPassword(loginDto.Password, account.PasswordHash))
-            {
+                throw new InvalidOperationException("account not found");
+            }
+
+            if (!PasswordHelper.VerifyPassword(loginDto.Password, account.PasswordHash)){
 
                 return null;
             }

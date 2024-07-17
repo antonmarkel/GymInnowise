@@ -15,7 +15,11 @@ namespace GymInnowise.Authorization.Persistence.Models.Enities
 
         public AccountPreview ToPreview()
         {
-            return new AccountPreview { Email = Email, PhoneNumber = PhoneNumber, Roles = Roles?.Select(r => r.RoleName) };
+
+            return new AccountPreview { Email = Email,
+                PhoneNumber = PhoneNumber,
+                Roles = Roles?.Select(r => r.RoleName)
+            };
         }
     }
 }

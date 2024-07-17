@@ -21,7 +21,9 @@ namespace GymInnowise.Authorization.Logic.Services
 
         public async Task RegisterAccount(AccountRegistrationRequest accountRegistrationDto)
         {
-            if (await _accountsRepo.DoesAccountExistAsync(accountRegistrationDto)) throw new InvalidOperationException("Account already exists!");
+            if (await _accountsRepo.DoesAccountExistAsync(accountRegistrationDto)){
+                throw new InvalidOperationException("Account already exists!");
+            }
 
             var account = new AccountEntity
             {
@@ -30,14 +32,11 @@ namespace GymInnowise.Authorization.Logic.Services
                 PasswordHash = PasswordHelper.HashPassword(accountRegistrationDto.Password),
                 CreatedDate = DateTime.UtcNow,
                 ModifiedDate = DateTime.UtcNow,
-
                 Roles = new List<RoleEntity>() {
                     await _rolesRepo.GetRoleAsync(RoleEnum.Client) ?? throw new InvalidOperationException("a standard role wasn't found"),
                 },
             };
-
             await _accountsRepo.CreateAccountAsync(account);
-
         }
     }
 }

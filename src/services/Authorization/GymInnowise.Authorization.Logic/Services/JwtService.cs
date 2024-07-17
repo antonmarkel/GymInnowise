@@ -8,7 +8,6 @@ using System.Text;
 
 namespace GymInnowise.Authorization.Logic.Services
 {
-
     public class JwtService : IJwtService
     {
         private readonly JwtSettings _jwtSettings;
@@ -22,7 +21,6 @@ namespace GymInnowise.Authorization.Logic.Services
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwtSettings.SecretKey);
-
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[]
@@ -30,13 +28,11 @@ namespace GymInnowise.Authorization.Logic.Services
                     new Claim(ClaimTypes.MobilePhone, accountPreview.PhoneNumber),
                     new Claim(ClaimTypes.Email, accountPreview.Email),
                 }),
-
                 Expires = DateTime.UtcNow.AddMinutes(_jwtSettings.ExpiryInMinutes),
                 Issuer = _jwtSettings.Issuer,
                 Audience = _jwtSettings.Audience,
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
             };
-
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
             return tokenHandler.WriteToken(token);

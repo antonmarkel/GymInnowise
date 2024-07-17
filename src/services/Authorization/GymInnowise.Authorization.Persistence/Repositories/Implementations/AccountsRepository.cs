@@ -28,6 +28,7 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
             var account = await _context.Accounts.FirstOrDefaultAsync(v =>
                 v.PhoneNumber.ToLower() == dto.PhoneNumber.ToLower() ||
                 v.Email.ToLower() == dto.Email.ToLower());
+
             return account != null;
         }
         public async Task DeleteAccountAsync(AccountEntity account)
@@ -52,15 +53,11 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
         public async Task<IEnumerable<AccountPreview>> GetAllAccountsAsync()
         {
             return await _context.Accounts.Include(a => a.Roles)
-               .Select(a =>
-                   new AccountPreview
-                   {
-
+               .Select(a => new AccountPreview {
                        Email = a.Email,
                        PhoneNumber = a.PhoneNumber,
                        Roles = a.Roles.Select(ar => ar.RoleName).ToArray()
-                   }
-               ).ToListAsync();
+               }).ToListAsync();
         }
     }
 }

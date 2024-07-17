@@ -40,7 +40,6 @@ namespace GymInnowise.Authorization.Persistence.Data
                 entity.HasOne(e => e.Account)
                     .WithMany()
                     .IsRequired();
-
             });
         }
 

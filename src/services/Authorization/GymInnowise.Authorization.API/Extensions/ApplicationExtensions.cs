@@ -12,13 +12,13 @@ namespace GymInnowise.Authorization.API.Extensions
 {
     public static class ApplicationExtensions
     {
-        public static void AddPersistance(this IHostApplicationBuilder builder)
+        public static void AddPersistanceServices(this IHostApplicationBuilder builder)
         {
-            builder.Services.AddScoped<IAccountsRepository, AccountsRepository>();
-            builder.Services.AddScoped<IRolesRepository, RolesRepository>();
-
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddDbContext<AuthorizationDbContext>(options => options.UseNpgsql(connectionString));
+
+            builder.Services.AddScoped<IAccountsRepository, AccountsRepository>();
+            builder.Services.AddScoped<IRolesRepository, RolesRepository>();
         }
         public static void AddJwtServices(this IHostApplicationBuilder builder)
         {
@@ -49,7 +49,7 @@ namespace GymInnowise.Authorization.API.Extensions
             builder.Services.AddScoped<IJwtService, JwtService>();
         }
 
-        public static void AddLogicServices(this IHostApplicationBuilder builder)
+        public static void AddAuthorizationServices(this IHostApplicationBuilder builder)
         {
             builder.Services.AddScoped<LoginService>();
             builder.Services.AddScoped<RegistrationService>();

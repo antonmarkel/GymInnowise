@@ -4,7 +4,7 @@ using GymInnowise.Authorization.Persistence.Repositories.Interfaces;
 using GymInnowise.Authorization.Shared.Dtos;
 using GymInnowise.Authorization.Shared.Dtos.Previews;
 using Microsoft.EntityFrameworkCore;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+
 
 namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
 {
@@ -18,7 +18,7 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
         }
 
         public async Task CreateAccountAsync(AccountEntity account)
-        {     
+        {
             await _context.Accounts.AddAsync(account);
             await _context.SaveChangesAsync();
         }
@@ -26,8 +26,8 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
         public async Task<bool> DoesAccountExistAsync(AccountRegistrationRequest dto)
         {
             var account = await _context.Accounts.FirstOrDefaultAsync(v =>
-                v.PhoneNumber.ToLower() ==  dto.PhoneNumber.ToLower() ||
-                v.Email.ToLower() ==  dto.Email.ToLower());
+                v.PhoneNumber.ToLower() == dto.PhoneNumber.ToLower() ||
+                v.Email.ToLower() == dto.Email.ToLower());
             return account != null;
         }
         public async Task DeleteAccountAsync(AccountEntity account)
@@ -36,7 +36,7 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
             await _context.SaveChangesAsync();
         }
 
-        public async Task<AccountEntity?> GetAccountByEmail(string email,bool loadRoles = false)
+        public async Task<AccountEntity?> GetAccountByEmail(string email, bool loadRoles = false)
         {
             var query = _context.Accounts.AsQueryable();
 
@@ -47,7 +47,7 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
 
             return await query.FirstOrDefaultAsync(a => email.ToLower() == a.Email.ToLower());
         }
-      
+
 
         public async Task<IEnumerable<AccountPreview>> GetAllAccountsAsync()
         {

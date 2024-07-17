@@ -16,7 +16,7 @@ namespace GymInnowise.Authorization.API.Controllers
         [HttpGet("roles")]
         public async Task<IActionResult> GetRoles(IRolesRepository repo)
         {
-            return Ok(new { Client = await repo.GetAllRolesAsync() });
+            return Ok(await repo.GetAllRolesAsync());
         }
     }
 }

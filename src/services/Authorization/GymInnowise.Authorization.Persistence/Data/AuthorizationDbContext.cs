@@ -19,6 +19,11 @@ namespace GymInnowise.Authorization.Persistence.Data
             ConfigureRefreshTokenEntity(modelBuilder);
             ConfigureAccountEntity(modelBuilder);
             ConfigureRoleEntity(modelBuilder);
+
+            modelBuilder.Entity<RoleEntity>().HasData(
+                 new RoleEntity { Id = Guid.NewGuid(), RoleName = "Client" },
+                 new RoleEntity { Id = Guid.NewGuid(), RoleName = "Coach" },
+                 new RoleEntity { Id = Guid.NewGuid(), RoleName = "Manager" });
         }
 
         private void ConfigureRefreshTokenEntity(ModelBuilder modelBuilder)

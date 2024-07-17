@@ -3,5 +3,7 @@
     public enum RoleEnum
     {
         Client,
+        Coach,
+        Manager
     }
 }

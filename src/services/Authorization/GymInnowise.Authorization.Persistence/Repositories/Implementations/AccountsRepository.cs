@@ -26,6 +26,7 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
             var account = await _context.Accounts.FirstOrDefaultAsync(v =>
                 v.PhoneNumber.ToLower() == dto.PhoneNumber.ToLower() ||
                 v.Email.ToLower() == dto.Email.ToLower());
+
             return account != null;
         }
 

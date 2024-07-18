@@ -1,4 +1,5 @@
 ﻿using GymInnowise.Authorization.Persistence.Models.Enities;
+using GymInnowise.Authorization.Shared.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace GymInnowise.Authorization.Persistence.Data
@@ -20,9 +21,7 @@ namespace GymInnowise.Authorization.Persistence.Data
             ConfigureAccountEntity(modelBuilder);
             ConfigureRoleEntity(modelBuilder);
             modelBuilder.Entity<RoleEntity>().HasData(
-                 new RoleEntity { Id = Guid.NewGuid(), RoleName = "Client" },
-                 new RoleEntity { Id = Guid.NewGuid(), RoleName = "Coach" },
-                 new RoleEntity { Id = Guid.NewGuid(), RoleName = "Manager" });
+                 new RoleEntity { Id = Guid.NewGuid(), RoleName = RoleEnum.Client.ToString()});
         }
 
         private void ConfigureRefreshTokenEntity(ModelBuilder modelBuilder)

@@ -8,6 +8,7 @@ namespace GymInnowise.Authorization.Persistence.Data
     {
         public DbSet<AccountEntity> Accounts { get; set; }
         public DbSet<RoleEntity> Roles { get; set; }
+        public DbSet<RefreshTokenEntity> RefreshTokens { get; set; }
         public AuthorizationDbContext(DbContextOptions<AuthorizationDbContext> options) : base(options)
         {
             Database.EnsureCreated();
@@ -15,10 +16,25 @@ namespace GymInnowise.Authorization.Persistence.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            ConfigureRefreshTokenEntity(modelBuilder);
             ConfigureAccountEntity(modelBuilder);
             ConfigureRoleEntity(modelBuilder);
             modelBuilder.Entity<RoleEntity>().HasData(
                  new RoleEntity { Id = Guid.NewGuid(), RoleName = RoleEnum.Client.ToString() });
+        }
+        private void ConfigureRefreshTokenEntity(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<RefreshTokenEntity>(entity =>
+            {
+                entity.ToTable("RefreshTokens");
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Token)
+                    .HasMaxLength(255)
+                    .IsRequired();
+                entity.HasOne(e => e.Account)
+                    .WithMany()
+                    .IsRequired();
+            });
         }
 
         private void ConfigureAccountEntity(ModelBuilder modelBuilder)

@@ -5,7 +5,6 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Interfaces
 {
     public interface IRolesRepository
     {
-        Task CreateRoleAsync(RoleEntity role);
         Task<RoleEntity?> GetRoleAsync(RoleEnum role);
     }
 }

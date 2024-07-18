@@ -31,6 +31,5 @@ namespace GymInnowise.Authorization.Logic.Services
 
             return _jwtService.GenerateJwtToken(account);
         }
-
     }
 }

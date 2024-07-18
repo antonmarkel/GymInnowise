@@ -15,12 +15,6 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
             _context = context;
         }
 
-        public async Task CreateRoleAsync(RoleEntity role)
-        {
-            await _context.Roles.AddAsync(role);
-            await _context.SaveChangesAsync();
-        }
-
         public async Task<RoleEntity?> GetRoleAsync(RoleEnum role)
         {
             var roleString = role.ToString();

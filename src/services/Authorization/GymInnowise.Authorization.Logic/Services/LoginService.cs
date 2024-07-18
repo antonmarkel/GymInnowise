@@ -16,7 +16,7 @@ namespace GymInnowise.Authorization.Logic.Services
             _jwtService = jwtService;
         }
 
-        public async Task<string?> Login(LoginRequest loginDto)
+        public async Task<string?> LoginAsync(LoginRequest loginDto)
         {
             var account = await _accountsRepository.GetAccountByEmailAsync(loginDto.Email, loadRoles: true);
             if (account == null)

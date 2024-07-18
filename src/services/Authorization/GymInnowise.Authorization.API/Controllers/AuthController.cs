@@ -18,9 +18,9 @@ namespace GymInnowise.Authorization.API.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginRequest loginDto)
+        public async Task<IActionResult> LoginAsync([FromBody] LoginRequest loginDto)
         {
-            var token = await _loginService.Login(loginDto);
+            var token = await _loginService.LoginAsync(loginDto);
             if (string.IsNullOrEmpty(token))
             {
                 return Unauthorized("Invalid password!");
@@ -30,9 +30,9 @@ namespace GymInnowise.Authorization.API.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegistrationRequest registrationDto)
+        public async Task<IActionResult> RegisterAsync([FromBody] RegistrationRequest registrationDto)
         {
-            await _registrationService.RegisterAccount(registrationDto);
+            await _registrationService.RegisterAccountAsync(registrationDto);
 
             return Created();
         }

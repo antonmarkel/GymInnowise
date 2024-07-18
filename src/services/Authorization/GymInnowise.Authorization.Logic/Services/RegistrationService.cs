@@ -18,7 +18,7 @@ namespace GymInnowise.Authorization.Logic.Services
             _rolesRepo = rolesRepo;
         }
 
-        public async Task RegisterAccount(RegistrationRequest accountRegistrationDto)
+        public async Task RegisterAccountAsync(RegistrationRequest accountRegistrationDto)
         {
             if (await _accountsRepo.DoesAccountExistAsync(accountRegistrationDto))
             {

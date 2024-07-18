@@ -3,8 +3,8 @@
     public class RefreshTokenEntity
     {
         public Guid Id { get; set; }
-        public required string Token { get; set; }
-        public required AccountEntity Account { get; set; }
+        public string Token { get; set; } = null!;
+        public AccountEntity Account { get; set; } = null!;
         public DateTime? ExpiryDate { get; set; }
         public DateTime? CreatedDate { get; set; }
         public DateTime? RevokedDate { get; set; }

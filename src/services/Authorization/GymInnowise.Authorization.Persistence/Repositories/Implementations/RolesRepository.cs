@@ -22,26 +22,11 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteRoleAsync(RoleEntity role)
-        {
-            _context.Roles.Remove(role);
-            await _context.SaveChangesAsync();
-        }
-
         public async Task<RoleEntity?> GetRoleAsync(RoleEnum role)
         {
             var roleString = role.ToString();
 
             return await _context.Roles.FirstOrDefaultAsync(v => roleString.ToLower() == v.RoleName.ToLower());
-        }
-
-        public async Task<IEnumerable<RolePreview>> GetAllRolesAsync()
-        {
-            return await _context.Roles.Include(a => a.Accounts).Select(a => new RolePreview
-            {
-                RoleName = a.RoleName,
-                Clients = a.Accounts.Select(a => a.Email).ToArray(),
-            }).ToListAsync();
         }
     }
 }

@@ -19,7 +19,6 @@ namespace GymInnowise.Authorization.Persistence.Data
             ConfigureRefreshTokenEntity(modelBuilder);
             ConfigureAccountEntity(modelBuilder);
             ConfigureRoleEntity(modelBuilder);
-
             modelBuilder.Entity<RoleEntity>().HasData(
                  new RoleEntity { Id = Guid.NewGuid(), RoleName = "Client" },
                  new RoleEntity { Id = Guid.NewGuid(), RoleName = "Coach" },
@@ -32,11 +31,9 @@ namespace GymInnowise.Authorization.Persistence.Data
             {
                 entity.ToTable("RefreshTokens");
                 entity.HasKey(e => e.Id);
-
                 entity.Property(e => e.Token)
                     .HasMaxLength(255)
                     .IsRequired();
-
                 entity.HasOne(e => e.Account)
                     .WithMany()
                     .IsRequired();
@@ -49,19 +46,15 @@ namespace GymInnowise.Authorization.Persistence.Data
             {
                 entity.ToTable("Accounts");
                 entity.HasKey(e => e.Id);
-
                 entity.Property(e => e.Email)
                     .HasMaxLength(255)
                     .IsRequired();
-
                 entity.Property(e => e.PhoneNumber)
                     .HasMaxLength(20)
                     .IsRequired();
-
                 entity.Property(e => e.PasswordHash)
                     .HasMaxLength(100)
                     .IsRequired();
-
                 entity.HasMany(e => e.Roles)
                     .WithMany(e => e.Accounts)
                     .UsingEntity(j => j.ToTable("AccountRole"));
@@ -74,11 +67,9 @@ namespace GymInnowise.Authorization.Persistence.Data
             {
                 entity.ToTable("Roles");
                 entity.HasKey(e => e.Id);
-
                 entity.Property(e => e.RoleName)
                     .HasMaxLength(50)
                     .IsRequired();
-
                 entity.HasMany(e => e.Accounts)
                     .WithMany(e => e.Roles)
                     .UsingEntity(j => j.ToTable("AccountRole"));

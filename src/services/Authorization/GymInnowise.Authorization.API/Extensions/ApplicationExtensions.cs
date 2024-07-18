@@ -1,4 +1,5 @@
-﻿using GymInnowise.Authorization.Logic.Interfaces;
+﻿using GymInnowise.Authorization.Logic.Helpers;
+using GymInnowise.Authorization.Logic.Interfaces;
 using GymInnowise.Authorization.Logic.Services;
 using GymInnowise.Authorization.Persistence.Data;
 using GymInnowise.Authorization.Persistence.Repositories.Implementations;
@@ -16,16 +17,15 @@ namespace GymInnowise.Authorization.API.Extensions
         {
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddDbContext<AuthorizationDbContext>(options => options.UseNpgsql(connectionString));
-
             builder.Services.AddScoped<IAccountsRepository, AccountsRepository>();
             builder.Services.AddScoped<IRolesRepository, RolesRepository>();
         }
+
         public static void AddJwtServices(this IHostApplicationBuilder builder)
         {
             var jwtSettings = builder.Configuration.GetSection("JwtSettings");
             builder.Services.Configure<JwtSettings>(jwtSettings);
             var key = Encoding.ASCII.GetBytes(jwtSettings.Get<JwtSettings>()!.SecretKey);
-
             builder.Services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

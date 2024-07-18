@@ -11,18 +11,15 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
     public class AccountsRepository : IAccountsRepository
     {
         private readonly AuthorizationDbContext _context;
-
         public AccountsRepository(AuthorizationDbContext context)
         {
             _context = context;
         }
-
         public async Task CreateAccountAsync(AccountEntity account)
         {
             await _context.Accounts.AddAsync(account);
             await _context.SaveChangesAsync();
         }
-
         public async Task<bool> DoesAccountExistAsync(AccountRegistrationRequest dto)
         {
             var account = await _context.Accounts.FirstOrDefaultAsync(v =>
@@ -40,7 +37,6 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
         public async Task<AccountEntity?> GetAccountByEmail(string email, bool loadRoles = false)
         {
             var query = _context.Accounts.AsQueryable();
-
             if (loadRoles)
             {
                 query = query.Include(a => a.Roles);
@@ -49,14 +45,14 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
             return await query.FirstOrDefaultAsync(a => email.ToLower() == a.Email.ToLower());
         }
 
-
         public async Task<IEnumerable<AccountPreview>> GetAllAccountsAsync()
         {
             return await _context.Accounts.Include(a => a.Roles)
-               .Select(a => new AccountPreview {
-                       Email = a.Email,
-                       PhoneNumber = a.PhoneNumber,
-                       Roles = a.Roles.Select(ar => ar.RoleName).ToArray()
+               .Select(a => new AccountPreview
+               {
+                   Email = a.Email,
+                   PhoneNumber = a.PhoneNumber,
+                   Roles = a.Roles.Select(ar => ar.RoleName).ToArray()
                }).ToListAsync();
         }
     }

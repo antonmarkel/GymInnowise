@@ -8,7 +8,6 @@ namespace GymInnowise.Authorization.Logic.Services
     public class LoginService
     {
         private readonly IAccountsRepository _accountsRepository;
-
         private readonly IJwtService _jwtService;
 
         public LoginService(IAccountsRepository accountsRepository, IJwtService jwtService)
@@ -20,13 +19,13 @@ namespace GymInnowise.Authorization.Logic.Services
         public async Task<string?> Login(AccountLoginRequest loginDto)
         {
             var account = await _accountsRepository.GetAccountByEmail(loginDto.Email, loadRoles: true);
-            if (account == null){
-
+            if (account == null)
+            {
                 throw new InvalidOperationException("account not found");
             }
 
-            if (!PasswordHelper.VerifyPassword(loginDto.Password, account.PasswordHash)){
-
+            if (!PasswordHelper.VerifyPassword(loginDto.Password, account.PasswordHash))
+            {
                 return null;
             }
 

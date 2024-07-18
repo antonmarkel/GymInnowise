@@ -1,17 +1,14 @@
 using GymInnowise.Authorization.API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
-
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
 builder.AddPersistanceServices();
 builder.AddJwtServices();
 builder.AddAuthorizationServices();
 
 var app = builder.Build();
-
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -20,7 +17,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.UseHttpsRedirection();
 app.MapControllers();
 

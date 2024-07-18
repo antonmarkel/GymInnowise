@@ -1,6 +1,4 @@
-﻿
-
-using GymInnowise.Authorization.Persistence.Models.Enities;
+﻿using GymInnowise.Authorization.Persistence.Models.Enities;
 using GymInnowise.Authorization.Shared.Dtos;
 using GymInnowise.Authorization.Shared.Dtos.Previews;
 

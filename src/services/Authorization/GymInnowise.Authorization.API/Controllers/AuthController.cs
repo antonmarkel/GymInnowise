@@ -9,7 +9,6 @@ namespace GymInnowise.Authorization.API.Controllers
     public class AuthController : ControllerBase
     {
         private readonly LoginService _loginService;
-
         private readonly RegistrationService _registrationService;
 
         public AuthController(LoginService loginService, RegistrationService registrationService)
@@ -24,7 +23,6 @@ namespace GymInnowise.Authorization.API.Controllers
             var token = await _loginService.Login(loginDto);
             if (string.IsNullOrEmpty(token))
             {
-
                 return Unauthorized("Invalid password!");
             }
 
@@ -35,6 +33,7 @@ namespace GymInnowise.Authorization.API.Controllers
         public async Task<IActionResult> Register([FromBody] AccountRegistrationRequest registrationDto)
         {
             await _registrationService.RegisterAccount(registrationDto);
+
             return Created();
         }
     }

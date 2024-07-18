@@ -14,14 +14,14 @@ namespace GymInnowise.Authorization.Logic.Services
 
         public RegistrationService(IAccountsRepository accountsRepo, IRolesRepository rolesRepo)
         {
-
             _accountsRepo = accountsRepo;
             _rolesRepo = rolesRepo;
         }
 
         public async Task RegisterAccount(AccountRegistrationRequest accountRegistrationDto)
         {
-            if (await _accountsRepo.DoesAccountExistAsync(accountRegistrationDto)){
+            if (await _accountsRepo.DoesAccountExistAsync(accountRegistrationDto))
+            {
                 throw new InvalidOperationException("Account already exists!");
             }
 
@@ -33,7 +33,8 @@ namespace GymInnowise.Authorization.Logic.Services
                 CreatedDate = DateTime.UtcNow,
                 ModifiedDate = DateTime.UtcNow,
                 Roles = new List<RoleEntity>() {
-                    await _rolesRepo.GetRoleAsync(RoleEnum.Client) ?? throw new InvalidOperationException("a standard role wasn't found"),
+                    await _rolesRepo.GetRoleAsync(RoleEnum.Client) ??
+                        throw new InvalidOperationException("a standard role wasn't found"),
                 },
             };
             await _accountsRepo.CreateAccountAsync(account);

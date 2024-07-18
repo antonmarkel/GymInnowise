@@ -2,7 +2,6 @@
 using GymInnowise.Authorization.Shared.Dtos.Previews;
 using GymInnowise.Authorization.Shared.Enums;
 
-
 namespace GymInnowise.Authorization.Persistence.Repositories.Interfaces
 {
     public interface IRolesRepository

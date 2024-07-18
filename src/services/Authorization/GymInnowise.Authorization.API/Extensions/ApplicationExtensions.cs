@@ -1,4 +1,5 @@
-﻿using GymInnowise.Authorization.Logic.Helpers;
+﻿using System.Text;
+using GymInnowise.Authorization.Logic.Helpers;
 using GymInnowise.Authorization.Logic.Interfaces;
 using GymInnowise.Authorization.Logic.Services;
 using GymInnowise.Authorization.Persistence.Data;
@@ -7,7 +8,6 @@ using GymInnowise.Authorization.Persistence.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
 namespace GymInnowise.Authorization.API.Extensions
 {

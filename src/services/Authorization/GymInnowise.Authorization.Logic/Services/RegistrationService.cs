@@ -4,7 +4,6 @@ using GymInnowise.Authorization.Persistence.Repositories.Interfaces;
 using GymInnowise.Authorization.Shared.Dtos;
 using GymInnowise.Authorization.Shared.Enums;
 
-
 namespace GymInnowise.Authorization.Logic.Services
 {
     public class RegistrationService
@@ -32,10 +31,10 @@ namespace GymInnowise.Authorization.Logic.Services
                 PasswordHash = PasswordHelper.HashPassword(accountRegistrationDto.Password),
                 CreatedDate = DateTime.UtcNow,
                 ModifiedDate = DateTime.UtcNow,
-                Roles = new List<RoleEntity>() {
+                Roles = [
                     await _rolesRepo.GetRoleAsync(RoleEnum.Client) ??
                         throw new InvalidOperationException("a standard role wasn't found"),
-                },
+                ],
             };
             await _accountsRepo.CreateAccountAsync(account);
         }

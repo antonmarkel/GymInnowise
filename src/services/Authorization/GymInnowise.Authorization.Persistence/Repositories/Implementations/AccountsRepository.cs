@@ -4,7 +4,6 @@ using GymInnowise.Authorization.Persistence.Repositories.Interfaces;
 using GymInnowise.Authorization.Shared.Dtos;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
 {
     public class AccountsRepository : IAccountsRepository

@@ -18,7 +18,7 @@ namespace GymInnowise.Authorization.API.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] AccountLoginRequest loginDto)
+        public async Task<IActionResult> Login([FromBody] LoginRequest loginDto)
         {
             var token = await _loginService.Login(loginDto);
             if (string.IsNullOrEmpty(token))
@@ -30,7 +30,7 @@ namespace GymInnowise.Authorization.API.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] AccountRegistrationRequest registrationDto)
+        public async Task<IActionResult> Register([FromBody] RegistrationRequest registrationDto)
         {
             await _registrationService.RegisterAccount(registrationDto);
 

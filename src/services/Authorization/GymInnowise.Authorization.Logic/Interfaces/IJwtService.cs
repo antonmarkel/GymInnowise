@@ -1,10 +1,10 @@
-﻿using GymInnowise.Authorization.Shared.Dtos.Previews;
+﻿using GymInnowise.Authorization.Persistence.Models.Enities;
 
 namespace GymInnowise.Authorization.Logic.Interfaces
 {
     public interface IJwtService
     {
-        public string GenerateJwtToken(AccountPreview account);
+        public string GenerateJwtToken(AccountEntity account);
         //TODO: Add refreshToken methods
     }
 }

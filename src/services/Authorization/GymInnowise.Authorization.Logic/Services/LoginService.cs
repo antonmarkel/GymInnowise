@@ -16,9 +16,9 @@ namespace GymInnowise.Authorization.Logic.Services
             _jwtService = jwtService;
         }
 
-        public async Task<string?> Login(AccountLoginRequest loginDto)
+        public async Task<string?> Login(LoginRequest loginDto)
         {
-            var account = await _accountsRepository.GetAccountByEmail(loginDto.Email, loadRoles: true);
+            var account = await _accountsRepository.GetAccountByEmailAsync(loginDto.Email, loadRoles: true);
             if (account == null)
             {
                 throw new InvalidOperationException("account not found");
@@ -29,7 +29,7 @@ namespace GymInnowise.Authorization.Logic.Services
                 return null;
             }
 
-            return _jwtService.GenerateJwtToken(account.ToPreview());
+            return _jwtService.GenerateJwtToken(account);
         }
 
     }

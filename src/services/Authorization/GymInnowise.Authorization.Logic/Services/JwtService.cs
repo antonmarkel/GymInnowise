@@ -1,6 +1,6 @@
 ﻿using GymInnowise.Authorization.Logic.Helpers;
 using GymInnowise.Authorization.Logic.Interfaces;
-using GymInnowise.Authorization.Shared.Dtos.Previews;
+using GymInnowise.Authorization.Persistence.Models.Enities;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -18,15 +18,15 @@ namespace GymInnowise.Authorization.Logic.Services
             _jwtSettings = jwtSettings.Value;
         }
 
-        public string GenerateJwtToken(AccountPreview accountPreview)
+        public string GenerateJwtToken(AccountEntity account)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwtSettings.SecretKey);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[] {
-                    new Claim(ClaimTypes.MobilePhone, accountPreview.PhoneNumber),
-                    new Claim(ClaimTypes.Email, accountPreview.Email),
+                    new Claim(ClaimTypes.MobilePhone, account.PhoneNumber),
+                    new Claim(ClaimTypes.Email, account.Email),
                 }),
                 Expires = DateTime.UtcNow.AddMinutes(_jwtSettings.ExpiryInMinutes),
                 Issuer = _jwtSettings.Issuer,

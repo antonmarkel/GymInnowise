@@ -15,11 +15,13 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
         {
             _context = context;
         }
+
         public async Task CreateAccountAsync(AccountEntity account)
         {
             await _context.Accounts.AddAsync(account);
             await _context.SaveChangesAsync();
         }
+
         public async Task<bool> DoesAccountExistAsync(AccountRegistrationRequest dto)
         {
             var account = await _context.Accounts.FirstOrDefaultAsync(v =>
@@ -28,12 +30,7 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
 
             return account != null;
         }
-        public async Task DeleteAccountAsync(AccountEntity account)
-        {
-            _context.Accounts.Remove(account);
-            await _context.SaveChangesAsync();
-        }
-
+ 
         public async Task<AccountEntity?> GetAccountByEmail(string email, bool loadRoles = false)
         {
             var query = _context.Accounts.AsQueryable();
@@ -43,17 +40,6 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
             }
 
             return await query.FirstOrDefaultAsync(a => email.ToLower() == a.Email.ToLower());
-        }
-
-        public async Task<IEnumerable<AccountPreview>> GetAllAccountsAsync()
-        {
-            return await _context.Accounts.Include(a => a.Roles)
-               .Select(a => new AccountPreview
-               {
-                   Email = a.Email,
-                   PhoneNumber = a.PhoneNumber,
-                   Roles = a.Roles.Select(ar => ar.RoleName).ToArray()
-               }).ToListAsync();
         }
     }
 }

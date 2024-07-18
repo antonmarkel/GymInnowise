@@ -3,7 +3,7 @@
     public class RoleEntity
     {
         public Guid Id { get; set; }
-        public string RoleName { get; set; } = null!;
+        public required string RoleName { get; set; }
         public List<AccountEntity> Accounts { get; set; } = new List<AccountEntity>();
     }
 }

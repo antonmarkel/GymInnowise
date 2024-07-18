@@ -1,4 +1,4 @@
-﻿namespace GymInnowise.Authorization.Logic.Helpers
+﻿namespace GymInnowise.Authorization.Configuration.Token
 {
     public class JwtSettings
     {

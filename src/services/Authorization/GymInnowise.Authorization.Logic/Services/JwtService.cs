@@ -1,4 +1,4 @@
-﻿using GymInnowise.Authorization.Logic.Helpers;
+﻿using GymInnowise.Authorization.Configuration.Token;
 using GymInnowise.Authorization.Logic.Interfaces;
 using GymInnowise.Authorization.Persistence.Models.Enities;
 using Microsoft.Extensions.Options;

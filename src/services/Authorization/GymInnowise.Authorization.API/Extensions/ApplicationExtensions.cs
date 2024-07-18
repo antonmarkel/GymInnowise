@@ -1,5 +1,5 @@
 ﻿using System.Text;
-using GymInnowise.Authorization.Logic.Helpers;
+using GymInnowise.Authorization.Configuration.Token;
 using GymInnowise.Authorization.Logic.Interfaces;
 using GymInnowise.Authorization.Logic.Services;
 using GymInnowise.Authorization.Persistence.Data;

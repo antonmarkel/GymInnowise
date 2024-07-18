@@ -1,4 +1,4 @@
-﻿using GymInnowise.Authorization.Logic.Services;
+﻿using GymInnowise.Authorization.Logic.Interfaces;
 using GymInnowise.Authorization.Shared.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,19 +8,18 @@ namespace GymInnowise.Authorization.API.Controllers
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
-        private readonly LoginService _loginService;
-        private readonly RegistrationService _registrationService;
+        private readonly IAuthenticationService _authenticationService;
 
-        public AuthController(LoginService loginService, RegistrationService registrationService)
+
+        public AuthController(IAuthenticationService authenticationService)
         {
-            _loginService = loginService;
-            _registrationService = registrationService;
+            _authenticationService = authenticationService;
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> LoginAsync([FromBody] LoginRequest loginDto)
         {
-            var token = await _loginService.LoginAsync(loginDto);
+            var token = await _authenticationService.LoginAsync(loginDto);
             if (string.IsNullOrEmpty(token))
             {
                 return Unauthorized("Invalid password!");
@@ -32,7 +31,7 @@ namespace GymInnowise.Authorization.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> RegisterAsync([FromBody] RegistrationRequest registrationDto)
         {
-            await _registrationService.RegisterAccountAsync(registrationDto);
+            await _authenticationService.RegisterAsync(registrationDto);
 
             return Created();
         }

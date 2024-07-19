@@ -46,7 +46,7 @@ namespace GymInnowise.Authorization.API.Extensions
                 };
             });
             builder.Services.AddAuthorization();
-            builder.Services.AddScoped<IJwtService, JwtService>();
+            builder.Services.AddScoped<ITokenService, ITokenService>();
         }
     }
 }

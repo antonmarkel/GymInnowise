@@ -11,9 +11,9 @@ namespace GymInnowise.Authorization.Logic.Services
     {
         private readonly IAccountsRepository _accountsRepo;
         private readonly IRolesRepository _rolesRepo;
-        private readonly IJwtService _jwtService;
+        private readonly ITokenService _jwtService;
 
-        public AuthenticationService(IAccountsRepository accountsRepo, IRolesRepository rolesRepo, IJwtService jwtService)
+        public AuthenticationService(IAccountsRepository accountsRepo, IRolesRepository rolesRepo, ITokenService jwtService)
         {
             _accountsRepo = accountsRepo;
             _rolesRepo = rolesRepo;

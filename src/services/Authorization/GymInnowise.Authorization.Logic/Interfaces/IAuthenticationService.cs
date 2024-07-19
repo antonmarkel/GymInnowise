@@ -8,6 +8,6 @@ namespace GymInnowise.Authorization.Logic.Interfaces
         Task<LoginResponse> LoginAsync(LoginRequest loginRequest);
         Task<RegisterResponse> RegisterAsync(RegisterRequest accountRegistrationDto);
         Task<RefreshResponse> RefreshAsync(RefreshRequest refreshRequest);
-        Task<RevokeResponse> RevokeAsync(RevokeRequest revokeRequest);
+        Task RevokeAsync(RevokeRequest revokeRequest);
     }
 }

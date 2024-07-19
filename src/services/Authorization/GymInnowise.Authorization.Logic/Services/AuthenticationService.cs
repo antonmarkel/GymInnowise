@@ -41,17 +41,15 @@ namespace GymInnowise.Authorization.Logic.Services
                 PasswordHash = PasswordHelper.HashPassword(accountRegistrationDto.Password),
                 CreatedDate = DateTime.UtcNow,
                 ModifiedDate = DateTime.UtcNow,
-                Roles = [
+                Roles =
+                [
                     await _rolesRepo.GetRoleAsync(RoleEnum.Client) ??
-                        throw new InvalidOperationException("a standard role wasn't found"),
+                    throw new InvalidOperationException("a standard role wasn't found"),
                 ],
             };
             await _accountsRepo.CreateAccountAsync(account);
 
-            return new RegisterResponse()
-            {
-                IsSuccessful = true,
-            };
+            return new RegisterResponse() { IsSuccessful = true, };
         }
 
         public async Task<LoginResponse> LoginAsync(LoginRequest loginRequest)
@@ -64,47 +62,42 @@ namespace GymInnowise.Authorization.Logic.Services
 
             (string accessToken, string refreshToken) = await GeneratePairOfTokens(account);
 
-            return new LoginResponse
-            {
-                AccessToken = accessToken,
-                RefreshToken = refreshToken,
-            };
+            return new LoginResponse { AccessToken = accessToken, RefreshToken = refreshToken, };
         }
 
         public async Task<RefreshResponse> RefreshAsync(RefreshRequest refreshRequest)
         {
             var storedRefreshToken = await _refreshTokenRepository.GetRefreshTokenAsync(
                 refreshRequest.RefreshToken, loadAccount: true);
-            if (storedRefreshToken is null || !_tokenService.ValidateRefreshToken(storedRefreshToken))
+            if (storedRefreshToken is null)
             {
+                return new RefreshResponse();
+            }
+
+            if (!_tokenService.ValidateRefreshToken(storedRefreshToken))
+            {
+                await _refreshTokenRepository.RevokeRefreshTokenAsync(storedRefreshToken);
+
                 return new RefreshResponse();
             }
 
             (string accessToken, string refreshToken) = await GeneratePairOfTokens(
                 storedRefreshToken.Account);
+            await _refreshTokenRepository.RevokeRefreshTokenAsync(storedRefreshToken);
 
-            return new RefreshResponse()
-            {
-                RefreshToken = refreshToken,
-                AccessToken = accessToken,
-            };
+            return new RefreshResponse() { RefreshToken = refreshToken, AccessToken = accessToken, };
         }
 
-        public async Task<RevokeResponse> RevokeAsync(RevokeRequest revokeRequest)
+        public async Task RevokeAsync(RevokeRequest revokeRequest)
         {
             var storedRefreshToken = await _refreshTokenRepository.GetRefreshTokenAsync(
                 revokeRequest.RefreshToken);
-            if (storedRefreshToken is null || !_tokenService.ValidateRefreshToken(storedRefreshToken))
+            if (storedRefreshToken is null)
             {
-                return new RevokeResponse();
+                return;
             }
 
             await _refreshTokenRepository.RevokeRefreshTokenAsync(storedRefreshToken);
-
-            return new RevokeResponse()
-            {
-                IsSuccessful = true
-            };
         }
 
         private async Task<(string accessToken, string refreshToken)> GeneratePairOfTokens(

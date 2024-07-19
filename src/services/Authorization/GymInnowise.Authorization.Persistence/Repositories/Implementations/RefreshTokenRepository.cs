@@ -8,6 +8,7 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
     public class RefreshTokenRepository : IRefreshTokenRepository
     {
         private readonly AuthorizationDbContext _context;
+
         public RefreshTokenRepository(AuthorizationDbContext context)
         {
             _context = context;
@@ -33,7 +34,7 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
 
         public async Task RevokeRefreshTokenAsync(RefreshTokenEntity refreshToken)
         {
-            refreshToken.IsRevoked = true;
+            _context.RefreshTokens.Remove(refreshToken);
             await _context.SaveChangesAsync();
         }
     }

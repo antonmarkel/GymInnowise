@@ -43,12 +43,7 @@ namespace GymInnowise.Authorization.API.Controllers
         [HttpPost("revoke")]
         public async Task<IActionResult> RevokeAsync([FromBody] RevokeRequest revokeRequest)
         {
-            var revokeResponse = await _authenticationService.RevokeAsync(revokeRequest);
-            if (!revokeResponse.IsSuccessful)
-            {
-                return Unauthorized("refresh token invalid");
-            }
-
+            await _authenticationService.RevokeAsync(revokeRequest);
             return Ok();
         }
 

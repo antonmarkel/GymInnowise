@@ -54,7 +54,7 @@ namespace GymInnowise.Authorization.Logic.Services
 
         public bool ValidateRefreshToken(RefreshTokenEntity refreshToken)
         {
-            return refreshToken.ExpiryDate > DateTime.UtcNow && !refreshToken.IsRevoked;
+            return refreshToken.ExpiryDate > DateTime.UtcNow;
         }
     }
 }

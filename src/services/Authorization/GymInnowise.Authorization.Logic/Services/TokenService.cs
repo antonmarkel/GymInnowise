@@ -5,15 +5,16 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace GymInnowise.Authorization.Logic.Services
 {
-    public class JwtService : IJwtService
+    public class TokenService : ITokenService
     {
         private readonly JwtSettings _jwtSettings;
 
-        public JwtService(IOptions<JwtSettings> jwtSettings)
+        public TokenService(IOptions<JwtSettings> jwtSettings)
         {
             _jwtSettings = jwtSettings.Value;
         }
@@ -37,6 +38,22 @@ namespace GymInnowise.Authorization.Logic.Services
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
             return tokenHandler.WriteToken(token);
+        }
+        public RefreshTokenEntity GenerateRefreshToken(AccountEntity account)
+        {
+            var refreshToken = new RefreshTokenEntity { 
+                Account = account,
+                Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
+                CreatedDate = DateTime.UtcNow,
+                ExpiryDate = DateTime.UtcNow.AddMinutes(_jwtSettings.RefreshExpiryInMinutes),
+            };
+
+            return refreshToken;
+        }
+
+        public bool ValidateRefreshToken(RefreshTokenEntity refreshToken)
+        {
+            return refreshToken.ExpiryDate > DateTime.Now && !refreshToken.IsRevoked;
         }
     }
 }

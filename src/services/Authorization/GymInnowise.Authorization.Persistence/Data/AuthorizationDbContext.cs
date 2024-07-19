@@ -1,6 +1,7 @@
 ﻿using GymInnowise.Authorization.Persistence.Models.Enities;
 using GymInnowise.Authorization.Shared.Enums;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GymInnowise.Authorization.Persistence.Data
 {
@@ -20,7 +21,7 @@ namespace GymInnowise.Authorization.Persistence.Data
             ConfigureAccountEntity(modelBuilder);
             ConfigureRoleEntity(modelBuilder);
             modelBuilder.Entity<RoleEntity>().HasData(
-                 new RoleEntity { Id = Guid.NewGuid(), RoleName = RoleEnum.Client.ToString() });
+                new RoleEntity { Id = Guid.NewGuid(), Role = RoleEnum.Client });
         }
         private void ConfigureRefreshTokenEntity(ModelBuilder modelBuilder)
         {
@@ -59,13 +60,19 @@ namespace GymInnowise.Authorization.Persistence.Data
 
         private void ConfigureRoleEntity(ModelBuilder modelBuilder)
         {
+            var converter = new ValueConverter<RoleEnum, string>(
+                v => v.ToString(),
+                v => (RoleEnum)Enum.Parse(typeof(RoleEnum), v));
+
             modelBuilder.Entity<RoleEntity>(entity =>
             {
                 entity.ToTable("Roles");
                 entity.HasKey(e => e.Id);
-                entity.Property(e => e.RoleName)
+                entity.Property(e => e.Role)
                     .HasMaxLength(50)
-                    .IsRequired();
+                    .IsRequired()
+                    .HasConversion(converter);
+
                 entity.HasMany(e => e.Accounts)
                     .WithMany(e => e.Roles)
                     .UsingEntity(j => j.ToTable("AccountRole"));

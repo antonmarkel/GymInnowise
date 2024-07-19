@@ -15,7 +15,7 @@ namespace GymInnowise.Authorization.Persistence.Migrations
 
             migrationBuilder.InsertData(
                 table: "Roles",
-                columns: new[] { "Id", "RoleName" },
+                columns: new[] { "Id", "Role" },
                 values: new object[] { new Guid("32797997-403b-4940-b985-aa9351919635"), "Client" });
         }
 

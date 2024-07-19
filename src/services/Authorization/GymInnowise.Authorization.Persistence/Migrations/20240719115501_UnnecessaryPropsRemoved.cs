@@ -26,7 +26,7 @@ namespace GymInnowise.Authorization.Persistence.Migrations
 
             migrationBuilder.InsertData(
                 table: "Roles",
-                columns: new[] { "Id", "RoleName" },
+                columns: new[] { "Id", "Role" },
                 values: new object[] { new Guid("0ed47ccb-8436-4c3c-97c0-aea89186d4ba"), "Client" });
         }
 
@@ -53,7 +53,7 @@ namespace GymInnowise.Authorization.Persistence.Migrations
 
             migrationBuilder.InsertData(
                 table: "Roles",
-                columns: new[] { "Id", "RoleName" },
+                columns: new[] { "Id", "Role" },
                 values: new object[] { new Guid("f5784ffe-d280-4347-bf08-61bc8306f785"), "Client" });
         }
     }

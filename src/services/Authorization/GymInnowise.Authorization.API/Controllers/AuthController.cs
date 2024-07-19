@@ -44,6 +44,7 @@ namespace GymInnowise.Authorization.API.Controllers
         public async Task<IActionResult> RevokeAsync([FromBody] RevokeRequest revokeRequest)
         {
             await _authenticationService.RevokeAsync(revokeRequest);
+
             return Ok();
         }
 

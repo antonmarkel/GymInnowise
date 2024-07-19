@@ -3,6 +3,7 @@ using System;
 using GymInnowise.Authorization.Persistence.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GymInnowise.Authorization.Persistence.Migrations
 {
     [DbContext(typeof(AuthorizationDbContext))]
-    partial class AuthorizationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240719094852_TokenBecomeIndexed")]
+    partial class TokenBecomeIndexed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -84,6 +87,12 @@ namespace GymInnowise.Authorization.Persistence.Migrations
                     b.Property<DateTime?>("ExpiryDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<bool>("IsRevoked")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("RevokedDate")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Token")
                         .IsRequired()
                         .HasMaxLength(150)
@@ -105,7 +114,7 @@ namespace GymInnowise.Authorization.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Role")
+                    b.Property<string>("RoleName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
@@ -117,8 +126,8 @@ namespace GymInnowise.Authorization.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("5fca7991-1bcd-4ae0-8739-58b297ae51a7"),
-                            Role = "Client"
+                            Id = new Guid("f5784ffe-d280-4347-bf08-61bc8306f785"),
+                            RoleName = "Client"
                         });
                 });
 

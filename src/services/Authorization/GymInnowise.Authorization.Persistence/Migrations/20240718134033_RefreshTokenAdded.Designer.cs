@@ -3,6 +3,7 @@ using System;
 using GymInnowise.Authorization.Persistence.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GymInnowise.Authorization.Persistence.Migrations
 {
     [DbContext(typeof(AuthorizationDbContext))]
-    partial class AuthorizationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240718134033_RefreshTokenAdded")]
+    partial class RefreshTokenAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -84,17 +87,20 @@ namespace GymInnowise.Authorization.Persistence.Migrations
                     b.Property<DateTime?>("ExpiryDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<bool>("IsRevoked")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("RevokedDate")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Token")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)");
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AccountId");
-
-                    b.HasIndex("Token")
-                        .IsUnique();
 
                     b.ToTable("RefreshTokens", (string)null);
                 });
@@ -105,7 +111,7 @@ namespace GymInnowise.Authorization.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Role")
+                    b.Property<string>("RoleName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
@@ -117,8 +123,8 @@ namespace GymInnowise.Authorization.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("5fca7991-1bcd-4ae0-8739-58b297ae51a7"),
-                            Role = "Client"
+                            Id = new Guid("886cb91d-767b-447f-944d-b24cd85e2860"),
+                            RoleName = "Client"
                         });
                 });
 

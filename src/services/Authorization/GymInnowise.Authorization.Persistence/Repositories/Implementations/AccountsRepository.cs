@@ -1,7 +1,7 @@
 ﻿using GymInnowise.Authorization.Persistence.Data;
 using GymInnowise.Authorization.Persistence.Models.Enities;
 using GymInnowise.Authorization.Persistence.Repositories.Interfaces;
-using GymInnowise.Authorization.Shared.Dtos;
+using GymInnowise.Authorization.Shared.Dtos.RequestModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
@@ -20,7 +20,7 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
             await _context.SaveChangesAsync();
         }
 
-        public async Task<bool> DoesAccountExistAsync(RegistrationRequest dto)
+        public async Task<bool> DoesAccountExistAsync(RegisterRequest dto)
         {
             var account = await _context.Accounts.FirstOrDefaultAsync(v =>
                 v.PhoneNumber.ToLower() == dto.PhoneNumber.ToLower() ||

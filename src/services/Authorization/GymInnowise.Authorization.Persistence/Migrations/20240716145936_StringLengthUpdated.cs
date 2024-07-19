@@ -11,7 +11,7 @@ namespace GymInnowise.Authorization.Persistence.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterColumn<string>(
-                name: "RoleName",
+                name: "Role",
                 table: "Roles",
                 type: "character varying(50)",
                 maxLength: 50,
@@ -60,7 +60,7 @@ namespace GymInnowise.Authorization.Persistence.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterColumn<string>(
-                name: "RoleName",
+                name: "Role",
                 table: "Roles",
                 type: "text",
                 nullable: false,

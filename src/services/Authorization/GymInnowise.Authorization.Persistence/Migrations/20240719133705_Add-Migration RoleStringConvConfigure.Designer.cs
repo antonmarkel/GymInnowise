@@ -3,6 +3,7 @@ using System;
 using GymInnowise.Authorization.Persistence.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GymInnowise.Authorization.Persistence.Migrations
 {
     [DbContext(typeof(AuthorizationDbContext))]
-    partial class AuthorizationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240719133705_Add-Migration RoleStringConvConfigure")]
+    partial class AddMigrationRoleStringConvConfigure
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -117,7 +120,7 @@ namespace GymInnowise.Authorization.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("5fca7991-1bcd-4ae0-8739-58b297ae51a7"),
+                            Id = new Guid("22afe0e7-e197-4c3a-a0d4-cb3fda5f8373"),
                             Role = "Client"
                         });
                 });

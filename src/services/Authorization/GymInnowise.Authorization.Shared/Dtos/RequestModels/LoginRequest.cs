@@ -1,4 +1,4 @@
-﻿namespace GymInnowise.Authorization.Shared.Dtos
+﻿namespace GymInnowise.Authorization.Shared.Dtos.RequestModels
 {
     public class LoginRequest
     {

@@ -19,6 +19,7 @@ namespace GymInnowise.Authorization.API.Extensions
             builder.Services.AddDbContext<AuthorizationDbContext>(options => options.UseNpgsql(connectionString));
             builder.Services.AddScoped<IAccountsRepository, AccountsRepository>();
             builder.Services.AddScoped<IRolesRepository, RolesRepository>();
+            builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
         }
 
         public static void AddJwtServices(this IHostApplicationBuilder builder)
@@ -46,7 +47,7 @@ namespace GymInnowise.Authorization.API.Extensions
                 };
             });
             builder.Services.AddAuthorization();
-            builder.Services.AddScoped<IJwtService, JwtService>();
+            builder.Services.AddScoped<ITokenService, TokenService>();
         }
     }
 }

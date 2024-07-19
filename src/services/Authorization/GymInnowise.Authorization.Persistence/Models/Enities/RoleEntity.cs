@@ -6,6 +6,6 @@ namespace GymInnowise.Authorization.Persistence.Models.Enities
     {
         public Guid Id { get; set; }
         public required RoleEnum Role { get; set; }
-        public List<AccountEntity> Accounts { get; set; } = new List<AccountEntity>();
+        public List<AccountEntity> Accounts { get; set; } = new();
     }
 }

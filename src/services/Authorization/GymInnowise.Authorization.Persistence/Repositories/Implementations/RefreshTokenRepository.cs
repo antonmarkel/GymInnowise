@@ -32,10 +32,10 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
             await _context.SaveChangesAsync();
         }
 
-        public async Task RevokeRefreshTokenAsync(RefreshTokenEntity refreshToken)
+        public async Task DeleteRefreshTokenAsync(RefreshTokenEntity refreshToken)
         {
             _context.RefreshTokens.Remove(refreshToken);
             await _context.SaveChangesAsync();
         }
     }
-}
+}   

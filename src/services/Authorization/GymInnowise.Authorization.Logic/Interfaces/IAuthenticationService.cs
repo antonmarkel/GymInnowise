@@ -1,10 +1,13 @@
-﻿using GymInnowise.Authorization.Shared.Dtos;
+﻿using GymInnowise.Authorization.Shared.Dtos.RequestModels;
+using GymInnowise.Authorization.Shared.Dtos.ResponseModels;
 
 namespace GymInnowise.Authorization.Logic.Interfaces
 {
     public interface IAuthenticationService
     {
-        Task<string?> LoginAsync(LoginRequest loginDto);
-        Task RegisterAsync(RegistrationRequest accountRegistrationDto);
+        Task<LoginResponse> LoginAsync(LoginRequest loginRequest);
+        Task<RegisterResponse> RegisterAsync(RegisterRequest accountRegistrationDto);
+        Task<RefreshResponse> RefreshAsync(RefreshRequest refreshRequest);
+        Task<RevokeResponse> RevokeAsync(RevokeRequest revokeRequest);
     }
 }

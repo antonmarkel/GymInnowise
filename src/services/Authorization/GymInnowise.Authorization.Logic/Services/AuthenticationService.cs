@@ -2,7 +2,8 @@
 using GymInnowise.Authorization.Logic.Interfaces;
 using GymInnowise.Authorization.Persistence.Models.Enities;
 using GymInnowise.Authorization.Persistence.Repositories.Interfaces;
-using GymInnowise.Authorization.Shared.Dtos;
+using GymInnowise.Authorization.Shared.Dtos.RequestModels;
+using GymInnowise.Authorization.Shared.Dtos.ResponseModels;
 using GymInnowise.Authorization.Shared.Enums;
 
 namespace GymInnowise.Authorization.Logic.Services
@@ -11,20 +12,26 @@ namespace GymInnowise.Authorization.Logic.Services
     {
         private readonly IAccountsRepository _accountsRepo;
         private readonly IRolesRepository _rolesRepo;
-        private readonly ITokenService _jwtService;
+        private readonly ITokenService _tokenService;
+        private readonly IRefreshTokenRepository _refreshTokenRepository;
 
-        public AuthenticationService(IAccountsRepository accountsRepo, IRolesRepository rolesRepo, ITokenService jwtService)
+        public AuthenticationService(
+            IAccountsRepository accountsRepo,
+            IRolesRepository rolesRepo,
+            ITokenService jwtService,
+            IRefreshTokenRepository refreshTokenRepository)
         {
             _accountsRepo = accountsRepo;
             _rolesRepo = rolesRepo;
-            _jwtService = jwtService;
+            _tokenService = jwtService;
+            _refreshTokenRepository = refreshTokenRepository;
         }
 
-        public async Task RegisterAsync(RegistrationRequest accountRegistrationDto)
+        public async Task<RegisterResponse> RegisterAsync(RegisterRequest accountRegistrationDto)
         {
             if (await _accountsRepo.DoesAccountExistAsync(accountRegistrationDto))
             {
-                throw new InvalidOperationException("Account already exists!");
+                return new RegisterResponse();
             }
 
             var account = new AccountEntity
@@ -40,22 +47,74 @@ namespace GymInnowise.Authorization.Logic.Services
                 ],
             };
             await _accountsRepo.CreateAccountAsync(account);
+
+            return new RegisterResponse()
+            {
+                IsSuccessful = true,
+            };
         }
 
-        public async Task<string?> LoginAsync(LoginRequest loginDto)
+        public async Task<LoginResponse> LoginAsync(LoginRequest loginRequest)
         {
-            var account = await _accountsRepo.GetAccountByEmailAsync(loginDto.Email, loadRoles: true);
-            if (account == null)
+            var account = await _accountsRepo.GetAccountByEmailAsync(loginRequest.Email, loadRoles: true);
+            if (account is null || !PasswordHelper.VerifyPassword(loginRequest.Password, account.PasswordHash))
             {
-                throw new InvalidOperationException("account not found");
+                return new LoginResponse();
             }
 
-            if (!PasswordHelper.VerifyPassword(loginDto.Password, account.PasswordHash))
+            (string accessToken, string refreshToken) = await GeneratePairOfTokens(account);
+
+            return new LoginResponse
             {
-                return null;
+                AccessToken = accessToken,
+                RefreshToken = refreshToken,
+            };
+        }
+
+        public async Task<RefreshResponse> RefreshAsync(RefreshRequest refreshRequest)
+        {
+            var storedRefreshToken = await _refreshTokenRepository.GetRefreshTokenAsync(
+                refreshRequest.RefreshToken, loadAccount: true);
+            if (storedRefreshToken is null || !_tokenService.ValidateRefreshToken(storedRefreshToken))
+            {
+                return new RefreshResponse();
             }
 
-            return _jwtService.GenerateJwtToken(account);
+            (string accessToken, string refreshToken) = await GeneratePairOfTokens(
+                storedRefreshToken.Account);
+
+            return new RefreshResponse()
+            {
+                RefreshToken = refreshToken,
+                AccessToken = accessToken,
+            };
+        }
+
+        public async Task<RevokeResponse> RevokeAsync(RevokeRequest revokeRequest)
+        {
+            var storedRefreshToken = await _refreshTokenRepository.GetRefreshTokenAsync(
+                revokeRequest.RefreshToken);
+            if (storedRefreshToken is null || !_tokenService.ValidateRefreshToken(storedRefreshToken))
+            {
+                return new RevokeResponse();
+            }
+
+            await _refreshTokenRepository.RevokeRefreshTokenAsync(storedRefreshToken);
+
+            return new RevokeResponse()
+            {
+                IsSuccessful = true
+            };
+        }
+
+        private async Task<(string accessToken, string refreshToken)> GeneratePairOfTokens(
+            AccountEntity account)
+        {
+            var accessToken = _tokenService.GenerateJwtToken(account);
+            var refreshToken = _tokenService.GenerateRefreshToken(account);
+            await _refreshTokenRepository.AddRefreshTokenAsync(refreshToken);
+
+            return (accessToken, refreshToken.Token);
         }
     }
 }

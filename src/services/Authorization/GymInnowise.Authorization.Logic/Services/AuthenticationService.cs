@@ -76,14 +76,14 @@ namespace GymInnowise.Authorization.Logic.Services
 
             if (!_tokenService.ValidateRefreshToken(storedRefreshToken))
             {
-                await _refreshTokenRepository.RevokeRefreshTokenAsync(storedRefreshToken);
+                await _refreshTokenRepository.DeleteRefreshTokenAsync(storedRefreshToken);
 
                 return new RefreshResponse();
             }
 
             (string accessToken, string refreshToken) = await GeneratePairOfTokens(
-                storedRefreshToken.Account);
-            await _refreshTokenRepository.RevokeRefreshTokenAsync(storedRefreshToken);
+                storedRefreshToken.Account!);
+            await _refreshTokenRepository.DeleteRefreshTokenAsync(storedRefreshToken);
 
             return new RefreshResponse() { RefreshToken = refreshToken, AccessToken = accessToken, };
         }
@@ -97,14 +97,14 @@ namespace GymInnowise.Authorization.Logic.Services
                 return;
             }
 
-            await _refreshTokenRepository.RevokeRefreshTokenAsync(storedRefreshToken);
+            await _refreshTokenRepository.DeleteRefreshTokenAsync(storedRefreshToken);
         }
 
         private async Task<(string accessToken, string refreshToken)> GeneratePairOfTokens(
             AccountEntity account)
         {
             var accessToken = _tokenService.GenerateJwtToken(account);
-            var refreshToken = _tokenService.GenerateRefreshToken(account);
+            var refreshToken = _tokenService.GenerateRefreshToken(account.Id);
             await _refreshTokenRepository.AddRefreshTokenAsync(refreshToken);
 
             return (accessToken, refreshToken.Token);

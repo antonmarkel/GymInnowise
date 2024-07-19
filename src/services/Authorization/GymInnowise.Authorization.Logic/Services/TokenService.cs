@@ -39,11 +39,12 @@ namespace GymInnowise.Authorization.Logic.Services
 
             return tokenHandler.WriteToken(token);
         }
-        public RefreshTokenEntity GenerateRefreshToken(AccountEntity account)
+
+        public RefreshTokenEntity GenerateRefreshToken(Guid accountId)
         {
             var refreshToken = new RefreshTokenEntity
             {
-                Account = account,
+                AccountId = accountId,
                 Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
                 CreatedDate = DateTime.UtcNow,
                 ExpiryDate = DateTime.UtcNow.AddMinutes(_jwtSettings.RefreshExpiryInMinutes),

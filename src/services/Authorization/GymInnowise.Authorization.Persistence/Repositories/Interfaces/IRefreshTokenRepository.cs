@@ -6,6 +6,6 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Interfaces
     {
         Task<RefreshTokenEntity?> GetRefreshTokenAsync(string token, bool loadAccount = false);
         Task AddRefreshTokenAsync(RefreshTokenEntity refreshToken);
-        Task RevokeRefreshTokenAsync(RefreshTokenEntity refreshToken);
+        Task DeleteRefreshTokenAsync(RefreshTokenEntity refreshToken);
     }
 }

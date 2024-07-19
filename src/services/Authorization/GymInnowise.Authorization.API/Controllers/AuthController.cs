@@ -1,6 +1,7 @@
 ﻿using GymInnowise.Authorization.Logic.Interfaces;
-using GymInnowise.Authorization.Shared.Dtos;
+using GymInnowise.Authorization.Shared.Dtos.RequestModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace GymInnowise.Authorization.API.Controllers
 {
@@ -10,26 +11,49 @@ namespace GymInnowise.Authorization.API.Controllers
     {
         private readonly IAuthenticationService _authenticationService;
 
-
         public AuthController(IAuthenticationService authenticationService)
         {
             _authenticationService = authenticationService;
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> LoginAsync([FromBody] LoginRequest loginDto)
+        public async Task<IActionResult> LoginAsync([FromBody] LoginRequest loginRequest)
         {
-            var token = await _authenticationService.LoginAsync(loginDto);
-            if (string.IsNullOrEmpty(token))
+            var loginResponse = await _authenticationService.LoginAsync(loginRequest);
+            if (loginResponse.AccessToken.IsNullOrEmpty() || loginResponse.RefreshToken.IsNullOrEmpty())
             {
-                return Unauthorized("Invalid password!");
+                return Unauthorized("Invalid password or email!");
             }
 
-            return Ok(new { Token = token });
+            return Ok(loginResponse);
+        }
+
+        [HttpPost("refresh")]
+        public async Task<IActionResult> RefreshAsync([FromBody] RefreshRequest refreshRequest)
+        {
+            var refreshResponse = await _authenticationService.RefreshAsync(refreshRequest);
+            if (refreshResponse.AccessToken.IsNullOrEmpty() || refreshResponse.RefreshToken.IsNullOrEmpty())
+            {
+                return Unauthorized("refresh token invalid");
+            }
+
+            return Ok(refreshResponse);
+        }
+
+        [HttpPost("revoke")]
+        public async Task<IActionResult> RevokeAsync([FromBody] RevokeRequest revokeRequest)
+        {
+            var revokeResponse = await _authenticationService.RevokeAsync(revokeRequest);
+            if (!revokeResponse.IsSuccessful)
+            {
+                return Unauthorized("refresh token invalid");
+            }
+
+            return Ok();
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> RegisterAsync([FromBody] RegistrationRequest registrationDto)
+        public async Task<IActionResult> RegisterAsync([FromBody] RegisterRequest registrationDto)
         {
             await _authenticationService.RegisterAsync(registrationDto);
 

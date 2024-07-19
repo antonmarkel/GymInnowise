@@ -1,5 +1,5 @@
 ﻿using GymInnowise.Authorization.Persistence.Models.Enities;
-using GymInnowise.Authorization.Shared.Dtos;
+using GymInnowise.Authorization.Shared.Dtos.RequestModels;
 
 namespace GymInnowise.Authorization.Persistence.Repositories.Interfaces
 {
@@ -7,6 +7,6 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Interfaces
     {
         Task CreateAccountAsync(AccountEntity account);
         Task<AccountEntity?> GetAccountByEmailAsync(string email, bool loadRoles = false);
-        Task<bool> DoesAccountExistAsync(RegistrationRequest dto);
+        Task<bool> DoesAccountExistAsync(RegisterRequest dto);
     }
 }

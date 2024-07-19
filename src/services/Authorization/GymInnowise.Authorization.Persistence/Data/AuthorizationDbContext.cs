@@ -28,9 +28,8 @@ namespace GymInnowise.Authorization.Persistence.Data
             {
                 entity.ToTable("RefreshTokens");
                 entity.HasKey(e => e.Id);
-                entity.Property(e => e.Token)
-                    .HasMaxLength(255)
-                    .IsRequired();
+                entity.Property(e => e.Token).HasMaxLength(150);
+                entity.HasIndex(e => e.Token).IsUnique();
                 entity.HasOne(e => e.Account)
                     .WithMany()
                     .IsRequired();

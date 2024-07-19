@@ -41,7 +41,8 @@ namespace GymInnowise.Authorization.Logic.Services
         }
         public RefreshTokenEntity GenerateRefreshToken(AccountEntity account)
         {
-            var refreshToken = new RefreshTokenEntity { 
+            var refreshToken = new RefreshTokenEntity
+            {
                 Account = account,
                 Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
                 CreatedDate = DateTime.UtcNow,
@@ -53,7 +54,7 @@ namespace GymInnowise.Authorization.Logic.Services
 
         public bool ValidateRefreshToken(RefreshTokenEntity refreshToken)
         {
-            return refreshToken.ExpiryDate > DateTime.Now && !refreshToken.IsRevoked;
+            return refreshToken.ExpiryDate > DateTime.UtcNow && !refreshToken.IsRevoked;
         }
     }
 }

@@ -63,7 +63,7 @@ namespace GymInnowise.Authorization.Persistence.Data
                 v => JsonConvert.SerializeObject(
                     v.Select(v => v.ToString())),
                 v => JsonConvert.DeserializeObject<List<string>>(v)!
-                    .Select(v => (RoleEnum)Enum.Parse(typeof(RoleEnum), v)).ToList());
+                    .Select(s => (RoleEnum)Enum.Parse(typeof(RoleEnum), s)).ToList());
         }
     }
 }

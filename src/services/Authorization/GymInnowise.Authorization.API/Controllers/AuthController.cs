@@ -1,7 +1,6 @@
 ﻿using GymInnowise.Authorization.Logic.Interfaces;
 using GymInnowise.Authorization.Shared.Dtos.RequestModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 
 namespace GymInnowise.Authorization.API.Controllers
 {
@@ -19,25 +18,23 @@ namespace GymInnowise.Authorization.API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> LoginAsync([FromBody] LoginRequest loginRequest)
         {
-            var loginResponse = await _authenticationService.LoginAsync(loginRequest);
-            if (loginResponse.AccessToken.IsNullOrEmpty() || loginResponse.RefreshToken.IsNullOrEmpty())
-            {
-                return Unauthorized("Invalid password or email!");
-            }
+            var loginResult = await _authenticationService.LoginAsync(loginRequest);
 
-            return Ok(loginResponse);
+            return loginResult.Match<IActionResult>(
+                loginResponse => Ok(loginResponse),
+                _ => Unauthorized("Invalid password or email!")
+            );
         }
 
         [HttpPost("refresh")]
         public async Task<IActionResult> RefreshAsync([FromBody] RefreshRequest refreshRequest)
         {
-            var refreshResponse = await _authenticationService.RefreshAsync(refreshRequest);
-            if (refreshResponse.AccessToken.IsNullOrEmpty() || refreshResponse.RefreshToken.IsNullOrEmpty())
-            {
-                return Unauthorized("refresh token invalid");
-            }
+            var refreshResult = await _authenticationService.RefreshAsync(refreshRequest);
 
-            return Ok(refreshResponse);
+            return refreshResult.Match<IActionResult>(
+                refreshResponse => Ok(refreshResponse),
+                _ => Unauthorized("refresh token is invalid")
+            );
         }
 
         [HttpPost("revoke")]
@@ -51,13 +48,12 @@ namespace GymInnowise.Authorization.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> RegisterAsync([FromBody] RegisterRequest registrationDto)
         {
-            var registerResponse = await _authenticationService.RegisterAsync(registrationDto);
-            if (!registerResponse.IsSuccessful)
-            {
-                return BadRequest("Registration failed");
-            }
+            var registerResult = await _authenticationService.RegisterAsync(registrationDto);
 
-            return Created();
+            return registerResult.Match<IActionResult>(
+                _ => Created(),
+                _ => BadRequest("Account with this email or mobile phone already exists! Try to log in!")
+            );
         }
     }
 }

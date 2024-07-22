@@ -1,39 +1,41 @@
 ﻿using GymInnowise.Authorization.Logic.Helpers;
 using GymInnowise.Authorization.Logic.Interfaces;
+using GymInnowise.Authorization.Logic.Services.Results;
 using GymInnowise.Authorization.Persistence.Models.Enities;
 using GymInnowise.Authorization.Persistence.Repositories.Interfaces;
 using GymInnowise.Authorization.Shared.Dtos.RequestModels;
 using GymInnowise.Authorization.Shared.Dtos.ResponseModels;
 using GymInnowise.Authorization.Shared.Enums;
+using OneOf;
+using OneOf.Types;
 
 namespace GymInnowise.Authorization.Logic.Services
 {
     public class AuthenticationService : IAuthenticationService
     {
         private readonly IAccountsRepository _accountsRepo;
-        private readonly IRolesRepository _rolesRepo;
         private readonly ITokenService _tokenService;
         private readonly IRefreshTokenRepository _refreshTokenRepository;
 
         public AuthenticationService(
             IAccountsRepository accountsRepo,
-            IRolesRepository rolesRepo,
             ITokenService jwtService,
             IRefreshTokenRepository refreshTokenRepository)
         {
             _accountsRepo = accountsRepo;
-            _rolesRepo = rolesRepo;
             _tokenService = jwtService;
             _refreshTokenRepository = refreshTokenRepository;
         }
 
-        public async Task<RegisterResponse> RegisterAsync(RegisterRequest accountRegistrationDto)
+        public async Task<OneOf<Success, AccountAlreadyExists>> RegisterAsync(
+            RegisterRequest accountRegistrationDto)
         {
             if (await _accountsRepo.DoesAccountExistAsync(accountRegistrationDto))
             {
-                return new RegisterResponse();
+                return new AccountAlreadyExists();
             }
 
+            //TODO: Add validation
             var account = new AccountEntity
             {
                 Email = accountRegistrationDto.Email,
@@ -41,23 +43,20 @@ namespace GymInnowise.Authorization.Logic.Services
                 PasswordHash = PasswordHelper.HashPassword(accountRegistrationDto.Password),
                 CreatedDate = DateTime.UtcNow,
                 ModifiedDate = DateTime.UtcNow,
-                Roles =
-                [
-                    await _rolesRepo.GetRoleAsync(RoleEnum.Client) ??
-                    throw new InvalidOperationException("a standard role wasn't found"),
-                ],
+                Roles = [RoleEnum.Client],
             };
             await _accountsRepo.CreateAccountAsync(account);
 
-            return new RegisterResponse() { IsSuccessful = true, };
+            return new Success();
         }
 
-        public async Task<LoginResponse> LoginAsync(LoginRequest loginRequest)
+        public async Task<OneOf<LoginResponse, InvalidCredentials>> LoginAsync(LoginRequest loginRequest)
         {
-            var account = await _accountsRepo.GetAccountByEmailAsync(loginRequest.Email, loadRoles: true);
+            var account = await _accountsRepo.GetAccountByEmailAsync(
+                loginRequest.Email);
             if (account is null || !PasswordHelper.VerifyPassword(loginRequest.Password, account.PasswordHash))
             {
-                return new LoginResponse();
+                return new InvalidCredentials();
             }
 
             (string accessToken, string refreshToken) = await GeneratePairOfTokens(account);
@@ -65,20 +64,20 @@ namespace GymInnowise.Authorization.Logic.Services
             return new LoginResponse { AccessToken = accessToken, RefreshToken = refreshToken, };
         }
 
-        public async Task<RefreshResponse> RefreshAsync(RefreshRequest refreshRequest)
+        public async Task<OneOf<RefreshResponse, InvalidRefreshToken>> RefreshAsync(RefreshRequest refreshRequest)
         {
             var storedRefreshToken = await _refreshTokenRepository.GetRefreshTokenAsync(
                 refreshRequest.RefreshToken, loadAccount: true);
             if (storedRefreshToken is null)
             {
-                return new RefreshResponse();
+                return new InvalidRefreshToken();
             }
 
             if (!_tokenService.ValidateRefreshToken(storedRefreshToken))
             {
                 await _refreshTokenRepository.DeleteRefreshTokenAsync(storedRefreshToken);
 
-                return new RefreshResponse();
+                return new InvalidRefreshToken();
             }
 
             (string accessToken, string refreshToken) = await GeneratePairOfTokens(

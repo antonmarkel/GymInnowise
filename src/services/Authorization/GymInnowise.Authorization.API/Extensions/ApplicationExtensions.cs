@@ -19,7 +19,7 @@ namespace GymInnowise.Authorization.API.Extensions
             app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
         }
 
-        public static void AddPersistanceServices(this IHostApplicationBuilder builder)
+        public static void AddPersistenceServices(this IHostApplicationBuilder builder)
         {
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddDbContext<AuthorizationDbContext>(options => options.UseNpgsql(connectionString));

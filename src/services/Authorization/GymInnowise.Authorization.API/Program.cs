@@ -8,6 +8,7 @@ builder.AddPersistanceServices();
 builder.AddJwtServices();
 
 var app = builder.Build();
+app.ConfigureExceptionHandler();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

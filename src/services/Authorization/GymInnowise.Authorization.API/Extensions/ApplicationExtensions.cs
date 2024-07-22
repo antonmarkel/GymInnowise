@@ -1,4 +1,5 @@
-﻿using GymInnowise.Authorization.Configuration.Token;
+﻿using GymInnowise.Authorization.API.Middleware;
+using GymInnowise.Authorization.Configuration.Token;
 using GymInnowise.Authorization.Logic.Interfaces;
 using GymInnowise.Authorization.Logic.Services;
 using GymInnowise.Authorization.Persistence.Data;
@@ -13,6 +14,11 @@ namespace GymInnowise.Authorization.API.Extensions
 {
     public static class ApplicationExtensions
     {
+        public static void ConfigureExceptionHandler(this WebApplication app)
+        {
+            app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
+        }
+
         public static void AddPersistanceServices(this IHostApplicationBuilder builder)
         {
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");

@@ -38,10 +38,7 @@ namespace GymInnowise.Authorization.Persistence.Data
 
         private void ConfigureAccountEntity(ModelBuilder modelBuilder)
         {
-            var rolesConverter = new ValueConverter<List<RoleEnum>, string>(
-                v => JsonConvert.SerializeObject(v),
-                v => JsonConvert.DeserializeObject<List<RoleEnum>>(v)!);
-
+            var rolesConverter = GetRolesConverter();
             modelBuilder.Entity<AccountEntity>(entity =>
             {
                 entity.ToTable("Accounts");
@@ -58,6 +55,15 @@ namespace GymInnowise.Authorization.Persistence.Data
                 entity.Property(a => a.Roles)
                     .HasConversion(rolesConverter);
             });
+        }
+
+        private static ValueConverter<List<RoleEnum>, string> GetRolesConverter()
+        {
+            return new ValueConverter<List<RoleEnum>, string>(
+                v => JsonConvert.SerializeObject(
+                    v.Select(v => v.ToString())),
+                v => JsonConvert.DeserializeObject<List<string>>(v)!
+                    .Select(v => (RoleEnum)Enum.Parse(typeof(RoleEnum), v)).ToList());
         }
     }
 }

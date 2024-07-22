@@ -1,6 +1,4 @@
 ﻿namespace GymInnowise.Authorization.Logic.Services.Results
 {
-    public struct InvalidRefreshToken
-    {
-    }
+    public struct InvalidRefreshToken;
 }

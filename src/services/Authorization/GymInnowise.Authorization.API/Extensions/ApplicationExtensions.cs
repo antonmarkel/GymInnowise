@@ -18,7 +18,6 @@ namespace GymInnowise.Authorization.API.Extensions
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddDbContext<AuthorizationDbContext>(options => options.UseNpgsql(connectionString));
             builder.Services.AddScoped<IAccountsRepository, AccountsRepository>();
-            builder.Services.AddScoped<IRolesRepository, RolesRepository>();
             builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
         }
 
@@ -47,6 +46,7 @@ namespace GymInnowise.Authorization.API.Extensions
                 };
             });
             builder.Services.AddAuthorization();
+            builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
             builder.Services.AddScoped<ITokenService, TokenService>();
         }
     }

@@ -2,14 +2,15 @@
 using GymInnowise.Authorization.Shared.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Newtonsoft.Json;
 
 namespace GymInnowise.Authorization.Persistence.Data
 {
     public class AuthorizationDbContext : DbContext
     {
         public DbSet<AccountEntity> Accounts { get; set; }
-        public DbSet<RoleEntity> Roles { get; set; }
         public DbSet<RefreshTokenEntity> RefreshTokens { get; set; }
+
         public AuthorizationDbContext(DbContextOptions<AuthorizationDbContext> options) : base(options)
         {
             Database.EnsureCreated();
@@ -19,10 +20,8 @@ namespace GymInnowise.Authorization.Persistence.Data
         {
             ConfigureRefreshTokenEntity(modelBuilder);
             ConfigureAccountEntity(modelBuilder);
-            ConfigureRoleEntity(modelBuilder);
-            modelBuilder.Entity<RoleEntity>().HasData(
-                new RoleEntity { Id = Guid.NewGuid(), Role = RoleEnum.Client });
         }
+
         private void ConfigureRefreshTokenEntity(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<RefreshTokenEntity>(entity =>
@@ -39,6 +38,10 @@ namespace GymInnowise.Authorization.Persistence.Data
 
         private void ConfigureAccountEntity(ModelBuilder modelBuilder)
         {
+            var rolesConverter = new ValueConverter<List<RoleEnum>, string>(
+                v => JsonConvert.SerializeObject(v),
+                v => JsonConvert.DeserializeObject<List<RoleEnum>>(v)!);
+
             modelBuilder.Entity<AccountEntity>(entity =>
             {
                 entity.ToTable("Accounts");
@@ -52,30 +55,8 @@ namespace GymInnowise.Authorization.Persistence.Data
                 entity.Property(e => e.PasswordHash)
                     .HasMaxLength(100)
                     .IsRequired();
-                entity.HasMany(e => e.Roles)
-                    .WithMany(e => e.Accounts)
-                    .UsingEntity(j => j.ToTable("AccountRole"));
-            });
-        }
-
-        private void ConfigureRoleEntity(ModelBuilder modelBuilder)
-        {
-            var converter = new ValueConverter<RoleEnum, string>(
-                v => v.ToString(),
-                v => (RoleEnum)Enum.Parse(typeof(RoleEnum), v));
-
-            modelBuilder.Entity<RoleEntity>(entity =>
-            {
-                entity.ToTable("Roles");
-                entity.HasKey(e => e.Id);
-                entity.Property(e => e.Role)
-                    .HasMaxLength(50)
-                    .IsRequired()
-                    .HasConversion(converter);
-
-                entity.HasMany(e => e.Accounts)
-                    .WithMany(e => e.Roles)
-                    .UsingEntity(j => j.ToTable("AccountRole"));
+                entity.Property(a => a.Roles)
+                    .HasConversion(rolesConverter);
             });
         }
     }

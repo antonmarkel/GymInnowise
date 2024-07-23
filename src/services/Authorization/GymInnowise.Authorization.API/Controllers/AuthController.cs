@@ -22,7 +22,8 @@ namespace GymInnowise.Authorization.API.Controllers
 
             return loginResult.Match<IActionResult>(
                 loginResponse => Ok(loginResponse),
-                _ => Unauthorized("Invalid password or email!")
+                _ => Unauthorized("Invalid password or email!"),
+                validError => BadRequest(validError.ErrorMessage)
             );
         }
 
@@ -52,7 +53,8 @@ namespace GymInnowise.Authorization.API.Controllers
 
             return registerResult.Match<IActionResult>(
                 _ => Created(),
-                _ => BadRequest("Account with this email or mobile phone already exists! Try to log in!")
+                _ => BadRequest("Account with this email or mobile phone already exists! Try to log in!"),
+                validError => BadRequest(validError.ErrorMessage)
             );
         }
     }

@@ -1,10 +1,13 @@
-﻿using GymInnowise.Authorization.API.Middleware;
+﻿using FluentValidation;
+using GymInnowise.Authorization.API.Middleware;
 using GymInnowise.Authorization.Configuration.Token;
 using GymInnowise.Authorization.Logic.Interfaces;
 using GymInnowise.Authorization.Logic.Services;
+using GymInnowise.Authorization.Logic.Validators;
 using GymInnowise.Authorization.Persistence.Data;
 using GymInnowise.Authorization.Persistence.Repositories.Implementations;
 using GymInnowise.Authorization.Persistence.Repositories.Interfaces;
+using GymInnowise.Authorization.Shared.Dtos.RequestModels;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -14,7 +17,7 @@ namespace GymInnowise.Authorization.API.Extensions
 {
     public static class ApplicationExtensions
     {
-        public static void ConfigureExceptionHandler(this WebApplication app)
+        public static void UseGlobalExceptionHandler(this WebApplication app)
         {
             app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
         }
@@ -54,6 +57,14 @@ namespace GymInnowise.Authorization.API.Extensions
             builder.Services.AddAuthorization();
             builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
             builder.Services.AddScoped<ITokenService, TokenService>();
+        }
+
+        public static void AddValidation(this IHostApplicationBuilder builder)
+        {
+            //builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+            builder.Services.AddScoped<IValidator<RegisterRequest>, RegisterRequestValidator>();
+            builder.Services.AddScoped<IValidator<LoginRequest>, LoginRequestValidator>();
+            builder.Services.AddScoped<IValidator<string>, RefreshTokenValidator>();
         }
     }
 }

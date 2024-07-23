@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using GymInnowise.Authorization.API.Middleware;
 using GymInnowise.Authorization.API.Validators;
-using GymInnowise.Authorization.API.Validators.ResultFactories;
+using GymInnowise.Authorization.API.Validators.ValidationResultFactories;
 using GymInnowise.Authorization.Configuration.Token;
 using GymInnowise.Authorization.Logic.Interfaces;
 using GymInnowise.Authorization.Logic.Services;

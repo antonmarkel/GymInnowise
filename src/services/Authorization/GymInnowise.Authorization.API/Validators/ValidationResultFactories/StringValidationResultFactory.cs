@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Results;
 using System.Text;
 
-namespace GymInnowise.Authorization.API.Validators.ResultFactories
+namespace GymInnowise.Authorization.API.Validators.ValidationResultFactories
 {
     public class StringValidationResultFactory : IFluentValidationAutoValidationResultFactory
     {

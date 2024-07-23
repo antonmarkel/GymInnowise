@@ -27,7 +27,7 @@ namespace GymInnowise.Authorization.Logic.Services
             _refreshTokenRepository = refreshTokenRepository;
         }
 
-        public async Task<OneOf<Success, AccountAlreadyExists, AccountValidationError>> RegisterAsync(
+        public async Task<OneOf<Success, AccountAlreadyExists>> RegisterAsync(
             RegisterRequest registerRequest)
         {
             if (await _accountsRepo.DoesAccountExistAsync(registerRequest))
@@ -49,7 +49,7 @@ namespace GymInnowise.Authorization.Logic.Services
             return new Success();
         }
 
-        public async Task<OneOf<LoginResponse, InvalidCredentials, AccountValidationError>> LoginAsync(
+        public async Task<OneOf<LoginResponse, InvalidCredentials>> LoginAsync(
             LoginRequest loginRequest)
         {
             var account = await _accountsRepo.GetAccountByEmailAsync(

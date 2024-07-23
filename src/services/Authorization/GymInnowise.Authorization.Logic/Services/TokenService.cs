@@ -25,10 +25,11 @@ namespace GymInnowise.Authorization.Logic.Services
             var key = Encoding.ASCII.GetBytes(_jwtSettings.SecretKey);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[] {
+                Subject = new ClaimsIdentity(
+                [
                     new Claim(ClaimTypes.MobilePhone, account.PhoneNumber),
                     new Claim(ClaimTypes.Email, account.Email),
-                }),
+                ]),
                 Expires = DateTime.UtcNow.AddMinutes(_jwtSettings.ExpiryInMinutes),
                 Issuer = _jwtSettings.Issuer,
                 Audience = _jwtSettings.Audience,

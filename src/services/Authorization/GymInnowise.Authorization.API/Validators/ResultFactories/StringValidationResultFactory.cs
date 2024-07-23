@@ -13,7 +13,7 @@ namespace GymInnowise.Authorization.API.Validators.ResultFactories
             return new BadRequestObjectResult(GetErrorsStringFromDetails(validationProblemDetails));
         }
 
-        private string? GetErrorsStringFromDetails(ValidationProblemDetails? validationProblemDetails)
+        private static string? GetErrorsStringFromDetails(ValidationProblemDetails? validationProblemDetails)
         {
             if (validationProblemDetails is null)
             {

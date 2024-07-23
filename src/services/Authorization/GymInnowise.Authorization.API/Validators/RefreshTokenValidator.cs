@@ -9,7 +9,9 @@ namespace GymInnowise.Authorization.API.Validators
 
         public RefreshTokenValidator()
         {
-            RuleFor(v => v.RefreshToken).Length(RefreshTokenLength).WithMessage("Invalid refresh token!");
+            RuleFor(v => v.RefreshToken)
+                .Length(RefreshTokenLength)
+                .WithMessage("Invalid refresh token!");
         }
     }
 }

@@ -10,13 +10,17 @@ namespace GymInnowise.Authorization.API.Validators
         public LoginRequestValidator()
         {
             RuleFor(rq => rq.Email).Cascade(CascadeMode.Stop)
-                .NotEmpty().WithMessage("Email address cannot be empty!")
-                .EmailAddress().WithMessage("Invalid email!");
-            RuleFor(rq => rq.Password).NotEmpty().WithMessage("Your password cannot be empty!")
-                .MinimumLength(PasswordMinLength).WithMessage(
-                    $"Your password length must be at least {PasswordMinLength}!")
-                .MaximumLength(PasswordMaxLength).WithMessage(
-                    $"Your password length must not exceed {PasswordMaxLength}!");
+                .NotEmpty()
+                .WithMessage("Email address cannot be empty!")
+                .EmailAddress()
+                .WithMessage("Invalid email!");
+            RuleFor(rq => rq.Password)
+                .NotEmpty()
+                .WithMessage("Your password cannot be empty!")
+                .MinimumLength(PasswordMinLength)
+                .WithMessage($"Your password length must be at least {PasswordMinLength}!")
+                .MaximumLength(PasswordMaxLength)
+                .WithMessage($"Your password length must not exceed {PasswordMaxLength}!");
         }
     }
 }

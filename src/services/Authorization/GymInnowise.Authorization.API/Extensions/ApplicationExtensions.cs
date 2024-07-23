@@ -1,4 +1,6 @@
-﻿using GymInnowise.Authorization.API.Middleware;
+﻿using FluentValidation;
+using GymInnowise.Authorization.API.Middleware;
+using GymInnowise.Authorization.API.Validators;
 using GymInnowise.Authorization.Configuration.Token;
 using GymInnowise.Authorization.Logic.Interfaces;
 using GymInnowise.Authorization.Logic.Services;
@@ -8,13 +10,14 @@ using GymInnowise.Authorization.Persistence.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 using System.Text;
 
 namespace GymInnowise.Authorization.API.Extensions
 {
     public static class ApplicationExtensions
     {
-        public static void ConfigureExceptionHandler(this WebApplication app)
+        public static void UseGlobalExceptionHandler(this WebApplication app)
         {
             app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
         }
@@ -54,6 +57,12 @@ namespace GymInnowise.Authorization.API.Extensions
             builder.Services.AddAuthorization();
             builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
             builder.Services.AddScoped<ITokenService, TokenService>();
+        }
+
+        public static void AddValidation(this IHostApplicationBuilder builder)
+        {
+            builder.Services.AddFluentValidationAutoValidation();
+            builder.Services.AddValidatorsFromAssemblyContaining<LoginRequestValidator>();
         }
     }
 }

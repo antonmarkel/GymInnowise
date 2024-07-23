@@ -9,7 +9,10 @@ namespace GymInnowise.Authorization.Logic.Interfaces
     public interface IAuthenticationService
     {
         Task<OneOf<LoginResponse, InvalidCredentials>> LoginAsync(LoginRequest loginRequest);
-        Task<OneOf<Success, AccountAlreadyExists>> RegisterAsync(RegisterRequest accountRegistrationDto);
+
+        Task<OneOf<Success, AccountAlreadyExists>> RegisterAsync(
+            RegisterRequest registerRequest);
+
         Task<OneOf<RefreshResponse, InvalidRefreshToken>> RefreshAsync(RefreshRequest refreshRequest);
         Task RevokeAsync(RevokeRequest revokeRequest);
     }

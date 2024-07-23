@@ -28,19 +28,18 @@ namespace GymInnowise.Authorization.Logic.Services
         }
 
         public async Task<OneOf<Success, AccountAlreadyExists>> RegisterAsync(
-            RegisterRequest accountRegistrationDto)
+            RegisterRequest registerRequest)
         {
-            if (await _accountsRepo.DoesAccountExistAsync(accountRegistrationDto))
+            if (await _accountsRepo.DoesAccountExistAsync(registerRequest))
             {
                 return new AccountAlreadyExists();
             }
 
-            //TODO: Add validation
             var account = new AccountEntity
             {
-                Email = accountRegistrationDto.Email,
-                PhoneNumber = accountRegistrationDto.PhoneNumber,
-                PasswordHash = PasswordHelper.HashPassword(accountRegistrationDto.Password),
+                Email = registerRequest.Email,
+                PhoneNumber = registerRequest.PhoneNumber,
+                PasswordHash = PasswordHelper.HashPassword(registerRequest.Password),
                 CreatedDate = DateTime.UtcNow,
                 ModifiedDate = DateTime.UtcNow,
                 Roles = [RoleEnum.Client],
@@ -50,7 +49,8 @@ namespace GymInnowise.Authorization.Logic.Services
             return new Success();
         }
 
-        public async Task<OneOf<LoginResponse, InvalidCredentials>> LoginAsync(LoginRequest loginRequest)
+        public async Task<OneOf<LoginResponse, InvalidCredentials>> LoginAsync(
+            LoginRequest loginRequest)
         {
             var account = await _accountsRepo.GetAccountByEmailAsync(
                 loginRequest.Email);

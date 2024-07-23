@@ -9,6 +9,7 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
     public class AccountsRepository : IAccountsRepository
     {
         private readonly AuthorizationDbContext _context;
+
         public AccountsRepository(AuthorizationDbContext context)
         {
             _context = context;
@@ -29,15 +30,10 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
             return account != null;
         }
 
-        public async Task<AccountEntity?> GetAccountByEmailAsync(string email, bool loadRoles = false)
+        public async Task<AccountEntity?> GetAccountByEmailAsync(string email)
         {
-            var query = _context.Accounts.AsQueryable();
-            if (loadRoles)
-            {
-                query = query.Include(a => a.Roles);
-            }
-
-            return await query.FirstOrDefaultAsync(a => email.ToLower() == a.Email.ToLower());
+            return await _context.Accounts.FirstOrDefaultAsync(
+                a => email.ToLower() == a.Email.ToLower());
         }
     }
 }

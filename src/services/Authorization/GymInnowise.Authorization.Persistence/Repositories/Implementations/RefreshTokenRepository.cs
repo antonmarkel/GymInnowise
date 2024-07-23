@@ -14,7 +14,8 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
             _context = context;
         }
 
-        public async Task<RefreshTokenEntity?> GetRefreshTokenAsync(string token, bool loadAccount = false)
+        public async Task<RefreshTokenEntity?> GetRefreshTokenAsync(string token,
+            bool loadAccount = false)
         {
             var query = _context.RefreshTokens.AsQueryable();
             if (loadAccount)
@@ -38,4 +39,4 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
             await _context.SaveChangesAsync();
         }
     }
-}   
+}

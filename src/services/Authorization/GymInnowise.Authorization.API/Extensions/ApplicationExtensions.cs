@@ -1,4 +1,5 @@
-﻿using GymInnowise.Authorization.Configuration.Token;
+﻿using GymInnowise.Authorization.API.Middleware;
+using GymInnowise.Authorization.Configuration.Token;
 using GymInnowise.Authorization.Logic.Interfaces;
 using GymInnowise.Authorization.Logic.Services;
 using GymInnowise.Authorization.Persistence.Data;
@@ -13,12 +14,16 @@ namespace GymInnowise.Authorization.API.Extensions
 {
     public static class ApplicationExtensions
     {
-        public static void AddPersistanceServices(this IHostApplicationBuilder builder)
+        public static void ConfigureExceptionHandler(this WebApplication app)
+        {
+            app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
+        }
+
+        public static void AddPersistenceServices(this IHostApplicationBuilder builder)
         {
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddDbContext<AuthorizationDbContext>(options => options.UseNpgsql(connectionString));
             builder.Services.AddScoped<IAccountsRepository, AccountsRepository>();
-            builder.Services.AddScoped<IRolesRepository, RolesRepository>();
             builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
         }
 
@@ -47,6 +52,7 @@ namespace GymInnowise.Authorization.API.Extensions
                 };
             });
             builder.Services.AddAuthorization();
+            builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
             builder.Services.AddScoped<ITokenService, TokenService>();
         }
     }

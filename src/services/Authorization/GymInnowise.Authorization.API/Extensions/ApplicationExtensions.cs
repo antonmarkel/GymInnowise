@@ -1,16 +1,17 @@
 ﻿using FluentValidation;
 using GymInnowise.Authorization.API.Middleware;
+using GymInnowise.Authorization.API.Validators;
+using GymInnowise.Authorization.API.Validators.ResultFactories;
 using GymInnowise.Authorization.Configuration.Token;
 using GymInnowise.Authorization.Logic.Interfaces;
 using GymInnowise.Authorization.Logic.Services;
-using GymInnowise.Authorization.Logic.Validators;
 using GymInnowise.Authorization.Persistence.Data;
 using GymInnowise.Authorization.Persistence.Repositories.Implementations;
 using GymInnowise.Authorization.Persistence.Repositories.Interfaces;
-using GymInnowise.Authorization.Shared.Dtos.RequestModels;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 using System.Text;
 
 namespace GymInnowise.Authorization.API.Extensions
@@ -61,10 +62,11 @@ namespace GymInnowise.Authorization.API.Extensions
 
         public static void AddValidation(this IHostApplicationBuilder builder)
         {
-            //builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-            builder.Services.AddScoped<IValidator<RegisterRequest>, RegisterRequestValidator>();
-            builder.Services.AddScoped<IValidator<LoginRequest>, LoginRequestValidator>();
-            builder.Services.AddScoped<IValidator<string>, RefreshTokenValidator>();
+            builder.Services.AddFluentValidationAutoValidation(conf =>
+            {
+                conf.OverrideDefaultResultFactoryWith<StringValidationResultFactory>();
+            });
+            builder.Services.AddValidatorsFromAssemblyContaining<LoginRequestValidator>();
         }
     }
 }

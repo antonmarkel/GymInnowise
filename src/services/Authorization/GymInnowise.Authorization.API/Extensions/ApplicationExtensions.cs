@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using GymInnowise.Authorization.API.Middleware;
 using GymInnowise.Authorization.API.Validators;
-using GymInnowise.Authorization.API.Validators.ValidationResultFactories;
 using GymInnowise.Authorization.Configuration.Token;
 using GymInnowise.Authorization.Logic.Interfaces;
 using GymInnowise.Authorization.Logic.Services;
@@ -62,10 +61,7 @@ namespace GymInnowise.Authorization.API.Extensions
 
         public static void AddValidation(this IHostApplicationBuilder builder)
         {
-            builder.Services.AddFluentValidationAutoValidation(conf =>
-            {
-                conf.OverrideDefaultResultFactoryWith<StringValidationResultFactory>();
-            });
+            builder.Services.AddFluentValidationAutoValidation();
             builder.Services.AddValidatorsFromAssemblyContaining<LoginRequestValidator>();
         }
     }

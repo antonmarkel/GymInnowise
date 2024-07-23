@@ -21,7 +21,7 @@ namespace GymInnowise.Authorization.API.Controllers
             var loginResult = await _authenticationService.LoginAsync(loginRequest);
 
             return loginResult.Match<IActionResult>(
-                loginResponse => Ok(loginResponse),
+                Ok,
                 _ => Unauthorized("Invalid password or email!"),
                 validError => BadRequest(validError.ErrorMessage)
             );
@@ -33,8 +33,8 @@ namespace GymInnowise.Authorization.API.Controllers
             var refreshResult = await _authenticationService.RefreshAsync(refreshRequest);
 
             return refreshResult.Match<IActionResult>(
-                refreshResponse => Ok(refreshResponse),
-                _ => Unauthorized("refresh token is invalid")
+                Ok,
+                _ => Unauthorized("Refresh token is invalid!")
             );
         }
 

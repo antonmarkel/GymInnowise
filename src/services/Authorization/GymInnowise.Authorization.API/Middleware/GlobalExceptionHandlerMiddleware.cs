@@ -23,7 +23,6 @@ namespace GymInnowise.Authorization.API.Middleware
         {
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-            //TODO: I guess here we should proceed some of the types of exceptions we can deal with using switch
             var response = new
             {
                 context.Response.StatusCode,

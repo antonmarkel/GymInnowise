@@ -34,10 +34,10 @@ namespace GymInnowise.Authorization.Logic.Services
         public async Task<OneOf<Success, AccountAlreadyExists>> RegisterAsync(
             RegisterRequest registerRequest)
         {
-            _logger.LogDebug("Got a RegisterRequest model: {@registerRequest}", registerRequest);
             if (await _accountsRepo.DoesAccountExistAsync(registerRequest))
             {
-                _logger.LogInformation("Registration failed. Reason: 'Account already exists'.");
+                _logger.LogInformation("Registration failed. Reason: 'Account already exists' Email:'{@Email}'.",
+                    registerRequest.Email);
 
                 return new AccountAlreadyExists();
             }
@@ -60,14 +60,15 @@ namespace GymInnowise.Authorization.Logic.Services
         public async Task<OneOf<LoginResponse, InvalidCredentials>> LoginAsync(
             LoginRequest loginRequest)
         {
-            _logger.LogDebug("Got a LoginRequest model: {@loginRequest}", loginRequest);
             var account = await _accountsRepo.GetAccountByEmailAsync(
                 loginRequest.Email);
             if (account is null || !PasswordHelper.VerifyPassword(loginRequest.Password, account.PasswordHash))
             {
                 _logger.LogInformation("Logging in failed. Reason: '"
-                                       + (account is null ? "Account does not exist" : "Wrong Password")
-                                       + "'.");
+                                       + (account is null
+                                           ? "Account does not exist"
+                                           : "Wrong Password")
+                                       + $"'email: {loginRequest.Email}.");
 
                 return new InvalidCredentials();
             }
@@ -80,19 +81,18 @@ namespace GymInnowise.Authorization.Logic.Services
 
         public async Task<OneOf<RefreshResponse, InvalidRefreshToken>> RefreshAsync(RefreshRequest refreshRequest)
         {
-            _logger.LogDebug("Got a RefreshRequest model: {@refreshRequest}", refreshRequest);
             var storedRefreshToken = await _refreshTokenRepository.GetRefreshTokenAsync(
                 refreshRequest.RefreshToken, loadAccount: true);
             if (storedRefreshToken is null)
             {
-                _logger.LogInformation("Refresh token is invalid");
+                _logger.LogInformation("Refresh token is invalid.");
 
                 return new InvalidRefreshToken();
             }
 
             if (!_tokenService.ValidateRefreshToken(storedRefreshToken))
             {
-                _logger.LogInformation("Refresh token is invalid");
+                _logger.LogInformation("Refresh token is invalid. User: {@Email}", storedRefreshToken.Account!.Email);
                 await _refreshTokenRepository.DeleteRefreshTokenAsync(storedRefreshToken);
 
                 return new InvalidRefreshToken();
@@ -102,26 +102,25 @@ namespace GymInnowise.Authorization.Logic.Services
                 storedRefreshToken.Account!);
             var response = new RefreshResponse() { RefreshToken = refreshToken, AccessToken = accessToken, };
             await _refreshTokenRepository.DeleteRefreshTokenAsync(storedRefreshToken);
-            _logger.LogInformation("New tokens {@response} were created from: {@storedRefreshToken}.",
-                response,
-                storedRefreshToken);
+            _logger.LogInformation("Refreshing has been done successfully. User: '{@Email}'.",
+                storedRefreshToken.Account!.Email);
 
             return response;
         }
 
         public async Task RevokeAsync(RevokeRequest revokeRequest)
         {
-            _logger.LogDebug("Got a RevokeRequest model: {@revokeRequest}", revokeRequest);
             var storedRefreshToken = await _refreshTokenRepository.GetRefreshTokenAsync(
-                revokeRequest.RefreshToken);
+                revokeRequest.RefreshToken, loadAccount: true);
             if (storedRefreshToken is null)
             {
-                _logger.LogInformation("Refresh token is invalid");
+                _logger.LogInformation("Refresh token is invalid.");
 
                 return;
             }
 
-            _logger.LogInformation("Refresh token {@storedRefreshToken} has been revoked.", storedRefreshToken);
+            _logger.LogInformation("Refresh token has been revoked. User: '{@Email}'.",
+                storedRefreshToken.Account!.Email);
             await _refreshTokenRepository.DeleteRefreshTokenAsync(storedRefreshToken);
         }
 

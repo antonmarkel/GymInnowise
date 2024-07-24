@@ -69,7 +69,6 @@ namespace GymInnowise.Authorization.API.Extensions
         public static void AddLogger(this WebApplicationBuilder builder)
         {
             Log.Logger = new LoggerConfiguration()
-                .Enrich.FromLogContext()
                 .ReadFrom.Configuration((builder.Configuration))
                 .CreateLogger();
 

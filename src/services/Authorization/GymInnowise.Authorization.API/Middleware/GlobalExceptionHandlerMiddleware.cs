@@ -1,12 +1,11 @@
 ﻿using Newtonsoft.Json;
-using Serilog;
 using System.Net;
 
 namespace GymInnowise.Authorization.API.Middleware
 {
     public class GlobalExceptionHandlerMiddleware(RequestDelegate next)
     {
-        public async Task InvokeAsync(HttpContext context)
+        public async Task InvokeAsync(HttpContext context, ILogger<GlobalExceptionHandlerMiddleware> logger)
         {
             try
             {
@@ -14,7 +13,7 @@ namespace GymInnowise.Authorization.API.Middleware
             }
             catch (Exception ex)
             {
-                Log.Error($"An unhandled exception occuried! Details: {ex.Message}");
+                logger.LogError("An unhandled exception occuried! Details: {@ex}", ex);
                 await HandleExceptionAsync(context, ex);
             }
         }

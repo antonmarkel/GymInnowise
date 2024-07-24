@@ -11,10 +11,7 @@ namespace GymInnowise.Authorization.Persistence.Data
         public DbSet<AccountEntity> Accounts { get; set; }
         public DbSet<RefreshTokenEntity> RefreshTokens { get; set; }
 
-        public AuthorizationDbContext(DbContextOptions<AuthorizationDbContext> options) : base(options)
-        {
-            Database.EnsureCreated();
-        }
+        public AuthorizationDbContext(DbContextOptions<AuthorizationDbContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

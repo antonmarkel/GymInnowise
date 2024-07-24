@@ -10,6 +10,7 @@ using GymInnowise.Authorization.Persistence.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 using System.Text;
 
@@ -63,6 +64,16 @@ namespace GymInnowise.Authorization.API.Extensions
         {
             builder.Services.AddFluentValidationAutoValidation();
             builder.Services.AddValidatorsFromAssemblyContaining<LoginRequestValidator>();
+        }
+
+        public static void AddLogger(this WebApplicationBuilder builder)
+        {
+            Log.Logger = new LoggerConfiguration()
+                .Enrich.FromLogContext()
+                .ReadFrom.Configuration((builder.Configuration))
+                .CreateLogger();
+
+            builder.Services.AddSerilog(Log.Logger);
         }
     }
 }

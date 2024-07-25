@@ -5,8 +5,7 @@ namespace GymInnowise.Authorization.API.Middleware
 {
     public class GlobalExceptionHandlerMiddleware(RequestDelegate next)
     {
-        //TODO: Add logger
-        public async Task InvokeAsync(HttpContext context)
+        public async Task InvokeAsync(HttpContext context, ILogger<GlobalExceptionHandlerMiddleware> logger)
         {
             try
             {
@@ -14,7 +13,7 @@ namespace GymInnowise.Authorization.API.Middleware
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An unhandled exception occuried! Details: {ex.Message}");
+                logger.LogError("An unhandled exception occuried! Details: {@ex}", ex);
                 await HandleExceptionAsync(context, ex);
             }
         }

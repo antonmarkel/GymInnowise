@@ -10,4 +10,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\GymInnowise.UserService.Configuration\GymInnowise.UserService.Configuration.csproj" />
+    <ProjectReference Include="..\GymInnowise.UserService.Persistence\GymInnowise.UserService.Persistence.csproj" />
+  </ItemGroup>
+
 </Project>

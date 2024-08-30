@@ -1,35 +1,23 @@
 ﻿using Dapper;
-using GymInnowise.UserService.Configuration.Data;
-using Microsoft.Extensions.Options;
 using Npgsql;
 
 namespace GymInnowise.UserService.Persistence.Data
 {
-    public class DataContext
+    public class DataContext(string connectionString)
     {
-        private readonly DbSettings _dbSettings;
-
-        public DataContext(IOptions<DbSettings> dbSettings)
-        {
-            _dbSettings = dbSettings.Value;
-        }
-
         public async Task EnsureDatabaseCreatedAsync()
         {
-            var connectionStringWithoutDatabase = $@"
-                Host={_dbSettings.Server}; 
-                Port={_dbSettings.Port}; 
-                Database=postgres; 
-                Username={_dbSettings.UserId}; 
-                Password={_dbSettings.Password};";
+            var database = new NpgsqlConnectionStringBuilder(connectionString).Database;
+            var primaryDbConnectionStringBuilder = new NpgsqlConnectionStringBuilder(connectionString)
+                { Database = "postgres" };
 
-            await using var connection = new NpgsqlConnection(connectionStringWithoutDatabase);
-            var sqlDbCount = $"SELECT COUNT(*) FROM pg_database WHERE datname = '{_dbSettings.Database}';";
-            var dbCount = await connection.ExecuteScalarAsync<int>(sqlDbCount);
+            await using var primaryConnection = new NpgsqlConnection(primaryDbConnectionStringBuilder.ToString());
+            var sqlDbCount = $"SELECT COUNT(*) FROM pg_database WHERE datname = '{database}';";
+            var dbCount = await primaryConnection.ExecuteScalarAsync<int>(sqlDbCount);
             if (dbCount == 0)
             {
-                var sql = $"CREATE DATABASE \"{_dbSettings.Database}\"";
-                await connection.ExecuteAsync(sql);
+                var sql = $"CREATE DATABASE \"{database}\"";
+                await primaryConnection.ExecuteAsync(sql);
             }
         }
     }

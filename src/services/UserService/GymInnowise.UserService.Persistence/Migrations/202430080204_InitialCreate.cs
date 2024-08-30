@@ -15,7 +15,7 @@ namespace GymInnowise.UserService.Persistence.Migrations
             if (!Schema.Table("CoachProfiles").Exists())
             {
                 UpCoachProfiles();
-            } 
+            }
 
             if (!Schema.Table("PersonalGoals").Exists())
             {

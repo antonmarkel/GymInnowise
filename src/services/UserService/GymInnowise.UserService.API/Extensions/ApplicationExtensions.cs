@@ -1,9 +1,9 @@
 ﻿using FluentMigrator.Runner;
 using GymInnowise.UserService.Persistence.Data;
 using GymInnowise.UserService.Persistence.Migrations;
-using System.Reflection;
 using GymInnowise.UserService.Persistence.Repositories.Implementations;
 using GymInnowise.UserService.Persistence.Repositories.Interfaces;
+using System.Reflection;
 
 namespace GymInnowise.UserService.API.Extensions
 {

@@ -2,6 +2,8 @@
 using GymInnowise.UserService.Persistence.Data;
 using GymInnowise.UserService.Persistence.Migrations;
 using System.Reflection;
+using GymInnowise.UserService.Persistence.Repositories.Implementations;
+using GymInnowise.UserService.Persistence.Repositories.Interfaces;
 
 namespace GymInnowise.UserService.API.Extensions
 {
@@ -15,6 +17,8 @@ namespace GymInnowise.UserService.API.Extensions
                 .ConfigureRunner(c => c.AddPostgres()
                     .WithGlobalConnectionString(connectionString)
                     .ScanIn(Assembly.GetAssembly(typeof(InitialCreate))).For.Migrations());
+
+            builder.Services.AddScoped<IClientProfileRepository, ClientProfileRepository>();
         }
 
         public static async Task MigrateDatabaseAsync(this IHost host)

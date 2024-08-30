@@ -14,11 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Repositories\Implementations\" />
-    <Folder Include="Repositories\Interfaces\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\GymInnowise.UserService.Shared\GymInnowise.UserService.Shared.csproj" />
   </ItemGroup>
 

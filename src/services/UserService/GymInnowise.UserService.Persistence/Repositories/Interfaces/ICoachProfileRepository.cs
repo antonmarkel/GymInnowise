@@ -8,9 +8,8 @@ namespace GymInnowise.UserService.Persistence.Repositories.Interfaces
     {
         Task CreateCoachProfileAsync(CoachProfileModel coachProfileModel);
         Task<CoachProfileModel?> GetCoachProfileByIdAsync(Guid accountId);
-        Task UpdateCoachProfileAsync(UpdateCoachProfileRequest updateCoachProfileRequest, Guid accountId);
-        Task UpdateProfileStatusAsync(UpdateProfileStatusRequest updateProfileStatusRequest, Guid accountId);
-        Task UpdateCoachStatusAsync(Guid accountId, CoachStatus status);
+        Task UpdateCoachProfileAsync(UpdateCoachProfileRequest updateCoachProfileRequest);
+        Task UpdateProfileStatusAsync(UpdateCoachProfileStatusRequest updateProfileStatusRequest);
         Task RemoveCoachProfileAsync(Guid accountId);
     }
 }

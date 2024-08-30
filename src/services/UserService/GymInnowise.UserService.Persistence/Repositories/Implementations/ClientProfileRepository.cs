@@ -74,7 +74,7 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
             });
         }
 
-        public async Task UpdateProfileStatusAsync(UpdateProfileStatusRequest updateProfileStatusRequest)
+        public async Task UpdateProfileStatusAsync(UpdateClientProfileStatusRequest updateProfileStatusRequest)
         {
             using var connection = _dataContext.CreateConnection();
             const string sql = @"

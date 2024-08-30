@@ -2,7 +2,7 @@
 
 namespace GymInnowise.UserService.Shared.Dtos.RequestModels
 {
-    public class UpdateProfileStatusRequest
+    public class UpdateClientProfileStatusRequest
     {
         public Guid AccountId { get; set; }
         public ClientStatus AccountStatus { get; set; }

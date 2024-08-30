@@ -49,6 +49,7 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
 
             await connection.ExecuteAsync(sql, new
             {
+                updatePersonalGoalRequest.Id,
                 updatePersonalGoalRequest.Goal,
                 updatePersonalGoalRequest.SupervisorCoach,
                 Status = updatePersonalGoalRequest.Status.ToString(),

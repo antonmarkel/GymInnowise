@@ -13,4 +13,13 @@
     <PackageReference Include="Npgsql" Version="8.0.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Repositories\Implementations\" />
+    <Folder Include="Repositories\Interfaces\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GymInnowise.UserService.Shared\GymInnowise.UserService.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

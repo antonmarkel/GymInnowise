@@ -36,7 +36,7 @@ namespace GymInnowise.UserService.Persistence.Migrations
                 .WithColumn("AccountStatus").AsString(50).Nullable()
                 .WithColumn("StatusNotes").AsString(1000).Nullable()
                 .WithColumn("ExpectedReturnDate").AsDateTimeOffset().Nullable()
-                .WithColumn("Tags").AsString().Nullable();
+                .WithColumn("TagEnum").AsString().Nullable();
         }
 
         private void UpCoachProfiles()
@@ -55,7 +55,7 @@ namespace GymInnowise.UserService.Persistence.Migrations
                 .WithColumn("StatusNotes").AsString(1000).Nullable()
                 .WithColumn("ExpectedReturnDate").AsDateTimeOffset().Nullable()
                 .WithColumn("CoachStatus").AsString(50).Nullable()
-                .WithColumn("Tags").AsString().Nullable();
+                .WithColumn("TagEnum").AsString().Nullable();
         }
 
         private void UpPersonalGoals()

@@ -20,6 +20,7 @@ namespace GymInnowise.UserService.API.Extensions
 
             builder.Services.AddScoped<IClientProfileRepository, ClientProfileRepository>();
             builder.Services.AddScoped<ICoachProfileRepository, CoachProfileRepository>();
+            builder.Services.AddScoped<IPersonalGoalRepository, PersonalGoalRepository>();
         }
 
         public static async Task MigrateDatabaseAsync(this IHost host)

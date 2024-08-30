@@ -2,7 +2,6 @@
 using GymInnowise.UserService.Configuration.Data;
 using Microsoft.Extensions.Options;
 using Npgsql;
-using System.Data;
 
 namespace GymInnowise.UserService.Persistence.Data
 {
@@ -15,21 +14,16 @@ namespace GymInnowise.UserService.Persistence.Data
             _dbSettings = dbSettings.Value;
         }
 
-        public IDbConnection CreateConnection()
-        {
-            return new NpgsqlConnection(_dbSettings.GetConnectionString());
-        }
-
         public async Task EnsureDatabaseCreatedAsync()
         {
-            var connectionString = $@"
+            var connectionStringWithoutDatabase = $@"
                 Host={_dbSettings.Server}; 
                 Port={_dbSettings.Port}; 
                 Database=postgres; 
                 Username={_dbSettings.UserId}; 
                 Password={_dbSettings.Password};";
 
-            using var connection = new NpgsqlConnection(connectionString);
+            await using var connection = new NpgsqlConnection(connectionStringWithoutDatabase);
             var sqlDbCount = $"SELECT COUNT(*) FROM pg_database WHERE datname = '{_dbSettings.Database}';";
             var dbCount = await connection.ExecuteScalarAsync<int>(sqlDbCount);
             if (dbCount == 0)

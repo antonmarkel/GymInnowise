@@ -8,14 +8,12 @@
         public string Password { get; set; } = string.Empty;
         public int Port { get; set; }
 
-        public string GetConnectionString()
-        {
-            return $@"
+        public string GetConnectionString() =>
+            $@"
                 Host={Server}; 
                 Port={Port}; 
                 Database={Database}; 
                 Username={UserId}; 
                 Password={Password};";
-        }
     }
 }

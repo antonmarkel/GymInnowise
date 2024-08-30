@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentMigrator;
+﻿using FluentMigrator;
 
 namespace GymInnowise.UserService.Persistence.Migrations
 {
@@ -12,9 +7,20 @@ namespace GymInnowise.UserService.Persistence.Migrations
     {
         public override void Up()
         {
-            UpClientProfiles();
-            UpCoachProfiles();
-            UpPersonalGoals();
+            if (!Schema.Table("ClientProfiles").Exists())
+            {
+                UpClientProfiles();
+            }
+
+            if (!Schema.Table("CoachProfiles").Exists())
+            {
+                UpCoachProfiles();
+            } 
+
+            if (!Schema.Table("PersonalGoals").Exists())
+            {
+                UpPersonalGoals();
+            }
         }
 
         private void UpClientProfiles()
@@ -54,7 +60,6 @@ namespace GymInnowise.UserService.Persistence.Migrations
 
         private void UpPersonalGoals()
         {
-
             Create.Table("PersonalGoals")
                 .WithColumn("Id").AsGuid().PrimaryKey()
                 .WithColumn("Owner").AsGuid().NotNullable()

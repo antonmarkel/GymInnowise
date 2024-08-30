@@ -1,5 +1,4 @@
 using GymInnowise.UserService.API.Extensions;
-using GymInnowise.UserService.Persistence.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();

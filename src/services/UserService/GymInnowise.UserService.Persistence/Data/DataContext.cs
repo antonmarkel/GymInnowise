@@ -14,7 +14,6 @@ namespace GymInnowise.UserService.Persistence.Data
         public DataContext(IOptions<DbSettings> dbSettings)
         {
             _dbSettings = dbSettings.Value;
-            EnsureCreatedAsync().Wait();
         }
 
         public IDbConnection CreateConnection()

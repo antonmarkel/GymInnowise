@@ -7,6 +7,7 @@ builder.Services.AddSwaggerGen();
 builder.AddPersistenceServices();
 
 var app = builder.Build();
+await app.EnsureDatabaseCreatedAsync();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

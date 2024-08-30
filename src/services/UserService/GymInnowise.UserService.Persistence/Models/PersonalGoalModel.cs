@@ -2,14 +2,14 @@
 
 namespace GymInnowise.UserService.Persistence.Models
 {
-    public class PersonalGoal
+    public class PersonalGoalModel
     {
         public Guid Id { get; set; }
         public Guid Owner { get; set; }
         public required string Goal { get; set; }
         public Guid? SupervisorCoach { get; set; }
         public GoalStatus Status { get; set; }
-        public DateTimeOffset StartDate { get; set; }
-        public DateTimeOffset? DeadLine { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime? DeadLine { get; set; }
     }
 }

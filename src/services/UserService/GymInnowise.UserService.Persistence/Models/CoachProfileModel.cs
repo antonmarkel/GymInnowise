@@ -2,9 +2,9 @@
 
 namespace GymInnowise.UserService.Persistence.Models
 {
-    public class CoachProfile : ClientProfile
+    public class CoachProfileModel : ClientProfileModel
     {
-        public DateTimeOffset HiredAt { get; set; }
+        public DateTime HiredAt { get; set; }
         public decimal CostPerHour { get; set; }
         public CoachStatus CoachStatus { get; set; }
     }

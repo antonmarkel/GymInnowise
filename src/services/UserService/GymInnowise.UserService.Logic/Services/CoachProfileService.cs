@@ -9,16 +9,16 @@ using OneOf.Types;
 
 namespace GymInnowise.UserService.Logic.Services
 {
-    public class ClientProfileService(IClientProfileRepository _clientRepo) : IClientProfileService
+    public class CoachProfileService(ICoachProfileRepository _coachRepo) : ICoachProfileService
     {
-        public async Task CreateClientProfileAsync(CreateClientProfileRequest request)
+        public async Task CreateClientProfileAsync(CreateCoachProfileRequest request)
         {
-            if (await _clientRepo.DoesAccountExistAsync(request.AccountId))
+            if (await _coachRepo.DoesAccountExistAsync(request.AccountId))
             {
                 throw new InvalidOperationException("Profile with given accountId already Exist!");
             }
 
-            var profileModel = new ClientProfileModel()
+            var profileModel = new CoachProfileModel()
             {
                 AccountId = request.AccountId,
                 FirstName = request.FirstName,
@@ -27,36 +27,39 @@ namespace GymInnowise.UserService.Logic.Services
                 Gender = request.Gender,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
+                HiredAt = DateTime.UtcNow,
                 AccountStatus = ClientStatus.Active,
+                CostPerHour = request.CostPerHour,
+                CoachStatus = CoachStatus.Trial,
             };
 
-            await _clientRepo.CreateClientProfileAsync(profileModel);
+            await _coachRepo.CreateCoachProfileAsync(profileModel);
         }
 
-        public async Task<OneOf<Success, AccountNotFound>> UpdateClientProfileAsync(UpdateClientProfileRequest request)
+        public async Task<OneOf<Success, AccountNotFound>> UpdateClientProfileAsync(UpdateCoachProfileRequest request)
         {
-            var client = await _clientRepo.GetClientProfileByIdAsync(request.AccountId);
-            if (client is null)
+            var coach = await _coachRepo.GetCoachProfileByIdAsync(request.AccountId);
+            if (coach is null)
             {
                 return new AccountNotFound();
             }
 
-            client.FirstName = request.FirstName;
-            client.LastName = request.LastName;
-            client.DateOfBirth = request.DateOfBirth;
-            client.Gender = request.Gender;
-            client.Tags = request.Tags;
-            client.UpdatedAt = DateTime.UtcNow;
+            coach.FirstName = request.FirstName;
+            coach.LastName = request.LastName;
+            coach.DateOfBirth = request.DateOfBirth;
+            coach.Gender = request.Gender;
+            coach.Tags = request.Tags;
+            coach.UpdatedAt = DateTime.UtcNow;
 
-            await _clientRepo.UpdateClientProfileAsync(client);
+            await _coachRepo.UpdateCoachProfileAsync(coach);
 
             return new Success();
         }
 
         public async Task<OneOf<Success, AccountNotFound>> UpdateProfileStatusAsync(
-            UpdateClientProfileStatusRequest request)
+            UpdateCoachProfileStatusRequest request)
         {
-            var account = await _clientRepo.GetClientProfileByIdAsync(request.AccountId);
+            var account = await _coachRepo.GetCoachProfileByIdAsync(request.AccountId);
             if (account is null)
             {
                 return new AccountNotFound();
@@ -66,21 +69,22 @@ namespace GymInnowise.UserService.Logic.Services
             account.StatusNotes = request.StatusNotes;
             account.ExpectedReturnDate = request.ExpectedReturnDate;
             account.UpdatedAt = DateTime.UtcNow;
+            account.CoachStatus = request.CoachStatus;
 
-            await _clientRepo.UpdateClientProfileAsync(account);
+            await _coachRepo.UpdateCoachProfileAsync(account);
 
             return new Success();
         }
 
-        public async Task<OneOf<GetClientProfileResponse, AccountNotFound>> GetClientProfileAsync(Guid id)
+        public async Task<OneOf<GetCoachProfileResponse, AccountNotFound>> GetCoachProfileAsync(Guid id)
         {
-            var account = await _clientRepo.GetClientProfileByIdAsync(id);
+            var account = await _coachRepo.GetCoachProfileByIdAsync(id);
             if (account is null)
             {
                 return new AccountNotFound();
             }
 
-            return new GetClientProfileResponse()
+            return new GetCoachProfileResponse()
             {
                 FirstName = account!.FirstName,
                 LastName = account.LastName,
@@ -91,18 +95,21 @@ namespace GymInnowise.UserService.Logic.Services
                 AccountStatus = account.AccountStatus,
                 StatusNotes = account.StatusNotes,
                 ExpectedReturnDate = account.ExpectedReturnDate,
-                Tags = account.Tags
+                Tags = account.Tags,
+                HiredAt = account.HiredAt,
+                CostPerHour = account.CostPerHour,
+                CoachStatus = account.CoachStatus
             };
         }
 
         public async Task<OneOf<Success, AccountNotFound>> RemoveClientProfileAsync(Guid id)
         {
-            if (!await _clientRepo.DoesAccountExistAsync(id))
+            if (!await _coachRepo.DoesAccountExistAsync(id))
             {
                 return new AccountNotFound();
             }
 
-            await _clientRepo.RemoveClientProfileAsync(id);
+            await _coachRepo.RemoveCoachProfileAsync(id);
 
             return new Success();
         }

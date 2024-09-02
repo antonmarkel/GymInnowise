@@ -1,10 +1,7 @@
-﻿
-using System.Collections.Immutable;
-using Dapper;
+﻿using Dapper;
 using GymInnowise.UserService.Persistence.Data;
 using GymInnowise.UserService.Persistence.Models;
 using GymInnowise.UserService.Persistence.Repositories.Interfaces;
-using GymInnowise.UserService.Shared.Dtos.RequestModels;
 using GymInnowise.UserService.Shared.Enums;
 
 namespace GymInnowise.UserService.Persistence.Repositories.Implementations
@@ -38,7 +35,7 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
             });
         }
 
-        public async Task UpdatePersonalGoalAsync(UpdatePersonalGoalRequest updatePersonalGoalRequest, Guid accountId)
+        public async Task UpdatePersonalGoalAsync(PersonalGoalModel goalModel)
         {
             using var connection = _dataContext.CreateConnection();
             const string sql = @"
@@ -51,12 +48,12 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
 
             await connection.ExecuteAsync(sql, new
             {
-                updatePersonalGoalRequest.Id,
-                updatePersonalGoalRequest.Goal,
-                updatePersonalGoalRequest.SupervisorCoach,
-                Status = updatePersonalGoalRequest.Status.ToString(),
-                updatePersonalGoalRequest.StartDate,
-                updatePersonalGoalRequest.DeadLine,
+                goalModel.Id,
+                goalModel.Goal,
+                goalModel.SupervisorCoach,
+                Status = goalModel.Status.ToString(),
+                goalModel.StartDate,
+                goalModel.DeadLine,
             });
         }
 
@@ -73,7 +70,7 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
             });
         }
 
-        public async Task<List<PersonalGoalModel>>? GetPersonalGoalsAsync(Guid accountId)
+        public async Task<List<PersonalGoalModel>>? GetAllPersonalGoalsAsync(Guid accountId)
         {
             using var connection = _dataContext.CreateConnection();
             const string sql = @"
@@ -93,6 +90,35 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
                 StartDate = dn.StartDate,
                 DeadLine = dn.DeadLine,
             }).ToList();
+        }
+
+        public async Task<PersonalGoalModel?> GetPersonalGoalAsync(Guid goalId)
+        {
+            using var connection = _dataContext.CreateConnection();
+            const string sql = @"
+            SELECT * FROM ""PersonalGoals""
+            WHERE ""Id"" = @goalId";
+
+            var result = await connection.QuerySingleOrDefaultAsync(sql, new
+            {
+                goalId
+            });
+
+            if (result is null)
+            {
+                return null;
+            }
+
+            return new PersonalGoalModel()
+            {
+                Id = result.Id,
+                Owner = result.Owner,
+                Goal = result.Goal,
+                SupervisorCoach = result.SupervisorCoach,
+                Status = result.Status,
+                StartDate = result.StartDate,
+                DeadLine = result.DeadLine,
+            };
         }
     }
 }

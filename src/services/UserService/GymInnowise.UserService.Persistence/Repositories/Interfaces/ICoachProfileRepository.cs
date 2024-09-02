@@ -1,5 +1,4 @@
 ﻿using GymInnowise.UserService.Persistence.Models;
-using GymInnowise.UserService.Shared.Dtos.RequestModels;
 
 namespace GymInnowise.UserService.Persistence.Repositories.Interfaces
 {

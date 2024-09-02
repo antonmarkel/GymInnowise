@@ -2,10 +2,8 @@
 using GymInnowise.UserService.Persistence.Data;
 using GymInnowise.UserService.Persistence.Models;
 using GymInnowise.UserService.Persistence.Repositories.Interfaces;
-using GymInnowise.UserService.Shared.Dtos.RequestModels;
-using System.Reflection;
-using System.Text.Json;
 using GymInnowise.UserService.Shared.Enums;
+using System.Text.Json;
 
 namespace GymInnowise.UserService.Persistence.Repositories.Implementations
 {

@@ -7,6 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.UserService.API
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.UserService.Persistence", "GymInnowise.UserService.Persistence\GymInnowise.UserService.Persistence.csproj", "{28E05B07-0E6A-4276-A9C6-738E8A976FF6}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.UserService.Configuration", "GymInnowise.UserService.Configuration\GymInnowise.UserService.Configuration.csproj", "{1C52CCC9-03D5-494F-B537-92E6CC79C0E6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.UserService.Logic", "GymInnowise.UserService.Logic\GymInnowise.UserService.Logic.csproj", "{55D673B1-6530-4FAC-B610-68061D981F41}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.UserService.Shared", "GymInnowise.UserService.Shared\GymInnowise.UserService.Shared.csproj", "{56F1E688-8ACA-4D62-82C5-4AC36CFA892E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +27,18 @@ Global
 		{28E05B07-0E6A-4276-A9C6-738E8A976FF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28E05B07-0E6A-4276-A9C6-738E8A976FF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28E05B07-0E6A-4276-A9C6-738E8A976FF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C52CCC9-03D5-494F-B537-92E6CC79C0E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C52CCC9-03D5-494F-B537-92E6CC79C0E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C52CCC9-03D5-494F-B537-92E6CC79C0E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C52CCC9-03D5-494F-B537-92E6CC79C0E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55D673B1-6530-4FAC-B610-68061D981F41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55D673B1-6530-4FAC-B610-68061D981F41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55D673B1-6530-4FAC-B610-68061D981F41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55D673B1-6530-4FAC-B610-68061D981F41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56F1E688-8ACA-4D62-82C5-4AC36CFA892E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56F1E688-8ACA-4D62-82C5-4AC36CFA892E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56F1E688-8ACA-4D62-82C5-4AC36CFA892E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56F1E688-8ACA-4D62-82C5-4AC36CFA892E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

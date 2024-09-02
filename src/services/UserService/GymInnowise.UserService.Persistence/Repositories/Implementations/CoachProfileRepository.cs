@@ -82,9 +82,8 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
                 Tags = tags
             };
         }
-    }
 
-        public async Task UpdateCoachProfileAsync(UpdateCoachProfileRequest updateCoachProfileRequest)
+        public async Task UpdateCoachProfileAsync(CoachProfileModel profileModel)
         {
             using var connection = _dataContext.CreateConnection();
             const string sql = @"
@@ -92,39 +91,25 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
             SET
                 ""FirstName"" = @FirstName, ""LastName"" = @LastName,
                 ""DateOfBirth"" = @DateOfBirth, ""Gender"" = @Gender,
-                ""UpdatedAt"" = @UpdatedAt, ""Tags"" = @Tags
-            WHERE ""AccountId"" = @AccountId;";
-
-            await connection.ExecuteAsync(sql, new
-            {
-                updateCoachProfileRequest.AccountId,
-                updateCoachProfileRequest.FirstName,
-                updateCoachProfileRequest.LastName,
-                updateCoachProfileRequest.DateOfBirth,
-                updateCoachProfileRequest.Gender,
-                UpdatedAt = DateTime.UtcNow,
-                Tags = updateCoachProfileRequest.Tags.Select(t => t.ToString()),
-            });
-        }
-
-        public async Task UpdateProfileStatusAsync(UpdateCoachProfileStatusRequest updateCoachProfileStatusRequest)
-        {
-            using var connection = _dataContext.CreateConnection();
-            const string sql = @"
-            UPDATE ""CoachProfiles""
-            SET
-                ""AccountStatus"" = @AccountStatus, ""StatusNotes"" = @StatusNotes,
-                ""ExpectedReturnDate"" = @ExpectedReturnDate,
+                ""UpdatedAt"" = @UpdatedAt, ""Tags"" = @Tags,
+                ""AccountStatus"" = @AccountStatus, 
+                ""StatusNotes"" = @StatusNotes, ""ExpectedReturnDate"" = @ExpectedReturnDate,
                 ""CoachStatus"" = @CoachStatus
             WHERE ""AccountId"" = @AccountId;";
 
             await connection.ExecuteAsync(sql, new
             {
-                updateCoachProfileStatusRequest.AccountId,
-                AccountStatus = updateCoachProfileStatusRequest.AccountStatus.ToString(),
-                updateCoachProfileStatusRequest.StatusNotes,
-                updateCoachProfileStatusRequest.ExpectedReturnDate,
-                CoachStatus = updateCoachProfileStatusRequest.CoachStatus.ToString(),
+                profileModel.AccountId,
+                profileModel.FirstName,
+                profileModel.LastName,
+                profileModel.DateOfBirth,
+                profileModel.Gender,
+                UpdatedAt = DateTime.UtcNow,
+                Tags = profileModel.Tags.Select(t => t.ToString()),
+                AccountStatus = profileModel.AccountStatus.ToString(),
+                profileModel.StatusNotes,
+                profileModel.ExpectedReturnDate,
+                CoachStatus = profileModel.CoachStatus.ToString(),
             });
         }
 
@@ -139,6 +124,18 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
             {
                 AccountId = accountId,
             });
+        }
+
+        public async Task<bool> DoesAccountExistAsync(Guid accountId)
+        {
+            using var connection = _dataContext.CreateConnection();
+            const string sql = @"SELECT 1 FROM ""CoachProfiles"" WHERE ""AccountId"" = @AccountId";
+            var result = await connection.QuerySingleOrDefaultAsync<int?>(sql, new
+            {
+                AccountId = accountId
+            });
+
+            return result != null;
         }
     }
 }

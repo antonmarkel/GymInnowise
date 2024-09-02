@@ -1,9 +1,11 @@
 ﻿
+using System.Collections.Immutable;
 using Dapper;
 using GymInnowise.UserService.Persistence.Data;
 using GymInnowise.UserService.Persistence.Models;
 using GymInnowise.UserService.Persistence.Repositories.Interfaces;
 using GymInnowise.UserService.Shared.Dtos.RequestModels;
+using GymInnowise.UserService.Shared.Enums;
 
 namespace GymInnowise.UserService.Persistence.Repositories.Implementations
 {
@@ -79,9 +81,18 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
             WHERE ""Owner"" = @accountId";
 
             var result =
-                await connection.QueryAsync<PersonalGoalModel>(sql, new { accountId });
+                await connection.QueryAsync(sql, new { accountId });
 
-            return result.ToList();
+            return result.Select(dn => new PersonalGoalModel()
+            {
+                Id = dn.Id,
+                Owner = dn.Owner,
+                Goal = dn.Goal,
+                SupervisorCoach = dn.SupervisorCoach,
+                Status = Enum.Parse<GoalStatus>((string)dn.Status),
+                StartDate = dn.StartDate,
+                DeadLine = dn.DeadLine,
+            }).ToList();
         }
     }
 }

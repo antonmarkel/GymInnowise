@@ -3,7 +3,9 @@ using GymInnowise.UserService.Persistence.Data;
 using GymInnowise.UserService.Persistence.Models;
 using GymInnowise.UserService.Persistence.Repositories.Interfaces;
 using GymInnowise.UserService.Shared.Dtos.RequestModels;
+using System.Reflection;
 using System.Text.Json;
+using GymInnowise.UserService.Shared.Enums;
 
 namespace GymInnowise.UserService.Persistence.Repositories.Implementations
 {
@@ -47,8 +49,33 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
             using var connection = _dataContext.CreateConnection();
             const string sql = @"SELECT * FROM ""ClientProfiles"" WHERE ""AccountId"" = @AccountId";
 
-            return await connection.QuerySingleOrDefaultAsync<ClientProfileModel?>(sql,
-                new { AccountId = accountId });
+            var result = await connection.QuerySingleOrDefaultAsync(sql, new
+            {
+                AccountId = accountId
+            });
+
+            if (result is null)
+            {
+                return null;
+            }
+
+            var tags = JsonSerializer.Deserialize<List<string>>((string)result.Tags)!
+                .Select(tg => Enum.Parse<TagEnum>(tg)).ToList();
+
+            return new ClientProfileModel()
+            {
+                AccountId = result.AccountId,
+                FirstName = result.FirstName,
+                LastName = result.LastName,
+                DateOfBirth = result.DateOfBirth,
+                Gender = result.Gender,
+                CreatedAt = result.CreatedAt,
+                UpdatedAt = result.UpdatedAt,
+                AccountStatus = Enum.Parse<ClientStatus>(result.AccountStatus),
+                StatusNotes = result.StatusNotes,
+                ExpectedReturnDate = result.ExpectedReturnDate,
+                Tags = tags
+            };
         }
 
         public async Task UpdateClientProfileAsync(UpdateClientProfileRequest updateClientProfileRequest)

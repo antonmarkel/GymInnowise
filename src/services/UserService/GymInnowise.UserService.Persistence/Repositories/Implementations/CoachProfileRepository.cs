@@ -3,6 +3,7 @@ using GymInnowise.UserService.Persistence.Data;
 using GymInnowise.UserService.Persistence.Models;
 using GymInnowise.UserService.Persistence.Repositories.Interfaces;
 using GymInnowise.UserService.Shared.Dtos.RequestModels;
+using GymInnowise.UserService.Shared.Enums;
 using System.Text.Json;
 
 namespace GymInnowise.UserService.Persistence.Repositories.Implementations
@@ -50,9 +51,38 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
             using var connection = _dataContext.CreateConnection();
             const string sql = @"SELECT * FROM ""CoachProfiles"" WHERE ""AccountId"" = @AccountId";
 
-            return await connection.QuerySingleOrDefaultAsync<CoachProfileModel?>(sql,
-                new { AccountId = accountId });
+            var result = await connection.QuerySingleOrDefaultAsync(sql, new
+            {
+                AccountId = accountId
+            });
+
+            if (result is null)
+            {
+                return null;
+            }
+
+            var tags = JsonSerializer.Deserialize<List<string>>((string)result.Tags)!
+                .Select(tg => Enum.Parse<TagEnum>(tg)).ToList();
+
+            return new CoachProfileModel()
+            {
+                AccountId = result.AccountId,
+                FirstName = result.FirstName,
+                LastName = result.LastName,
+                DateOfBirth = result.DateOfBirth,
+                Gender = result.Gender,
+                CreatedAt = result.CreatedAt,
+                UpdatedAt = result.UpdatedAt,
+                AccountStatus = Enum.Parse<ClientStatus>(result.AccountStatus),
+                StatusNotes = result.StatusNotes,
+                HiredAt = result.HiredAt,
+                CostPerHour = result.CostPerHour,
+                CoachStatus = Enum.Parse<CoachStatus>(result.CoachStatus),
+                ExpectedReturnDate = result.ExpectedReturnDate,
+                Tags = tags
+            };
         }
+    }
 
         public async Task UpdateCoachProfileAsync(UpdateCoachProfileRequest updateCoachProfileRequest)
         {

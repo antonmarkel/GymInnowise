@@ -1,10 +1,12 @@
-﻿namespace GymInnowise.UserService.Shared.Dtos.RequestModels
+﻿using GymInnowise.UserService.Shared.Enums;
+
+namespace GymInnowise.UserService.Shared.Dtos.ResponseModels.Gets
 {
-    public class CreatePersonalGoalRequest
+    public class GetPersonalGoalResponse
     {
-        public Guid Owner { get; set; }
         public string Goal { get; set; } = string.Empty;
         public Guid? SupervisorCoach { get; set; }
+        public GoalStatus Status { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime? DeadLine { get; set; }
     }

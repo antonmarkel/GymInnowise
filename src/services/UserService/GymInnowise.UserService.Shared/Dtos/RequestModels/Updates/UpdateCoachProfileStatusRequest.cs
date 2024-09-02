@@ -1,6 +1,6 @@
 ﻿using GymInnowise.UserService.Shared.Enums;
 
-namespace GymInnowise.UserService.Shared.Dtos.RequestModels
+namespace GymInnowise.UserService.Shared.Dtos.RequestModels.Updates
 {
     public class UpdateCoachProfileStatusRequest
     {

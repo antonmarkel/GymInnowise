@@ -1,12 +1,11 @@
 ﻿using GymInnowise.UserService.Shared.Enums;
 
-namespace GymInnowise.UserService.Persistence.Models
+namespace GymInnowise.UserService.Shared.Dtos.RequestModels
 {
-    public class CoachProfileModel
+    public class GetClientProfileResponse
     {
-        public Guid AccountId { get; set; }
-        public required string FirstName { get; set; }
-        public required string LastName { get; set; }
+        public string FirstName { get; set; } = string.Empty;
+        public string LastName { get; set; } = string.Empty;
         public DateTime DateOfBirth { get; set; }
         public string? Gender { get; set; }
         public DateTime CreatedAt { get; set; }
@@ -15,8 +14,5 @@ namespace GymInnowise.UserService.Persistence.Models
         public string? StatusNotes { get; set; }
         public DateTime? ExpectedReturnDate { get; set; }
         public List<TagEnum> Tags { get; set; } = [TagEnum.ToAdd];
-        public DateTime HiredAt { get; set; }
-        public decimal CostPerHour { get; set; }
-        public CoachStatus CoachStatus { get; set; }
     }
 }

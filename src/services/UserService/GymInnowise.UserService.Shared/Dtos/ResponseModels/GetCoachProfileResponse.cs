@@ -2,7 +2,7 @@
 
 namespace GymInnowise.UserService.Shared.Dtos.RequestModels
 {
-    public class GetClientProfileRequest
+    public class GetCoachProfileResponse
     {
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
@@ -14,5 +14,8 @@ namespace GymInnowise.UserService.Shared.Dtos.RequestModels
         public string? StatusNotes { get; set; }
         public DateTime? ExpectedReturnDate { get; set; }
         public List<TagEnum> Tags { get; set; } = [TagEnum.ToAdd];
+        public DateTime HiredAt { get; set; }
+        public decimal CostPerHour { get; set; }
+        public CoachStatus CoachStatus { get; set; }
     }
 }

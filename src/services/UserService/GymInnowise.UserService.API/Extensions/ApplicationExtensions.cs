@@ -1,4 +1,6 @@
 ﻿using FluentMigrator.Runner;
+using FluentValidation.AspNetCore;
+using FluentValidation;
 using GymInnowise.UserService.Logic.Interfaces;
 using GymInnowise.UserService.Logic.Services;
 using GymInnowise.UserService.Persistence.Data;
@@ -6,6 +8,7 @@ using GymInnowise.UserService.Persistence.Migrations;
 using GymInnowise.UserService.Persistence.Repositories.Implementations;
 using GymInnowise.UserService.Persistence.Repositories.Interfaces;
 using System.Reflection;
+using GymInnowise.UserService.API.Validators;
 
 namespace GymInnowise.UserService.API.Extensions
 {
@@ -30,6 +33,12 @@ namespace GymInnowise.UserService.API.Extensions
             builder.Services.AddScoped<IClientProfileService, ClientProfileService>();
             builder.Services.AddScoped<ICoachProfileService, CoachProfileService>();
             builder.Services.AddScoped<IPersonalGoalService, PersonalGoalService>();
+        }
+
+        public static void AddValidation(this IHostApplicationBuilder builder)
+        {
+            builder.Services.AddFluentValidationAutoValidation();
+            builder.Services.AddValidatorsFromAssemblyContaining<CreateClientProfileRequestValidator>();
         }
 
         public static async Task MigrateDatabaseAsync(this IHost host)

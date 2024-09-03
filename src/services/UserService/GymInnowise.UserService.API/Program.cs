@@ -6,6 +6,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.AddPersistenceServices();
 builder.AddUserServices();
+builder.AddValidation();
 
 var app = builder.Build();
 await app.MigrateDatabaseAsync();

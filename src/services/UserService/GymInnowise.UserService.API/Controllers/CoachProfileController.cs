@@ -1,26 +1,25 @@
 ﻿using GymInnowise.UserService.Logic.Interfaces;
 using GymInnowise.UserService.Shared.Dtos.RequestModels.Creates;
 using GymInnowise.UserService.Shared.Dtos.RequestModels.Updates;
-using GymInnowise.UserService.Shared.Dtos.ResponseModels.Gets;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GymInnowise.UserService.API.Controllers
 {
     [ApiController]
     [Route("api/profiles/[controller]")]
-    public class ClientProfileController : ControllerBase
+    public class CoachProfileController : ControllerBase
     {
-        private readonly IClientProfileService _clientProfileService;
+        private readonly ICoachProfileService _coachProfileService;
 
-        public ClientProfileController(IClientProfileService clientProfileService)
+        public CoachProfileController(ICoachProfileService coachProfileService)
         {
-            _clientProfileService = clientProfileService;
+            _coachProfileService = coachProfileService;
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateProfileAsync([FromBody] CreateClientProfileRequest request)
+        public async Task<IActionResult> CreateProfileAsync([FromBody] CreateCoachProfileRequest request)
         {
-            await _clientProfileService.CreateClientProfileAsync(request);
+            await _coachProfileService.CreateCoachProfileAsync(request);
 
             return Created();
         }
@@ -28,7 +27,7 @@ namespace GymInnowise.UserService.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProfileAsync(Guid id)
         {
-            var result = await _clientProfileService.GetClientProfileAsync(id);
+            var result = await _coachProfileService.GetCoachProfileAsync(id);
 
             return result.Match<IActionResult>(
                 profile => Ok(profile),
@@ -37,9 +36,9 @@ namespace GymInnowise.UserService.API.Controllers
         }
 
         [HttpPatch("info")]
-        public async Task<IActionResult> UpdateProfileAsync([FromBody] UpdateClientProfileRequest request)
+        public async Task<IActionResult> UpdateProfileAsync([FromBody] UpdateCoachProfileRequest request)
         {
-            var updateResult = await _clientProfileService.UpdateClientProfileAsync(request);
+            var updateResult = await _coachProfileService.UpdateCoachProfileAsync(request);
 
             return updateResult.Match<IActionResult>(
                 _ => NoContent(),
@@ -48,9 +47,9 @@ namespace GymInnowise.UserService.API.Controllers
         }
 
         [HttpPatch("status")]
-        public async Task<IActionResult> UpdateProfileStatus([FromBody] UpdateClientProfileStatusRequest request)
+        public async Task<IActionResult> UpdateProfileStatus([FromBody] UpdateCoachProfileStatusRequest request)
         {
-            var updateResult = await _clientProfileService.UpdateClientProfileStatusAsync(request);
+            var updateResult = await _coachProfileService.UpdateCoachProfileStatusAsync(request);
 
             return updateResult.Match<IActionResult>(
                 _ => NoContent(),

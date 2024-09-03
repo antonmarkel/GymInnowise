@@ -1,13 +1,11 @@
 using GymInnowise.UserService.API.Extensions;
-using GymInnowise.UserService.Persistence.Models;
-using GymInnowise.UserService.Persistence.Repositories.Interfaces;
-using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.AddPersistenceServices();
+builder.AddUserServices();
 
 var app = builder.Build();
 await app.MigrateDatabaseAsync();

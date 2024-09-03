@@ -1,7 +1,6 @@
 ﻿using GymInnowise.UserService.Logic.Interfaces;
 using GymInnowise.UserService.Shared.Dtos.RequestModels.Creates;
 using GymInnowise.UserService.Shared.Dtos.RequestModels.Updates;
-using GymInnowise.UserService.Shared.Dtos.ResponseModels.Gets;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GymInnowise.UserService.API.Controllers

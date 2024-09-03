@@ -23,7 +23,7 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
             (
                 @AccountId, @FirstName, @LastName, @DateOfBirth, @Gender, 
                 @CreatedAt, @UpdatedAt, @HiredAt, @CostPerHour, @AccountStatus, @StatusNotes, 
-                @ExpectedReturnDate, @Tags, @CoachStatus
+                @ExpectedReturnDate, @CoachStatus, @Tags
             );";
 
             await connection.ExecuteAsync(sql, new
@@ -60,7 +60,8 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
                 return null;
             }
 
-            var tags = JsonSerializer.Deserialize<List<string>>((string)result.Tags)!
+            var tagsString = (string)result.Tags;
+            var tags = JsonSerializer.Deserialize<List<string>>(tagsString)!
                 .Select(tg => Enum.Parse<TagEnum>(tg)).ToList();
 
             return new CoachProfileModel()
@@ -104,7 +105,7 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
                 profileModel.DateOfBirth,
                 profileModel.Gender,
                 UpdatedAt = DateTime.UtcNow,
-                Tags = profileModel.Tags.Select(t => t.ToString()),
+                Tags = JsonSerializer.Serialize(profileModel.Tags.Select(t => t.ToString())),
                 AccountStatus = profileModel.AccountStatus.ToString(),
                 profileModel.StatusNotes,
                 profileModel.ExpectedReturnDate,

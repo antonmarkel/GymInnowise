@@ -115,7 +115,7 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
                 Owner = result.Owner,
                 Goal = result.Goal,
                 SupervisorCoach = result.SupervisorCoach,
-                Status = result.Status,
+                Status = Enum.Parse<GoalStatus>(result.Status),
                 StartDate = result.StartDate,
                 DeadLine = result.DeadLine,
             };

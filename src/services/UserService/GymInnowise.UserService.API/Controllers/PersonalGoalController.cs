@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices;
-using GymInnowise.UserService.Logic.Interfaces;
+﻿using GymInnowise.UserService.Logic.Interfaces;
 using GymInnowise.UserService.Shared.Dtos.RequestModels.Creates;
 using GymInnowise.UserService.Shared.Dtos.RequestModels.Updates;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace GymInnowise.UserService.API.Controllers
 {
     [ApiController]
-    [Route("api/profile/{controller}")]
+    [Route("api/profile/[controller]")]
     public class PersonalGoalController : ControllerBase
     {
         private readonly IPersonalGoalService _personalGoalService;

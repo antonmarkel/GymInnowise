@@ -100,7 +100,7 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
                 AccountStatus = profileModel.AccountStatus.ToString(),
                 profileModel.StatusNotes,
                 profileModel.ExpectedReturnDate,
-                Tags = profileModel.Tags.Select(t => t.ToString()),
+                Tags = JsonSerializer.Serialize(profileModel.Tags.Select(t => t.ToString())),
             });
         }
 

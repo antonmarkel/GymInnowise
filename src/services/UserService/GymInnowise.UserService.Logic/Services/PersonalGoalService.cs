@@ -14,7 +14,7 @@ namespace GymInnowise.UserService.Logic.Services
     public class PersonalGoalService(IPersonalGoalRepository _goalRepo) : IPersonalGoalService
 
     {
-        public async Task CreateGoalAsync(CreatePersonalGoalRequest request)
+        public async Task CreatePersonalGoalAsync(CreatePersonalGoalRequest request)
         {
             var goalModel = new PersonalGoalModel()
             {

@@ -11,12 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GymInnowise.UserService.Logic\GymInnowise.UserService.Logic.csproj" />
     <ProjectReference Include="..\GymInnowise.UserService.Persistence\GymInnowise.UserService.Persistence.csproj" />
     <ProjectReference Include="..\GymInnowise.UserService.Shared\GymInnowise.UserService.Shared.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controllers\" />
   </ItemGroup>
 
 </Project>

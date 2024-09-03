@@ -17,7 +17,7 @@ namespace GymInnowise.UserService.Logic.Services
         {
             if (await _clientRepo.DoesAccountExistAsync(request.AccountId))
             {
-                throw new InvalidOperationException("Profile with given accountId already Exist!");
+                throw new InvalidOperationException("Profile with given accountId already exists!");
             }
 
             var profileModel = new ClientProfileModel()
@@ -35,12 +35,12 @@ namespace GymInnowise.UserService.Logic.Services
             await _clientRepo.CreateClientProfileAsync(profileModel);
         }
 
-        public async Task<OneOf<Success, AccountNotFound>> UpdateClientProfileAsync(UpdateClientProfileRequest request)
+        public async Task<OneOf<Success, ProfileNotFound>> UpdateClientProfileAsync(UpdateClientProfileRequest request)
         {
             var client = await _clientRepo.GetClientProfileByIdAsync(request.AccountId);
             if (client is null)
             {
-                return new AccountNotFound();
+                return new ProfileNotFound();
             }
 
             client.FirstName = request.FirstName;
@@ -55,13 +55,13 @@ namespace GymInnowise.UserService.Logic.Services
             return new Success();
         }
 
-        public async Task<OneOf<Success, AccountNotFound>> UpdateProfileStatusAsync(
+        public async Task<OneOf<Success, ProfileNotFound>> UpdateClientProfileStatusAsync(
             UpdateClientProfileStatusRequest request)
         {
             var account = await _clientRepo.GetClientProfileByIdAsync(request.AccountId);
             if (account is null)
             {
-                return new AccountNotFound();
+                return new ProfileNotFound();
             }
 
             account.AccountStatus = request.AccountStatus;
@@ -74,12 +74,12 @@ namespace GymInnowise.UserService.Logic.Services
             return new Success();
         }
 
-        public async Task<OneOf<GetClientProfileResponse, AccountNotFound>> GetClientProfileAsync(Guid id)
+        public async Task<OneOf<GetClientProfileResponse, ProfileNotFound>> GetClientProfileAsync(Guid id)
         {
             var account = await _clientRepo.GetClientProfileByIdAsync(id);
             if (account is null)
             {
-                return new AccountNotFound();
+                return new ProfileNotFound();
             }
 
             return new GetClientProfileResponse()
@@ -97,11 +97,11 @@ namespace GymInnowise.UserService.Logic.Services
             };
         }
 
-        public async Task<OneOf<Success, AccountNotFound>> RemoveClientProfileAsync(Guid id)
+        public async Task<OneOf<Success, ProfileNotFound>> RemoveClientProfileAsync(Guid id)
         {
             if (!await _clientRepo.DoesAccountExistAsync(id))
             {
-                return new AccountNotFound();
+                return new ProfileNotFound();
             }
 
             await _clientRepo.RemoveClientProfileAsync(id);

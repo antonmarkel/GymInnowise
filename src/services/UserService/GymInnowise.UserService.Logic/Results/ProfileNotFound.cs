@@ -1,6 +1,6 @@
 ﻿namespace GymInnowise.UserService.Logic.Results
 {
-    public struct AccountNotFound
+    public struct ProfileNotFound
     {
     }
 }

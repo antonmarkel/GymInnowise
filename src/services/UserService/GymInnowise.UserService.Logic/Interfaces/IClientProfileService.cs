@@ -14,7 +14,7 @@ namespace GymInnowise.UserService.Logic.Interfaces
         Task<OneOf<GetClientProfileResponse, ProfileNotFound>> GetClientProfileAsync(Guid id);
         Task<OneOf<Success, ProfileNotFound>> RemoveClientProfileAsync(Guid id);
 
-        Task<OneOf<Success, ProfileNotFound>> UpdateProfileStatusAsync(
+        Task<OneOf<Success, ProfileNotFound>> UpdateClientProfileStatusAsync(
             UpdateClientProfileStatusRequest request);
     }
 }

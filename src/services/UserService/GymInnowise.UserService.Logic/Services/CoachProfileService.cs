@@ -38,12 +38,12 @@ namespace GymInnowise.UserService.Logic.Services
             await _coachRepo.CreateCoachProfileAsync(profileModel);
         }
 
-        public async Task<OneOf<Success, AccountNotFound>> UpdateClientProfileAsync(UpdateCoachProfileRequest request)
+        public async Task<OneOf<Success, ProfileNotFound>> UpdateClientProfileAsync(UpdateCoachProfileRequest request)
         {
             var coach = await _coachRepo.GetCoachProfileByIdAsync(request.AccountId);
             if (coach is null)
             {
-                return new AccountNotFound();
+                return new ProfileNotFound();
             }
 
             coach.FirstName = request.FirstName;
@@ -58,13 +58,13 @@ namespace GymInnowise.UserService.Logic.Services
             return new Success();
         }
 
-        public async Task<OneOf<Success, AccountNotFound>> UpdateProfileStatusAsync(
+        public async Task<OneOf<Success, ProfileNotFound>> UpdateProfileStatusAsync(
             UpdateCoachProfileStatusRequest request)
         {
             var account = await _coachRepo.GetCoachProfileByIdAsync(request.AccountId);
             if (account is null)
             {
-                return new AccountNotFound();
+                return new ProfileNotFound();
             }
 
             account.AccountStatus = request.AccountStatus;
@@ -78,12 +78,12 @@ namespace GymInnowise.UserService.Logic.Services
             return new Success();
         }
 
-        public async Task<OneOf<GetCoachProfileResponse, AccountNotFound>> GetCoachProfileAsync(Guid id)
+        public async Task<OneOf<GetCoachProfileResponse, ProfileNotFound>> GetCoachProfileAsync(Guid id)
         {
             var account = await _coachRepo.GetCoachProfileByIdAsync(id);
             if (account is null)
             {
-                return new AccountNotFound();
+                return new ProfileNotFound();
             }
 
             return new GetCoachProfileResponse()
@@ -104,11 +104,11 @@ namespace GymInnowise.UserService.Logic.Services
             };
         }
 
-        public async Task<OneOf<Success, AccountNotFound>> RemoveClientProfileAsync(Guid id)
+        public async Task<OneOf<Success, ProfileNotFound>> RemoveClientProfileAsync(Guid id)
         {
             if (!await _coachRepo.DoesAccountExistAsync(id))
             {
-                return new AccountNotFound();
+                return new ProfileNotFound();
             }
 
             await _coachRepo.RemoveCoachProfileAsync(id);

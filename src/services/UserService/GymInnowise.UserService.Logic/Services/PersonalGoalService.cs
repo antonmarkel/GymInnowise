@@ -66,16 +66,14 @@ namespace GymInnowise.UserService.Logic.Services
             };
         }
 
-        public async Task<OneOf<Success, GoalNotFound>> RemovePersonalGoalAsync(Guid id)
+        public async Task<List<PersonalGoalModel>> GetAllPersonalGoalsAsync(Guid ownerId)
         {
-            if (await _goalRepo.GetPersonalGoalAsync(id) is null)
-            {
-                return new GoalNotFound();
-            }
+            return await _goalRepo.GetAllPersonalGoalsAsync(ownerId);
+        }
 
+        public async Task RemovePersonalGoalAsync(Guid id)
+        {
             await _goalRepo.RemovePersonalGoalAsync(id);
-
-            return new Success();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using GymInnowise.UserService.Logic.Results;
+using GymInnowise.UserService.Persistence.Models;
 using GymInnowise.UserService.Shared.Dtos.RequestModels.Creates;
 using GymInnowise.UserService.Shared.Dtos.RequestModels.Updates;
 using GymInnowise.UserService.Shared.Dtos.ResponseModels.Gets;
@@ -12,6 +13,7 @@ namespace GymInnowise.UserService.Logic.Interfaces
         Task CreatePersonalGoalAsync(CreatePersonalGoalRequest request);
         Task<OneOf<Success, GoalNotFound>> UpdatePersonalGoalAsync(UpdatePersonalGoalRequest request);
         Task<OneOf<GetPersonalGoalResponse, GoalNotFound>> GetPersonalGoalAsync(Guid goalId);
-        Task<OneOf<Success, GoalNotFound>> RemovePersonalGoalAsync(Guid id);
+        Task<List<PersonalGoalModel>> GetAllPersonalGoalsAsync(Guid ownerId);
+        Task RemovePersonalGoalAsync(Guid id);
     }
 }

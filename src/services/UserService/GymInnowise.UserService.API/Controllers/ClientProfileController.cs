@@ -57,5 +57,13 @@ namespace GymInnowise.UserService.API.Controllers
                 _ => NotFound()
             );
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> RemoveProfileAsync(Guid id)
+        {
+            await _clientProfileService.RemoveClientProfileAsync(id);
+
+            return NoContent();
+        }
     }
 }

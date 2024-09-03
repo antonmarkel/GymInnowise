@@ -13,6 +13,6 @@ namespace GymInnowise.UserService.Logic.Interfaces
         Task<OneOf<Success, ProfileNotFound>> UpdateCoachProfileAsync(UpdateCoachProfileRequest request);
         Task<OneOf<Success, ProfileNotFound>> UpdateCoachProfileStatusAsync(UpdateCoachProfileStatusRequest request);
         Task<OneOf<GetCoachProfileResponse, ProfileNotFound>> GetCoachProfileAsync(Guid accountId);
-        Task<OneOf<Success, ProfileNotFound>> RemoveCoachProfileAsync(Guid accountId);
+        Task RemoveCoachProfileAsync(Guid accountId);
     }
 }

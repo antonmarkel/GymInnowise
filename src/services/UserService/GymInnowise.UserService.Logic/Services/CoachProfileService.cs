@@ -13,7 +13,7 @@ namespace GymInnowise.UserService.Logic.Services
 {
     public class CoachProfileService(ICoachProfileRepository _coachRepo) : ICoachProfileService
     {
-        public async Task CreateClientProfileAsync(CreateCoachProfileRequest request)
+        public async Task CreateCoachProfileAsync(CreateCoachProfileRequest request)
         {
             if (await _coachRepo.DoesAccountExistAsync(request.AccountId))
             {
@@ -38,7 +38,7 @@ namespace GymInnowise.UserService.Logic.Services
             await _coachRepo.CreateCoachProfileAsync(profileModel);
         }
 
-        public async Task<OneOf<Success, ProfileNotFound>> UpdateClientProfileAsync(UpdateCoachProfileRequest request)
+        public async Task<OneOf<Success, ProfileNotFound>> UpdateCoachProfileAsync(UpdateCoachProfileRequest request)
         {
             var coach = await _coachRepo.GetCoachProfileByIdAsync(request.AccountId);
             if (coach is null)
@@ -58,7 +58,7 @@ namespace GymInnowise.UserService.Logic.Services
             return new Success();
         }
 
-        public async Task<OneOf<Success, ProfileNotFound>> UpdateProfileStatusAsync(
+        public async Task<OneOf<Success, ProfileNotFound>> UpdateCoachProfileStatusAsync(
             UpdateCoachProfileStatusRequest request)
         {
             var account = await _coachRepo.GetCoachProfileByIdAsync(request.AccountId);
@@ -104,16 +104,9 @@ namespace GymInnowise.UserService.Logic.Services
             };
         }
 
-        public async Task<OneOf<Success, ProfileNotFound>> RemoveClientProfileAsync(Guid id)
+        public async Task RemoveCoachProfileAsync(Guid id)
         {
-            if (!await _coachRepo.DoesAccountExistAsync(id))
-            {
-                return new ProfileNotFound();
-            }
-
             await _coachRepo.RemoveCoachProfileAsync(id);
-
-            return new Success();
         }
     }
 }

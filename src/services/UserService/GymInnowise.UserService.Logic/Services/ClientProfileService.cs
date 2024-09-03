@@ -97,16 +97,9 @@ namespace GymInnowise.UserService.Logic.Services
             };
         }
 
-        public async Task<OneOf<Success, ProfileNotFound>> RemoveClientProfileAsync(Guid id)
+        public async Task RemoveClientProfileAsync(Guid id)
         {
-            if (!await _clientRepo.DoesAccountExistAsync(id))
-            {
-                return new ProfileNotFound();
-            }
-
             await _clientRepo.RemoveClientProfileAsync(id);
-
-            return new Success();
         }
     }
 }

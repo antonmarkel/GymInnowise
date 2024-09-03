@@ -70,7 +70,7 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
             });
         }
 
-        public async Task<List<PersonalGoalModel>>? GetAllPersonalGoalsAsync(Guid accountId)
+        public async Task<List<PersonalGoalModel>> GetAllPersonalGoalsAsync(Guid accountId)
         {
             using var connection = _dataContext.CreateConnection();
             const string sql = @"

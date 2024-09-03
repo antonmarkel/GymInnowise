@@ -21,10 +21,4 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 
-app.MapPost("add",
-    async ([FromBody] ClientProfileModel profile, IClientProfileRepository rep) =>
-    {
-        await rep.CreateClientProfileAsync(profile);
-    });
-
 app.Run();

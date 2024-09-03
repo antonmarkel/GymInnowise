@@ -1,4 +1,7 @@
 using GymInnowise.UserService.API.Extensions;
+using GymInnowise.UserService.Persistence.Models;
+using GymInnowise.UserService.Persistence.Repositories.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
@@ -17,5 +20,11 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
+
+app.MapPost("add",
+    async ([FromBody] ClientProfileModel profile, IClientProfileRepository rep) =>
+    {
+        await rep.CreateClientProfileAsync(profile);
+    });
 
 app.Run();

@@ -62,6 +62,13 @@ namespace GymInnowise.UserService.Logic.Services
             }).ToList();
         }
 
+        public async Task<Guid?> GetOwnerAsync(Guid goalId)
+        {
+            var goal = await _goalRepo.GetPersonalGoalAsync(goalId);
+
+            return goal?.Owner;
+        }
+
         public async Task RemovePersonalGoalAsync(Guid id)
         {
             await _goalRepo.RemovePersonalGoalAsync(id);

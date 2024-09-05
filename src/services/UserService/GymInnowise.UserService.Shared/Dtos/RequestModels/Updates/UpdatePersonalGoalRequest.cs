@@ -5,6 +5,7 @@ namespace GymInnowise.UserService.Shared.Dtos.RequestModels.Updates
     public class UpdatePersonalGoalRequest
     {
         public Guid Id { get; set; }
+        public Guid Owner { get; set; }
         public string Goal { get; set; } = string.Empty;
         public Guid? SupervisorCoach { get; set; }
         public GoalStatus Status { get; set; }

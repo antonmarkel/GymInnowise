@@ -12,6 +12,7 @@ namespace GymInnowise.UserService.Logic.Interfaces
         Task CreatePersonalGoalAsync(CreatePersonalGoalRequest request);
         Task<OneOf<Success, GoalNotFound>> UpdatePersonalGoalAsync(UpdatePersonalGoalRequest request);
         Task<List<GetPersonalGoalResponse>> GetAllPersonalGoalsAsync(Guid ownerId);
+        Task<Guid?> GetOwnerAsync(Guid goalId);
         Task RemovePersonalGoalAsync(Guid id);
     }
 }

@@ -10,7 +10,7 @@ namespace GymInnowise.UserService.Persistence.Data
         {
             var database = new NpgsqlConnectionStringBuilder(connectionString).Database;
             var primaryDbConnectionStringBuilder = new NpgsqlConnectionStringBuilder(connectionString)
-                { Database = "postgres" };
+            { Database = "postgres" };
 
             await using var primaryConnection = new NpgsqlConnection(primaryDbConnectionStringBuilder.ToString());
             var sqlDbCount = $"SELECT COUNT(*) FROM pg_database WHERE datname = '{database}';";

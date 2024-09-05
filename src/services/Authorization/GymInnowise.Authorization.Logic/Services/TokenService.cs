@@ -23,13 +23,17 @@ namespace GymInnowise.Authorization.Logic.Services
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwtSettings.SecretKey);
+
+            var claims = new List<Claim>();
+            foreach (var role in account.Roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role.ToString()));
+            }
+
+            claims.Add(new Claim("accountId", account.Id.ToString()));
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(
-                [
-                    new Claim(ClaimTypes.MobilePhone, account.PhoneNumber),
-                    new Claim(ClaimTypes.Email, account.Email),
-                ]),
+                Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.AddMinutes(_jwtSettings.ExpiryInMinutes),
                 Issuer = _jwtSettings.Issuer,
                 Audience = _jwtSettings.Audience,

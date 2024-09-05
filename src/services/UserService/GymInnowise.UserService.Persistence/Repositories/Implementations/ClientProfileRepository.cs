@@ -117,7 +117,7 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
             });
         }
 
-        public async Task<bool> DoesAccountExistAsync(Guid accountId)
+        public async Task<bool> DoesProfileExistAsync(Guid accountId)
         {
             using var connection = _dataContext.CreateConnection();
             const string sql = @"SELECT 1 FROM ""ClientProfiles"" WHERE ""AccountId"" = @AccountId";

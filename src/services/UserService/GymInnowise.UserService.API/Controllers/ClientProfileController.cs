@@ -19,9 +19,12 @@ namespace GymInnowise.UserService.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateProfileAsync([FromBody] CreateClientProfileRequest request)
         {
-            await _clientProfileService.CreateClientProfileAsync(request);
+            var result = await _clientProfileService.CreateClientProfileAsync(request);
 
-            return Created();
+            return result.Match<IActionResult>(
+                _ => Created(),
+                _ => Conflict("Profile connected to this accountId already exists!")
+            );
         }
 
         [HttpGet("{id}")]

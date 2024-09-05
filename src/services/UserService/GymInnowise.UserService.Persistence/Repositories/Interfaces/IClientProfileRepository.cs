@@ -7,7 +7,7 @@ namespace GymInnowise.UserService.Persistence.Repositories.Interfaces
         Task CreateClientProfileAsync(ClientProfileModel clientProfileModel);
         Task<ClientProfileModel?> GetClientProfileByIdAsync(Guid accountId);
         Task UpdateClientProfileAsync(ClientProfileModel profileModel);
-        Task<bool> DoesAccountExistAsync(Guid accountId);
+        Task<bool> DoesProfileExistAsync(Guid accountId);
         Task RemoveClientProfileAsync(Guid accountId);
     }
 }

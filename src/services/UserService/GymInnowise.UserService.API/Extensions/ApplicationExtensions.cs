@@ -1,6 +1,7 @@
 ﻿using FluentMigrator.Runner;
-using FluentValidation.AspNetCore;
 using FluentValidation;
+using FluentValidation.AspNetCore;
+using GymInnowise.UserService.API.Validators;
 using GymInnowise.UserService.Logic.Interfaces;
 using GymInnowise.UserService.Logic.Services;
 using GymInnowise.UserService.Persistence.Data;
@@ -8,7 +9,6 @@ using GymInnowise.UserService.Persistence.Migrations;
 using GymInnowise.UserService.Persistence.Repositories.Implementations;
 using GymInnowise.UserService.Persistence.Repositories.Interfaces;
 using System.Reflection;
-using GymInnowise.UserService.API.Validators;
 
 namespace GymInnowise.UserService.API.Extensions
 {

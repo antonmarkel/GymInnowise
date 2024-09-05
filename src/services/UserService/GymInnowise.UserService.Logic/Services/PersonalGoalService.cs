@@ -48,9 +48,18 @@ namespace GymInnowise.UserService.Logic.Services
             return new Success();
         }
 
-        public async Task<List<PersonalGoalModel>> GetAllPersonalGoalsAsync(Guid ownerId)
+        public async Task<List<GetPersonalGoalResponse>> GetAllPersonalGoalsAsync(Guid ownerId)
         {
-            return await _goalRepo.GetAllPersonalGoalsAsync(ownerId);
+            var goals = await _goalRepo.GetAllPersonalGoalsAsync(ownerId);
+
+            return goals.Select(g => new GetPersonalGoalResponse()
+            {
+                Goal = g.Goal,
+                SupervisorCoach = g.SupervisorCoach,
+                Status = g.Status,
+                StartDate = g.StartDate,
+                DeadLine = g.DeadLine
+            }).ToList();
         }
 
         public async Task RemovePersonalGoalAsync(Guid id)

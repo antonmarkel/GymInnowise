@@ -13,11 +13,12 @@ namespace GymInnowise.UserService.Logic.Services
 {
     public class ClientProfileService(IClientProfileRepository _clientRepo) : IClientProfileService
     {
-        public async Task CreateClientProfileAsync(CreateClientProfileRequest request)
+        public async Task<OneOf<Success, ProfileAlreadyExists>> CreateClientProfileAsync(
+            CreateClientProfileRequest request)
         {
-            if (await _clientRepo.DoesAccountExistAsync(request.AccountId))
+            if (await _clientRepo.DoesProfileExistAsync(request.AccountId))
             {
-                throw new InvalidOperationException("Profile with given accountId already exists!");
+                return new ProfileAlreadyExists();
             }
 
             var profileModel = new ClientProfileModel()
@@ -33,6 +34,8 @@ namespace GymInnowise.UserService.Logic.Services
             };
 
             await _clientRepo.CreateClientProfileAsync(profileModel);
+
+            return new Success();
         }
 
         public async Task<OneOf<Success, ProfileNotFound>> UpdateClientProfileAsync(UpdateClientProfileRequest request)

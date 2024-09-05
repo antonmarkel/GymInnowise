@@ -1,9 +1,13 @@
+using GymInnowise.UserService.API.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.AddPersistenceServices();
 
 var app = builder.Build();
+await app.MigrateDatabaseAsync();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -13,4 +17,5 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
+
 app.Run();

@@ -4,7 +4,6 @@ using GymInnowise.UserService.Persistence.Models;
 using GymInnowise.UserService.Persistence.Repositories.Interfaces;
 using GymInnowise.UserService.Shared.Dtos.RequestModels.Creates;
 using GymInnowise.UserService.Shared.Dtos.RequestModels.Updates;
-using GymInnowise.UserService.Shared.Dtos.ResponseModels.Gets;
 using GymInnowise.UserService.Shared.Enums;
 using OneOf;
 using OneOf.Types;

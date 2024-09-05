@@ -1,0 +1,52 @@
+﻿using FakeItEasy;
+using GymInnowise.UserService.Logic.Services;
+using GymInnowise.UserService.Persistence.Models;
+using GymInnowise.UserService.Persistence.Repositories.Interfaces;
+using GymInnowise.UserService.Shared.Dtos.RequestModels.Updates;
+
+namespace GymInnowise.UserService.UnitTests.Services
+{
+    public class PersonalGoalServiceTests
+    {
+        private readonly IPersonalGoalRepository _goalRepo;
+        private readonly PersonalGoalService _personalGoalService;
+
+        public PersonalGoalServiceTests()
+        {
+            _goalRepo = A.Fake<IPersonalGoalRepository>();
+            _personalGoalService = new PersonalGoalService(_goalRepo);
+        }
+
+        [Fact]
+        public async Task UpdatePersonalGoalAsync_GoalNotFound_ReturnsGoalNotFound()
+        {
+            //Arrange
+            var request = new UpdatePersonalGoalRequest();
+            A.CallTo(() =>
+                _goalRepo.GetPersonalGoalAsync(new Guid())).Returns(Task.FromResult<PersonalGoalModel?>(null));
+
+            //Act
+            var result = await _personalGoalService.UpdatePersonalGoalAsync(request);
+
+            //Assert
+            Assert.True(result.IsT1);
+            A.CallTo(() => _goalRepo.UpdatePersonalGoalAsync(A<PersonalGoalModel>._)).MustNotHaveHappened();
+        }
+
+        [Fact]
+        public async Task UpdatePersonalGoalAsync_GoalFound_ReturnsSuccess()
+        {
+            //Arrange
+            var request = new UpdatePersonalGoalRequest();
+            A.CallTo(() =>
+                _goalRepo.GetPersonalGoalAsync(new Guid())).Returns(new PersonalGoalModel() { Goal = "Goal" });
+
+            //Act
+            var result = await _personalGoalService.UpdatePersonalGoalAsync(request);
+
+            //Assert
+            Assert.True(result.IsT0);
+            A.CallTo(() => _goalRepo.UpdatePersonalGoalAsync(A<PersonalGoalModel>._)).MustHaveHappenedOnceExactly();
+        }
+    }
+}

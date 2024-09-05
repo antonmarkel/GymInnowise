@@ -1,12 +1,9 @@
 using FakeItEasy;
-using GymInnowise.UserService.Logic.Results;
 using GymInnowise.UserService.Logic.Services;
 using GymInnowise.UserService.Persistence.Models;
 using GymInnowise.UserService.Persistence.Repositories.Interfaces;
 using GymInnowise.UserService.Shared.Dtos.RequestModels.Creates;
 using GymInnowise.UserService.Shared.Dtos.RequestModels.Updates;
-using GymInnowise.UserService.Shared.Dtos.ResponseModels.Gets;
-using OneOf.Types;
 
 namespace GymInnowise.UserService.UnitTests.Services
 {
@@ -119,8 +116,7 @@ namespace GymInnowise.UserService.UnitTests.Services
         public async Task GetClientProfileAsync_ProfileNotFound_ReturnsProfileNotFound()
         {
             //Arrange
-            var request = new UpdateClientProfileStatusRequest();
-            A.CallTo(() => _clientRepo.GetClientProfileByIdAsync(request.AccountId))
+            A.CallTo(() => _clientRepo.GetClientProfileByIdAsync(new Guid()))
                 .Returns(Task.FromResult<ClientProfileModel?>(null));
 
             //Act
@@ -134,8 +130,7 @@ namespace GymInnowise.UserService.UnitTests.Services
         public async Task GetClientProfileAsync_ProfileExists_ReturnsGetClientProfileResponse()
         {
             //Arrange
-            var request = new UpdateClientProfileStatusRequest();
-            A.CallTo(() => _clientRepo.GetClientProfileByIdAsync(request.AccountId))
+            A.CallTo(() => _clientRepo.GetClientProfileByIdAsync(new Guid()))
                 .Returns(new ClientProfileModel() { FirstName = "Bob", LastName = "Flash" });
 
             //Act

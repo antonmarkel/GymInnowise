@@ -1,6 +1,5 @@
 using GymInnowise.UserService.API.Authorization;
 using GymInnowise.UserService.API.Extensions;
-using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();

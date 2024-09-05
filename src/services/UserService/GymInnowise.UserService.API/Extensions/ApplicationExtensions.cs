@@ -2,6 +2,7 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using GymInnowise.UserService.API.Authorization;
+using GymInnowise.UserService.API.Middleware;
 using GymInnowise.UserService.API.Validators;
 using GymInnowise.UserService.Configuration.Token;
 using GymInnowise.UserService.Logic.Interfaces;
@@ -13,6 +14,7 @@ using GymInnowise.UserService.Persistence.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 using System.Reflection;
 using System.Text;
 
@@ -89,6 +91,20 @@ namespace GymInnowise.UserService.API.Extensions
             var migrationService = scope.ServiceProvider.GetRequiredService<IMigrationRunner>();
             migrationService.ListMigrations();
             migrationService.MigrateUp();
+        }
+
+        public static void UseGlobalExceptionHandler(this WebApplication app)
+        {
+            app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
+        }
+
+        public static void AddLogger(this IHostApplicationBuilder builder)
+        {
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration((builder.Configuration))
+                .CreateLogger();
+
+            builder.Services.AddSerilog(Log.Logger);
         }
     }
 }

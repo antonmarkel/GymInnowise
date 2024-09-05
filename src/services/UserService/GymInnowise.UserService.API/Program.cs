@@ -2,6 +2,7 @@ using GymInnowise.UserService.API.Authorization;
 using GymInnowise.UserService.API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.AddLogger();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -17,6 +18,7 @@ builder.AddUserServices();
 builder.AddValidation();
 
 var app = builder.Build();
+app.UseGlobalExceptionHandler();
 await app.MigrateDatabaseAsync();
 if (app.Environment.IsDevelopment())
 {

@@ -1,0 +1,22 @@
+
+services:
+  gyminnowise.userservice.api:
+    image: ${DOCKER_REGISTRY-}gyminnowiseuserserviceapi
+    build:
+      context: .
+      dockerfile: GymInnowise.UserService.API/Dockerfile
+    ports:
+    - "5002:5000"
+    - "5003:5001"
+  gyminnowise.userservice.database:
+    image: postgres:latest
+    container_name: gyminnowise.userservice.database
+    environment:
+      - POSTGRES_DB=GymInnowiseUserService
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./.containers/gym-user-db:/var/lib/postgresql/data
+    ports:
+      - 5433:5432
+    

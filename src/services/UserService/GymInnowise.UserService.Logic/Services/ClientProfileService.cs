@@ -21,7 +21,7 @@ namespace GymInnowise.UserService.Logic.Services
                 return new ProfileAlreadyExists();
             }
 
-            var profileModel = new ClientProfileModel()
+            var profileModel = new ClientProfile
             {
                 AccountId = request.AccountId,
                 FirstName = request.FirstName,
@@ -30,7 +30,7 @@ namespace GymInnowise.UserService.Logic.Services
                 Gender = request.Gender,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
-                AccountStatus = ClientStatus.Active,
+                AccountStatus = ClientStatus.Active
             };
 
             await _clientRepo.CreateClientProfileAsync(profileModel);

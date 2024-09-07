@@ -21,7 +21,7 @@ namespace GymInnowise.UserService.Logic.Services
                 return new ProfileAlreadyExists();
             }
 
-            var profileModel = new CoachProfileModel()
+            var profileModel = new CoachProfile
             {
                 AccountId = request.AccountId,
                 FirstName = request.FirstName,
@@ -33,7 +33,7 @@ namespace GymInnowise.UserService.Logic.Services
                 HiredAt = DateTime.UtcNow,
                 AccountStatus = ClientStatus.Active,
                 CostPerHour = request.CostPerHour,
-                CoachStatus = CoachStatus.Trial,
+                CoachStatus = CoachStatus.Trial
             };
 
             await _coachRepo.CreateCoachProfileAsync(profileModel);

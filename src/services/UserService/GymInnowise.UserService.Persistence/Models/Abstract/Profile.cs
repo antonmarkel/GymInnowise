@@ -1,8 +1,8 @@
 ﻿using GymInnowise.UserService.Shared.Enums;
 
-namespace GymInnowise.UserService.Persistence.Models
+namespace GymInnowise.UserService.Persistence.Models.Abstract
 {
-    public class ClientProfileModel
+    public abstract class Profile
     {
         public Guid AccountId { get; set; }
         public required string FirstName { get; set; }
@@ -15,5 +15,8 @@ namespace GymInnowise.UserService.Persistence.Models
         public string? StatusNotes { get; set; }
         public DateTime? ExpectedReturnDate { get; set; }
         public List<TagEnum> Tags { get; set; } = [TagEnum.ToAdd];
+
+
+        public abstract string GetTableName();
     }
 }

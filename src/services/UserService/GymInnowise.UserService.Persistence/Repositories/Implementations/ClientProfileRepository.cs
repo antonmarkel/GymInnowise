@@ -7,9 +7,9 @@ using System.Text.Json;
 
 namespace GymInnowise.UserService.Persistence.Repositories.Implementations
 {
-    public class ClientProfileRepository(DataContext _dataContext) : IClientProfileRepository
+    public class ClientProfileRepository(DataContext _dataContext) : IProfileRepository<ClientProfile>
     {
-        public async Task CreateClientProfileAsync(ClientProfileModel clientProfileModel)
+        public async Task CreateProfileAsync(ClientProfile clientProfile)
         {
             using var connection = _dataContext.CreateConnection();
             const string sql = @"
@@ -29,20 +29,20 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
             await connection.ExecuteAsync(sql, new
             {
                 AccountId = Guid.NewGuid(),
-                clientProfileModel.FirstName,
-                clientProfileModel.LastName,
-                clientProfileModel.DateOfBirth,
-                clientProfileModel.Gender,
-                clientProfileModel.CreatedAt,
-                clientProfileModel.UpdatedAt,
-                AccountStatus = clientProfileModel.AccountStatus.ToString(),
-                clientProfileModel.StatusNotes,
-                clientProfileModel.ExpectedReturnDate,
-                Tags = JsonSerializer.Serialize(clientProfileModel.Tags.Select(t => t.ToString()))
+                clientProfile.FirstName,
+                clientProfile.LastName,
+                clientProfile.DateOfBirth,
+                clientProfile.Gender,
+                clientProfile.CreatedAt,
+                clientProfile.UpdatedAt,
+                AccountStatus = clientProfile.AccountStatus.ToString(),
+                clientProfile.StatusNotes,
+                clientProfile.ExpectedReturnDate,
+                Tags = JsonSerializer.Serialize(clientProfile.Tags.Select(t => t.ToString()))
             });
         }
 
-        public async Task<ClientProfileModel?> GetClientProfileByIdAsync(Guid accountId)
+        public async Task<ClientProfile?> GetProfileByIdAsync(Guid accountId)
         {
             using var connection = _dataContext.CreateConnection();
             const string sql = @"SELECT * FROM ""ClientProfiles"" WHERE ""AccountId"" = @AccountId";
@@ -60,7 +60,7 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
             var tags = JsonSerializer.Deserialize<List<string>>((string)result.Tags)!
                 .Select(tg => Enum.Parse<TagEnum>(tg)).ToList();
 
-            return new ClientProfileModel()
+            return new ClientProfile()
             {
                 AccountId = result.AccountId,
                 FirstName = result.FirstName,
@@ -76,7 +76,7 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
             };
         }
 
-        public async Task UpdateClientProfileAsync(ClientProfileModel profileModel)
+        public async Task UpdateProfileAsync(ClientProfile profile)
         {
             using var connection = _dataContext.CreateConnection();
             const string sql = @"
@@ -91,32 +91,18 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
 
             await connection.ExecuteAsync(sql, new
             {
-                profileModel.AccountId,
-                profileModel.FirstName,
-                profileModel.LastName,
-                profileModel.DateOfBirth,
-                profileModel.Gender,
+                profile.AccountId,
+                profile.FirstName,
+                profile.LastName,
+                profile.DateOfBirth,
+                profile.Gender,
                 UpdatedAt = DateTime.UtcNow,
-                AccountStatus = profileModel.AccountStatus.ToString(),
-                profileModel.StatusNotes,
-                profileModel.ExpectedReturnDate,
-                Tags = JsonSerializer.Serialize(profileModel.Tags.Select(t => t.ToString())),
+                AccountStatus = profile.AccountStatus.ToString(),
+                profile.StatusNotes,
+                profile.ExpectedReturnDate,
+                Tags = JsonSerializer.Serialize(profile.Tags.Select(t => t.ToString())),
             });
         }
-
-        public async Task RemoveClientProfileAsync(Guid accountId)
-        {
-            using var connection = _dataContext.CreateConnection();
-            const string sql = @"
-            DELETE FROM ""ClientProfiles""
-            WHERE ""AccountId"" = @AccountId;";
-
-            await connection.ExecuteAsync(sql, new
-            {
-                AccountId = accountId,
-            });
-        }
-
         public async Task<bool> DoesProfileExistAsync(Guid accountId)
         {
             using var connection = _dataContext.CreateConnection();

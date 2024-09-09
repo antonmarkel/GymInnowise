@@ -91,21 +91,18 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
                 goalId
             });
 
-            if (result is null)
-            {
-                return null;
-            }
-
-            return new PersonalGoalEntity()
-            {
-                Id = result.Id,
-                Owner = result.Owner,
-                Goal = result.Goal,
-                SupervisorCoach = result.SupervisorCoach,
-                Status = Enum.Parse<GoalStatus>(result.Status),
-                StartDate = result.StartDate,
-                DeadLine = result.DeadLine,
-            };
+            return result != null
+                ? new PersonalGoalEntity
+                {
+                    Id = result.Id,
+                    Owner = result.Owner,
+                    Goal = result.Goal,
+                    SupervisorCoach = result.SupervisorCoach,
+                    Status = Enum.Parse<GoalStatus>(result.Status),
+                    StartDate = result.StartDate,
+                    DeadLine = result.DeadLine,
+                }
+                : result;
         }
     }
 }

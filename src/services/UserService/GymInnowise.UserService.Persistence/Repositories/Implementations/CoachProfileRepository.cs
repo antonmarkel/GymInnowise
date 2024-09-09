@@ -57,7 +57,7 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
 
             if (result is null)
             {
-                return null;
+                return result;
             }
 
             var tagsString = (string)result.Tags;

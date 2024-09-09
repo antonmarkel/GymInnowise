@@ -4,10 +4,9 @@ namespace GymInnowise.UserService.Persistence.Repositories.Interfaces
 {
     public interface IPersonalGoalRepository
     {
-        Task CreatePersonalGoalAsync(PersonalGoalModel personalGoalModel);
-        Task UpdatePersonalGoalAsync(PersonalGoalModel goalModel);
-        Task RemovePersonalGoalAsync(Guid personalGoalId);
-        Task<PersonalGoalModel?> GetPersonalGoalAsync(Guid goalId);
-        Task<List<PersonalGoalModel>> GetAllPersonalGoalsAsync(Guid accountId);
+        Task CreatePersonalGoalAsync(PersonalGoalEntity personalGoal);
+        Task UpdatePersonalGoalAsync(PersonalGoalEntity goal);
+        Task<PersonalGoalEntity?> GetPersonalGoalAsync(Guid goalId);
+        Task<List<PersonalGoalEntity>> GetAllPersonalGoalsAsync(Guid accountId);
     }
 }

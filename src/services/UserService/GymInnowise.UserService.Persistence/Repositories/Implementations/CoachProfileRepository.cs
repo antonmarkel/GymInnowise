@@ -1,15 +1,15 @@
-﻿using System.Text.Json;
-using Dapper;
+﻿using Dapper;
 using GymInnowise.UserService.Persistence.Data;
 using GymInnowise.UserService.Persistence.Models;
 using GymInnowise.UserService.Persistence.Repositories.Interfaces;
 using GymInnowise.UserService.Shared.Enums;
+using System.Text.Json;
 
 namespace GymInnowise.UserService.Persistence.Repositories.Implementations
 {
-    public class CoachProfileRepository(DataContext _dataContext) : IProfileRepository<CoachProfile>
+    public class CoachProfileRepository(DataContext _dataContext) : IProfileRepository<CoachProfileEntity>
     {
-        public async Task CreateProfileAsync(CoachProfile coachProfile)
+        public async Task CreateProfileAsync(CoachProfileEntity coachProfile)
         {
             using var connection = _dataContext.CreateConnection();
             const string sql = @"
@@ -45,7 +45,7 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
             });
         }
 
-        public async Task<CoachProfile?> GetProfileByIdAsync(Guid accountId)
+        public async Task<CoachProfileEntity?> GetProfileByIdAsync(Guid accountId)
         {
             using var connection = _dataContext.CreateConnection();
             const string sql = @"SELECT * FROM ""CoachProfiles"" WHERE ""AccountId"" = @AccountId";
@@ -64,7 +64,7 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
             var tags = JsonSerializer.Deserialize<List<string>>(tagsString)!
                 .Select(tg => Enum.Parse<TagEnum>(tg)).ToList();
 
-            return new CoachProfile
+            return new CoachProfileEntity
             {
                 AccountId = result.AccountId,
                 FirstName = result.FirstName,
@@ -83,7 +83,7 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
             };
         }
 
-        public async Task UpdateProfileAsync(CoachProfile profile)
+        public async Task UpdateProfileAsync(CoachProfileEntity profile)
         {
             using var connection = _dataContext.CreateConnection();
             const string sql = @"
@@ -112,6 +112,7 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
                 CoachStatus = profile.CoachStatus.ToString()
             });
         }
+
         public async Task<bool> DoesProfileExistAsync(Guid accountId)
         {
             using var connection = _dataContext.CreateConnection();

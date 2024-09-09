@@ -10,12 +10,13 @@ namespace GymInnowise.UserService.Logic.Interfaces
     public interface IClientProfileService
     {
         Task<OneOf<Success, ProfileAlreadyExists>> CreateClientProfileAsync(CreateClientProfileRequest request);
-        Task<OneOf<Success, ProfileNotFound>> UpdateClientProfileAsync(UpdateClientProfileRequest request);
-        Task<OneOf<GetClientProfileResponse, ProfileNotFound>> GetClientProfileAsync(Guid id);
 
-        Task<OneOf<Success, ProfileNotFound>> UpdateClientProfileStatusAsync(
+        Task<OneOf<Success, ProfileNotFound>> UpdateClientProfileAsync(Guid clientId,
+            UpdateClientProfileRequest request);
+
+        Task<OneOf<Success, ProfileNotFound>> UpdateClientProfileStatusAsync(Guid clientId,
             UpdateClientProfileStatusRequest request);
 
-        Task RemoveClientProfileAsync(Guid id);
+        Task<OneOf<GetClientProfileResponse, ProfileNotFound>> GetClientProfileAsync(Guid id);
     }
 }

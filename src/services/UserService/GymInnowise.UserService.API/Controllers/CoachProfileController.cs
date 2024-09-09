@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace GymInnowise.UserService.API.Controllers
 {
     [ApiController]
-    [Route("api/profiles/[controller]")]
+    [Route("api/coach-profiles")]
     public class CoachProfileController : ControllerBase
     {
         private readonly ICoachProfileService _coachProfileService;
@@ -38,10 +38,10 @@ namespace GymInnowise.UserService.API.Controllers
             );
         }
 
-        [HttpPatch("info")]
-        public async Task<IActionResult> UpdateProfileAsync([FromBody] UpdateCoachProfileRequest request)
+        [HttpPut("{coachId}")]
+        public async Task<IActionResult> UpdateProfileAsync(Guid coachId, [FromBody] UpdateCoachProfileRequest request)
         {
-            var updateResult = await _coachProfileService.UpdateCoachProfileAsync(request);
+            var updateResult = await _coachProfileService.UpdateCoachProfileAsync(coachId, request);
 
             return updateResult.Match<IActionResult>(
                 _ => NoContent(),
@@ -49,23 +49,16 @@ namespace GymInnowise.UserService.API.Controllers
             );
         }
 
-        [HttpPatch("status")]
-        public async Task<IActionResult> UpdateProfileStatus([FromBody] UpdateCoachProfileStatusRequest request)
+        [HttpPut("{coachId}/status")]
+        public async Task<IActionResult> UpdateProfileStatusAsync(Guid coachId,
+            [FromBody] UpdateCoachProfileStatusRequest request)
         {
-            var updateResult = await _coachProfileService.UpdateCoachProfileStatusAsync(request);
+            var updateResult = await _coachProfileService.UpdateCoachProfileStatusAsync(coachId, request);
 
             return updateResult.Match<IActionResult>(
                 _ => NoContent(),
                 _ => NotFound()
             );
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> RemoveProfileAsync(Guid id)
-        {
-            await _coachProfileService.RemoveCoachProfileAsync(id);
-
-            return NoContent();
         }
     }
 }

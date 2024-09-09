@@ -2,7 +2,7 @@
 
 namespace GymInnowise.UserService.Persistence.Models.Abstract
 {
-    public abstract class Profile
+    public abstract class ProfileEntity
     {
         public Guid AccountId { get; set; }
         public required string FirstName { get; set; }
@@ -15,8 +15,5 @@ namespace GymInnowise.UserService.Persistence.Models.Abstract
         public string? StatusNotes { get; set; }
         public DateTime? ExpectedReturnDate { get; set; }
         public List<TagEnum> Tags { get; set; } = [TagEnum.ToAdd];
-
-
-        public abstract string GetTableName();
     }
 }

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace GymInnowise.UserService.API.Controllers
 {
     [ApiController]
-    [Route("api/profile/[controller]")]
+    [Route("api/personal-goals")]
     public class PersonalGoalController : ControllerBase
     {
         private readonly IPersonalGoalService _personalGoalService;
@@ -24,10 +24,11 @@ namespace GymInnowise.UserService.API.Controllers
             return Ok(goals);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> UpdatePersonalGoalAsync([FromBody] UpdatePersonalGoalRequest request)
+        [HttpPut("{goalId}")]
+        public async Task<IActionResult> UpdatePersonalGoalAsync(Guid goalId,
+            [FromBody] UpdatePersonalGoalRequest request)
         {
-            var updateResult = await _personalGoalService.UpdatePersonalGoalAsync(request);
+            var updateResult = await _personalGoalService.UpdatePersonalGoalAsync(goalId, request);
 
             return updateResult.Match<IActionResult>(
                 _ => NoContent(),
@@ -40,14 +41,6 @@ namespace GymInnowise.UserService.API.Controllers
             await _personalGoalService.CreatePersonalGoalAsync(request);
 
             return Created();
-        }
-
-        [HttpDelete("goalId")]
-        public async Task<IActionResult> RemovePersonalGoalAsync(Guid goalId)
-        {
-            await _personalGoalService.RemovePersonalGoalAsync(goalId);
-
-            return NoContent();
         }
     }
 }

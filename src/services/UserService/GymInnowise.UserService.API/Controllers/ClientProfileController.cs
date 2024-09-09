@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace GymInnowise.UserService.API.Controllers
 {
     [ApiController]
-    [Route("api/profiles/[controller]")]
+    [Route("api/client-profiles")]
     public class ClientProfileController : ControllerBase
     {
         private readonly IClientProfileService _clientProfileService;
@@ -27,10 +27,10 @@ namespace GymInnowise.UserService.API.Controllers
             );
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetProfileAsync(Guid id)
+        [HttpGet("{clientId}")]
+        public async Task<IActionResult> GetProfileAsync(Guid clientId)
         {
-            var result = await _clientProfileService.GetClientProfileAsync(id);
+            var result = await _clientProfileService.GetClientProfileAsync(clientId);
 
             return result.Match<IActionResult>(
                 profile => Ok(profile),
@@ -38,10 +38,11 @@ namespace GymInnowise.UserService.API.Controllers
             );
         }
 
-        [HttpPatch("info")]
-        public async Task<IActionResult> UpdateProfileAsync([FromBody] UpdateClientProfileRequest request)
+        [HttpPut("{clientId}")]
+        public async Task<IActionResult> UpdateProfileAsync(Guid clientId,
+            [FromBody] UpdateClientProfileRequest request)
         {
-            var updateResult = await _clientProfileService.UpdateClientProfileAsync(request);
+            var updateResult = await _clientProfileService.UpdateClientProfileAsync(clientId, request);
 
             return updateResult.Match<IActionResult>(
                 _ => NoContent(),
@@ -49,23 +50,16 @@ namespace GymInnowise.UserService.API.Controllers
             );
         }
 
-        [HttpPatch("status")]
-        public async Task<IActionResult> UpdateProfileStatus([FromBody] UpdateClientProfileStatusRequest request)
+        [HttpPut("{clientId}/status")]
+        public async Task<IActionResult> UpdateProfileStatusAsync(Guid clientId,
+            [FromBody] UpdateClientProfileStatusRequest request)
         {
-            var updateResult = await _clientProfileService.UpdateClientProfileStatusAsync(request);
+            var updateResult = await _clientProfileService.UpdateClientProfileStatusAsync(clientId, request);
 
             return updateResult.Match<IActionResult>(
                 _ => NoContent(),
                 _ => NotFound()
             );
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> RemoveProfileAsync(Guid id)
-        {
-            await _clientProfileService.RemoveClientProfileAsync(id);
-
-            return NoContent();
         }
     }
 }

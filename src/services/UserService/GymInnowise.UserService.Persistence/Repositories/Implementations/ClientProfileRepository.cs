@@ -7,9 +7,9 @@ using System.Text.Json;
 
 namespace GymInnowise.UserService.Persistence.Repositories.Implementations
 {
-    public class ClientProfileRepository(DataContext _dataContext) : IProfileRepository<ClientProfile>
+    public class ClientProfileRepository(DataContext _dataContext) : IProfileRepository<ClientProfileEntity>
     {
-        public async Task CreateProfileAsync(ClientProfile clientProfile)
+        public async Task CreateProfileAsync(ClientProfileEntity clientProfile)
         {
             using var connection = _dataContext.CreateConnection();
             const string sql = @"
@@ -42,7 +42,7 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
             });
         }
 
-        public async Task<ClientProfile?> GetProfileByIdAsync(Guid accountId)
+        public async Task<ClientProfileEntity?> GetProfileByIdAsync(Guid accountId)
         {
             using var connection = _dataContext.CreateConnection();
             const string sql = @"SELECT * FROM ""ClientProfiles"" WHERE ""AccountId"" = @AccountId";
@@ -60,7 +60,7 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
             var tags = JsonSerializer.Deserialize<List<string>>((string)result.Tags)!
                 .Select(tg => Enum.Parse<TagEnum>(tg)).ToList();
 
-            return new ClientProfile()
+            return new ClientProfileEntity()
             {
                 AccountId = result.AccountId,
                 FirstName = result.FirstName,
@@ -76,7 +76,7 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
             };
         }
 
-        public async Task UpdateProfileAsync(ClientProfile profile)
+        public async Task UpdateProfileAsync(ClientProfileEntity profile)
         {
             using var connection = _dataContext.CreateConnection();
             const string sql = @"
@@ -103,6 +103,7 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
                 Tags = JsonSerializer.Serialize(profile.Tags.Select(t => t.ToString())),
             });
         }
+
         public async Task<bool> DoesProfileExistAsync(Guid accountId)
         {
             using var connection = _dataContext.CreateConnection();

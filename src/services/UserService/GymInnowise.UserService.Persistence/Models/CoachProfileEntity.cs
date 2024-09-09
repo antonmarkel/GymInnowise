@@ -3,15 +3,10 @@ using GymInnowise.UserService.Shared.Enums;
 
 namespace GymInnowise.UserService.Persistence.Models
 {
-    public class CoachProfile : Profile
+    public class CoachProfileEntity : ProfileEntity
     {
         public DateTime HiredAt { get; set; }
         public decimal CostPerHour { get; set; }
         public CoachStatus CoachStatus { get; set; }
-
-        public override string GetTableName()
-        {
-            return "CoachProfiles";
-        }
     }
 }

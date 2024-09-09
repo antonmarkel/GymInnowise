@@ -2,7 +2,7 @@
 
 namespace GymInnowise.UserService.Persistence.Repositories.Interfaces
 {
-    public interface IProfileRepository<T> where T : Profile
+    public interface IProfileRepository<T> where T : ProfileEntity
     {
         Task CreateProfileAsync(T profile);
         Task<T?> GetProfileByIdAsync(Guid accountId);

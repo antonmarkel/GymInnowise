@@ -27,10 +27,10 @@ namespace GymInnowise.UserService.API.Controllers
             );
         }
 
-        [HttpGet("{clientId}")]
-        public async Task<IActionResult> GetProfileAsync(Guid clientId)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetProfileAsync(Guid id)
         {
-            var result = await _clientProfileService.GetClientProfileAsync(clientId);
+            var result = await _clientProfileService.GetClientProfileAsync(id);
 
             return result.Match<IActionResult>(
                 profile => Ok(profile),
@@ -38,11 +38,11 @@ namespace GymInnowise.UserService.API.Controllers
             );
         }
 
-        [HttpPut("{clientId}")]
-        public async Task<IActionResult> UpdateProfileAsync(Guid clientId,
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateProfileAsync(Guid id,
             [FromBody] UpdateClientProfileRequest request)
         {
-            var updateResult = await _clientProfileService.UpdateClientProfileAsync(clientId, request);
+            var updateResult = await _clientProfileService.UpdateClientProfileAsync(id, request);
 
             return updateResult.Match<IActionResult>(
                 _ => NoContent(),
@@ -50,11 +50,11 @@ namespace GymInnowise.UserService.API.Controllers
             );
         }
 
-        [HttpPut("{clientId}/status")]
-        public async Task<IActionResult> UpdateProfileStatusAsync(Guid clientId,
+        [HttpPut("{id}/status")]
+        public async Task<IActionResult> UpdateProfileStatusAsync(Guid id,
             [FromBody] UpdateClientProfileStatusRequest request)
         {
-            var updateResult = await _clientProfileService.UpdateClientProfileStatusAsync(clientId, request);
+            var updateResult = await _clientProfileService.UpdateClientProfileStatusAsync(id, request);
 
             return updateResult.Match<IActionResult>(
                 _ => NoContent(),

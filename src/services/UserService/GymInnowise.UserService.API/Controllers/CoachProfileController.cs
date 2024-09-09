@@ -38,10 +38,10 @@ namespace GymInnowise.UserService.API.Controllers
             );
         }
 
-        [HttpPut("{coachId}")]
-        public async Task<IActionResult> UpdateProfileAsync(Guid coachId, [FromBody] UpdateCoachProfileRequest request)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateProfileAsync(Guid id, [FromBody] UpdateCoachProfileRequest request)
         {
-            var updateResult = await _coachProfileService.UpdateCoachProfileAsync(coachId, request);
+            var updateResult = await _coachProfileService.UpdateCoachProfileAsync(id, request);
 
             return updateResult.Match<IActionResult>(
                 _ => NoContent(),
@@ -49,11 +49,11 @@ namespace GymInnowise.UserService.API.Controllers
             );
         }
 
-        [HttpPut("{coachId}/status")]
-        public async Task<IActionResult> UpdateProfileStatusAsync(Guid coachId,
+        [HttpPut("{id}/status")]
+        public async Task<IActionResult> UpdateProfileStatusAsync(Guid id,
             [FromBody] UpdateCoachProfileStatusRequest request)
         {
-            var updateResult = await _coachProfileService.UpdateCoachProfileStatusAsync(coachId, request);
+            var updateResult = await _coachProfileService.UpdateCoachProfileStatusAsync(id, request);
 
             return updateResult.Match<IActionResult>(
                 _ => NoContent(),

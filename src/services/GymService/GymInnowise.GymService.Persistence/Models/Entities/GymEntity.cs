@@ -16,7 +16,7 @@ namespace GymInnowise.GymService.Persistence.Models.Entities
         public byte DaysAvailableMask { get; set; }
         public GymPayType PayType { get; set; }
         public decimal CostValue { get; set; }
-        public List<BlockingEventEntity> BlockingEvents { get; set; } = [];
+        public List<GymEventEntity> BlockingEvents { get; set; } = [];
         public List<GymTag> Tags { get; set; } = [];
     }
 }

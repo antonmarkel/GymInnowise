@@ -9,7 +9,7 @@ namespace GymInnowise.GymService.Persistence.Data
     public class GymServiceDbContext : DbContext
     {
         public DbSet<GymEntity> Gyms { get; set; }
-        public DbSet<BlockingEventEntity> BlockingEvents { get; set; }
+        public DbSet<GymEventEntity> GymEvents { get; set; }
 
         public GymServiceDbContext(DbContextOptions<GymServiceDbContext> options) : base(options)
         {
@@ -30,7 +30,7 @@ namespace GymInnowise.GymService.Persistence.Data
                 entity.Property(g => g.Name).HasMaxLength(100).IsRequired();
                 entity.Property(g => g.Address).HasMaxLength(200).IsRequired();
                 entity.Property(g => g.ContactInfo).HasMaxLength(200).IsRequired();
-                entity.HasMany(g => g.BlockingEvents).WithOne().HasForeignKey(bl => bl.GymId);
+                entity.HasMany(g => g.BlockingEvents).WithOne().HasForeignKey(ev => ev.GymId);
                 entity.Property(g => g.UsageType).HasConversion<string>().IsRequired();
                 entity.Property(g => g.PayType).HasConversion<string>().IsRequired();
                 entity.Property(g => g.Tags).HasConversion(GetGymTagConverter());
@@ -39,10 +39,11 @@ namespace GymInnowise.GymService.Persistence.Data
 
         private void ConfigureBlockingEventEntity(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<BlockingEventEntity>(entity =>
+            modelBuilder.Entity<GymEventEntity>(entity =>
             {
-                entity.HasKey(bl => bl.Id);
-                entity.Property(bl => bl.Reason).HasMaxLength(250).IsRequired();
+                entity.HasKey(ev => ev.Id);
+                entity.Property(ev => ev.Info).HasMaxLength(250).IsRequired();
+                entity.Property(ev => ev.EventType).HasConversion<string>();
             });
         }
 

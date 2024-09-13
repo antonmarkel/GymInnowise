@@ -31,11 +31,16 @@ namespace GymInnowise.GymService.Persistence.Repositories.Implementations
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<List<GymEventEntity>> GetBlockingEventsByGymIdAsync(Guid gymId)
+        public async Task<List<GymEventEntity>> GetGymEventsByGymIdAsync(Guid gymId)
         {
             var events = await _dbContext.GymEvents.Where(ev => ev.GymId == gymId).AsNoTracking().ToListAsync();
 
             return events;
+        }
+
+        public async Task<GymEventEntity?> GetGymEventByIdAsync(Guid eventId)
+        {
+            return await _dbContext.GymEvents.SingleOrDefaultAsync(ev => ev.Id == eventId);
         }
     }
 }

@@ -19,7 +19,7 @@ namespace GymInnowise.GymService.Persistence.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             ConfigureGymEntity(modelBuilder);
-            ConfigureBlockingEventEntity(modelBuilder);
+            ConfigureGymEventEntity(modelBuilder);
         }
 
         private void ConfigureGymEntity(ModelBuilder modelBuilder)
@@ -30,14 +30,13 @@ namespace GymInnowise.GymService.Persistence.Data
                 entity.Property(g => g.Name).HasMaxLength(100).IsRequired();
                 entity.Property(g => g.Address).HasMaxLength(200).IsRequired();
                 entity.Property(g => g.ContactInfo).HasMaxLength(200).IsRequired();
-                entity.HasMany(g => g.BlockingEvents).WithOne().HasForeignKey(ev => ev.GymId);
                 entity.Property(g => g.UsageType).HasConversion<string>().IsRequired();
                 entity.Property(g => g.PayType).HasConversion<string>().IsRequired();
                 entity.Property(g => g.Tags).HasConversion(GetGymTagConverter());
             });
         }
 
-        private void ConfigureBlockingEventEntity(ModelBuilder modelBuilder)
+        private void ConfigureGymEventEntity(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<GymEventEntity>(entity =>
             {

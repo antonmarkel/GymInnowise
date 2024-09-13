@@ -13,13 +13,13 @@ namespace GymInnowise.GymService.Logic.Services
 {
     public class GymService(IGymRepository _repo, IMapper _mapper) : IGymService
     {
-        public async Task CreateGymAsync(CreateGymRequest createRequest)
+        public async Task CreateGymAsync(CreateGymRequest request)
         {
-            var gymEntity = _mapper.Map<GymEntity>(createRequest);
+            var gymEntity = _mapper.Map<GymEntity>(request);
             await _repo.AddGymAsync(gymEntity);
         }
 
-        public async Task<OneOf<Success, NotFound>> UpdateGymAsync(Guid gymId, UpdateGymRequest updateRequest)
+        public async Task<OneOf<Success, NotFound>> UpdateGymAsync(Guid gymId, UpdateGymRequest request)
         {
             var gymEntity = await _repo.GetGymByIdAsync(gymId);
             if (gymEntity is null)
@@ -27,7 +27,7 @@ namespace GymInnowise.GymService.Logic.Services
                 return new NotFound();
             }
 
-            _mapper.Map(updateRequest, gymEntity);
+            _mapper.Map(request, gymEntity);
             await _repo.UpdateGymAsync(gymEntity);
 
             return new Success();

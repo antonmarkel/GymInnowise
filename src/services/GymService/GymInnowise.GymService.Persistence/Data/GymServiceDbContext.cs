@@ -1,5 +1,8 @@
 ﻿using GymInnowise.GymService.Persistence.Models.Entities;
+using GymInnowise.GymService.Shared.Enums;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Newtonsoft.Json;
 
 namespace GymInnowise.GymService.Persistence.Data
 {
@@ -30,6 +33,7 @@ namespace GymInnowise.GymService.Persistence.Data
                 entity.HasMany(g => g.BlockingEvents).WithOne().HasForeignKey(bl => bl.GymId);
                 entity.Property(g => g.UsageType).HasConversion<string>().IsRequired();
                 entity.Property(g => g.PayType).HasConversion<string>().IsRequired();
+                entity.Property(g => g.Tags).HasConversion(GetGymTagConverter());
             });
         }
 
@@ -40,6 +44,15 @@ namespace GymInnowise.GymService.Persistence.Data
                 entity.HasKey(bl => bl.Id);
                 entity.Property(bl => bl.Reason).HasMaxLength(250).IsRequired();
             });
+        }
+
+        private static ValueConverter<List<GymTag>, string> GetGymTagConverter()
+        {
+            return new ValueConverter<List<GymTag>, string>(
+                v => JsonConvert.SerializeObject(
+                    v.Select(v => v.ToString())),
+                v => JsonConvert.DeserializeObject<List<string>>(v)!
+                    .Select(s => (GymTag)Enum.Parse(typeof(GymTag), s)).ToList());
         }
     }
 }

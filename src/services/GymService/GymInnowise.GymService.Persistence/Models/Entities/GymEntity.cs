@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using GymInnowise.GymService.Shared.Enums;
+﻿using GymInnowise.GymService.Shared.Enums;
 
 namespace GymInnowise.GymService.Persistence.Models.Entities
 {

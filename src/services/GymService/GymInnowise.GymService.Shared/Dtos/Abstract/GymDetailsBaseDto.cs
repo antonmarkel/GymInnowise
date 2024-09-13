@@ -1,8 +1,8 @@
 ﻿using GymInnowise.GymService.Shared.Enums;
 
-namespace GymInnowise.GymService.Shared.Dtos.Requests
+namespace GymInnowise.GymService.Shared.Dtos.Abstract
 {
-    public class GymUpdateRequest
+    public abstract class GymDetailsBaseDto
     {
         public string Name { get; set; } = string.Empty;
         public string Address { get; set; } = string.Empty;
@@ -12,6 +12,7 @@ namespace GymInnowise.GymService.Shared.Dtos.Requests
         public GymUsageType UsageType { get; set; }
         public TimeSpan OpenTime { get; set; }
         public TimeSpan CloseTime { get; set; }
+        public byte DaysAvailableMask { get; set; }
         public GymPayType PayType { get; set; }
         public decimal CostValue { get; set; }
         public List<GymTag> Tags { get; set; } = [];

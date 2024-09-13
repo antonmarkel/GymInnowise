@@ -4,5 +4,6 @@
     {
         IndividualUse,
         GroupClass,
+        Closed,
     }
 }

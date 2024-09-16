@@ -2,6 +2,8 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using GymInnowise.UserService.API.Authorization;
+using GymInnowise.UserService.API.Authorization.Handlers;
+using GymInnowise.UserService.API.Authorization.Requirements;
 using GymInnowise.UserService.API.Validators.Creates;
 using GymInnowise.UserService.Configuration.Token;
 using GymInnowise.UserService.Logic.Interfaces;
@@ -42,9 +44,17 @@ namespace GymInnowise.UserService.API.Extensions
             builder.Services.AddScoped<IPersonalGoalService, PersonalGoalService>();
         }
 
-        public static void AddAutherizationServices(this IHostApplicationBuilder builder)
+        public static void AddAuthorizationServices(this IHostApplicationBuilder builder)
         {
-            builder.Services.AddSingleton<IAuthorizationHandler, OwnerOrAdminHandler>();
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy(PolicyNames.OwnerPolicy,
+                    policy => policy.Requirements.Add(new OwnerRequirement()));
+                options.AddPolicy(PolicyNames.SupervisorPolicy,
+                    policy => policy.Requirements.Add(new SupervisorRequirement()));
+            });
+            builder.Services.AddSingleton<IAuthorizationHandler, OwnerHandler>();
+            builder.Services.AddSingleton<IAuthorizationHandler, SupervisorHandler>();
         }
 
         public static void AddValidation(this IHostApplicationBuilder builder)

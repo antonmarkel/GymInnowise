@@ -5,6 +5,8 @@ namespace GymInnowise.UserService.API.Extensions
 {
     public static class ValidationExtensions
     {
+        private static readonly string[] Genders = ["Male", "Female", "Other"];
+
         public static IRuleBuilderOptions<T, string> FirstName<T>(this IRuleBuilder<T, string> ruleBuilder)
         {
             return ruleBuilder.NotEmpty()
@@ -24,7 +26,7 @@ namespace GymInnowise.UserService.API.Extensions
         public static IRuleBuilderOptions<T, string> Gender<T>(this IRuleBuilder<T, string> ruleBuilder)
         {
             return ruleBuilder
-                .Must(gender => gender == null || new[] { "Male", "Female", "Other" }.Contains(gender))
+                .Must(gender => gender == null || Genders.Contains(gender))
                 .WithMessage("Gender must be 'Male', 'Female', or 'Other' if provided.");
         }
 
@@ -96,7 +98,6 @@ namespace GymInnowise.UserService.API.Extensions
                     "Invalid StartDate or DeadLine: ensure StartDate is in UTC format, not in the past," +
                     " and DeadLine (if provided) is in UTC and after StartDate.");
         }
-
 
         public static IRuleBuilderOptions<T, decimal> Monetary<T>(
             this IRuleBuilder<T, decimal> ruleBuilder)

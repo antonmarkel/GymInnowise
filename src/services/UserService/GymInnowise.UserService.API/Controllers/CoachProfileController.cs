@@ -25,6 +25,14 @@ namespace GymInnowise.UserService.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateProfileAsync([FromBody] CreateCoachProfileRequest request)
         {
+            var authorizationResult =
+                await _authorizationService.AuthorizeAsync(User, request.AccountId.ToString(),
+                    PolicyNames.OwnerPolicy);
+            if (!authorizationResult.Succeeded)
+            {
+                return Forbid();
+            }
+
             var result = await _coachProfileService.CreateCoachProfileAsync(request);
 
             return result.Match<IActionResult>(
@@ -45,13 +53,13 @@ namespace GymInnowise.UserService.API.Controllers
             );
         }
 
-
         [Authorize(Roles = "Coach")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProfileAsync(Guid id, [FromBody] UpdateCoachProfileRequest request)
         {
             var authorizationResult =
-                await _authorizationService.AuthorizeAsync(User, id.ToString(), PolicyNames.OwnerOrAdmin);
+                await _authorizationService.AuthorizeAsync(User, id.ToString(),
+                    PolicyNames.OwnerPolicy);
             if (!authorizationResult.Succeeded)
             {
                 return Forbid();
@@ -65,14 +73,13 @@ namespace GymInnowise.UserService.API.Controllers
             );
         }
 
-
         [Authorize(Roles = "Coach")]
         [HttpPut("{id}/status")]
         public async Task<IActionResult> UpdateProfileStatusAsync(Guid id,
             [FromBody] UpdateCoachProfileStatusRequest request)
         {
             var authorizationResult =
-                await _authorizationService.AuthorizeAsync(User, id, PolicyNames.OwnerOrAdmin);
+                await _authorizationService.AuthorizeAsync(User, id, PolicyNames.OwnerPolicy);
             if (!authorizationResult.Succeeded)
             {
                 return Forbid();

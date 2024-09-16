@@ -2,6 +2,7 @@
 {
     public static class PolicyNames
     {
-        public const string OwnerOrAdmin = "OwnerOrAdminPolicy";
+        public const string OwnerPolicy = "OwnerPolicy";
+        public const string SupervisorPolicy = "SupervisorPolicy";
     }
 }

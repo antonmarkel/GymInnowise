@@ -41,13 +41,13 @@ namespace GymInnowise.UserService.Logic.Services
             return new Success();
         }
 
-        public async Task<OneOf<Success, ProfileNotFound>> UpdateCoachProfileAsync(Guid coachId,
+        public async Task<OneOf<Success, NotFound>> UpdateCoachProfileAsync(Guid coachId,
             UpdateCoachProfileRequest request)
         {
             var coach = await _coachRepo.GetProfileByIdAsync(coachId);
             if (coach is null)
             {
-                return new ProfileNotFound();
+                return new NotFound();
             }
 
             coach.FirstName = request.FirstName;
@@ -62,13 +62,13 @@ namespace GymInnowise.UserService.Logic.Services
             return new Success();
         }
 
-        public async Task<OneOf<Success, ProfileNotFound>> UpdateCoachProfileStatusAsync(Guid coachId,
+        public async Task<OneOf<Success, NotFound>> UpdateCoachProfileStatusAsync(Guid coachId,
             UpdateCoachProfileStatusRequest request)
         {
             var account = await _coachRepo.GetProfileByIdAsync(coachId);
             if (account is null)
             {
-                return new ProfileNotFound();
+                return new NotFound();
             }
 
             account.AccountStatus = request.AccountStatus;
@@ -82,12 +82,12 @@ namespace GymInnowise.UserService.Logic.Services
             return new Success();
         }
 
-        public async Task<OneOf<GetCoachProfileResponse, ProfileNotFound>> GetCoachProfileAsync(Guid id)
+        public async Task<OneOf<GetCoachProfileResponse, NotFound>> GetCoachProfileAsync(Guid id)
         {
             var account = await _coachRepo.GetProfileByIdAsync(id);
             if (account is null)
             {
-                return new ProfileNotFound();
+                return new NotFound();
             }
 
             return new GetCoachProfileResponse()

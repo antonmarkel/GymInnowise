@@ -25,6 +25,14 @@ namespace GymInnowise.UserService.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateProfileAsync([FromBody] CreateClientProfileRequest request)
         {
+            var authorizationResult =
+                await _authorizationService.AuthorizeAsync(User, request.AccountId.ToString(),
+                    PolicyNames.OwnerPolicy);
+            if (!authorizationResult.Succeeded)
+            {
+                return Forbid();
+            }
+
             var result = await _clientProfileService.CreateClientProfileAsync(request);
 
             return result.Match<IActionResult>(
@@ -52,7 +60,7 @@ namespace GymInnowise.UserService.API.Controllers
         {
             var authorizationResult =
                 await _authorizationService.AuthorizeAsync(User, id.ToString(),
-                    PolicyNames.OwnerOrAdmin);
+                    PolicyNames.OwnerPolicy);
             if (!authorizationResult.Succeeded)
             {
                 return Forbid();
@@ -72,7 +80,8 @@ namespace GymInnowise.UserService.API.Controllers
             [FromBody] UpdateClientProfileStatusRequest request)
         {
             var authorizationResult =
-                await _authorizationService.AuthorizeAsync(User, id.ToString(), PolicyNames.OwnerOrAdmin);
+                await _authorizationService.AuthorizeAsync(User, id.ToString(),
+                    PolicyNames.OwnerPolicy);
             if (!authorizationResult.Succeeded)
             {
                 return Forbid();

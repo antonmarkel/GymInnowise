@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using GymInnowise.UserService.API.Authorization.Requirements;
+using Microsoft.AspNetCore.Authorization;
 
-namespace GymInnowise.UserService.API.Authorization
+namespace GymInnowise.UserService.API.Authorization.Handlers
 {
-    public class OwnerOrAdminHandler : AuthorizationHandler<OwnerOrAdminRequirement>
+    public class SupervisorHandler : AuthorizationHandler<SupervisorRequirement>
     {
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
-            OwnerOrAdminRequirement requirement)
+            SupervisorRequirement requirement)
         {
             if (context.User.IsInRole("Admin"))
             {
@@ -15,9 +16,8 @@ namespace GymInnowise.UserService.API.Authorization
             }
 
             var requesterAccountId = context.User.Claims.FirstOrDefault(c => c.Type == "accountId")?.Value;
-            var profileId = context.Resource as string;
 
-            if (requesterAccountId != null && profileId != null &&
+            if (requesterAccountId != null && context.Resource is string profileId &&
                 requesterAccountId == profileId)
             {
                 context.Succeed(requirement);

@@ -104,5 +104,27 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
                 }
                 : result;
         }
+
+        public async Task<List<PersonalGoalEntity>> GetCoachSupervisedGoalsAsync(Guid accountId, Guid coachId)
+        {
+            using var connection = _dataContext.CreateConnection();
+            const string sql = @"
+            SELECT * FROM ""PersonalGoals""
+            WHERE ""Owner"" = @accountId AND ""SupervisorCoach"" = @coachId";
+
+            var result =
+                await connection.QueryAsync(sql, new { accountId, coachId });
+
+            return result.Select(dn => new PersonalGoalEntity()
+            {
+                Id = dn.Id,
+                Owner = dn.Owner,
+                Goal = dn.Goal,
+                SupervisorCoach = dn.SupervisorCoach,
+                Status = Enum.Parse<GoalStatus>((string)dn.Status),
+                StartDate = dn.StartDate,
+                DeadLine = dn.DeadLine,
+            }).ToList();
+        }
     }
 }

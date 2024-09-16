@@ -49,12 +49,11 @@ namespace GymInnowise.UserService.API.Extensions
             builder.Services.AddAuthorization(options =>
             {
                 options.AddPolicy(PolicyNames.OwnerPolicy,
-                    policy => policy.Requirements.Add(new OwnerRequirement()));
+                    policy => policy.Requirements.Add(new ResourceOwnerRequirement()));
                 options.AddPolicy(PolicyNames.SupervisorPolicy,
-                    policy => policy.Requirements.Add(new SupervisorRequirement()));
+                    policy => policy.Requirements.Add(new ResourceOwnerRequirement(roles: ["Coach"])));
             });
-            builder.Services.AddSingleton<IAuthorizationHandler, OwnerHandler>();
-            builder.Services.AddSingleton<IAuthorizationHandler, SupervisorHandler>();
+            builder.Services.AddSingleton<IAuthorizationHandler, ResourceOwnerHandler>();
         }
 
         public static void AddValidation(this IHostApplicationBuilder builder)

@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace GymInnowise.UserService.API.Authorization.Handlers
 {
-    public class SupervisorHandler : AuthorizationHandler<SupervisorRequirement>
+    public class ResourceOwnerHandler : AuthorizationHandler<ResourceOwnerRequirement>
     {
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
-            SupervisorRequirement requirement)
+            ResourceOwnerRequirement requirement)
         {
             if (context.User.IsInRole("Admin"))
             {
@@ -15,8 +15,13 @@ namespace GymInnowise.UserService.API.Authorization.Handlers
                 return Task.CompletedTask;
             }
 
-            var requesterAccountId = context.User.Claims.FirstOrDefault(c => c.Type == "accountId")?.Value;
+            bool hasRequiredRole = requirement.Roles.Any(role => context.User.IsInRole(role));
+            if (!hasRequiredRole)
+            {
+                return Task.CompletedTask;
+            }
 
+            var requesterAccountId = context.User.Claims.FirstOrDefault(c => c.Type == "accountId")?.Value;
             if (requesterAccountId != null && context.Resource is string profileId &&
                 requesterAccountId == profileId)
             {

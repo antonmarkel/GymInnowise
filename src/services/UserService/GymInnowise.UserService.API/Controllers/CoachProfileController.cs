@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace GymInnowise.UserService.API.Controllers
 {
     [ApiController]
-    [Route("api/profiles/[controller]")]
+    [Route("api/coach-profiles")]
     public class CoachProfileController : ControllerBase
     {
         private readonly ICoachProfileService _coachProfileService;
@@ -45,18 +45,19 @@ namespace GymInnowise.UserService.API.Controllers
             );
         }
 
+
         [Authorize(Roles = "Coach")]
-        [HttpPatch("info")]
-        public async Task<IActionResult> UpdateProfileAsync([FromBody] UpdateCoachProfileRequest request)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateProfileAsync(Guid id, [FromBody] UpdateCoachProfileRequest request)
         {
             var authorizationResult =
-                await _authorizationService.AuthorizeAsync(User, request.AccountId, PolicyNames.OwnerOrAdmin);
+                await _authorizationService.AuthorizeAsync(User, id.ToString(), PolicyNames.OwnerOrAdmin);
             if (!authorizationResult.Succeeded)
             {
                 return Forbid();
             }
 
-            var updateResult = await _coachProfileService.UpdateCoachProfileAsync(request);
+            var updateResult = await _coachProfileService.UpdateCoachProfileAsync(id, request);
 
             return updateResult.Match<IActionResult>(
                 _ => NoContent(),
@@ -64,28 +65,11 @@ namespace GymInnowise.UserService.API.Controllers
             );
         }
 
-        [Authorize(Roles = "Coach")]
-        [HttpPatch("status")]
-        public async Task<IActionResult> UpdateProfileStatus([FromBody] UpdateCoachProfileStatusRequest request)
-        {
-            var authorizationResult =
-                await _authorizationService.AuthorizeAsync(User, request.AccountId, PolicyNames.OwnerOrAdmin);
-            if (!authorizationResult.Succeeded)
-            {
-                return Forbid();
-            }
-
-            var updateResult = await _coachProfileService.UpdateCoachProfileStatusAsync(request);
-
-            return updateResult.Match<IActionResult>(
-                _ => NoContent(),
-                _ => NotFound()
-            );
-        }
 
         [Authorize(Roles = "Coach")]
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> RemoveProfileAsync(Guid id)
+        [HttpPut("{id}/status")]
+        public async Task<IActionResult> UpdateProfileStatusAsync(Guid id,
+            [FromBody] UpdateCoachProfileStatusRequest request)
         {
             var authorizationResult =
                 await _authorizationService.AuthorizeAsync(User, id, PolicyNames.OwnerOrAdmin);
@@ -94,9 +78,12 @@ namespace GymInnowise.UserService.API.Controllers
                 return Forbid();
             }
 
-            await _coachProfileService.RemoveCoachProfileAsync(id);
+            var updateResult = await _coachProfileService.UpdateCoachProfileStatusAsync(id, request);
 
-            return NoContent();
+            return updateResult.Match<IActionResult>(
+                _ => NoContent(),
+                _ => NotFound()
+            );
         }
     }
 }

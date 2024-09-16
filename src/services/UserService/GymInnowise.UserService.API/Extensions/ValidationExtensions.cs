@@ -64,11 +64,44 @@ namespace GymInnowise.UserService.API.Extensions
                 .WithMessage("Identifier is required.");
         }
 
+        public static IRuleBuilderOptions<T, Guid?> NullableIdentifier<T>(this IRuleBuilder<T, Guid?> ruleBuilder)
+        {
+            return ruleBuilder.Must(sc => sc == null || sc != Guid.Empty)
+                .WithMessage("Identifier, if provided, must be a valid GUID.");
+        }
+
         public static IRuleBuilderOptions<T, ClientStatus> AccountStatus<T>(
             this IRuleBuilder<T, ClientStatus> ruleBuilder)
         {
             return ruleBuilder.IsInEnum()
                 .WithMessage("AccountStatus is invalid.");
+        }
+
+        public static IRuleBuilderOptions<T, T> ValidateStartAndDeadline<T>(
+            this IRuleBuilder<T, T> ruleBuilder,
+            Func<T, DateTime> startDateSelector,
+            Func<T, DateTime?> deadLineSelector)
+        {
+            return ruleBuilder.Must(model =>
+                {
+                    var startDate = startDateSelector(model);
+                    var deadLine = deadLineSelector(model);
+
+                    return startDate.Kind == DateTimeKind.Utc &&
+                           (!deadLine.HasValue || deadLine.Value.Kind == DateTimeKind.Utc) &&
+                           startDate >= DateTime.UtcNow &&
+                           (!deadLine.HasValue || deadLine.Value >= DateTime.UtcNow);
+                })
+                .WithMessage(
+                    "Invalid StartDate or DeadLine: ensure StartDate is in UTC format, not in the past," +
+                    " and DeadLine (if provided) is in UTC and after StartDate.");
+        }
+
+
+        public static IRuleBuilderOptions<T, decimal> Monetary<T>(
+            this IRuleBuilder<T, decimal> ruleBuilder)
+        {
+            return ruleBuilder.GreaterThan(0).WithMessage("Cost must be greater than zero.");
         }
     }
 }

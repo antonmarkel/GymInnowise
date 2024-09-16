@@ -11,7 +11,7 @@ using OneOf.Types;
 
 namespace GymInnowise.UserService.Logic.Services
 {
-    public class ClientProfileService(IClientProfileRepository _clientRepo) : IClientProfileService
+    public class ClientProfileService(IProfileRepository<ClientProfileEntity> _clientRepo) : IClientProfileService
     {
         public async Task<OneOf<Success, ProfileAlreadyExists>> CreateClientProfileAsync(
             CreateClientProfileRequest request)
@@ -21,7 +21,7 @@ namespace GymInnowise.UserService.Logic.Services
                 return new ProfileAlreadyExists();
             }
 
-            var profileModel = new ClientProfileModel()
+            var profileModel = new ClientProfileEntity
             {
                 AccountId = request.AccountId,
                 FirstName = request.FirstName,
@@ -30,17 +30,18 @@ namespace GymInnowise.UserService.Logic.Services
                 Gender = request.Gender,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
-                AccountStatus = ClientStatus.Active,
+                AccountStatus = ClientStatus.Active
             };
 
-            await _clientRepo.CreateClientProfileAsync(profileModel);
+            await _clientRepo.CreateProfileAsync(profileModel);
 
             return new Success();
         }
 
-        public async Task<OneOf<Success, ProfileNotFound>> UpdateClientProfileAsync(UpdateClientProfileRequest request)
+        public async Task<OneOf<Success, ProfileNotFound>> UpdateClientProfileAsync(Guid clientId,
+            UpdateClientProfileRequest request)
         {
-            var client = await _clientRepo.GetClientProfileByIdAsync(request.AccountId);
+            var client = await _clientRepo.GetProfileByIdAsync(clientId);
             if (client is null)
             {
                 return new ProfileNotFound();
@@ -53,15 +54,15 @@ namespace GymInnowise.UserService.Logic.Services
             client.Tags = request.Tags;
             client.UpdatedAt = DateTime.UtcNow;
 
-            await _clientRepo.UpdateClientProfileAsync(client);
+            await _clientRepo.UpdateProfileAsync(client);
 
             return new Success();
         }
 
-        public async Task<OneOf<Success, ProfileNotFound>> UpdateClientProfileStatusAsync(
+        public async Task<OneOf<Success, ProfileNotFound>> UpdateClientProfileStatusAsync(Guid clientId,
             UpdateClientProfileStatusRequest request)
         {
-            var account = await _clientRepo.GetClientProfileByIdAsync(request.AccountId);
+            var account = await _clientRepo.GetProfileByIdAsync(clientId);
             if (account is null)
             {
                 return new ProfileNotFound();
@@ -72,14 +73,14 @@ namespace GymInnowise.UserService.Logic.Services
             account.ExpectedReturnDate = request.ExpectedReturnDate;
             account.UpdatedAt = DateTime.UtcNow;
 
-            await _clientRepo.UpdateClientProfileAsync(account);
+            await _clientRepo.UpdateProfileAsync(account);
 
             return new Success();
         }
 
         public async Task<OneOf<GetClientProfileResponse, ProfileNotFound>> GetClientProfileAsync(Guid id)
         {
-            var account = await _clientRepo.GetClientProfileByIdAsync(id);
+            var account = await _clientRepo.GetProfileByIdAsync(id);
             if (account is null)
             {
                 return new ProfileNotFound();
@@ -98,11 +99,6 @@ namespace GymInnowise.UserService.Logic.Services
                 ExpectedReturnDate = account.ExpectedReturnDate,
                 Tags = account.Tags
             };
-        }
-
-        public async Task RemoveClientProfileAsync(Guid id)
-        {
-            await _clientRepo.RemoveClientProfileAsync(id);
         }
     }
 }

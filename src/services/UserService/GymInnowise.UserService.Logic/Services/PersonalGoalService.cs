@@ -12,11 +12,10 @@ using OneOf.Types;
 namespace GymInnowise.UserService.Logic.Services
 {
     public class PersonalGoalService(IPersonalGoalRepository _goalRepo) : IPersonalGoalService
-
     {
         public async Task CreatePersonalGoalAsync(CreatePersonalGoalRequest request)
         {
-            var goalModel = new PersonalGoalModel()
+            var goalModel = new PersonalGoalEntity()
             {
                 Owner = request.Owner,
                 Goal = request.Goal,
@@ -29,9 +28,10 @@ namespace GymInnowise.UserService.Logic.Services
             await _goalRepo.CreatePersonalGoalAsync(goalModel);
         }
 
-        public async Task<OneOf<Success, GoalNotFound>> UpdatePersonalGoalAsync(UpdatePersonalGoalRequest request)
+        public async Task<OneOf<Success, GoalNotFound>> UpdatePersonalGoalAsync(Guid goalId,
+            UpdatePersonalGoalRequest request)
         {
-            var goal = await _goalRepo.GetPersonalGoalAsync(request.Id);
+            var goal = await _goalRepo.GetPersonalGoalAsync(goalId);
             if (goal is null)
             {
                 return new GoalNotFound();
@@ -67,11 +67,6 @@ namespace GymInnowise.UserService.Logic.Services
             var goal = await _goalRepo.GetPersonalGoalAsync(goalId);
 
             return goal?.Owner;
-        }
-
-        public async Task RemovePersonalGoalAsync(Guid id)
-        {
-            await _goalRepo.RemovePersonalGoalAsync(id);
         }
     }
 }

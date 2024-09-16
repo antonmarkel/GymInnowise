@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace GymInnowise.UserService.API.Controllers
 {
     [ApiController]
-    [Route("api/profile/[controller]")]
+    [Route("api/personal-goals")]
     public class PersonalGoalController : ControllerBase
     {
         private readonly IPersonalGoalService _personalGoalService;
@@ -26,13 +26,21 @@ namespace GymInnowise.UserService.API.Controllers
         public async Task<IActionResult> GetPersonalGoalsAsync(Guid ownerId)
         {
             var goals = await _personalGoalService.GetAllPersonalGoalsAsync(ownerId);
+            var authorizationResult =
+                await _authorizationService.AuthorizeAsync(User, ownerId, PolicyNames.OwnerOrAdmin);
+            if (!authorizationResult.Succeeded)
+            {
+                return Forbid();
+            }
 
             return Ok(goals);
         }
 
+
         [Authorize]
-        [HttpPut]
-        public async Task<IActionResult> UpdatePersonalGoalAsync([FromBody] UpdatePersonalGoalRequest request)
+        [HttpPut("{goalId}")]
+        public async Task<IActionResult> UpdatePersonalGoalAsync(Guid goalId,
+            [FromBody] UpdatePersonalGoalRequest request)
         {
             var owner = await _personalGoalService.GetOwnerAsync(request.Id);
             var authorizationResult =
@@ -42,7 +50,7 @@ namespace GymInnowise.UserService.API.Controllers
                 return Forbid();
             }
 
-            var updateResult = await _personalGoalService.UpdatePersonalGoalAsync(request);
+            var updateResult = await _personalGoalService.UpdatePersonalGoalAsync(goalId, request);
 
             return updateResult.Match<IActionResult>(
                 _ => NoContent(),
@@ -66,22 +74,6 @@ namespace GymInnowise.UserService.API.Controllers
             Console.WriteLine($"Account id is {userAccountId} and should be {request.Owner}");
 
             return Created();
-        }
-
-        [HttpDelete("goalId")]
-        public async Task<IActionResult> RemovePersonalGoalAsync(Guid goalId)
-        {
-            var owner = await _personalGoalService.GetOwnerAsync(goalId);
-            var authorizationResult =
-                await _authorizationService.AuthorizeAsync(User, owner, PolicyNames.OwnerOrAdmin);
-            if (!authorizationResult.Succeeded)
-            {
-                return Forbid();
-            }
-
-            await _personalGoalService.RemovePersonalGoalAsync(goalId);
-
-            return NoContent();
         }
     }
 }

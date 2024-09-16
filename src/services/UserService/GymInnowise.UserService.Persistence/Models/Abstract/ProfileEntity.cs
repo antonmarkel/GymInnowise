@@ -1,8 +1,8 @@
 ﻿using GymInnowise.UserService.Shared.Enums;
 
-namespace GymInnowise.UserService.Persistence.Models
+namespace GymInnowise.UserService.Persistence.Models.Abstract
 {
-    public class ClientProfileModel
+    public abstract class ProfileEntity
     {
         public Guid AccountId { get; set; }
         public required string FirstName { get; set; }

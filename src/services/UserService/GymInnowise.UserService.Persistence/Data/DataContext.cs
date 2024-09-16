@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Npgsql;
+using System.Data;
 
 namespace GymInnowise.UserService.Persistence.Data
 {
@@ -19,6 +20,11 @@ namespace GymInnowise.UserService.Persistence.Data
                 var sql = $"CREATE DATABASE \"{database}\"";
                 await primaryConnection.ExecuteAsync(sql);
             }
+        }
+
+        public IDbConnection CreateConnection()
+        {
+            return new NpgsqlConnection(connectionString);
         }
     }
 }

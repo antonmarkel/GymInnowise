@@ -2,11 +2,11 @@
 using GymInnowise.UserService.API.Extensions;
 using GymInnowise.UserService.Shared.Dtos.RequestModels.Creates;
 
-namespace GymInnowise.UserService.API.Validators
+namespace GymInnowise.UserService.API.Validators.Creates
 {
-    public class CreateCoachProfileRequestValidator : AbstractValidator<CreateCoachProfileRequest>
+    public class CreateClientProfileRequestValidator : AbstractValidator<CreateClientProfileRequest>
     {
-        public CreateCoachProfileRequestValidator()
+        public CreateClientProfileRequestValidator()
         {
             RuleFor(x => x.AccountId).Identifier();
             RuleFor(x => x.FirstName).FirstName();

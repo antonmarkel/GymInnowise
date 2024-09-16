@@ -7,9 +7,9 @@ using System.Text.Json;
 
 namespace GymInnowise.UserService.Persistence.Repositories.Implementations
 {
-    public class CoachProfileRepository(DataContext _dataContext) : ICoachProfileRepository
+    public class CoachProfileRepository(DataContext _dataContext) : IProfileRepository<CoachProfileEntity>
     {
-        public async Task CreateCoachProfileAsync(CoachProfileModel coachProfileModel)
+        public async Task CreateProfileAsync(CoachProfileEntity coachProfile)
         {
             using var connection = _dataContext.CreateConnection();
             const string sql = @"
@@ -28,24 +28,24 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
 
             await connection.ExecuteAsync(sql, new
             {
-                AccountId = Guid.NewGuid(),
-                coachProfileModel.FirstName,
-                coachProfileModel.LastName,
-                coachProfileModel.DateOfBirth,
-                coachProfileModel.Gender,
-                coachProfileModel.CreatedAt,
-                coachProfileModel.UpdatedAt,
-                AccountStatus = coachProfileModel.AccountStatus.ToString(),
-                CoachStatus = coachProfileModel.CoachStatus.ToString(),
-                coachProfileModel.CostPerHour,
-                coachProfileModel.HiredAt,
-                coachProfileModel.StatusNotes,
-                coachProfileModel.ExpectedReturnDate,
-                Tags = JsonSerializer.Serialize(coachProfileModel.Tags.Select(t => t.ToString()))
+                coachProfile.AccountId,
+                coachProfile.FirstName,
+                coachProfile.LastName,
+                coachProfile.DateOfBirth,
+                coachProfile.Gender,
+                coachProfile.CreatedAt,
+                coachProfile.UpdatedAt,
+                AccountStatus = coachProfile.AccountStatus.ToString(),
+                CoachStatus = coachProfile.CoachStatus.ToString(),
+                coachProfile.CostPerHour,
+                coachProfile.HiredAt,
+                coachProfile.StatusNotes,
+                coachProfile.ExpectedReturnDate,
+                Tags = JsonSerializer.Serialize(coachProfile.Tags.Select(t => t.ToString()))
             });
         }
 
-        public async Task<CoachProfileModel?> GetCoachProfileByIdAsync(Guid accountId)
+        public async Task<CoachProfileEntity?> GetProfileByIdAsync(Guid accountId)
         {
             using var connection = _dataContext.CreateConnection();
             const string sql = @"SELECT * FROM ""CoachProfiles"" WHERE ""AccountId"" = @AccountId";
@@ -57,14 +57,14 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
 
             if (result is null)
             {
-                return null;
+                return result;
             }
 
             var tagsString = (string)result.Tags;
             var tags = JsonSerializer.Deserialize<List<string>>(tagsString)!
                 .Select(tg => Enum.Parse<TagEnum>(tg)).ToList();
 
-            return new CoachProfileModel()
+            return new CoachProfileEntity
             {
                 AccountId = result.AccountId,
                 FirstName = result.FirstName,
@@ -83,7 +83,7 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
             };
         }
 
-        public async Task UpdateCoachProfileAsync(CoachProfileModel profileModel)
+        public async Task UpdateProfileAsync(CoachProfileEntity profile)
         {
             using var connection = _dataContext.CreateConnection();
             const string sql = @"
@@ -99,30 +99,17 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
 
             await connection.ExecuteAsync(sql, new
             {
-                profileModel.AccountId,
-                profileModel.FirstName,
-                profileModel.LastName,
-                profileModel.DateOfBirth,
-                profileModel.Gender,
+                profile.AccountId,
+                profile.FirstName,
+                profile.LastName,
+                profile.DateOfBirth,
+                profile.Gender,
                 UpdatedAt = DateTime.UtcNow,
-                Tags = JsonSerializer.Serialize(profileModel.Tags.Select(t => t.ToString())),
-                AccountStatus = profileModel.AccountStatus.ToString(),
-                profileModel.StatusNotes,
-                profileModel.ExpectedReturnDate,
-                CoachStatus = profileModel.CoachStatus.ToString(),
-            });
-        }
-
-        public async Task RemoveCoachProfileAsync(Guid accountId)
-        {
-            using var connection = _dataContext.CreateConnection();
-            const string sql = @"
-            DELETE FROM ""CoachProfiles""
-            WHERE ""AccountId"" = @AccountId;";
-
-            await connection.ExecuteAsync(sql, new
-            {
-                AccountId = accountId,
+                Tags = JsonSerializer.Serialize(profile.Tags.Select(t => t.ToString())),
+                AccountStatus = profile.AccountStatus.ToString(),
+                profile.StatusNotes,
+                profile.ExpectedReturnDate,
+                CoachStatus = profile.CoachStatus.ToString()
             });
         }
 

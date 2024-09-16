@@ -16,16 +16,16 @@ namespace GymInnowise.UserService.API.Controllers
             _personalGoalService = personalGoalService;
         }
 
-        [HttpGet("{owner-id}")]
-        public async Task<IActionResult> GetPersonalGoalsAsync([FromRoute(Name = "owner-id")] Guid ownerId)
+        [HttpGet("{ownerId}")]
+        public async Task<IActionResult> GetPersonalGoalsAsync(Guid ownerId)
         {
             var goals = await _personalGoalService.GetAllPersonalGoalsAsync(ownerId);
 
             return Ok(goals);
         }
 
-        [HttpPut("{goal-id}")]
-        public async Task<IActionResult> UpdatePersonalGoalAsync([FromRoute(Name = "goal-id")] Guid goalId,
+        [HttpPut("{goalId}")]
+        public async Task<IActionResult> UpdatePersonalGoalAsync(Guid goalId,
             [FromBody] UpdatePersonalGoalRequest request)
         {
             var updateResult = await _personalGoalService.UpdatePersonalGoalAsync(goalId, request);

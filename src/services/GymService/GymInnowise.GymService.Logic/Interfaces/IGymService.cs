@@ -13,6 +13,6 @@ namespace GymInnowise.GymService.Logic.Interfaces
         Task CreateGymAsync(CreateGymRequest request);
         Task<OneOf<Success, NotFound>> UpdateGymAsync(Guid gymId, UpdateGymRequest updateRequest);
         Task<OneOf<GetGymDetailsResponse, NotFound>> GetGymDetailsByIdAsync(Guid gymId);
-        Task<OneOf<List<GetGymPreviewResponse>, TagsEmpty>> GetGymPreviewsByTagsAsync(List<GymTag> tags);
+        Task<List<GetGymPreviewResponse>> GetGymPreviewsByTagsAsync(List<GymTag> tags);
     }
 }

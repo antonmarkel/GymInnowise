@@ -45,16 +45,18 @@ namespace GymInnowise.GymService.Logic.Services
             return _mapper.Map<GetGymDetailsResponse>(gymEntity);
         }
 
-        public async Task<OneOf<List<GetGymPreviewResponse>, TagsEmpty>> GetGymPreviewsByTagsAsync(List<GymTag> tags)
+        public async Task<List<GetGymPreviewResponse>> GetGymPreviewsByTagsAsync(List<GymTag> tags)
         {
             if (!tags.Any())
             {
-                return new TagsEmpty();
+                var gyms = await _repo.GetAllGymsAsync();
+
+                return gyms.Select(_mapper.Map<GetGymPreviewResponse>).ToList();
             }
 
             var gymPreviewDtos = await _repo.GetGymsByTagsAsync(tags);
 
-            return gymPreviewDtos.Select(v => _mapper.Map<GetGymPreviewResponse>(v)).ToList();
+            return gymPreviewDtos.Select(_mapper.Map<GetGymPreviewResponse>).ToList();
         }
     }
 }

@@ -9,6 +9,7 @@ namespace GymInnowise.GymService.Persistence.Repositories.Interfaces
         Task AddGymAsync(GymEntity gymEntity);
         Task UpdateGymAsync(GymEntity gymEntity);
         Task<GymEntity?> GetGymByIdAsync(Guid id);
+        Task<List<GymPreviewDto>> GetAllGymsAsync();
         Task<List<GymPreviewDto>> GetGymsByTagsAsync(List<GymTag> tags);
     }
 }

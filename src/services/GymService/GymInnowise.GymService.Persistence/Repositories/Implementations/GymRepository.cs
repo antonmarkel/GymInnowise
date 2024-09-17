@@ -29,19 +29,6 @@ namespace GymInnowise.GymService.Persistence.Repositories.Implementations
         public async Task<List<GymPreviewDto>> GetGymsByTagsAsync(List<GymTag> tags)
         {
             var gyms = await _dbContext.Gyms
-                .Select(g => new
-                {
-                    g.Id,
-                    g.Name,
-                    g.Address,
-                    g.ContactInfo,
-                    g.Tags
-                })
-                .AsNoTracking()
-                .ToListAsync();
-
-            var filteredGyms = gyms
-                .Where(g => g.Tags.Intersect(tags).Any())
                 .Select(g => new GymPreviewDto
                 {
                     Id = g.Id,
@@ -50,9 +37,29 @@ namespace GymInnowise.GymService.Persistence.Repositories.Implementations
                     ContactInfo = g.ContactInfo,
                     Tags = g.Tags
                 })
+                .AsNoTracking()
+                .ToListAsync();
+
+            var filteredGyms = gyms
+                .Where(g => g.Tags.Intersect(tags).Any())
                 .ToList();
 
             return filteredGyms;
+        }
+
+        public async Task<List<GymPreviewDto>> GetAllGymsAsync()
+        {
+            return await _dbContext.Gyms
+                .Select(g => new GymPreviewDto
+                {
+                    Id = g.Id,
+                    Name = g.Name,
+                    Address = g.Address,
+                    ContactInfo = g.ContactInfo,
+                    Tags = g.Tags
+                })
+                .AsNoTracking()
+                .ToListAsync();
         }
     }
 }

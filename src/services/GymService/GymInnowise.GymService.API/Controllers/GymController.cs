@@ -42,14 +42,9 @@ namespace GymInnowise.GymService.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetGymsByTagsAsync([FromQuery] List<GymTag> tags)
+        public async Task<IActionResult> GetGymsAsync([FromQuery] List<GymTag>? tags)
         {
-            var result = await _gymService.GetGymPreviewsByTagsAsync(tags);
-
-            return result.Match<IActionResult>(
-                gyms => Ok(gyms),
-                _ => BadRequest("Empty tags")
-            );
+            return Ok(await _gymService.GetGymPreviewsByTagsAsync(tags ?? []));
         }
     }
 }

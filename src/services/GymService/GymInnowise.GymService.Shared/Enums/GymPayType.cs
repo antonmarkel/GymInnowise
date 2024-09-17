@@ -2,6 +2,7 @@
 {
     public enum GymPayType
     {
+        None,
         PerSession,
         PerHour,
     }

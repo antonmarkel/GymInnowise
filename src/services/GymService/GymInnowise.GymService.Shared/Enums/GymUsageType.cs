@@ -2,6 +2,7 @@
 {
     public enum GymUsageType
     {
+        None,
         IndividualUse,
         GroupClass,
         Closed,

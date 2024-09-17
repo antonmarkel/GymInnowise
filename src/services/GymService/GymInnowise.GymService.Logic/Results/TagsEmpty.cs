@@ -1,5 +1,4 @@
-﻿
-namespace GymInnowise.GymService.Logic.Results
+﻿namespace GymInnowise.GymService.Logic.Results
 {
     public struct TagsEmpty
     {

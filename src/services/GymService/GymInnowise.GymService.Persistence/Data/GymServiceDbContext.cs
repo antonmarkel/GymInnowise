@@ -22,7 +22,7 @@ namespace GymInnowise.GymService.Persistence.Data
             ConfigureGymEventEntity(modelBuilder);
         }
 
-        private void ConfigureGymEntity(ModelBuilder modelBuilder)
+        private static void ConfigureGymEntity(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<GymEntity>(entity =>
             {
@@ -36,7 +36,7 @@ namespace GymInnowise.GymService.Persistence.Data
             });
         }
 
-        private void ConfigureGymEventEntity(ModelBuilder modelBuilder)
+        private static void ConfigureGymEventEntity(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<GymEventEntity>(entity =>
             {

@@ -40,7 +40,7 @@ namespace GymInnowise.GymService.Logic.Services
         {
             var gymsEvents = await _repo.GetGymEventsByGymIdAsync(gymId);
 
-            return gymsEvents.Select(ev => _mapper.Map<GetGymEventResponse>(ev)).ToList();
+            return gymsEvents.Select(_mapper.Map<GetGymEventResponse>).ToList();
         }
     }
 }

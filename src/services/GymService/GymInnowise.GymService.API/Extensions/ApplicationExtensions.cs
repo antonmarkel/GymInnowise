@@ -1,9 +1,13 @@
-﻿using GymInnowise.GymService.Logic.Interfaces;
+﻿using FluentValidation;
+using FluentValidation.AspNetCore;
+using GymInnowise.GymService.API.Validators.Base;
+using GymInnowise.GymService.Logic.Interfaces;
 using GymInnowise.GymService.Logic.Services;
 using GymInnowise.GymService.Persistence.Data;
 using GymInnowise.GymService.Persistence.Repositories.Implementations;
 using GymInnowise.GymService.Persistence.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace GymInnowise.GymService.API.Extensions
 {
@@ -21,6 +25,12 @@ namespace GymInnowise.GymService.API.Extensions
             builder.Services.AddDbContext<GymServiceDbContext>(options => options.UseNpgsql(connectionString));
             builder.Services.AddScoped<IGymRepository, GymRepository>();
             builder.Services.AddScoped<IGymEventRepository, GymEventRepository>();
+        }
+
+        public static void AddValidationServices(this WebApplicationBuilder builder)
+        {
+            builder.Services.AddFluentValidationAutoValidation();
+            builder.Services.AddValidatorsFromAssembly(Assembly.GetAssembly(typeof(GymDetailsBaseDtoValidator)));
         }
     }
 }

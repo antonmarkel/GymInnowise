@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using GymInnowise.GymService.Logic.Interfaces;
-using GymInnowise.GymService.Logic.Results;
 using GymInnowise.GymService.Persistence.Models.Entities;
 using GymInnowise.GymService.Persistence.Repositories.Interfaces;
 using GymInnowise.GymService.Shared.Dtos.Requests.Creates;

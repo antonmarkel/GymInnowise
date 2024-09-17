@@ -15,7 +15,7 @@ namespace GymInnowise.UserService.API.Authorization.Handlers
                 return Task.CompletedTask;
             }
 
-            bool hasRequiredRole = requirement.Roles.Any(role => context.User.IsInRole(role));
+            var hasRequiredRole = requirement.Roles.Any(role => context.User.IsInRole(role));
             if (!hasRequiredRole)
             {
                 return Task.CompletedTask;

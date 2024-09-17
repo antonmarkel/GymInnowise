@@ -87,7 +87,6 @@ namespace GymInnowise.UserService.API.Extensions
                     RoleClaimType = "roles"
                 };
             });
-            builder.Services.AddAuthorization();
         }
 
         public static async Task MigrateDatabaseAsync(this IHost host)

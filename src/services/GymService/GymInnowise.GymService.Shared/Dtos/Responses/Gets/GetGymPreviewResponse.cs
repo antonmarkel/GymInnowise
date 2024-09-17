@@ -1,6 +1,6 @@
 ﻿using GymInnowise.GymService.Shared.Enums;
 
-namespace GymInnowise.GymService.Shared.Dtos.Responses
+namespace GymInnowise.GymService.Shared.Dtos.Responses.Gets
 {
     public class GetGymPreviewResponse
     {

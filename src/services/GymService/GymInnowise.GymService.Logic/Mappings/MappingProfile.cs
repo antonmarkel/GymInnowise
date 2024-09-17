@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 using GymInnowise.GymService.Persistence.Models.Dtos;
 using GymInnowise.GymService.Persistence.Models.Entities;
-using GymInnowise.GymService.Shared.Dtos.Requests;
-using GymInnowise.GymService.Shared.Dtos.Responses;
+using GymInnowise.GymService.Shared.Dtos.Requests.Creates;
+using GymInnowise.GymService.Shared.Dtos.Requests.Updates;
+using GymInnowise.GymService.Shared.Dtos.Responses.Gets;
 
 namespace GymInnowise.GymService.Logic.Mappings
 {

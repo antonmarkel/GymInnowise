@@ -1,6 +1,7 @@
 ﻿using GymInnowise.GymService.Logic.Results;
-using GymInnowise.GymService.Shared.Dtos.Requests;
-using GymInnowise.GymService.Shared.Dtos.Responses;
+using GymInnowise.GymService.Shared.Dtos.Requests.Creates;
+using GymInnowise.GymService.Shared.Dtos.Requests.Updates;
+using GymInnowise.GymService.Shared.Dtos.Responses.Gets;
 using GymInnowise.GymService.Shared.Enums;
 using OneOf;
 using OneOf.Types;

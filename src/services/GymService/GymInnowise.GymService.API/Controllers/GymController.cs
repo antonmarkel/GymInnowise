@@ -1,5 +1,6 @@
 ﻿using GymInnowise.GymService.Logic.Interfaces;
-using GymInnowise.GymService.Shared.Dtos.Requests;
+using GymInnowise.GymService.Shared.Dtos.Requests.Creates;
+using GymInnowise.GymService.Shared.Dtos.Requests.Updates;
 using GymInnowise.GymService.Shared.Enums;
 using Microsoft.AspNetCore.Mvc;
 

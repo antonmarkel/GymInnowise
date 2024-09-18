@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 using System.Reflection;
 using System.Security.Claims;
 using System.Text;
@@ -50,6 +51,15 @@ namespace GymInnowise.GymService.API.Extensions
                     policy => policy.Requirements.Add(new GymManagerRequirement()));
             });
             builder.Services.AddSingleton<IAuthorizationHandler, GymManagerHandler>();
+        }
+
+        public static void AddLogger(this WebApplicationBuilder builder)
+        {
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration((builder.Configuration))
+                .CreateLogger();
+
+            builder.Services.AddSerilog(Log.Logger);
         }
 
         public static void AddJwtServices(this IHostApplicationBuilder builder)

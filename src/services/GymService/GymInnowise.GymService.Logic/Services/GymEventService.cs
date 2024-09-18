@@ -32,6 +32,17 @@ namespace GymInnowise.GymService.Logic.Services
             return new Success();
         }
 
+        public async Task<OneOf<Guid, NotFound>> GetGymIdAsync(Guid eventId)
+        {
+            var eventEntity = await _repo.GetGymEventByIdAsync(eventId);
+            if (eventEntity is null)
+            {
+                return new NotFound();
+            }
+
+            return eventEntity.GymId;
+        }
+
         public async Task RemoveGymEventAsync(Guid eventId)
         {
             await _repo.RemoveEventAsync(eventId);

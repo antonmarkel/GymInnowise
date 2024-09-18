@@ -5,6 +5,6 @@ namespace GymInnowise.GymService.Shared.Enums
     {
         Unknown,
         BlockingEvent,
-        Training,
+        GroupTraining,
     }
 }

@@ -2,6 +2,7 @@
 using GymInnowise.GymService.Shared.Dtos.Requests.Creates;
 using GymInnowise.GymService.Shared.Dtos.Requests.Updates;
 using GymInnowise.GymService.Shared.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GymInnowise.GymService.API.Controllers
@@ -10,6 +11,7 @@ namespace GymInnowise.GymService.API.Controllers
     [Route("api/gyms")]
     public class GymsController(IGymService _gymService) : ControllerBase
     {
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateGymAsync([FromBody] CreateGymRequest request)
         {
@@ -18,6 +20,7 @@ namespace GymInnowise.GymService.API.Controllers
             return Created();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{gymId}")]
         public async Task<IActionResult> UpdateGymAsync(Guid gymId,
             [FromBody] UpdateGymRequest request)
@@ -30,6 +33,7 @@ namespace GymInnowise.GymService.API.Controllers
             );
         }
 
+        [Authorize]
         [HttpGet("{gymId}")]
         public async Task<IActionResult> GetGymByIdAsync(Guid gymId)
         {
@@ -41,6 +45,7 @@ namespace GymInnowise.GymService.API.Controllers
             );
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetGymsAsync([FromQuery] List<GymTag>? tags)
         {

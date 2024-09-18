@@ -10,6 +10,8 @@ builder.AddValidationServices();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.AddGymServices();
 builder.AddPersistenceServices();
+builder.AddJwtServices();
+builder.AddAuthorizationServices();
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment())

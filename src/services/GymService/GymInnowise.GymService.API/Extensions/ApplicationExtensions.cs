@@ -8,6 +8,7 @@ using GymInnowise.GymService.Persistence.Repositories.Implementations;
 using GymInnowise.GymService.Persistence.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using System.Security.Claims;
 using System.Text;
 using GymInnowise.GymService.Configuration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -73,7 +74,7 @@ namespace GymInnowise.GymService.API.Extensions
                     ValidIssuer = jwtSettings["Issuer"],
                     ValidAudience = jwtSettings["Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey(key),
-                    RoleClaimType = "roles"
+                    RoleClaimType = ClaimTypes.Role
                 };
             });
         }

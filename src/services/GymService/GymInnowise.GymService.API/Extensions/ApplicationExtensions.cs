@@ -1,22 +1,22 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
+using GymInnowise.GymService.API.Authorization;
+using GymInnowise.GymService.API.Authorization.Handlers;
+using GymInnowise.GymService.API.Authorization.Requirements;
 using GymInnowise.GymService.API.Validators.Base;
+using GymInnowise.GymService.Configuration;
 using GymInnowise.GymService.Logic.Interfaces;
 using GymInnowise.GymService.Logic.Services;
 using GymInnowise.GymService.Persistence.Data;
 using GymInnowise.GymService.Persistence.Repositories.Implementations;
 using GymInnowise.GymService.Persistence.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
 using System.Security.Claims;
 using System.Text;
-using GymInnowise.GymService.Configuration;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using GymInnowise.GymService.API.Authorization;
-using GymInnowise.GymService.API.Authorization.Handlers;
-using GymInnowise.GymService.API.Authorization.Requirements;
-using Microsoft.AspNetCore.Authorization;
 
 namespace GymInnowise.GymService.API.Extensions
 {

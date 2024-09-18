@@ -1,6 +1,5 @@
 ﻿using GymInnowise.GymService.API.Authorization.Requirements;
 using Microsoft.AspNetCore.Authorization;
-using System.Security.Claims;
 
 namespace GymInnowise.GymService.API.Authorization.Handlers
 {

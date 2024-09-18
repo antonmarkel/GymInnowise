@@ -37,7 +37,7 @@ namespace GymInnowise.UserService.API.Controllers
             return Ok(goals);
         }
 
-        [Authorize(Roles = "Coach")]
+        [Authorize(Roles = "Coach,Admin")]
         [HttpGet("{ownerId}/supervised-goals")]
         public async Task<IActionResult> GetCoachSupervisedGoalsAsync(Guid ownerId)
         {

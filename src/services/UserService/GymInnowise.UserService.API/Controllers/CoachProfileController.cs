@@ -73,7 +73,7 @@ namespace GymInnowise.UserService.API.Controllers
             );
         }
 
-        [Authorize(Roles = "Coach")]
+        [Authorize(Roles = "Coach,Admin")]
         [HttpPut("{id}/status")]
         public async Task<IActionResult> UpdateProfileStatusAsync(Guid id,
             [FromBody] UpdateCoachProfileStatusRequest request)

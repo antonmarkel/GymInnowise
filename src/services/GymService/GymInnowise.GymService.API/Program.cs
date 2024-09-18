@@ -16,6 +16,7 @@ builder.AddJwtServices();
 builder.AddAuthorizationServices();
 
 var app = builder.Build();
+app.UseGlobalExceptionHandler();
 app.UseSerilogRequestLogging();
 if (app.Environment.IsDevelopment())
 {

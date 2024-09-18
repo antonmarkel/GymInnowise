@@ -11,8 +11,8 @@ namespace GymInnowise.GymService.Persistence.Models.Entities
         public Guid? TrainingId { get; set; }
         public GymEventType EventType { get; set; }
         public string Info { get; set; } = string.Empty;
-        public TimeSpan StartTime { get; set; }
-        public TimeSpan EndTime { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
         public DateTime CreatedAt { get; set; }
     }
 }

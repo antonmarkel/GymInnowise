@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.GymService.Shar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.GymService.Logic", "GymInnowise.GymService.Logic\GymInnowise.GymService.Logic.csproj", "{5CBE838A-361A-45A4-992D-BAA953B5C2B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymInnowise.GymService.Configuration", "GymInnowise.GymService.Configuration\GymInnowise.GymService.Configuration.csproj", "{8EC15E42-B370-49AD-83FC-0890CD453F94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.GymService.Configuration", "GymInnowise.GymService.Configuration\GymInnowise.GymService.Configuration.csproj", "{8EC15E42-B370-49AD-83FC-0890CD453F94}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymInnowise.GymService.UnitTests", "GymInnowise.GymService.UnitTests\GymInnowise.GymService.UnitTests.csproj", "{38E75684-FE2A-4764-B0A2-2F76EE6A6C86}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{8EC15E42-B370-49AD-83FC-0890CD453F94}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8EC15E42-B370-49AD-83FC-0890CD453F94}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8EC15E42-B370-49AD-83FC-0890CD453F94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38E75684-FE2A-4764-B0A2-2F76EE6A6C86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38E75684-FE2A-4764-B0A2-2F76EE6A6C86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38E75684-FE2A-4764-B0A2-2F76EE6A6C86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38E75684-FE2A-4764-B0A2-2F76EE6A6C86}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

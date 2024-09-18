@@ -2,6 +2,8 @@
 {
     public enum RoleEnum
     {
-        Client
+        Client,
+        Coach,
+        Admin
     }
 }

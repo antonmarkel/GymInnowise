@@ -4,7 +4,6 @@ namespace GymInnowise.GymService.Shared.Dtos.Abstract
 {
     public abstract class GymEventBaseDto
     {
-        public Guid GymId { get; set; }
         public Guid CreatedBy { get; set; }
         public Guid? TrainingId { get; set; }
         public GymEventType EventType { get; set; }

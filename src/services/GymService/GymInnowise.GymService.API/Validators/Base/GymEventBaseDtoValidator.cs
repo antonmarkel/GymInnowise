@@ -7,9 +7,6 @@ namespace GymInnowise.GymService.API.Validators.Base
     {
         public GymEventBaseDtoValidator()
         {
-            RuleFor(dto => dto.GymId)
-                .NotEmpty().WithMessage("GymId is required.");
-
             RuleFor(dto => dto.CreatedBy)
                 .NotEmpty().WithMessage("CreatedBy is required.");
 

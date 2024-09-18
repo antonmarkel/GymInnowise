@@ -41,6 +41,7 @@ namespace GymInnowise.GymService.Persistence.Data
             modelBuilder.Entity<GymEventEntity>(entity =>
             {
                 entity.HasKey(ev => ev.Id);
+                entity.HasIndex(ev => ev.GymId);
                 entity.Property(ev => ev.Info).HasMaxLength(250).IsRequired();
                 entity.Property(ev => ev.EventType).HasConversion<string>();
             });

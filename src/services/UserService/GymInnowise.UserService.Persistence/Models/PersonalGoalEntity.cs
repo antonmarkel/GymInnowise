@@ -2,7 +2,7 @@
 
 namespace GymInnowise.UserService.Persistence.Models
 {
-    public class PersonalGoalModel
+    public class PersonalGoalEntity
     {
         public Guid Id { get; set; }
         public Guid Owner { get; set; }

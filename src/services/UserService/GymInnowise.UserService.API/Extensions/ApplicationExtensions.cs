@@ -3,12 +3,15 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using GymInnowise.UserService.API.Authorization;
 using GymInnowise.UserService.API.Middleware;
-using GymInnowise.UserService.API.Validators;
+using GymInnowise.UserService.API.Authorization.Handlers;
+using GymInnowise.UserService.API.Authorization.Requirements;
+using GymInnowise.UserService.API.Validators.Creates;
 using GymInnowise.UserService.Configuration.Token;
 using GymInnowise.UserService.Logic.Interfaces;
 using GymInnowise.UserService.Logic.Services;
 using GymInnowise.UserService.Persistence.Data;
 using GymInnowise.UserService.Persistence.Migrations;
+using GymInnowise.UserService.Persistence.Models;
 using GymInnowise.UserService.Persistence.Repositories.Implementations;
 using GymInnowise.UserService.Persistence.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -31,8 +34,8 @@ namespace GymInnowise.UserService.API.Extensions
                     .WithGlobalConnectionString(connectionString)
                     .ScanIn(Assembly.GetAssembly(typeof(InitialCreate))).For.Migrations());
 
-            builder.Services.AddScoped<IClientProfileRepository, ClientProfileRepository>();
-            builder.Services.AddScoped<ICoachProfileRepository, CoachProfileRepository>();
+            builder.Services.AddScoped<IProfileRepository<ClientProfileEntity>, ClientProfileRepository>();
+            builder.Services.AddScoped<IProfileRepository<CoachProfileEntity>, CoachProfileRepository>();
             builder.Services.AddScoped<IPersonalGoalRepository, PersonalGoalRepository>();
         }
 
@@ -43,9 +46,16 @@ namespace GymInnowise.UserService.API.Extensions
             builder.Services.AddScoped<IPersonalGoalService, PersonalGoalService>();
         }
 
-        public static void AddAutherizationServices(this IHostApplicationBuilder builder)
+        public static void AddAuthorizationServices(this IHostApplicationBuilder builder)
         {
-            builder.Services.AddSingleton<IAuthorizationHandler, OwnerOrAdminHandler>();
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy(PolicyNames.OwnerPolicy,
+                    policy => policy.Requirements.Add(new ResourceOwnerRequirement()));
+                options.AddPolicy(PolicyNames.SupervisorPolicy,
+                    policy => policy.Requirements.Add(new ResourceOwnerRequirement(roles: ["Coach"])));
+            });
+            builder.Services.AddSingleton<IAuthorizationHandler, ResourceOwnerHandler>();
         }
 
         public static void AddValidation(this IHostApplicationBuilder builder)

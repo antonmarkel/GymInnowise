@@ -8,7 +8,7 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
 {
     public class PersonalGoalRepository(DataContext _dataContext) : IPersonalGoalRepository
     {
-        public async Task CreatePersonalGoalAsync(PersonalGoalModel personalGoalModel)
+        public async Task CreatePersonalGoalAsync(PersonalGoalEntity personalGoal)
         {
             using var connection = _dataContext.CreateConnection();
             const string sql = @"
@@ -26,16 +26,16 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
             await connection.ExecuteAsync(sql, new
             {
                 Id = Guid.NewGuid(),
-                personalGoalModel.Owner,
-                personalGoalModel.Goal,
-                personalGoalModel.SupervisorCoach,
-                Status = personalGoalModel.Status.ToString(),
-                personalGoalModel.StartDate,
-                personalGoalModel.DeadLine,
+                personalGoal.Owner,
+                personalGoal.Goal,
+                personalGoal.SupervisorCoach,
+                Status = personalGoal.Status.ToString(),
+                personalGoal.StartDate,
+                personalGoal.DeadLine,
             });
         }
 
-        public async Task UpdatePersonalGoalAsync(PersonalGoalModel goalModel)
+        public async Task UpdatePersonalGoalAsync(PersonalGoalEntity goal)
         {
             using var connection = _dataContext.CreateConnection();
             const string sql = @"
@@ -48,29 +48,16 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
 
             await connection.ExecuteAsync(sql, new
             {
-                goalModel.Id,
-                goalModel.Goal,
-                goalModel.SupervisorCoach,
-                Status = goalModel.Status.ToString(),
-                goalModel.StartDate,
-                goalModel.DeadLine,
+                goal.Id,
+                goal.Goal,
+                goal.SupervisorCoach,
+                Status = goal.Status.ToString(),
+                goal.StartDate,
+                goal.DeadLine,
             });
         }
 
-        public async Task RemovePersonalGoalAsync(Guid personalGoalId)
-        {
-            using var connection = _dataContext.CreateConnection();
-            const string sql = @"
-            DELETE FROM ""PersonalGoals""
-            WHERE ""Id"" = @personalGoalId;";
-
-            await connection.ExecuteAsync(sql, new
-            {
-                personalGoalId,
-            });
-        }
-
-        public async Task<List<PersonalGoalModel>> GetAllPersonalGoalsAsync(Guid accountId)
+        public async Task<List<PersonalGoalEntity>> GetAllPersonalGoalsAsync(Guid accountId)
         {
             using var connection = _dataContext.CreateConnection();
             const string sql = @"
@@ -80,7 +67,7 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
             var result =
                 await connection.QueryAsync(sql, new { accountId });
 
-            return result.Select(dn => new PersonalGoalModel()
+            return result.Select(dn => new PersonalGoalEntity()
             {
                 Id = dn.Id,
                 Owner = dn.Owner,
@@ -92,7 +79,7 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
             }).ToList();
         }
 
-        public async Task<PersonalGoalModel?> GetPersonalGoalAsync(Guid goalId)
+        public async Task<PersonalGoalEntity?> GetPersonalGoalAsync(Guid goalId)
         {
             using var connection = _dataContext.CreateConnection();
             const string sql = @"
@@ -104,21 +91,40 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
                 goalId
             });
 
-            if (result is null)
-            {
-                return null;
-            }
+            return result != null
+                ? new PersonalGoalEntity
+                {
+                    Id = result.Id,
+                    Owner = result.Owner,
+                    Goal = result.Goal,
+                    SupervisorCoach = result.SupervisorCoach,
+                    Status = Enum.Parse<GoalStatus>(result.Status),
+                    StartDate = result.StartDate,
+                    DeadLine = result.DeadLine,
+                }
+                : result;
+        }
 
-            return new PersonalGoalModel()
+        public async Task<List<PersonalGoalEntity>> GetCoachSupervisedGoalsAsync(Guid accountId, Guid coachId)
+        {
+            using var connection = _dataContext.CreateConnection();
+            const string sql = @"
+            SELECT * FROM ""PersonalGoals""
+            WHERE ""Owner"" = @accountId AND ""SupervisorCoach"" = @coachId";
+
+            var result =
+                await connection.QueryAsync(sql, new { accountId, coachId });
+
+            return result.Select(dn => new PersonalGoalEntity()
             {
-                Id = result.Id,
-                Owner = result.Owner,
-                Goal = result.Goal,
-                SupervisorCoach = result.SupervisorCoach,
-                Status = Enum.Parse<GoalStatus>(result.Status),
-                StartDate = result.StartDate,
-                DeadLine = result.DeadLine,
-            };
+                Id = dn.Id,
+                Owner = dn.Owner,
+                Goal = dn.Goal,
+                SupervisorCoach = dn.SupervisorCoach,
+                Status = Enum.Parse<GoalStatus>((string)dn.Status),
+                StartDate = dn.StartDate,
+                DeadLine = dn.DeadLine,
+            }).ToList();
         }
     }
 }

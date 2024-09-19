@@ -9,12 +9,12 @@ namespace GymInnowise.UserService.UnitTests.Services
 {
     public class CoachProfilesServiceTests
     {
-        private readonly ICoachProfileRepository _coachRepo;
+        private readonly IProfileRepository<CoachProfileEntity> _coachRepo;
         private readonly CoachProfileService _coachProfileService;
 
         public CoachProfilesServiceTests()
         {
-            _coachRepo = A.Fake<ICoachProfileRepository>();
+            _coachRepo = A.Fake<IProfileRepository<CoachProfileEntity>>();
             _coachProfileService = new CoachProfileService(_coachRepo);
         }
 
@@ -30,7 +30,7 @@ namespace GymInnowise.UserService.UnitTests.Services
 
             //Assert
             Assert.True(result.IsT1);
-            A.CallTo(() => _coachRepo.CreateCoachProfileAsync(A<CoachProfileModel>._)).MustNotHaveHappened();
+            A.CallTo(() => _coachRepo.CreateProfileAsync(A<CoachProfileEntity>._)).MustNotHaveHappened();
         }
 
         [Fact]
@@ -45,7 +45,7 @@ namespace GymInnowise.UserService.UnitTests.Services
 
             //Assert
             Assert.True(result.IsT0);
-            A.CallTo(() => _coachRepo.CreateCoachProfileAsync(A<CoachProfileModel>._)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => _coachRepo.CreateProfileAsync(A<CoachProfileEntity>._)).MustHaveHappenedOnceExactly();
         }
 
         [Fact]
@@ -54,14 +54,14 @@ namespace GymInnowise.UserService.UnitTests.Services
             //Arrange
             var request = new UpdateCoachProfileRequest();
             A.CallTo(() =>
-                _coachRepo.GetCoachProfileByIdAsync(new Guid())).Returns(Task.FromResult<CoachProfileModel?>(null));
+                _coachRepo.GetProfileByIdAsync(new Guid())).Returns(Task.FromResult<CoachProfileEntity?>(null));
 
             //Act
-            var result = await _coachProfileService.UpdateCoachProfileAsync(request);
+            var result = await _coachProfileService.UpdateCoachProfileAsync(Guid.Empty, request);
 
             //Assert
             Assert.True(result.IsT1);
-            A.CallTo(() => _coachRepo.UpdateCoachProfileAsync(A<CoachProfileModel>._)).MustNotHaveHappened();
+            A.CallTo(() => _coachRepo.UpdateProfileAsync(A<CoachProfileEntity>._)).MustNotHaveHappened();
         }
 
         [Fact]
@@ -70,18 +70,18 @@ namespace GymInnowise.UserService.UnitTests.Services
             //Arrange
             var request = new UpdateCoachProfileRequest();
             A.CallTo(() =>
-                _coachRepo.GetCoachProfileByIdAsync(new Guid())).Returns(new CoachProfileModel()
+                _coachRepo.GetProfileByIdAsync(new Guid())).Returns(new CoachProfileEntity()
             {
                 FirstName = "Bob",
                 LastName = "Coach"
             });
 
             //Act
-            var result = await _coachProfileService.UpdateCoachProfileAsync(request);
+            var result = await _coachProfileService.UpdateCoachProfileAsync(Guid.Empty, request);
 
             //Assert
             Assert.True(result.IsT0);
-            A.CallTo(() => _coachRepo.UpdateCoachProfileAsync(A<CoachProfileModel>._)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => _coachRepo.UpdateProfileAsync(A<CoachProfileEntity>._)).MustHaveHappenedOnceExactly();
         }
 
         [Fact]
@@ -90,14 +90,14 @@ namespace GymInnowise.UserService.UnitTests.Services
             //Arrange
             var request = new UpdateCoachProfileStatusRequest();
             A.CallTo(() =>
-                _coachRepo.GetCoachProfileByIdAsync(new Guid())).Returns(Task.FromResult<CoachProfileModel?>(null));
+                _coachRepo.GetProfileByIdAsync(new Guid())).Returns(Task.FromResult<CoachProfileEntity?>(null));
 
             //Act
-            var result = await _coachProfileService.UpdateCoachProfileStatusAsync(request);
+            var result = await _coachProfileService.UpdateCoachProfileStatusAsync(Guid.Empty, request);
 
             //Assert
             Assert.True(result.IsT1);
-            A.CallTo(() => _coachRepo.UpdateCoachProfileAsync(A<CoachProfileModel>._)).MustNotHaveHappened();
+            A.CallTo(() => _coachRepo.UpdateProfileAsync(A<CoachProfileEntity>._)).MustNotHaveHappened();
         }
 
         [Fact]
@@ -106,26 +106,26 @@ namespace GymInnowise.UserService.UnitTests.Services
             //Arrange
             var request = new UpdateCoachProfileStatusRequest();
             A.CallTo(() =>
-                _coachRepo.GetCoachProfileByIdAsync(new Guid())).Returns(new CoachProfileModel()
+                _coachRepo.GetProfileByIdAsync(new Guid())).Returns(new CoachProfileEntity()
             {
                 FirstName = "Bob",
                 LastName = "Coach"
             });
 
             //Act
-            var result = await _coachProfileService.UpdateCoachProfileStatusAsync(request);
+            var result = await _coachProfileService.UpdateCoachProfileStatusAsync(Guid.Empty, request);
 
             //Assert
             Assert.True(result.IsT0);
-            A.CallTo(() => _coachRepo.UpdateCoachProfileAsync(A<CoachProfileModel>._)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => _coachRepo.UpdateProfileAsync(A<CoachProfileEntity>._)).MustHaveHappenedOnceExactly();
         }
 
         [Fact]
         public async Task GetCoachProfileAsync_ProfileNotFound_ReturnsProfileNotFound()
         {
             //Arrange
-            A.CallTo(() => _coachRepo.GetCoachProfileByIdAsync(new Guid()))
-                .Returns(Task.FromResult<CoachProfileModel?>(null));
+            A.CallTo(() => _coachRepo.GetProfileByIdAsync(new Guid()))
+                .Returns(Task.FromResult<CoachProfileEntity?>(null));
 
             //Act
             var result = await _coachProfileService.GetCoachProfileAsync(new Guid());
@@ -138,8 +138,8 @@ namespace GymInnowise.UserService.UnitTests.Services
         public async Task GetClientProfileAsync_ProfileExists_ReturnsGetClientProfileResponse()
         {
             //Arrange
-            A.CallTo(() => _coachRepo.GetCoachProfileByIdAsync(new Guid()))
-                .Returns(new CoachProfileModel() { FirstName = "Bob", LastName = "Flash" });
+            A.CallTo(() => _coachRepo.GetProfileByIdAsync(new Guid()))
+                .Returns(new CoachProfileEntity() { FirstName = "Bob", LastName = "Flash" });
 
             //Act
             var result = await _coachProfileService.GetCoachProfileAsync(new Guid());

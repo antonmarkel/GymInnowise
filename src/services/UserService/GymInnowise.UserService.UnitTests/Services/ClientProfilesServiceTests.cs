@@ -9,12 +9,12 @@ namespace GymInnowise.UserService.UnitTests.Services
 {
     public class ClientProfileServiceTests
     {
-        private readonly IClientProfileRepository _clientRepo;
+        private readonly IProfileRepository<ClientProfileEntity> _clientRepo;
         private readonly ClientProfileService _clientProfileService;
 
         public ClientProfileServiceTests()
         {
-            _clientRepo = A.Fake<IClientProfileRepository>();
+            _clientRepo = A.Fake<IProfileRepository<ClientProfileEntity>>();
             _clientProfileService = new ClientProfileService(_clientRepo);
         }
 
@@ -30,7 +30,7 @@ namespace GymInnowise.UserService.UnitTests.Services
 
             //Assert
             Assert.True(result.IsT1);
-            A.CallTo(() => _clientRepo.CreateClientProfileAsync(A<ClientProfileModel>._)).MustNotHaveHappened();
+            A.CallTo(() => _clientRepo.CreateProfileAsync(A<ClientProfileEntity>._)).MustNotHaveHappened();
         }
 
         [Fact]
@@ -45,7 +45,7 @@ namespace GymInnowise.UserService.UnitTests.Services
 
             // Assert
             Assert.True(result.IsT0);
-            A.CallTo(() => _clientRepo.CreateClientProfileAsync(A<ClientProfileModel>._)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => _clientRepo.CreateProfileAsync(A<ClientProfileEntity>._)).MustHaveHappenedOnceExactly();
         }
 
         [Fact]
@@ -53,15 +53,15 @@ namespace GymInnowise.UserService.UnitTests.Services
         {
             //Arrange
             var request = new UpdateClientProfileRequest();
-            A.CallTo(() => _clientRepo.GetClientProfileByIdAsync(request.AccountId))!
-                .Returns(Task.FromResult<ClientProfileModel?>(null));
+            A.CallTo(() => _clientRepo.GetProfileByIdAsync(Guid.Empty))!
+                .Returns(Task.FromResult<ClientProfileEntity?>(null));
 
             //Act
-            var result = await _clientProfileService.UpdateClientProfileAsync(request);
+            var result = await _clientProfileService.UpdateClientProfileAsync(Guid.Empty, request);
 
             //Assert
             Assert.True(result.IsT1);
-            A.CallTo(() => _clientRepo.UpdateClientProfileAsync(A<ClientProfileModel>._)).MustNotHaveHappened();
+            A.CallTo(() => _clientRepo.UpdateProfileAsync(A<ClientProfileEntity>._)).MustNotHaveHappened();
         }
 
         [Fact]
@@ -69,15 +69,15 @@ namespace GymInnowise.UserService.UnitTests.Services
         {
             //Arrange
             var request = new UpdateClientProfileRequest();
-            A.CallTo(() => _clientRepo.GetClientProfileByIdAsync(request.AccountId))
-                .Returns(new ClientProfileModel() { FirstName = "Bob", LastName = "Flash" });
+            A.CallTo(() => _clientRepo.GetProfileByIdAsync(Guid.Empty))
+                .Returns(new ClientProfileEntity() { FirstName = "Bob", LastName = "Flash" });
 
             //Act
-            var result = await _clientProfileService.UpdateClientProfileAsync(request);
+            var result = await _clientProfileService.UpdateClientProfileAsync(Guid.Empty, request);
 
             //Assert
             Assert.True(result.IsT0);
-            A.CallTo(() => _clientRepo.UpdateClientProfileAsync(A<ClientProfileModel>._)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => _clientRepo.UpdateProfileAsync(A<ClientProfileEntity>._)).MustHaveHappenedOnceExactly();
         }
 
         [Fact]
@@ -85,15 +85,15 @@ namespace GymInnowise.UserService.UnitTests.Services
         {
             //Arrange
             var request = new UpdateClientProfileStatusRequest();
-            A.CallTo(() => _clientRepo.GetClientProfileByIdAsync(request.AccountId))!
-                .Returns(Task.FromResult<ClientProfileModel?>(null));
+            A.CallTo(() => _clientRepo.GetProfileByIdAsync(Guid.Empty))!
+                .Returns(Task.FromResult<ClientProfileEntity?>(null));
 
             //Act
-            var result = await _clientProfileService.UpdateClientProfileStatusAsync(request);
+            var result = await _clientProfileService.UpdateClientProfileStatusAsync(Guid.Empty, request);
 
             //Assert
             Assert.True(result.IsT1);
-            A.CallTo(() => _clientRepo.UpdateClientProfileAsync(A<ClientProfileModel>._)).MustNotHaveHappened();
+            A.CallTo(() => _clientRepo.UpdateProfileAsync(A<ClientProfileEntity>._)).MustNotHaveHappened();
         }
 
         [Fact]
@@ -101,23 +101,24 @@ namespace GymInnowise.UserService.UnitTests.Services
         {
             //Arrange
             var request = new UpdateClientProfileStatusRequest();
-            A.CallTo(() => _clientRepo.GetClientProfileByIdAsync(request.AccountId))
-                .Returns(new ClientProfileModel() { FirstName = "Bob", LastName = "Flash" });
+            A.CallTo(() => _clientRepo.GetProfileByIdAsync(Guid.Empty))
+                .Returns(new ClientProfileEntity() { FirstName = "Bob", LastName = "Flash" });
 
             //Act
-            var result = await _clientProfileService.UpdateClientProfileStatusAsync(request);
+            var result = await _clientProfileService.UpdateClientProfileStatusAsync(Guid.Empty, request);
 
             //Assert
             Assert.True(result.IsT0);
-            A.CallTo(() => _clientRepo.UpdateClientProfileAsync(A<ClientProfileModel>._)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => _clientRepo.UpdateProfileAsync(A<ClientProfileEntity>._))
+                .MustHaveHappenedOnceExactly();
         }
 
         [Fact]
         public async Task GetClientProfileAsync_ProfileNotFound_ReturnsProfileNotFound()
         {
             //Arrange
-            A.CallTo(() => _clientRepo.GetClientProfileByIdAsync(new Guid()))
-                .Returns(Task.FromResult<ClientProfileModel?>(null));
+            A.CallTo(() => _clientRepo.GetProfileByIdAsync(Guid.Empty))
+                .Returns(Task.FromResult<ClientProfileEntity?>(null));
 
             //Act
             var result = await _clientProfileService.GetClientProfileAsync(new Guid());
@@ -130,8 +131,8 @@ namespace GymInnowise.UserService.UnitTests.Services
         public async Task GetClientProfileAsync_ProfileExists_ReturnsGetClientProfileResponse()
         {
             //Arrange
-            A.CallTo(() => _clientRepo.GetClientProfileByIdAsync(new Guid()))
-                .Returns(new ClientProfileModel() { FirstName = "Bob", LastName = "Flash" });
+            A.CallTo(() => _clientRepo.GetProfileByIdAsync(new Guid()))
+                .Returns(new ClientProfileEntity() { FirstName = "Bob", LastName = "Flash" });
 
             //Act
             var result = await _clientProfileService.GetClientProfileAsync(new Guid());

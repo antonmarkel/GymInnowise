@@ -1,5 +1,4 @@
 ﻿using GymInnowise.UserService.Logic.Interfaces;
-using GymInnowise.UserService.Logic.Results;
 using GymInnowise.UserService.Persistence.Models;
 using GymInnowise.UserService.Persistence.Repositories.Interfaces;
 using GymInnowise.UserService.Shared.Dtos.RequestModels.Creates;
@@ -12,11 +11,10 @@ using OneOf.Types;
 namespace GymInnowise.UserService.Logic.Services
 {
     public class PersonalGoalService(IPersonalGoalRepository _goalRepo) : IPersonalGoalService
-
     {
         public async Task CreatePersonalGoalAsync(CreatePersonalGoalRequest request)
         {
-            var goalModel = new PersonalGoalModel()
+            var goalModel = new PersonalGoalEntity()
             {
                 Owner = request.Owner,
                 Goal = request.Goal,
@@ -29,12 +27,13 @@ namespace GymInnowise.UserService.Logic.Services
             await _goalRepo.CreatePersonalGoalAsync(goalModel);
         }
 
-        public async Task<OneOf<Success, GoalNotFound>> UpdatePersonalGoalAsync(UpdatePersonalGoalRequest request)
+        public async Task<OneOf<Success, NotFound>> UpdatePersonalGoalAsync(Guid goalId,
+            UpdatePersonalGoalRequest request)
         {
-            var goal = await _goalRepo.GetPersonalGoalAsync(request.Id);
+            var goal = await _goalRepo.GetPersonalGoalAsync(goalId);
             if (goal is null)
             {
-                return new GoalNotFound();
+                return new NotFound();
             }
 
             goal.Goal = request.Goal;
@@ -54,6 +53,7 @@ namespace GymInnowise.UserService.Logic.Services
 
             return goals.Select(g => new GetPersonalGoalResponse()
             {
+                Owner = ownerId,
                 Goal = g.Goal,
                 SupervisorCoach = g.SupervisorCoach,
                 Status = g.Status,
@@ -62,16 +62,38 @@ namespace GymInnowise.UserService.Logic.Services
             }).ToList();
         }
 
-        public async Task<Guid?> GetOwnerAsync(Guid goalId)
+        public async Task<List<GetPersonalGoalResponse>> GetCoachSupervisedGoalsAsync(Guid ownerId, Guid coachId)
         {
-            var goal = await _goalRepo.GetPersonalGoalAsync(goalId);
+            var goals = await _goalRepo.GetCoachSupervisedGoalsAsync(ownerId, coachId);
 
-            return goal?.Owner;
+            return goals.Select(g => new GetPersonalGoalResponse()
+            {
+                Owner = ownerId,
+                Goal = g.Goal,
+                SupervisorCoach = g.SupervisorCoach,
+                Status = g.Status,
+                StartDate = g.StartDate,
+                DeadLine = g.DeadLine
+            }).ToList();
         }
 
-        public async Task RemovePersonalGoalAsync(Guid id)
+        public async Task<OneOf<GetPersonalGoalResponse, NotFound>> GetPersonalGoalAsync(Guid goalId)
         {
-            await _goalRepo.RemovePersonalGoalAsync(id);
+            var goalEntity = await _goalRepo.GetPersonalGoalAsync(goalId);
+            if (goalEntity is null)
+            {
+                return new NotFound();
+            }
+
+            return new GetPersonalGoalResponse()
+            {
+                Owner = goalEntity.Owner,
+                Goal = goalEntity.Goal,
+                SupervisorCoach = goalEntity.SupervisorCoach,
+                Status = goalEntity.Status,
+                StartDate = goalEntity.StartDate,
+                DeadLine = goalEntity.DeadLine
+            };
         }
     }
 }

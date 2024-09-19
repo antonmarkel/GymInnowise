@@ -23,14 +23,14 @@ namespace GymInnowise.UserService.UnitTests.Services
             //Arrange
             var request = new UpdatePersonalGoalRequest();
             A.CallTo(() =>
-                _goalRepo.GetPersonalGoalAsync(new Guid())).Returns(Task.FromResult<PersonalGoalModel?>(null));
+                _goalRepo.GetPersonalGoalAsync(new Guid())).Returns(Task.FromResult<PersonalGoalEntity?>(null));
 
             //Act
-            var result = await _personalGoalService.UpdatePersonalGoalAsync(request);
+            var result = await _personalGoalService.UpdatePersonalGoalAsync(Guid.Empty, request);
 
             //Assert
             Assert.True(result.IsT1);
-            A.CallTo(() => _goalRepo.UpdatePersonalGoalAsync(A<PersonalGoalModel>._)).MustNotHaveHappened();
+            A.CallTo(() => _goalRepo.UpdatePersonalGoalAsync(A<PersonalGoalEntity>._)).MustNotHaveHappened();
         }
 
         [Fact]
@@ -39,14 +39,14 @@ namespace GymInnowise.UserService.UnitTests.Services
             //Arrange
             var request = new UpdatePersonalGoalRequest();
             A.CallTo(() =>
-                _goalRepo.GetPersonalGoalAsync(new Guid())).Returns(new PersonalGoalModel() { Goal = "Goal" });
+                _goalRepo.GetPersonalGoalAsync(new Guid())).Returns(new PersonalGoalEntity() { Goal = "Goal" });
 
             //Act
-            var result = await _personalGoalService.UpdatePersonalGoalAsync(request);
+            var result = await _personalGoalService.UpdatePersonalGoalAsync(Guid.Empty, request);
 
             //Assert
             Assert.True(result.IsT0);
-            A.CallTo(() => _goalRepo.UpdatePersonalGoalAsync(A<PersonalGoalModel>._)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => _goalRepo.UpdatePersonalGoalAsync(A<PersonalGoalEntity>._)).MustHaveHappenedOnceExactly();
         }
     }
 }

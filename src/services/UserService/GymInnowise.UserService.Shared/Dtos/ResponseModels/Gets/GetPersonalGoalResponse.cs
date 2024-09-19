@@ -4,6 +4,7 @@ namespace GymInnowise.UserService.Shared.Dtos.ResponseModels.Gets
 {
     public class GetPersonalGoalResponse
     {
+        public Guid Owner { get; set; }
         public string Goal { get; set; } = string.Empty;
         public Guid? SupervisorCoach { get; set; }
         public GoalStatus Status { get; set; }

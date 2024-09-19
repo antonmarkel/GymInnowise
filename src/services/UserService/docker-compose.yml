@@ -16,7 +16,7 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     volumes:
-      - ./.containers/gym-user-db:/var/lib/postgresql/data
+      - ./.containers/gym-user-db:/var/lib/postgresql/user-service
     ports:
       - 5433:5432
     

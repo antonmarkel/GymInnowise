@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using System.Reflection;
+using System.Security.Claims;
 using System.Text;
 
 namespace GymInnowise.UserService.API.Extensions
@@ -86,7 +87,7 @@ namespace GymInnowise.UserService.API.Extensions
                     ValidIssuer = jwtSettings["Issuer"],
                     ValidAudience = jwtSettings["Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey(key),
-                    RoleClaimType = "roles"
+                    RoleClaimType = ClaimTypes.Role
                 };
             });
             builder.Services.AddAuthorization();

@@ -1,6 +1,7 @@
-﻿using System.Security.Claims;
-using GymInnowise.UserService.API.Authorization.Requirements;
+﻿using GymInnowise.UserService.API.Authorization.Requirements;
+using GymInnowise.UserService.Shared.Authorization;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace GymInnowise.UserService.API.Authorization.Handlers
 {
@@ -9,7 +10,7 @@ namespace GymInnowise.UserService.API.Authorization.Handlers
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
             ResourceOwnerRequirement requirement)
         {
-            if (context.User.IsInRole("Admin"))
+            if (context.User.IsInRole(Roles.Admin))
             {
                 context.Succeed(requirement);
 

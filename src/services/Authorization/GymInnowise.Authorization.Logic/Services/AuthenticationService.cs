@@ -3,9 +3,9 @@ using GymInnowise.Authorization.Logic.Interfaces;
 using GymInnowise.Authorization.Logic.Services.Results;
 using GymInnowise.Authorization.Persistence.Models.Enities;
 using GymInnowise.Authorization.Persistence.Repositories.Interfaces;
+using GymInnowise.Authorization.Shared.Authorization;
 using GymInnowise.Authorization.Shared.Dtos.RequestModels;
 using GymInnowise.Authorization.Shared.Dtos.ResponseModels;
-using GymInnowise.Authorization.Shared.Enums;
 using Microsoft.Extensions.Logging;
 using OneOf;
 using OneOf.Types;
@@ -49,7 +49,7 @@ namespace GymInnowise.Authorization.Logic.Services
                 PasswordHash = PasswordHelper.HashPassword(registerRequest.Password),
                 CreatedDate = DateTime.UtcNow,
                 ModifiedDate = DateTime.UtcNow,
-                Roles = [RoleEnum.Client],
+                Roles = [Roles.Client],
             };
             await _accountsRepo.CreateAccountAsync(account);
             _logger.LogInformation("New account with email '{Email}' has been created.", account.Email);

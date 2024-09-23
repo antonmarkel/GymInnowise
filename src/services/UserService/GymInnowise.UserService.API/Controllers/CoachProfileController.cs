@@ -1,5 +1,6 @@
 ﻿using GymInnowise.UserService.API.Authorization;
 using GymInnowise.UserService.Logic.Interfaces;
+using GymInnowise.UserService.Shared.Authorization;
 using GymInnowise.UserService.Shared.Dtos.RequestModels.Creates;
 using GymInnowise.UserService.Shared.Dtos.RequestModels.Updates;
 using Microsoft.AspNetCore.Authorization;
@@ -21,7 +22,7 @@ namespace GymInnowise.UserService.API.Controllers
             _authorizationService = authorizationService;
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = Roles.Admin)]
         [HttpPost]
         public async Task<IActionResult> CreateProfileAsync([FromBody] CreateCoachProfileRequest request)
         {
@@ -53,7 +54,7 @@ namespace GymInnowise.UserService.API.Controllers
             );
         }
 
-        [Authorize(Roles = "Coach")]
+        [Authorize(Roles = Roles.Coach)]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProfileAsync(Guid id, [FromBody] UpdateCoachProfileRequest request)
         {
@@ -73,7 +74,7 @@ namespace GymInnowise.UserService.API.Controllers
             );
         }
 
-        [Authorize(Roles = "Coach,Admin")]
+        [Authorize(Roles = Roles.CoachOrAdmin)]
         [HttpPut("{id}/status")]
         public async Task<IActionResult> UpdateProfileStatusAsync(Guid id,
             [FromBody] UpdateCoachProfileStatusRequest request)

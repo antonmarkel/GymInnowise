@@ -1,8 +1,5 @@
 ﻿using GymInnowise.Authorization.Persistence.Models.Enities;
-using GymInnowise.Authorization.Shared.Enums;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Newtonsoft.Json;
 
 namespace GymInnowise.Authorization.Persistence.Data
 {
@@ -38,7 +35,6 @@ namespace GymInnowise.Authorization.Persistence.Data
 
         private void ConfigureAccountEntity(ModelBuilder modelBuilder)
         {
-            var rolesConverter = GetRolesConverter();
             modelBuilder.Entity<AccountEntity>(entity =>
             {
                 entity.ToTable("Accounts");
@@ -52,18 +48,7 @@ namespace GymInnowise.Authorization.Persistence.Data
                 entity.Property(e => e.PasswordHash)
                     .HasMaxLength(100)
                     .IsRequired();
-                entity.Property(a => a.Roles)
-                    .HasConversion(rolesConverter);
             });
-        }
-
-        private static ValueConverter<List<RoleEnum>, string> GetRolesConverter()
-        {
-            return new ValueConverter<List<RoleEnum>, string>(
-                v => JsonConvert.SerializeObject(
-                    v.Select(v => v.ToString())),
-                v => JsonConvert.DeserializeObject<List<string>>(v)!
-                    .Select(s => (RoleEnum)Enum.Parse(typeof(RoleEnum), s)).ToList());
         }
     }
 }

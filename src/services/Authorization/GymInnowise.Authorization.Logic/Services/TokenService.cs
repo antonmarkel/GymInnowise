@@ -27,7 +27,7 @@ namespace GymInnowise.Authorization.Logic.Services
             var claims = new List<Claim>();
             foreach (var role in account.Roles)
             {
-                claims.Add(new Claim(ClaimTypes.Role, role.ToString()));
+                claims.Add(new Claim(ClaimTypes.Role, role));
             }
 
             claims.Add(new Claim(ClaimTypes.NameIdentifier, account.Id.ToString()));

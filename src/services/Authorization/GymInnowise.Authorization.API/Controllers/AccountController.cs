@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace GymInnowise.Authorization.API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/accounts")]
     public class AccountController : ControllerBase
     {
         private readonly IAccountService _accountService;
@@ -39,6 +39,8 @@ namespace GymInnowise.Authorization.API.Controllers
             );
         }
 
+        [Authorize]
+        [HttpPut("update/roles/{id}")]
         public async Task<IActionResult> UpdateRolesAsync(Guid id, [FromBody] UpdateRolesRequest updateRolesRequest)
         {
             var updateResult = await _accountService.UpdateRolesAsync(id, updateRolesRequest);

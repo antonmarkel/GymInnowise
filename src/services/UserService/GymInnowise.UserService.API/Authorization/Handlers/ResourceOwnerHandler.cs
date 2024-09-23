@@ -1,4 +1,5 @@
-﻿using GymInnowise.UserService.API.Authorization.Requirements;
+﻿using System.Security.Claims;
+using GymInnowise.UserService.API.Authorization.Requirements;
 using Microsoft.AspNetCore.Authorization;
 
 namespace GymInnowise.UserService.API.Authorization.Handlers
@@ -21,7 +22,8 @@ namespace GymInnowise.UserService.API.Authorization.Handlers
                 return Task.CompletedTask;
             }
 
-            var requesterAccountId = context.User.Claims.FirstOrDefault(c => c.Type == "accountId")?.Value;
+            var requesterAccountId =
+                context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             if (requesterAccountId != null && context.Resource is string profileId &&
                 requesterAccountId == profileId)
             {

@@ -30,7 +30,7 @@ namespace GymInnowise.Authorization.Logic.Services
                 claims.Add(new Claim(ClaimTypes.Role, role.ToString()));
             }
 
-            claims.Add(new Claim("accountId", account.Id.ToString()));
+            claims.Add(new Claim(ClaimTypes.NameIdentifier, account.Id.ToString()));
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),

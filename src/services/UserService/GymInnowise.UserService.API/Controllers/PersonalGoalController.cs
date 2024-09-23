@@ -1,5 +1,6 @@
 ﻿using GymInnowise.UserService.API.Authorization;
 using GymInnowise.UserService.Logic.Interfaces;
+using GymInnowise.UserService.Shared.Authorization;
 using GymInnowise.UserService.Shared.Dtos.RequestModels.Creates;
 using GymInnowise.UserService.Shared.Dtos.RequestModels.Updates;
 using Microsoft.AspNetCore.Authorization;
@@ -37,7 +38,7 @@ namespace GymInnowise.UserService.API.Controllers
             return Ok(goals);
         }
 
-        [Authorize(Roles = "Coach,Admin")]
+        [Authorize(Roles = Roles.CoachOrAdmin)]
         [HttpGet("{ownerId}/supervised-goals")]
         public async Task<IActionResult> GetCoachSupervisedGoalsAsync(Guid ownerId)
         {

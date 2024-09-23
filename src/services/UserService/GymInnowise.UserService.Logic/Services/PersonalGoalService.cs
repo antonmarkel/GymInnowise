@@ -12,11 +12,11 @@ namespace GymInnowise.UserService.Logic.Services
 {
     public class PersonalGoalService(IPersonalGoalRepository _goalRepo) : IPersonalGoalService
     {
-        public async Task CreatePersonalGoalAsync(CreatePersonalGoalRequest request)
+        public async Task CreatePersonalGoalAsync(Guid ownerId, CreatePersonalGoalRequest request)
         {
             var goalModel = new PersonalGoalEntity()
             {
-                Owner = request.Owner,
+                Owner = ownerId,
                 Goal = request.Goal,
                 SupervisorCoach = request.SupervisorCoach,
                 StartDate = request.StartDate,

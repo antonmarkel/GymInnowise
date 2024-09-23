@@ -13,17 +13,17 @@ namespace GymInnowise.UserService.Logic.Services
 {
     public class ClientProfileService(IProfileRepository<ClientProfileEntity> _clientRepo) : IClientProfileService
     {
-        public async Task<OneOf<Success, ProfileAlreadyExists>> CreateClientProfileAsync(
+        public async Task<OneOf<Success, ProfileAlreadyExists>> CreateClientProfileAsync(Guid accountId,
             CreateClientProfileRequest request)
         {
-            if (await _clientRepo.DoesProfileExistAsync(request.AccountId))
+            if (await _clientRepo.DoesProfileExistAsync(accountId))
             {
                 return new ProfileAlreadyExists();
             }
 
             var profileModel = new ClientProfileEntity
             {
-                AccountId = request.AccountId,
+                AccountId = accountId,
                 FirstName = request.FirstName,
                 LastName = request.LastName,
                 DateOfBirth = request.DateOfBirth,

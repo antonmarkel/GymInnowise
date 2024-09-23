@@ -1,9 +1,6 @@
 ﻿using FluentMigrator.Runner;
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using GymInnowise.UserService.API.Authorization;
-using GymInnowise.UserService.API.Authorization.Handlers;
-using GymInnowise.UserService.API.Authorization.Requirements;
 using GymInnowise.UserService.API.Validators.Creates;
 using GymInnowise.UserService.Configuration.Token;
 using GymInnowise.UserService.Logic.Interfaces;
@@ -13,9 +10,7 @@ using GymInnowise.UserService.Persistence.Migrations;
 using GymInnowise.UserService.Persistence.Models;
 using GymInnowise.UserService.Persistence.Repositories.Implementations;
 using GymInnowise.UserService.Persistence.Repositories.Interfaces;
-using GymInnowise.UserService.Shared.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
 using System.Security.Claims;
@@ -44,18 +39,6 @@ namespace GymInnowise.UserService.API.Extensions
             builder.Services.AddScoped<IClientProfileService, ClientProfileService>();
             builder.Services.AddScoped<ICoachProfileService, CoachProfileService>();
             builder.Services.AddScoped<IPersonalGoalService, PersonalGoalService>();
-        }
-
-        public static void AddAuthorizationServices(this IHostApplicationBuilder builder)
-        {
-            builder.Services.AddAuthorization(options =>
-            {
-                options.AddPolicy(PolicyNames.OwnerPolicy,
-                    policy => policy.Requirements.Add(new ResourceOwnerRequirement()));
-                options.AddPolicy(PolicyNames.SupervisorPolicy,
-                    policy => policy.Requirements.Add(new ResourceOwnerRequirement(roles: [Roles.Coach])));
-            });
-            builder.Services.AddSingleton<IAuthorizationHandler, ResourceOwnerHandler>();
         }
 
         public static void AddValidation(this IHostApplicationBuilder builder)

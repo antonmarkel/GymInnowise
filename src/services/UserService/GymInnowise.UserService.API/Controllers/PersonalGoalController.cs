@@ -1,4 +1,5 @@
 ﻿using GymInnowise.UserService.API.Authorization;
+using GymInnowise.UserService.Logic.Helpers;
 using GymInnowise.UserService.Logic.Interfaces;
 using GymInnowise.UserService.Shared.Authorization;
 using GymInnowise.UserService.Shared.Dtos.RequestModels.Creates;
@@ -13,42 +14,27 @@ namespace GymInnowise.UserService.API.Controllers
     public class PersonalGoalController : ControllerBase
     {
         private readonly IPersonalGoalService _personalGoalService;
-        private readonly IAuthorizationService _authorizationService;
 
-        public PersonalGoalController(IPersonalGoalService personalGoalService,
-            IAuthorizationService authorizationService)
+        public PersonalGoalController(IPersonalGoalService personalGoalService)
         {
             _personalGoalService = personalGoalService;
-            _authorizationService = authorizationService;
         }
 
         [Authorize]
+        [OwnerOrAdminAuthorize(nameof(ownerId))]
         [HttpGet("{ownerId}")]
         public async Task<IActionResult> GetPersonalGoalsAsync(Guid ownerId)
         {
-            var authorizationResult =
-                await _authorizationService.AuthorizeAsync(User, ownerId, PolicyNames.OwnerPolicy);
-            if (!authorizationResult.Succeeded)
-            {
-                return Forbid();
-            }
-
             var goals = await _personalGoalService.GetAllPersonalGoalsAsync(ownerId);
 
             return Ok(goals);
         }
 
-        [Authorize(Roles = Roles.CoachOrAdmin)]
+        [Authorize(Roles = Roles.Coach)]
         [HttpGet("{ownerId}/supervised-goals")]
         public async Task<IActionResult> GetCoachSupervisedGoalsAsync(Guid ownerId)
         {
-            var accountIdClaim = User.Claims.FirstOrDefault(c => c.Type == "accountId")!.Value;
-
-            if (!Guid.TryParse(accountIdClaim, out Guid coachId))
-            {
-                return BadRequest("Invalid AccountId format");
-            }
-
+            var coachId = ClaimsHelper.GetAccountId(User.Claims);
             var goals = await _personalGoalService.GetCoachSupervisedGoalsAsync(ownerId, coachId);
 
             return Ok(goals);
@@ -66,13 +52,9 @@ namespace GymInnowise.UserService.API.Controllers
             }
 
             var goal = goalResult.AsT0;
-
-            var authOwnerResult =
-                await _authorizationService.AuthorizeAsync(User, goal.Owner.ToString(),
-                    PolicyNames.OwnerPolicy);
-            var authCoachResult = await _authorizationService.AuthorizeAsync(User,
-                goal.SupervisorCoach?.ToString() ?? string.Empty, PolicyNames.SupervisorPolicy);
-            if (!authOwnerResult.Succeeded && !authCoachResult.Succeeded)
+            var accountId = ClaimsHelper.GetAccountId(User.Claims);
+            if (goal.Owner != accountId && !User.IsInRole(Roles.Admin) &&
+                !(goal.SupervisorCoach == accountId && User.IsInRole(Roles.Coach)))
             {
                 return Forbid();
             }
@@ -85,21 +67,12 @@ namespace GymInnowise.UserService.API.Controllers
         }
 
         [Authorize]
-        [HttpPost]
-        public async Task<IActionResult> CreatePersonalGoalAsync([FromBody] CreatePersonalGoalRequest request)
+        [OwnerOrAdminAuthorize(nameof(ownerId))]
+        [HttpPost("{ownerId}")]
+        public async Task<IActionResult> CreatePersonalGoalAsync(Guid ownerId,
+            [FromBody] CreatePersonalGoalRequest request)
         {
-            var authorizationResult =
-                await _authorizationService.AuthorizeAsync(User, request.Owner,
-                    PolicyNames.OwnerPolicy);
-            if (!authorizationResult.Succeeded)
-            {
-                return Forbid();
-            }
-
-            await _personalGoalService.CreatePersonalGoalAsync(request);
-            var userAccountId = User.Claims.FirstOrDefault(c => c.Type == "accountId")?.Value;
-
-            Console.WriteLine($"Account id is {userAccountId} and should be {request.Owner}");
+            await _personalGoalService.CreatePersonalGoalAsync(ownerId, request);
 
             return Created();
         }

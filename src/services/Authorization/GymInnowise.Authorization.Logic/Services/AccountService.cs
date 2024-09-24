@@ -54,6 +54,8 @@ namespace GymInnowise.Authorization.Logic.Services
             var account = await _accountsRepo.GetAccountByIdAsync(accountId);
             if (account is null)
             {
+                _logger.LogInformation("Updating failed, no account was found {accountId}", accountId);
+
                 return new NotFound();
             }
 
@@ -72,11 +74,14 @@ namespace GymInnowise.Authorization.Logic.Services
             var account = await _accountsRepo.GetAccountByIdAsync(accountId);
             if (account is null)
             {
+                _logger.LogInformation("Updating failed, no account was found {accountId}", accountId);
+
                 return new NotFound();
             }
 
             account.Roles = updateRolesRequest.Roles.ToList();
             await _accountsRepo.UpdateAccountAsync(account);
+            _logger.LogInformation("Account updated '{accountId}'.", accountId);
 
             return new Success();
         }

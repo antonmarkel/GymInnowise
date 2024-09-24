@@ -53,7 +53,7 @@ namespace GymInnowise.UserService.Logic.Services
             if (client is null)
             {
                 _logger.LogInformation(
-                    "Client wasn't updated. Reason: profile with this accountId {@accountId} was not found!",
+                    "Client profile wasn't updated. Reason: profile with this accountId {@accountId} was not found!",
                     accountId);
 
                 return new NotFound();
@@ -68,7 +68,7 @@ namespace GymInnowise.UserService.Logic.Services
 
             await _clientRepo.UpdateProfileAsync(client);
             _logger.LogInformation(
-                "Client was updated successfully. Info: {@accountId}",
+                "Client profile was updated successfully. Info: {@accountId}",
                 accountId);
 
             return new Success();
@@ -81,7 +81,7 @@ namespace GymInnowise.UserService.Logic.Services
             if (account is null)
             {
                 _logger.LogInformation(
-                    "Client wasn't updated. Reason: profile with this accountId {@accountId} was not found!",
+                    "Client profile wasn't updated. Reason: profile with this accountId {@accountId} was not found!",
                     accountId);
 
                 return new NotFound();
@@ -94,17 +94,21 @@ namespace GymInnowise.UserService.Logic.Services
 
             await _clientRepo.UpdateProfileAsync(account);
             _logger.LogInformation(
-                "Client was updated successfully. Info: {@accountId}",
+                "Client profile was updated successfully. Info: {@accountId}",
                 accountId);
 
             return new Success();
         }
 
-        public async Task<OneOf<GetClientProfileResponse, NotFound>> GetClientProfileAsync(Guid id)
+        public async Task<OneOf<GetClientProfileResponse, NotFound>> GetClientProfileAsync(Guid accountId)
         {
-            var account = await _clientRepo.GetProfileByIdAsync(id);
+            var account = await _clientRepo.GetProfileByIdAsync(accountId);
             if (account is null)
             {
+                _logger.LogInformation(
+                    "Client profile with this id: {@accountId} was not found!",
+                    accountId);
+
                 return new NotFound();
             }
 

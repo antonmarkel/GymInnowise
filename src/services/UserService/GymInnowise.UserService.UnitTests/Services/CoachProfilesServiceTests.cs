@@ -5,7 +5,6 @@ using GymInnowise.UserService.Persistence.Repositories.Interfaces;
 using GymInnowise.UserService.Shared.Dtos.RequestModels.Creates;
 using GymInnowise.UserService.Shared.Dtos.RequestModels.Updates;
 using Microsoft.Extensions.Logging;
-using System;
 
 namespace GymInnowise.UserService.UnitTests.Services
 {

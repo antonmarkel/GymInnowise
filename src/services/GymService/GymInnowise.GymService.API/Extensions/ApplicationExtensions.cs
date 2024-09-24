@@ -1,8 +1,5 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
-using GymInnowise.GymService.API.Authorization;
-using GymInnowise.GymService.API.Authorization.Handlers;
-using GymInnowise.GymService.API.Authorization.Requirements;
 using GymInnowise.GymService.API.Middleware;
 using GymInnowise.GymService.API.Validators.Base;
 using GymInnowise.GymService.Configuration;
@@ -12,7 +9,6 @@ using GymInnowise.GymService.Persistence.Data;
 using GymInnowise.GymService.Persistence.Repositories.Implementations;
 using GymInnowise.GymService.Persistence.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
@@ -42,16 +38,6 @@ namespace GymInnowise.GymService.API.Extensions
         {
             builder.Services.AddFluentValidationAutoValidation();
             builder.Services.AddValidatorsFromAssembly(Assembly.GetAssembly(typeof(GymDetailsBaseDtoValidator)));
-        }
-
-        public static void AddAuthorizationServices(this IHostApplicationBuilder builder)
-        {
-            builder.Services.AddAuthorization(options =>
-            {
-                options.AddPolicy(PolicyNames.GymManagerPolicy,
-                    policy => policy.Requirements.Add(new GymManagerRequirement()));
-            });
-            builder.Services.AddSingleton<IAuthorizationHandler, GymManagerHandler>();
         }
 
         public static void UseGlobalExceptionHandler(this WebApplication app)

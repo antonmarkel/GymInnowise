@@ -6,18 +6,23 @@ using GymInnowise.UserService.Shared.Dtos.RequestModels.Creates;
 using GymInnowise.UserService.Shared.Dtos.RequestModels.Updates;
 using GymInnowise.UserService.Shared.Dtos.ResponseModels.Gets;
 using GymInnowise.UserService.Shared.Enums;
+using Microsoft.Extensions.Logging;
 using OneOf;
 using OneOf.Types;
 
 namespace GymInnowise.UserService.Logic.Services
 {
-    public class ClientProfileService(IProfileRepository<ClientProfileEntity> _clientRepo) : IClientProfileService
+    public class ClientProfileService(IProfileRepository<ClientProfileEntity> _clientRepo, ILogger<ClientProfileService> _logger) : IClientProfileService
     {
         public async Task<OneOf<Success, ProfileAlreadyExists>> CreateClientProfileAsync(Guid accountId,
             CreateClientProfileRequest request)
         {
             if (await _clientRepo.DoesProfileExistAsync(accountId))
             {
+                _logger.LogInformation(
+                    "Client profile wasn't created. Reason: profile with this accountId {@accountId} already exists!",
+                    accountId);
+
                 return new ProfileAlreadyExists();
             }
 
@@ -34,16 +39,23 @@ namespace GymInnowise.UserService.Logic.Services
             };
 
             await _clientRepo.CreateProfileAsync(profileModel);
+            _logger.LogInformation(
+                "Client profile was created successfully. Info: {@accountId}",
+                accountId);
 
             return new Success();
         }
 
-        public async Task<OneOf<Success, NotFound>> UpdateClientProfileAsync(Guid clientId,
+        public async Task<OneOf<Success, NotFound>> UpdateClientProfileAsync(Guid accountId,
             UpdateClientProfileRequest request)
         {
-            var client = await _clientRepo.GetProfileByIdAsync(clientId);
+            var client = await _clientRepo.GetProfileByIdAsync(accountId);
             if (client is null)
             {
+                _logger.LogInformation(
+                    "Client wasn't updated. Reason: profile with this accountId {@accountId} was not found!",
+                    accountId);
+
                 return new NotFound();
             }
 
@@ -55,16 +67,23 @@ namespace GymInnowise.UserService.Logic.Services
             client.UpdatedAt = DateTime.UtcNow;
 
             await _clientRepo.UpdateProfileAsync(client);
+            _logger.LogInformation(
+                "Client was updated successfully. Info: {@accountId}",
+                accountId);
 
             return new Success();
         }
 
-        public async Task<OneOf<Success, NotFound>> UpdateClientProfileStatusAsync(Guid clientId,
+        public async Task<OneOf<Success, NotFound>> UpdateClientProfileStatusAsync(Guid accountId,
             UpdateClientProfileStatusRequest request)
         {
-            var account = await _clientRepo.GetProfileByIdAsync(clientId);
+            var account = await _clientRepo.GetProfileByIdAsync(accountId);
             if (account is null)
             {
+                _logger.LogInformation(
+                    "Client wasn't updated. Reason: profile with this accountId {@accountId} was not found!",
+                    accountId);
+
                 return new NotFound();
             }
 
@@ -74,6 +93,9 @@ namespace GymInnowise.UserService.Logic.Services
             account.UpdatedAt = DateTime.UtcNow;
 
             await _clientRepo.UpdateProfileAsync(account);
+            _logger.LogInformation(
+                "Client was updated successfully. Info: {@accountId}",
+                accountId);
 
             return new Success();
         }

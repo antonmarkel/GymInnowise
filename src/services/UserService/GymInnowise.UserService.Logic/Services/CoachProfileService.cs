@@ -6,24 +6,31 @@ using GymInnowise.UserService.Shared.Dtos.RequestModels.Creates;
 using GymInnowise.UserService.Shared.Dtos.RequestModels.Updates;
 using GymInnowise.UserService.Shared.Dtos.ResponseModels.Gets;
 using GymInnowise.UserService.Shared.Enums;
+using Microsoft.Extensions.Logging;
 using OneOf;
 using OneOf.Types;
 
 namespace GymInnowise.UserService.Logic.Services
 {
-    public class CoachProfileService(IProfileRepository<CoachProfileEntity> _coachRepo) : ICoachProfileService
+    public class CoachProfileService(
+        IProfileRepository<CoachProfileEntity> _coachRepo,
+        ILogger<CoachProfileService> _logger) : ICoachProfileService
     {
-        public async Task<OneOf<Success, ProfileAlreadyExists>> CreateCoachProfileAsync(
+        public async Task<OneOf<Success, ProfileAlreadyExists>> CreateCoachProfileAsync(Guid accountId,
             CreateCoachProfileRequest request)
         {
-            if (await _coachRepo.DoesProfileExistAsync(request.AccountId))
+            if (await _coachRepo.DoesProfileExistAsync(accountId))
             {
+                _logger.LogInformation(
+                    "Coach profile wasn't created. Reason: profile with this accountId {@accountId} already exists!",
+                    accountId);
+
                 return new ProfileAlreadyExists();
             }
 
             var profileModel = new CoachProfileEntity
             {
-                AccountId = request.AccountId,
+                AccountId = accountId,
                 FirstName = request.FirstName,
                 LastName = request.LastName,
                 DateOfBirth = request.DateOfBirth,
@@ -37,16 +44,23 @@ namespace GymInnowise.UserService.Logic.Services
             };
 
             await _coachRepo.CreateProfileAsync(profileModel);
+            _logger.LogInformation(
+                "Coach profile was created successfully. Info: {@accountId}",
+                accountId);
 
             return new Success();
         }
 
-        public async Task<OneOf<Success, NotFound>> UpdateCoachProfileAsync(Guid coachId,
+        public async Task<OneOf<Success, NotFound>> UpdateCoachProfileAsync(Guid accountId,
             UpdateCoachProfileRequest request)
         {
-            var coach = await _coachRepo.GetProfileByIdAsync(coachId);
+            var coach = await _coachRepo.GetProfileByIdAsync(accountId);
             if (coach is null)
             {
+                _logger.LogInformation(
+                    "Coach profile wasn't updated. Reason: profile with this accountId {@accountId} was not found!",
+                    accountId);
+
                 return new NotFound();
             }
 
@@ -58,16 +72,23 @@ namespace GymInnowise.UserService.Logic.Services
             coach.UpdatedAt = DateTime.UtcNow;
 
             await _coachRepo.UpdateProfileAsync(coach);
+            _logger.LogInformation(
+                "Coach profile was updated successfully. Info: {@accountId}",
+                accountId);
 
             return new Success();
         }
 
-        public async Task<OneOf<Success, NotFound>> UpdateCoachProfileStatusAsync(Guid coachId,
+        public async Task<OneOf<Success, NotFound>> UpdateCoachProfileStatusAsync(Guid accountId,
             UpdateCoachProfileStatusRequest request)
         {
-            var account = await _coachRepo.GetProfileByIdAsync(coachId);
+            var account = await _coachRepo.GetProfileByIdAsync(accountId);
             if (account is null)
             {
+                _logger.LogInformation(
+                    "Coach profile wasn't updated. Reason: profile with this accountId {@accountId} was not found!",
+                    accountId);
+
                 return new NotFound();
             }
 
@@ -78,15 +99,22 @@ namespace GymInnowise.UserService.Logic.Services
             account.CoachStatus = request.CoachStatus;
 
             await _coachRepo.UpdateProfileAsync(account);
+            _logger.LogInformation(
+                "Coach profile was updated successfully. Info: {@accountId}",
+                accountId);
 
             return new Success();
         }
 
-        public async Task<OneOf<GetCoachProfileResponse, NotFound>> GetCoachProfileAsync(Guid id)
+        public async Task<OneOf<GetCoachProfileResponse, NotFound>> GetCoachProfileAsync(Guid accountId)
         {
-            var account = await _coachRepo.GetProfileByIdAsync(id);
+            var account = await _coachRepo.GetProfileByIdAsync(accountId);
             if (account is null)
             {
+                _logger.LogInformation(
+                    "Coach profile with this id: {@accountId} was not found!",
+                    accountId);
+
                 return new NotFound();
             }
 

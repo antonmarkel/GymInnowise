@@ -5,7 +5,10 @@ namespace GymInnowise.UserService.API.Extensions
 {
     public static class ValidationExtensions
     {
-        private static readonly string[] Genders = ["Male", "Female", "Other"];
+        private static readonly string[] Genders = Enum.GetValues(typeof(GenderEnum))
+            .Cast<GenderEnum>()
+            .Select(g => g.ToString())
+            .ToArray();
 
         public static IRuleBuilderOptions<T, string> FirstName<T>(this IRuleBuilder<T, string> ruleBuilder)
         {
@@ -27,7 +30,7 @@ namespace GymInnowise.UserService.API.Extensions
         {
             return ruleBuilder
                 .Must(gender => gender == null || Genders.Contains(gender))
-                .WithMessage("Gender must be 'Male', 'Female', or 'Other' if provided.");
+                .WithMessage($"Gender must be one of the following: {string.Join(", ", Genders)} if provided.");
         }
 
         public static IRuleBuilderOptions<T, string> Goal<T>(this IRuleBuilder<T, string> ruleBuilder)

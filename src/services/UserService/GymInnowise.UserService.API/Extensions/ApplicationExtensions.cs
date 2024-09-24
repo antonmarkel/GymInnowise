@@ -1,10 +1,7 @@
 ﻿using FluentMigrator.Runner;
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using GymInnowise.UserService.API.Authorization;
 using GymInnowise.UserService.API.Middleware;
-using GymInnowise.UserService.API.Authorization.Handlers;
-using GymInnowise.UserService.API.Authorization.Requirements;
 using GymInnowise.UserService.API.Validators.Creates;
 using GymInnowise.UserService.Configuration.Token;
 using GymInnowise.UserService.Logic.Interfaces;
@@ -15,10 +12,10 @@ using GymInnowise.UserService.Persistence.Models;
 using GymInnowise.UserService.Persistence.Repositories.Implementations;
 using GymInnowise.UserService.Persistence.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using System.Reflection;
+using System.Security.Claims;
 using System.Text;
 
 namespace GymInnowise.UserService.API.Extensions
@@ -44,18 +41,6 @@ namespace GymInnowise.UserService.API.Extensions
             builder.Services.AddScoped<IClientProfileService, ClientProfileService>();
             builder.Services.AddScoped<ICoachProfileService, CoachProfileService>();
             builder.Services.AddScoped<IPersonalGoalService, PersonalGoalService>();
-        }
-
-        public static void AddAuthorizationServices(this IHostApplicationBuilder builder)
-        {
-            builder.Services.AddAuthorization(options =>
-            {
-                options.AddPolicy(PolicyNames.OwnerPolicy,
-                    policy => policy.Requirements.Add(new ResourceOwnerRequirement()));
-                options.AddPolicy(PolicyNames.SupervisorPolicy,
-                    policy => policy.Requirements.Add(new ResourceOwnerRequirement(roles: ["Coach"])));
-            });
-            builder.Services.AddSingleton<IAuthorizationHandler, ResourceOwnerHandler>();
         }
 
         public static void AddValidation(this IHostApplicationBuilder builder)
@@ -86,10 +71,9 @@ namespace GymInnowise.UserService.API.Extensions
                     ValidIssuer = jwtSettings["Issuer"],
                     ValidAudience = jwtSettings["Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey(key),
-                    RoleClaimType = "roles"
+                    RoleClaimType = ClaimTypes.Role
                 };
             });
-            builder.Services.AddAuthorization();
         }
 
         public static async Task MigrateDatabaseAsync(this IHost host)

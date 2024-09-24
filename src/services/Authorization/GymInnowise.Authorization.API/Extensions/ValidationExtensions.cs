@@ -22,5 +22,11 @@ namespace GymInnowise.Authorization.API.Extensions
                 .MaximumLength(PasswordMaxLength)
                 .WithMessage($"Your password length must not exceed {PasswordMinLength}!");
         }
+
+        public static IRuleBuilderOptions<T, string> PhoneNumber<T>(this IRuleBuilder<T, string> ruleBuilder)
+        {
+            return ruleBuilder.Matches(@"^\+(\d{1,3})\s?\(?\d{1,4}?\)?[\d\s\-]{7,}$")
+                .WithMessage("Incorrect phone number!");
+        }
     }
 }

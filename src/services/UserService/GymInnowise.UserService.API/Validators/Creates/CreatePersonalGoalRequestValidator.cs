@@ -8,7 +8,6 @@ namespace GymInnowise.UserService.API.Validators.Creates
     {
         public CreatePersonalGoalRequestValidator()
         {
-            RuleFor(x => x.Owner).Identifier();
             RuleFor(x => x.Goal).Goal();
             RuleFor(x => x.SupervisorCoach).NullableIdentifier();
             RuleFor(model => model)

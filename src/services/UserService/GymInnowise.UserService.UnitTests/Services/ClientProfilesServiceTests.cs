@@ -4,6 +4,7 @@ using GymInnowise.UserService.Persistence.Models;
 using GymInnowise.UserService.Persistence.Repositories.Interfaces;
 using GymInnowise.UserService.Shared.Dtos.RequestModels.Creates;
 using GymInnowise.UserService.Shared.Dtos.RequestModels.Updates;
+using Microsoft.Extensions.Logging;
 
 namespace GymInnowise.UserService.UnitTests.Services
 {
@@ -15,7 +16,8 @@ namespace GymInnowise.UserService.UnitTests.Services
         public ClientProfileServiceTests()
         {
             _clientRepo = A.Fake<IProfileRepository<ClientProfileEntity>>();
-            _clientProfileService = new ClientProfileService(_clientRepo);
+
+            _clientProfileService = new ClientProfileService(_clientRepo, A.Fake<ILogger<ClientProfileService>>());
         }
 
         [Fact]
@@ -26,7 +28,7 @@ namespace GymInnowise.UserService.UnitTests.Services
             A.CallTo(() => _clientRepo.DoesProfileExistAsync(request.AccountId)).Returns(true);
 
             //Act
-            var result = await _clientProfileService.CreateClientProfileAsync(request);
+            var result = await _clientProfileService.CreateClientProfileAsync(Guid.Empty, request);
 
             //Assert
             Assert.True(result.IsT1);
@@ -41,7 +43,7 @@ namespace GymInnowise.UserService.UnitTests.Services
             A.CallTo(() => _clientRepo.DoesProfileExistAsync(request.AccountId)).Returns(false);
 
             //Act
-            var result = await _clientProfileService.CreateClientProfileAsync(request);
+            var result = await _clientProfileService.CreateClientProfileAsync(Guid.Empty, request);
 
             // Assert
             Assert.True(result.IsT0);

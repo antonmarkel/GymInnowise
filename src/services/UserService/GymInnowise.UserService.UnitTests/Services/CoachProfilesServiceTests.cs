@@ -4,6 +4,7 @@ using GymInnowise.UserService.Persistence.Models;
 using GymInnowise.UserService.Persistence.Repositories.Interfaces;
 using GymInnowise.UserService.Shared.Dtos.RequestModels.Creates;
 using GymInnowise.UserService.Shared.Dtos.RequestModels.Updates;
+using Microsoft.Extensions.Logging;
 
 namespace GymInnowise.UserService.UnitTests.Services
 {
@@ -15,7 +16,7 @@ namespace GymInnowise.UserService.UnitTests.Services
         public CoachProfilesServiceTests()
         {
             _coachRepo = A.Fake<IProfileRepository<CoachProfileEntity>>();
-            _coachProfileService = new CoachProfileService(_coachRepo);
+            _coachProfileService = new CoachProfileService(_coachRepo, A.Fake<ILogger<CoachProfileService>>());
         }
 
         [Fact]
@@ -26,7 +27,7 @@ namespace GymInnowise.UserService.UnitTests.Services
             A.CallTo(() => _coachRepo.DoesProfileExistAsync(request.AccountId)).Returns(true);
 
             //Act
-            var result = await _coachProfileService.CreateCoachProfileAsync(request);
+            var result = await _coachProfileService.CreateCoachProfileAsync(Guid.Empty, request);
 
             //Assert
             Assert.True(result.IsT1);
@@ -41,7 +42,7 @@ namespace GymInnowise.UserService.UnitTests.Services
             A.CallTo(() => _coachRepo.DoesProfileExistAsync(request.AccountId)).Returns(false);
 
             //Act
-            var result = await _coachProfileService.CreateCoachProfileAsync(request);
+            var result = await _coachProfileService.CreateCoachProfileAsync(Guid.Empty, request);
 
             //Assert
             Assert.True(result.IsT0);

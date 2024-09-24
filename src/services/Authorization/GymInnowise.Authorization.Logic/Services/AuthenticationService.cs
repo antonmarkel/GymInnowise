@@ -5,10 +5,8 @@ using GymInnowise.Authorization.Persistence.Models.Enities;
 using GymInnowise.Authorization.Persistence.Repositories.Interfaces;
 using GymInnowise.Authorization.Shared.Dtos.RequestModels;
 using GymInnowise.Authorization.Shared.Dtos.ResponseModels;
-using GymInnowise.Authorization.Shared.Enums;
 using Microsoft.Extensions.Logging;
 using OneOf;
-using OneOf.Types;
 
 namespace GymInnowise.Authorization.Logic.Services
 {
@@ -29,32 +27,6 @@ namespace GymInnowise.Authorization.Logic.Services
             _tokenService = jwtService;
             _refreshTokenRepository = refreshTokenRepository;
             _logger = logger;
-        }
-
-        public async Task<OneOf<Success, AccountAlreadyExists>> RegisterAsync(
-            RegisterRequest registerRequest)
-        {
-            if (await _accountsRepo.DoesAccountExistAsync(registerRequest))
-            {
-                _logger.LogInformation("Registration failed. Reason: 'Account already exists' Email:'{@Email}'.",
-                    registerRequest.Email);
-
-                return new AccountAlreadyExists();
-            }
-
-            var account = new AccountEntity
-            {
-                Email = registerRequest.Email,
-                PhoneNumber = registerRequest.PhoneNumber,
-                PasswordHash = PasswordHelper.HashPassword(registerRequest.Password),
-                CreatedDate = DateTime.UtcNow,
-                ModifiedDate = DateTime.UtcNow,
-                Roles = [RoleEnum.Client],
-            };
-            await _accountsRepo.CreateAccountAsync(account);
-            _logger.LogInformation("New account with email '{Email}' has been created.", account.Email);
-
-            return new Success();
         }
 
         public async Task<OneOf<LoginResponse, InvalidCredentials>> LoginAsync(

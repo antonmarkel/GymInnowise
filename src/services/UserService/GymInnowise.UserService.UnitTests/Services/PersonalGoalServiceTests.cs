@@ -3,6 +3,7 @@ using GymInnowise.UserService.Logic.Services;
 using GymInnowise.UserService.Persistence.Models;
 using GymInnowise.UserService.Persistence.Repositories.Interfaces;
 using GymInnowise.UserService.Shared.Dtos.RequestModels.Updates;
+using Microsoft.Extensions.Logging;
 
 namespace GymInnowise.UserService.UnitTests.Services
 {
@@ -14,7 +15,7 @@ namespace GymInnowise.UserService.UnitTests.Services
         public PersonalGoalServiceTests()
         {
             _goalRepo = A.Fake<IPersonalGoalRepository>();
-            _personalGoalService = new PersonalGoalService(_goalRepo);
+            _personalGoalService = new PersonalGoalService(_goalRepo, A.Fake<ILogger<PersonalGoalService>>());
         }
 
         [Fact]

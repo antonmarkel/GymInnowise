@@ -1,7 +1,7 @@
-﻿using GymInnowise.UserService.Shared.Authorization;
+﻿using GymInnowise.UserService.Logic.Helpers;
+using GymInnowise.UserService.Shared.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using System.Security.Claims;
 
 namespace GymInnowise.UserService.API.Authorization
 {
@@ -15,14 +15,7 @@ namespace GymInnowise.UserService.API.Authorization
                 return;
             }
 
-            var accountIdClaim = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-            if (string.IsNullOrEmpty(accountIdClaim) || !Guid.TryParse(accountIdClaim, out Guid userAccountId))
-            {
-                context.Result = new ForbidResult();
-
-                return;
-            }
-
+            var userAccountId = ClaimsHelper.GetAccountId(user.Claims);
             if (!context.RouteData.Values.TryGetValue(paramName, out var routeId)
                 || !Guid.TryParse(routeId?.ToString(), out Guid resourceId))
             {

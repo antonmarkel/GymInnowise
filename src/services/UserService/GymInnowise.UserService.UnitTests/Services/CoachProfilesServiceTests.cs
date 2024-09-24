@@ -1,5 +1,4 @@
-﻿using Castle.Core.Logging;
-using FakeItEasy;
+﻿using FakeItEasy;
 using GymInnowise.UserService.Logic.Services;
 using GymInnowise.UserService.Persistence.Models;
 using GymInnowise.UserService.Persistence.Repositories.Interfaces;

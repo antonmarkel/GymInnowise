@@ -1,4 +1,3 @@
-using Castle.Core.Logging;
 using FakeItEasy;
 using GymInnowise.UserService.Logic.Services;
 using GymInnowise.UserService.Persistence.Models;

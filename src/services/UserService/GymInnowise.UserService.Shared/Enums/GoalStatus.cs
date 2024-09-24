@@ -2,6 +2,7 @@
 {
     public enum GoalStatus
     {
+        Unknown = 0,
         NotStarted,
         InProgress,
         Completed,

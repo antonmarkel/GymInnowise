@@ -7,6 +7,8 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Interfaces
     {
         Task CreateAccountAsync(AccountEntity account);
         Task<AccountEntity?> GetAccountByEmailAsync(string email);
-        Task<bool> DoesAccountExistAsync(RegisterRequest dto);
+        Task<AccountEntity?> GetAccountByIdAsync(Guid accountId);
+        Task UpdateAccountAsync(AccountEntity entity);
+        Task<bool> DoesAccountExistAsync(RegisterRequest registerRequest);
     }
 }

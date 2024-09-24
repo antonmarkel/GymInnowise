@@ -13,17 +13,17 @@ namespace GymInnowise.UserService.Logic.Services
 {
     public class CoachProfileService(IProfileRepository<CoachProfileEntity> _coachRepo) : ICoachProfileService
     {
-        public async Task<OneOf<Success, ProfileAlreadyExists>> CreateCoachProfileAsync(
+        public async Task<OneOf<Success, ProfileAlreadyExists>> CreateCoachProfileAsync(Guid accountId,
             CreateCoachProfileRequest request)
         {
-            if (await _coachRepo.DoesProfileExistAsync(request.AccountId))
+            if (await _coachRepo.DoesProfileExistAsync(accountId))
             {
                 return new ProfileAlreadyExists();
             }
 
             var profileModel = new CoachProfileEntity
             {
-                AccountId = request.AccountId,
+                AccountId = accountId,
                 FirstName = request.FirstName,
                 LastName = request.LastName,
                 DateOfBirth = request.DateOfBirth,

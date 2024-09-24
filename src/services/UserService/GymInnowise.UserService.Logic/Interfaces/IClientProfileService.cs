@@ -9,7 +9,8 @@ namespace GymInnowise.UserService.Logic.Interfaces
 {
     public interface IClientProfileService
     {
-        Task<OneOf<Success, ProfileAlreadyExists>> CreateClientProfileAsync(CreateClientProfileRequest request);
+        Task<OneOf<Success, ProfileAlreadyExists>> CreateClientProfileAsync(Guid accountId,
+            CreateClientProfileRequest request);
 
         Task<OneOf<Success, NotFound>> UpdateClientProfileAsync(Guid clientId,
             UpdateClientProfileRequest request);

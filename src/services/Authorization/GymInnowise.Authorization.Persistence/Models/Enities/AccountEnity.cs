@@ -1,6 +1,4 @@
-﻿using GymInnowise.Authorization.Shared.Enums;
-
-namespace GymInnowise.Authorization.Persistence.Models.Enities
+﻿namespace GymInnowise.Authorization.Persistence.Models.Enities
 {
     public class AccountEntity
     {
@@ -10,6 +8,6 @@ namespace GymInnowise.Authorization.Persistence.Models.Enities
         public required string PasswordHash { get; set; }
         public DateTime? CreatedDate { get; set; }
         public DateTime? ModifiedDate { get; set; }
-        public List<RoleEnum> Roles { get; set; } = [];
+        public List<string> Roles { get; set; } = [];
     }
 }

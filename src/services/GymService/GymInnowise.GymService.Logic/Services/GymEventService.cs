@@ -17,7 +17,7 @@ namespace GymInnowise.GymService.Logic.Services
         public async Task CreateGymEventAsync(CreateGymEventRequest request)
         {
             var eventEntity = _mapper.Map<GymEventEntity>(request);
-            _logger.LogInformation("Gym event was created @{eventEntity}");
+            _logger.LogInformation("Gym event was created @{eventEntity}", eventEntity);
             await _repo.AddEventAsync(eventEntity);
         }
 

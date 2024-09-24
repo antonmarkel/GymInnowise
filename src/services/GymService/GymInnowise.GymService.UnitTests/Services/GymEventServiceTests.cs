@@ -4,6 +4,7 @@ using GymInnowise.GymService.Logic.Services;
 using GymInnowise.GymService.Persistence.Models.Entities;
 using GymInnowise.GymService.Persistence.Repositories.Interfaces;
 using GymInnowise.GymService.Shared.Dtos.Requests.Updates;
+using Microsoft.Extensions.Logging;
 
 namespace GymInnowise.GymService.UnitTests.Services
 {
@@ -15,7 +16,7 @@ namespace GymInnowise.GymService.UnitTests.Services
         public GymEventServiceTests()
         {
             _repo = A.Fake<IGymEventRepository>();
-            _gymEventService = new GymEventService(_repo, A.Fake<IMapper>());
+            _gymEventService = new GymEventService(_repo, A.Fake<IMapper>(), A.Fake<ILogger<GymEventService>>());
         }
 
         [Fact]

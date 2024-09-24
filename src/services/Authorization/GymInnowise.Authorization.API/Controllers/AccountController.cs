@@ -1,4 +1,6 @@
-﻿using GymInnowise.Authorization.Logic.Interfaces;
+﻿using GymInnowise.Authorization.Logic.Helpers;
+using GymInnowise.Authorization.Logic.Interfaces;
+using GymInnowise.Authorization.Shared.Authorization;
 using GymInnowise.Authorization.Shared.Dtos.RequestModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +18,7 @@ namespace GymInnowise.Authorization.API.Controllers
             _accountService = accountService;
         }
 
-        [HttpPost("register")]
+        [HttpPost]
         public async Task<IActionResult> RegisterAsync([FromBody] RegisterRequest registerRequest)
         {
             var registerResult = await _accountService.RegisterAsync(registerRequest);
@@ -28,9 +30,15 @@ namespace GymInnowise.Authorization.API.Controllers
         }
 
         [Authorize]
-        [HttpPut("update/{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAsync(Guid id, [FromBody] UpdateRequest updateRequest)
         {
+            var accountId = ClaimsHelper.GetAccountId(User.Claims);
+            if (id != accountId && !User.IsInRole(Roles.Admin))
+            {
+                return Forbid();
+            }
+
             var updateResult = await _accountService.UpdateAsync(id, updateRequest);
 
             return updateResult.Match<IActionResult>(
@@ -39,8 +47,8 @@ namespace GymInnowise.Authorization.API.Controllers
             );
         }
 
-        [Authorize]
-        [HttpPut("update/roles/{id}")]
+        [Authorize(Roles = Roles.Admin)]
+        [HttpPut("{id}/roles")]
         public async Task<IActionResult> UpdateRolesAsync(Guid id, [FromBody] UpdateRolesRequest updateRolesRequest)
         {
             var updateResult = await _accountService.UpdateRolesAsync(id, updateRolesRequest);

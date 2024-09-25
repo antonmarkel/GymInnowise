@@ -24,7 +24,7 @@ namespace GymInnowise.UserService.UnitTests.Services
         {
             //Arrange
             var request = new CreateCoachProfileRequest();
-            A.CallTo(() => _coachRepo.DoesProfileExistAsync(request.AccountId)).Returns(true);
+            A.CallTo(() => _coachRepo.DoesProfileExistAsync(Guid.Empty)).Returns(true);
 
             //Act
             var result = await _coachProfileService.CreateCoachProfileAsync(Guid.Empty, request);
@@ -39,7 +39,7 @@ namespace GymInnowise.UserService.UnitTests.Services
         {
             //Arrange
             var request = new CreateCoachProfileRequest();
-            A.CallTo(() => _coachRepo.DoesProfileExistAsync(request.AccountId)).Returns(false);
+            A.CallTo(() => _coachRepo.DoesProfileExistAsync(Guid.Empty)).Returns(false);
 
             //Act
             var result = await _coachProfileService.CreateCoachProfileAsync(Guid.Empty, request);

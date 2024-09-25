@@ -21,7 +21,7 @@ namespace GymInnowise.UserService.Logic.Services
         {
             if (await _coachRepo.DoesProfileExistAsync(accountId))
             {
-                _logger.LogInformation(
+                _logger.LogWarning(
                     "Coach profile wasn't created. Reason: profile with this accountId {@accountId} already exists!",
                     accountId);
 
@@ -57,7 +57,7 @@ namespace GymInnowise.UserService.Logic.Services
             var coach = await _coachRepo.GetProfileByIdAsync(accountId);
             if (coach is null)
             {
-                _logger.LogInformation(
+                _logger.LogWarning(
                     "Coach profile wasn't updated. Reason: profile with this accountId {@accountId} was not found!",
                     accountId);
 
@@ -85,7 +85,7 @@ namespace GymInnowise.UserService.Logic.Services
             var account = await _coachRepo.GetProfileByIdAsync(accountId);
             if (account is null)
             {
-                _logger.LogInformation(
+                _logger.LogWarning(
                     "Coach profile wasn't updated. Reason: profile with this accountId {@accountId} was not found!",
                     accountId);
 
@@ -111,7 +111,7 @@ namespace GymInnowise.UserService.Logic.Services
             var account = await _coachRepo.GetProfileByIdAsync(accountId);
             if (account is null)
             {
-                _logger.LogInformation(
+                _logger.LogWarning(
                     "Coach profile with this id: {@accountId} was not found!",
                     accountId);
 

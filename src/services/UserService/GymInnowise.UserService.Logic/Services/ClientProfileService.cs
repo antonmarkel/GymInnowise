@@ -12,14 +12,16 @@ using OneOf.Types;
 
 namespace GymInnowise.UserService.Logic.Services
 {
-    public class ClientProfileService(IProfileRepository<ClientProfileEntity> _clientRepo, ILogger<ClientProfileService> _logger) : IClientProfileService
+    public class ClientProfileService(
+        IProfileRepository<ClientProfileEntity> _clientRepo,
+        ILogger<ClientProfileService> _logger) : IClientProfileService
     {
         public async Task<OneOf<Success, ProfileAlreadyExists>> CreateClientProfileAsync(Guid accountId,
             CreateClientProfileRequest request)
         {
             if (await _clientRepo.DoesProfileExistAsync(accountId))
             {
-                _logger.LogInformation(
+                _logger.LogWarning(
                     "Client profile wasn't created. Reason: profile with this accountId {@accountId} already exists!",
                     accountId);
 
@@ -52,7 +54,7 @@ namespace GymInnowise.UserService.Logic.Services
             var client = await _clientRepo.GetProfileByIdAsync(accountId);
             if (client is null)
             {
-                _logger.LogInformation(
+                _logger.LogWarning(
                     "Client profile wasn't updated. Reason: profile with this accountId {@accountId} was not found!",
                     accountId);
 
@@ -80,7 +82,7 @@ namespace GymInnowise.UserService.Logic.Services
             var account = await _clientRepo.GetProfileByIdAsync(accountId);
             if (account is null)
             {
-                _logger.LogInformation(
+                _logger.LogWarning(
                     "Client profile wasn't updated. Reason: profile with this accountId {@accountId} was not found!",
                     accountId);
 
@@ -105,7 +107,7 @@ namespace GymInnowise.UserService.Logic.Services
             var account = await _clientRepo.GetProfileByIdAsync(accountId);
             if (account is null)
             {
-                _logger.LogInformation(
+                _logger.LogWarning(
                     "Client profile with this id: {@accountId} was not found!",
                     accountId);
 

@@ -36,11 +36,11 @@ namespace GymInnowise.Authorization.Logic.Services
                 loginRequest.Email);
             if (account is null || !PasswordHelper.VerifyPassword(loginRequest.Password, account.PasswordHash))
             {
-                _logger.LogInformation("Logging in failed. Reason: '"
-                                       + (account is null
-                                           ? "Account does not exist"
-                                           : "Wrong Password")
-                                       + $"'email: {loginRequest.Email}.");
+                _logger.LogWarning("Logging in failed. Reason: '"
+                                   + (account is null
+                                       ? "Account does not exist"
+                                       : "Wrong Password")
+                                   + $"'email: {loginRequest.Email}.");
 
                 return new InvalidCredentials();
             }
@@ -57,7 +57,7 @@ namespace GymInnowise.Authorization.Logic.Services
                 refreshRequest.RefreshToken, loadAccount: true);
             if (storedRefreshToken is null)
             {
-                _logger.LogInformation("Refresh token is invalid.");
+                _logger.LogWarning("Refresh token is invalid.");
 
                 return new InvalidRefreshToken();
             }
@@ -86,7 +86,7 @@ namespace GymInnowise.Authorization.Logic.Services
                 revokeRequest.RefreshToken, loadAccount: true);
             if (storedRefreshToken is null)
             {
-                _logger.LogInformation("Refresh token is invalid.");
+                _logger.LogWarning("Refresh token is invalid.");
 
                 return;
             }

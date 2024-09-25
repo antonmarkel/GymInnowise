@@ -3,7 +3,7 @@ using GymInnowise.GymService.Shared.Dtos.Abstract;
 
 namespace GymInnowise.GymService.API.Validators.Base
 {
-    public class GymEventBaseDtoValidator : AbstractValidator<GymEventBaseDto>
+    public class GymEventBaseDtoValidator : AbstractValidator<GymEventDtoBase>
     {
         public GymEventBaseDtoValidator()
         {

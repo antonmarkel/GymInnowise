@@ -23,7 +23,7 @@ namespace GymInnowise.GymService.UnitTests.Services
         public async Task UpdateGymEventAsync_NotFound_ReturnsNotFound()
         {
             //Arrange
-            var request = new UpdateGymEventRequest();
+            var request = new UpdateGymEventDtoRequest();
             A.CallTo(() => _repo.GetGymEventByIdAsync(Guid.Empty))
                 .Returns(Task.FromResult<GymEventEntity?>(null));
 
@@ -39,7 +39,7 @@ namespace GymInnowise.GymService.UnitTests.Services
         public async Task UpdateGymEventAsync_Success_ReturnsSuccess()
         {
             //Arrange
-            var request = new UpdateGymEventRequest();
+            var request = new UpdateGymEventDtoRequest();
             A.CallTo(() => _repo.GetGymEventByIdAsync(Guid.Empty))
                 .Returns(Task.FromResult<GymEventEntity?>(new GymEventEntity()));
 

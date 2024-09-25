@@ -1,13 +1,9 @@
-﻿using GymInnowise.GymService.Shared.Enums;
+﻿using GymInnowise.GymService.Shared.Dtos.Abstract;
+using GymInnowise.GymService.Shared.Enums;
 
 namespace GymInnowise.GymService.Persistence.Models.Dtos
 {
-    public class GymPreviewDto
+    public class GymPreviewDto : GymPreviewDtoBase
     {
-        public Guid Id { get; set; }
-        public string Name { get; set; } = string.Empty;
-        public string Address { get; set; } = string.Empty;
-        public string ContactInfo { get; set; } = string.Empty;
-        public List<GymTag> Tags { get; set; } = [];
     }
 }

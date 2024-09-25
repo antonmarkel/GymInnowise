@@ -8,7 +8,6 @@ builder.AddLogger();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c => c.SchemaFilter<TimeSpanSchemaFilter>());
-builder.Services.AddAuthenticationCore();
 builder.AddJwtServices();
 builder.AddValidationServices();
 builder.Services.AddAutoMapper(typeof(MappingProfile));

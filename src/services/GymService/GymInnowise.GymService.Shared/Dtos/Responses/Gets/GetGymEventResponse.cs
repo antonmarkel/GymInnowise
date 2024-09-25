@@ -2,7 +2,7 @@
 
 namespace GymInnowise.GymService.Shared.Dtos.Responses.Gets
 {
-    public class GetGymEventResponse : GymEventBaseDto
+    public class GetGymEventResponse : GymEventDtoBase
     {
         public Guid Id { get; set; }
     }

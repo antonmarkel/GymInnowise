@@ -1,13 +1,8 @@
-﻿using GymInnowise.GymService.Shared.Enums;
+﻿using GymInnowise.GymService.Shared.Dtos.Abstract;
 
 namespace GymInnowise.GymService.Shared.Dtos.Responses.Gets
 {
-    public class GetGymPreviewResponse
+    public class GetGymPreviewResponse : GymPreviewDtoBase
     {
-        public Guid Id { get; set; }
-        public string Name { get; set; } = string.Empty;
-        public string Address { get; set; } = string.Empty;
-        public string ContactInfo { get; set; } = string.Empty;
-        public List<GymTag> Tags { get; set; } = [];
     }
 }

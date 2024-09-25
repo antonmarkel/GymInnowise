@@ -2,7 +2,7 @@
 
 namespace GymInnowise.GymService.Shared.Dtos.Requests.Creates
 {
-    public class CreateGymRequest : GymDetailsBaseDto
+    public class CreateGymRequest : GymDetailsDtoBase
     {
     }
 }

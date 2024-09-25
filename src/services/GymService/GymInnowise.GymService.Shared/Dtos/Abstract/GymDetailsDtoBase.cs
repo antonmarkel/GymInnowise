@@ -2,7 +2,7 @@
 
 namespace GymInnowise.GymService.Shared.Dtos.Abstract
 {
-    public abstract class GymDetailsBaseDto
+    public abstract class GymDetailsDtoBase
     {
         public string Name { get; set; } = string.Empty;
         public string Address { get; set; } = string.Empty;

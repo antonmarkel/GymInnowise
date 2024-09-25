@@ -14,14 +14,15 @@ namespace GymInnowise.GymService.Logic.Services
     public class GymEventService(IGymEventRepository _repo, IMapper _mapper, ILogger<GymEventService> _logger)
         : IGymEventService
     {
-        public async Task CreateGymEventAsync(CreateGymEventRequest request)
+        public async Task CreateGymEventAsync(CreateGymEventDtoRequest dtoRequest)
         {
-            var eventEntity = _mapper.Map<GymEventEntity>(request);
+            var eventEntity = _mapper.Map<GymEventEntity>(dtoRequest);
             _logger.LogInformation("Gym event was created @{eventEntity}", eventEntity);
             await _repo.AddEventAsync(eventEntity);
         }
 
-        public async Task<OneOf<Success, NotFound>> UpdateGymEventAsync(Guid eventId, UpdateGymEventRequest request)
+        public async Task<OneOf<Success, NotFound>> UpdateGymEventAsync(Guid eventId,
+            UpdateGymEventDtoRequest dtoRequest)
         {
             var eventEntity = await _repo.GetGymEventByIdAsync(eventId);
             if (eventEntity is null)
@@ -32,9 +33,10 @@ namespace GymInnowise.GymService.Logic.Services
                 return new NotFound();
             }
 
-            _mapper.Map(request, eventEntity);
+            _mapper.Map(dtoRequest, eventEntity);
             await _repo.UpdateEventAsync(eventEntity);
-            _logger.LogInformation("Gym event was successfully updated. Info: {@eventId} {@reguest}", eventId, request);
+            _logger.LogInformation("Gym event was successfully updated. Info: {@eventId} {@reguest}", eventId,
+                dtoRequest);
 
             return new Success();
         }

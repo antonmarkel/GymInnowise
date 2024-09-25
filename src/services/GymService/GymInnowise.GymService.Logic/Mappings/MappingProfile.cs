@@ -17,8 +17,8 @@ namespace GymInnowise.GymService.Logic.Mappings
 
         private void CreateEventsMappings()
         {
-            CreateMap<CreateGymEventRequest, GymEventEntity>().ForMember(dest => dest.Id, opt => opt.Ignore());
-            CreateMap<UpdateGymEventRequest, GymEventEntity>();
+            CreateMap<CreateGymEventDtoRequest, GymEventEntity>().ForMember(dest => dest.Id, opt => opt.Ignore());
+            CreateMap<UpdateGymEventDtoRequest, GymEventEntity>();
             CreateMap<GymEventEntity, GetGymEventResponse>();
         }
 

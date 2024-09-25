@@ -2,7 +2,7 @@
 
 namespace GymInnowise.GymService.Shared.Dtos.Responses.Gets
 {
-    public class GetGymDetailsResponse : GymDetailsBaseDto
+    public class GetGymDetailsResponse : GymDetailsDtoBase
     {
     }
 }

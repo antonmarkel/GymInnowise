@@ -14,9 +14,9 @@ namespace GymInnowise.GymService.API.Controllers
     {
         [Authorize(Roles = Roles.Admin)]
         [HttpPost]
-        public async Task<IActionResult> CreateGymEventAsync([FromBody] CreateGymEventRequest request)
+        public async Task<IActionResult> CreateGymEventAsync([FromBody] CreateGymEventDtoRequest dtoRequest)
         {
-            await _eventService.CreateGymEventAsync(request);
+            await _eventService.CreateGymEventAsync(dtoRequest);
 
             return Created();
         }
@@ -24,7 +24,7 @@ namespace GymInnowise.GymService.API.Controllers
         [Authorize(Roles = Roles.Admin)]
         [HttpPut("{eventId}")]
         public async Task<IActionResult> UpdateGymEventAsync(Guid eventId,
-            [FromBody] UpdateGymEventRequest request)
+            [FromBody] UpdateGymEventDtoRequest dtoRequest)
         {
             var gymIdResult = await _eventService.GetGymIdAsync(eventId);
             if (gymIdResult.IsT1)
@@ -32,7 +32,7 @@ namespace GymInnowise.GymService.API.Controllers
                 return NotFound();
             }
 
-            var result = await _eventService.UpdateGymEventAsync(eventId, request);
+            var result = await _eventService.UpdateGymEventAsync(eventId, dtoRequest);
 
             return result.Match<IActionResult>(_ => NoContent(), _ => NotFound());
         }

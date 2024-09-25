@@ -2,6 +2,7 @@
 {
     public enum ClientStatus
     {
+        Unknown = 0,
         Active,
         InActive,
         Sick,

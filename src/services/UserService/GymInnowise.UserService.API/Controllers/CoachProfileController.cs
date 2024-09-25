@@ -1,6 +1,9 @@
-﻿using GymInnowise.UserService.Logic.Interfaces;
+﻿using GymInnowise.UserService.API.Authorization;
+using GymInnowise.UserService.Logic.Interfaces;
+using GymInnowise.UserService.Shared.Authorization;
 using GymInnowise.UserService.Shared.Dtos.RequestModels.Creates;
 using GymInnowise.UserService.Shared.Dtos.RequestModels.Updates;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GymInnowise.UserService.API.Controllers
@@ -16,10 +19,12 @@ namespace GymInnowise.UserService.API.Controllers
             _coachProfileService = coachProfileService;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateProfileAsync([FromBody] CreateCoachProfileRequest request)
+        [Authorize(Roles = Roles.Admin)]
+        [HttpPost("{id}")]
+        public async Task<IActionResult> CreateProfileAsync(Guid id,
+            [FromBody] CreateCoachProfileRequest request)
         {
-            var result = await _coachProfileService.CreateCoachProfileAsync(request);
+            var result = await _coachProfileService.CreateCoachProfileAsync(id, request);
 
             return result.Match<IActionResult>(
                 _ => Created(),
@@ -27,6 +32,7 @@ namespace GymInnowise.UserService.API.Controllers
             );
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProfileAsync(Guid id)
         {
@@ -38,6 +44,8 @@ namespace GymInnowise.UserService.API.Controllers
             );
         }
 
+        [Authorize(Roles = Roles.Coach)]
+        [OwnerOrAdminAuthorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProfileAsync(Guid id, [FromBody] UpdateCoachProfileRequest request)
         {
@@ -49,6 +57,8 @@ namespace GymInnowise.UserService.API.Controllers
             );
         }
 
+        [Authorize(Roles = Roles.Coach)]
+        [OwnerOrAdminAuthorize]
         [HttpPut("{id}/status")]
         public async Task<IActionResult> UpdateProfileStatusAsync(Guid id,
             [FromBody] UpdateCoachProfileStatusRequest request)

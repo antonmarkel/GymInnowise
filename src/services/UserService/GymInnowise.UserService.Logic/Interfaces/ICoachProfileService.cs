@@ -9,12 +9,14 @@ namespace GymInnowise.UserService.Logic.Interfaces
 {
     public interface ICoachProfileService
     {
-        Task<OneOf<Success, ProfileAlreadyExists>> CreateCoachProfileAsync(CreateCoachProfileRequest request);
-        Task<OneOf<Success, ProfileNotFound>> UpdateCoachProfileAsync(Guid coachId, UpdateCoachProfileRequest request);
+        Task<OneOf<Success, ProfileAlreadyExists>> CreateCoachProfileAsync(Guid accountId,
+            CreateCoachProfileRequest request);
 
-        Task<OneOf<Success, ProfileNotFound>> UpdateCoachProfileStatusAsync(Guid coachId,
+        Task<OneOf<Success, NotFound>> UpdateCoachProfileAsync(Guid coachId, UpdateCoachProfileRequest request);
+
+        Task<OneOf<Success, NotFound>> UpdateCoachProfileStatusAsync(Guid coachId,
             UpdateCoachProfileStatusRequest request);
 
-        Task<OneOf<GetCoachProfileResponse, ProfileNotFound>> GetCoachProfileAsync(Guid accountId);
+        Task<OneOf<GetCoachProfileResponse, NotFound>> GetCoachProfileAsync(Guid accountId);
     }
 }

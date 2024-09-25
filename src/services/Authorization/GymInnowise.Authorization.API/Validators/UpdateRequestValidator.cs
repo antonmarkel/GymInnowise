@@ -4,9 +4,9 @@ using GymInnowise.Authorization.Shared.Dtos.RequestModels;
 
 namespace GymInnowise.Authorization.API.Validators
 {
-    public class RegisterRequestValidator : AbstractValidator<RegisterRequest>
+    public class UpdateRequestValidator : AbstractValidator<UpdateRequest>
     {
-        public RegisterRequestValidator()
+        public UpdateRequestValidator()
         {
             RuleFor(rq => rq.Email).EmailAddress()
                 .WithMessage("Invalid email address!");

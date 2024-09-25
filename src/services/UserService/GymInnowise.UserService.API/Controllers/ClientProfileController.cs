@@ -1,6 +1,8 @@
-﻿using GymInnowise.UserService.Logic.Interfaces;
+﻿using GymInnowise.UserService.API.Authorization;
+using GymInnowise.UserService.Logic.Interfaces;
 using GymInnowise.UserService.Shared.Dtos.RequestModels.Creates;
 using GymInnowise.UserService.Shared.Dtos.RequestModels.Updates;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GymInnowise.UserService.API.Controllers
@@ -16,10 +18,13 @@ namespace GymInnowise.UserService.API.Controllers
             _clientProfileService = clientProfileService;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateProfileAsync([FromBody] CreateClientProfileRequest request)
+        [Authorize]
+        [OwnerOrAdminAuthorize]
+        [HttpPost("{id}")]
+        public async Task<IActionResult> CreateProfileAsync(Guid id,
+            [FromBody] CreateClientProfileRequest request)
         {
-            var result = await _clientProfileService.CreateClientProfileAsync(request);
+            var result = await _clientProfileService.CreateClientProfileAsync(id, request);
 
             return result.Match<IActionResult>(
                 _ => Created(),
@@ -27,6 +32,7 @@ namespace GymInnowise.UserService.API.Controllers
             );
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProfileAsync(Guid id)
         {
@@ -38,6 +44,8 @@ namespace GymInnowise.UserService.API.Controllers
             );
         }
 
+        [Authorize]
+        [OwnerOrAdminAuthorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProfileAsync(Guid id,
             [FromBody] UpdateClientProfileRequest request)
@@ -50,6 +58,8 @@ namespace GymInnowise.UserService.API.Controllers
             );
         }
 
+        [Authorize]
+        [OwnerOrAdminAuthorize]
         [HttpPut("{id}/status")]
         public async Task<IActionResult> UpdateProfileStatusAsync(Guid id,
             [FromBody] UpdateClientProfileStatusRequest request)

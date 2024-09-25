@@ -44,16 +44,5 @@ namespace GymInnowise.Authorization.API.Controllers
 
             return Ok();
         }
-
-        [HttpPost("register")]
-        public async Task<IActionResult> RegisterAsync([FromBody] RegisterRequest registrationDto)
-        {
-            var registerResult = await _authenticationService.RegisterAsync(registrationDto);
-
-            return registerResult.Match<IActionResult>(
-                _ => Created(),
-                _ => BadRequest("Account with this email or mobile phone already exists! Try to log in!")
-            );
-        }
     }
 }

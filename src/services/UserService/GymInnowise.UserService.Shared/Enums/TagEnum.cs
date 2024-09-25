@@ -2,7 +2,7 @@
 {
     public enum TagEnum
     {
-        ToAdd,
+        ToAdd = 0,
         Judo,
         Karate,
         Taekwondo,

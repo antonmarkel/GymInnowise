@@ -57,6 +57,7 @@ namespace GymInnowise.Authorization.API.Extensions
             });
             builder.Services.AddAuthorization();
             builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+            builder.Services.AddScoped<IAccountService, AccountService>();
             builder.Services.AddScoped<ITokenService, TokenService>();
         }
 

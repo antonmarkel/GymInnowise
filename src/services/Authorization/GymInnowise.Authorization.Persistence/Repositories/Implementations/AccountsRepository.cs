@@ -21,13 +21,24 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
             await _context.SaveChangesAsync();
         }
 
-        public async Task<bool> DoesAccountExistAsync(RegisterRequest dto)
+        public async Task<bool> DoesAccountExistAsync(RegisterRequest registerRequest)
         {
             var account = await _context.Accounts.FirstOrDefaultAsync(v =>
-                v.PhoneNumber.ToLower() == dto.PhoneNumber.ToLower() ||
-                v.Email.ToLower() == dto.Email.ToLower());
+                v.PhoneNumber.ToLower() == registerRequest.PhoneNumber.ToLower() ||
+                v.Email.ToLower() == registerRequest.Email.ToLower());
 
             return account != null;
+        }
+
+        public async Task UpdateAccountAsync(AccountEntity entity)
+        {
+            _context.Update(entity);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<AccountEntity?> GetAccountByIdAsync(Guid accountId)
+        {
+            return await _context.Accounts.FirstOrDefaultAsync(ac => ac.Id == accountId);
         }
 
         public async Task<AccountEntity?> GetAccountByEmailAsync(string email)

@@ -8,5 +8,6 @@ namespace GymInnowise.UserService.Persistence.Repositories.Interfaces
         Task UpdatePersonalGoalAsync(PersonalGoalEntity goal);
         Task<PersonalGoalEntity?> GetPersonalGoalAsync(Guid goalId);
         Task<List<PersonalGoalEntity>> GetAllPersonalGoalsAsync(Guid accountId);
+        Task<List<PersonalGoalEntity>> GetCoachSupervisedGoalsAsync(Guid accountId, Guid coachId);
     }
 }

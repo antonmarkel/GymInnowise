@@ -28,7 +28,7 @@ namespace GymInnowise.UserService.Persistence.Repositories.Implementations
 
             await connection.ExecuteAsync(sql, new
             {
-                AccountId = Guid.NewGuid(),
+                clientProfile.AccountId,
                 clientProfile.FirstName,
                 clientProfile.LastName,
                 clientProfile.DateOfBirth,

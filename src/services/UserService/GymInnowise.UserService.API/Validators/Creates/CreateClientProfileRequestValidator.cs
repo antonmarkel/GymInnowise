@@ -8,7 +8,6 @@ namespace GymInnowise.UserService.API.Validators.Creates
     {
         public CreateClientProfileRequestValidator()
         {
-            RuleFor(x => x.AccountId).Identifier();
             RuleFor(x => x.FirstName).FirstName();
             RuleFor(x => x.LastName).LastName();
             RuleFor(x => x.DateOfBirth).DateOfBirth();

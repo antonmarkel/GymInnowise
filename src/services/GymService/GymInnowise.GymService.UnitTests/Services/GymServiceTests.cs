@@ -42,7 +42,7 @@ namespace GymInnowise.GymService.UnitTests.Services
             A.CallTo(() => _repo.GetGymByIdAsync(Guid.Empty))
                 .Returns(Task.FromResult<GymEntity?>(
                     new GymEntity()
-                        { Name = "name", Address = "address", ContactInfo = "ContactInfo" }));
+                    { Name = "name", Address = "address", ContactInfo = "ContactInfo" }));
 
             //Act
             var result = await _gymService.UpdateGymAsync(Guid.Empty, request);
@@ -72,7 +72,7 @@ namespace GymInnowise.GymService.UnitTests.Services
             A.CallTo(() => _repo.GetGymByIdAsync(Guid.Empty))
                 .Returns(Task.FromResult<GymEntity?>(
                     new GymEntity()
-                        { Name = "name", Address = "address", ContactInfo = "ContactInfo" }));
+                    { Name = "name", Address = "address", ContactInfo = "ContactInfo" }));
             //Act
             var result = await _gymService.GetGymDetailsByIdAsync(Guid.Empty);
 

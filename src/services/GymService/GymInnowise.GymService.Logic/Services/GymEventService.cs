@@ -26,7 +26,7 @@ namespace GymInnowise.GymService.Logic.Services
             var eventEntity = await _repo.GetGymEventByIdAsync(eventId);
             if (eventEntity is null)
             {
-                _logger.LogInformation("Error while updating gym event. Reason: event with id {@eventId} wasn't found",
+                _logger.LogWarning("Error while updating gym event. Reason: event with id {@eventId} wasn't found",
                     eventId);
 
                 return new NotFound();
@@ -44,7 +44,7 @@ namespace GymInnowise.GymService.Logic.Services
             var eventEntity = await _repo.GetGymEventByIdAsync(eventId);
             if (eventEntity is null)
             {
-                _logger.LogInformation("Gym event with id {@eventId} was not found", eventId);
+                _logger.LogWarning("Gym event with id {@eventId} was not found", eventId);
 
                 return new NotFound();
             }

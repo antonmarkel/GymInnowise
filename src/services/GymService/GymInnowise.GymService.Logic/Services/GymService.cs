@@ -26,7 +26,7 @@ namespace GymInnowise.GymService.Logic.Services
             var gymEntity = await _repo.GetGymByIdAsync(gymId);
             if (gymEntity is null)
             {
-                _logger.LogInformation("Error while updating. Reason: gym with id {@gymId} was not found!", gymId);
+                _logger.LogWarning("Error while updating. Reason: gym with id {@gymId} was not found!", gymId);
 
                 return new NotFound();
             }
@@ -43,7 +43,7 @@ namespace GymInnowise.GymService.Logic.Services
             var gymEntity = await _repo.GetGymByIdAsync(gymId);
             if (gymEntity is null)
             {
-                _logger.LogInformation("Gym with id {@gymId} was not found.", gymId);
+                _logger.LogWarning("Gym with id {@gymId} was not found.", gymId);
 
                 return new NotFound();
             }

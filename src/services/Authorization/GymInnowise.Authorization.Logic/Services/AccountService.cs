@@ -27,7 +27,7 @@ namespace GymInnowise.Authorization.Logic.Services
         {
             if (await _accountsRepo.DoesAccountExistAsync(registerRequest))
             {
-                _logger.LogInformation("Registration failed. Reason: 'Account already exists' Email:'{@Email}'.",
+                _logger.LogWarning("Registration failed. Reason: 'Account already exists' Email:'{@Email}'.",
                     registerRequest.Email);
 
                 return new AccountAlreadyExists();
@@ -54,7 +54,7 @@ namespace GymInnowise.Authorization.Logic.Services
             var account = await _accountsRepo.GetAccountByIdAsync(accountId);
             if (account is null)
             {
-                _logger.LogInformation("Updating failed, no account was found {accountId}", accountId);
+                _logger.LogWarning("Updating failed, no account was found {accountId}", accountId);
 
                 return new NotFound();
             }
@@ -74,7 +74,7 @@ namespace GymInnowise.Authorization.Logic.Services
             var account = await _accountsRepo.GetAccountByIdAsync(accountId);
             if (account is null)
             {
-                _logger.LogInformation("Updating failed, no account was found {accountId}", accountId);
+                _logger.LogWarning("Updating failed, no account was found {accountId}", accountId);
 
                 return new NotFound();
             }

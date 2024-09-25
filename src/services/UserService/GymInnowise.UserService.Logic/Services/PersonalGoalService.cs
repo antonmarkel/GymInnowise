@@ -35,7 +35,7 @@ namespace GymInnowise.UserService.Logic.Services
             var goal = await _goalRepo.GetPersonalGoalAsync(goalId);
             if (goal is null)
             {
-                _logger.LogInformation(
+                _logger.LogWarning(
                     "Goal wasn't updated. Reason: goal with this id {@goalId} was not found!",
                     goalId);
 
@@ -91,7 +91,7 @@ namespace GymInnowise.UserService.Logic.Services
             var goalEntity = await _goalRepo.GetPersonalGoalAsync(goalId);
             if (goalEntity is null)
             {
-                _logger.LogInformation(
+                _logger.LogWarning(
                     "Goal with this id: {@goalId} was not found!",
                     goalId);
 

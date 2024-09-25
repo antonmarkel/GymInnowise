@@ -1,5 +1,4 @@
-﻿
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace GymInnowise.Authorization.Shared.Authorization
 {
@@ -8,7 +7,6 @@ namespace GymInnowise.Authorization.Shared.Authorization
         public const string Client = "Client";
         public const string Coach = "Coach";
         public const string Admin = "Admin";
-        public const string CoachOrAdmin = "Coach,Admin";
 
         public static readonly HashSet<string> AllRoles = GetAllRoles();
 

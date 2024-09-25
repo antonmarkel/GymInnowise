@@ -2,7 +2,7 @@
 {
     public enum GymTag
     {
-        None,
+        None = 0,
         GeneralFitness,
         Boxing,
         MartialArts,

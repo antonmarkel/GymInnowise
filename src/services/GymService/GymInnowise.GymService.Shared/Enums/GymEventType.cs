@@ -1,9 +1,8 @@
-﻿
-namespace GymInnowise.GymService.Shared.Enums
+﻿namespace GymInnowise.GymService.Shared.Enums
 {
     public enum GymEventType
     {
-        Unknown,
+        Unknown = 0,
         BlockingEvent,
         GroupTraining,
     }

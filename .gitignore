@@ -5,6 +5,7 @@
 
 # Docker project generated files to ignore
 src/services/Authorization/.containers
+src/services/UserService/.containers
 src/services/GymService/.containers
 .vagrant*
 bin

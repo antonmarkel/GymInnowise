@@ -1,6 +1,6 @@
-﻿using GymInnowise.GymService.Shared.Dtos.Requests.Creates;
-using GymInnowise.GymService.Shared.Dtos.Requests.Updates;
-using GymInnowise.GymService.Shared.Dtos.Responses.Gets;
+﻿using GymInnowise.Shared.Gym.Dtos.Requests.Creates;
+using GymInnowise.Shared.Gym.Dtos.Requests.Updates;
+using GymInnowise.Shared.Gym.Dtos.Responses.Gets;
 using OneOf;
 using OneOf.Types;
 

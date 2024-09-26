@@ -3,7 +3,7 @@ using FakeItEasy;
 using GymInnowise.GymService.Logic.Services;
 using GymInnowise.GymService.Persistence.Models.Entities;
 using GymInnowise.GymService.Persistence.Repositories.Interfaces;
-using GymInnowise.GymService.Shared.Dtos.Requests.Updates;
+using GymInnowise.Shared.Gym.Dtos.Requests.Updates;
 using Microsoft.Extensions.Logging;
 
 namespace GymInnowise.GymService.UnitTests.Services

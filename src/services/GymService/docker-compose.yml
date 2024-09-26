@@ -4,8 +4,8 @@ services:
   gyminnowise.gymservice.api:
     image: ${DOCKER_REGISTRY-}gyminnowisegymserviceapi
     build:
-      context: .
-      dockerfile: GymInnowise.GymService.API/Dockerfile
+      context: ../../
+      dockerfile: services/GymService/GymInnowise.GymService.API/Dockerfile
     ports:
     - "5004:5000"
     - "5005:5001"

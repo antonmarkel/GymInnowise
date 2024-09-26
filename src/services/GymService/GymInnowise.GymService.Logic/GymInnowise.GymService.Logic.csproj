@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GymInnowise.GymService.Persistence\GymInnowise.GymService.Persistence.csproj" />
-    <ProjectReference Include="..\GymInnowise.GymService.Shared\GymInnowise.GymService.Shared.csproj" />
   </ItemGroup>
 
 </Project>

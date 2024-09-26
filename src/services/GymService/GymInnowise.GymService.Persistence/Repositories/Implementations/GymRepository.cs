@@ -2,7 +2,7 @@
 using GymInnowise.GymService.Persistence.Models.Dtos;
 using GymInnowise.GymService.Persistence.Models.Entities;
 using GymInnowise.GymService.Persistence.Repositories.Interfaces;
-using GymInnowise.GymService.Shared.Enums;
+using GymInnowise.Shared.Gym.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace GymInnowise.GymService.Persistence.Repositories.Implementations

@@ -1,5 +1,5 @@
 ﻿using GymInnowise.GymService.Persistence.Models.Entities;
-using GymInnowise.GymService.Shared.Enums;
+using GymInnowise.Shared.Gym.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Newtonsoft.Json;

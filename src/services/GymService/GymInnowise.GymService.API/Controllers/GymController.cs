@@ -1,8 +1,8 @@
 ﻿using GymInnowise.GymService.Logic.Interfaces;
-using GymInnowise.GymService.Shared.Authorization;
-using GymInnowise.GymService.Shared.Dtos.Requests.Creates;
-using GymInnowise.GymService.Shared.Dtos.Requests.Updates;
-using GymInnowise.GymService.Shared.Enums;
+using GymInnowise.Shared.Authorization;
+using GymInnowise.Shared.Gym.Dtos.Requests.Creates;
+using GymInnowise.Shared.Gym.Dtos.Requests.Updates;
+using GymInnowise.Shared.Gym.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

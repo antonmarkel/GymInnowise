@@ -1,6 +1,6 @@
 ﻿using GymInnowise.GymService.Persistence.Models.Dtos;
 using GymInnowise.GymService.Persistence.Models.Entities;
-using GymInnowise.GymService.Shared.Enums;
+using GymInnowise.Shared.Gym.Enums;
 
 namespace GymInnowise.GymService.Persistence.Repositories.Interfaces
 {

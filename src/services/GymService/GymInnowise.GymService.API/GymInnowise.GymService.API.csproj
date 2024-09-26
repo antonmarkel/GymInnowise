@@ -30,7 +30,6 @@
     <ProjectReference Include="..\GymInnowise.GymService.Configuration\GymInnowise.GymService.Configuration.csproj" />
     <ProjectReference Include="..\GymInnowise.GymService.Logic\GymInnowise.GymService.Logic.csproj" />
     <ProjectReference Include="..\GymInnowise.GymService.Persistence\GymInnowise.GymService.Persistence.csproj" />
-    <ProjectReference Include="..\GymInnowise.GymService.Shared\GymInnowise.GymService.Shared.csproj" />
   </ItemGroup>
 
 </Project>

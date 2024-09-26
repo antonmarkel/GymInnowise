@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using GymInnowise.GymService.Shared.Dtos.Abstract;
+using GymInnowise.Shared.Gym.Dtos.Abstract;
 
 namespace GymInnowise.GymService.API.Validators.Base
 {

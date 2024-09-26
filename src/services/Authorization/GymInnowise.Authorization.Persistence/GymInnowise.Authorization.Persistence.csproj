@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GymInnowise.Authorization.Shared\GymInnowise.Authorization.Shared.csproj" />
+    <ProjectReference Include="..\..\..\shared\GymInnowise.Shared\GymInnowise.Shared\GymInnowise.Shared.csproj" />
   </ItemGroup>
 
 </Project>

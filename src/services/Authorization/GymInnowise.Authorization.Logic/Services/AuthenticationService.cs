@@ -3,8 +3,8 @@ using GymInnowise.Authorization.Logic.Interfaces;
 using GymInnowise.Authorization.Logic.Services.Results;
 using GymInnowise.Authorization.Persistence.Models.Enities;
 using GymInnowise.Authorization.Persistence.Repositories.Interfaces;
-using GymInnowise.Authorization.Shared.Dtos.RequestModels;
-using GymInnowise.Authorization.Shared.Dtos.ResponseModels;
+using GymInnowise.Shared.Authorization.Dtos.RequestModels;
+using GymInnowise.Shared.Authorization.Dtos.ResponseModels;
 using Microsoft.Extensions.Logging;
 using OneOf;
 

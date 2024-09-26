@@ -1,7 +1,7 @@
 ﻿using GymInnowise.Authorization.Logic.Helpers;
 using GymInnowise.Authorization.Logic.Interfaces;
-using GymInnowise.Authorization.Shared.Authorization;
-using GymInnowise.Authorization.Shared.Dtos.RequestModels;
+using GymInnowise.Shared.Authorization;
+using GymInnowise.Shared.Authorization.Dtos.RequestModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

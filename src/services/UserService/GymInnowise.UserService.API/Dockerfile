@@ -8,15 +8,19 @@ EXPOSE 5003
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
+
+WORKDIR /shared
+COPY ["shared/GymInnowise.Shared/GymInnowise.Shared/GymInnowise.Shared.csproj", "shared/GymInnowise.Shared/GymInnowise.Shared/"]
+RUN dotnet restore "shared/GymInnowise.Shared/GymInnowise.Shared/GymInnowise.Shared.csproj"
+
 WORKDIR /src
-COPY ["GymInnowise.UserService.API/GymInnowise.UserService.API.csproj", "GymInnowise.UserService.API/"]
-COPY ["GymInnowise.UserService.Configuration/GymInnowise.UserService.Configuration.csproj", "GymInnowise.UserService.Configuration/"]
-COPY ["GymInnowise.UserService.Logic/GymInnowise.UserService.Logic.csproj", "GymInnowise.UserService.Logic/"]
-COPY ["GymInnowise.UserService.Persistence/GymInnowise.UserService.Persistence.csproj", "GymInnowise.UserService.Persistence/"]
-COPY ["GymInnowise.UserService.Shared/GymInnowise.UserService.Shared.csproj", "GymInnowise.UserService.Shared/"]
-RUN dotnet restore "./GymInnowise.UserService.API/GymInnowise.UserService.API.csproj"
+COPY ["services/UserService/GymInnowise.UserService.API/GymInnowise.UserService.API.csproj", "services/UserService/GymInnowise.UserService.API/"]
+COPY ["services/UserService/GymInnowise.UserService.Configuration/GymInnowise.UserService.Configuration.csproj", "services/UserService/GymInnowise.UserService.Configuration/"]
+COPY ["services/UserService/GymInnowise.UserService.Logic/GymInnowise.UserService.Logic.csproj", "services/UserService/GymInnowise.UserService.Logic/"]
+COPY ["services/UserService/GymInnowise.UserService.Persistence/GymInnowise.UserService.Persistence.csproj", "services/UserService/GymInnowise.UserService.Persistence/"]
+RUN dotnet restore "./services/UserService/GymInnowise.UserService.API/GymInnowise.UserService.API.csproj"
 COPY . .
-WORKDIR "/src/GymInnowise.UserService.API"
+WORKDIR "/src/services/UserService/GymInnowise.UserService.API"
 RUN dotnet build "./GymInnowise.UserService.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish

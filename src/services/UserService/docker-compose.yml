@@ -3,8 +3,8 @@ services:
   gyminnowise.userservice.api:
     image: ${DOCKER_REGISTRY-}gyminnowiseuserserviceapi
     build:
-      context: .
-      dockerfile: GymInnowise.UserService.API/Dockerfile
+      context: ../../
+      dockerfile: services/UserService/GymInnowise.UserService.API/Dockerfile
     ports:
     - "5002:5000"
     - "5003:5001"

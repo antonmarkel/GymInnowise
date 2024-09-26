@@ -11,9 +11,7 @@ namespace GymInnowise.Authorization.API.Validators
             RuleFor(rq => rq.Email).EmailAddress()
                 .WithMessage("Invalid email address!");
             RuleFor(rq => rq.Password).Password();
-            RuleFor(rq => rq.PhoneNumber)
-                .Matches(@"^\+(\d{1,3})\s?\(?\d{1,4}?\)?[\d\s\-]{7,}$")
-                .WithMessage("Incorrect phone number!");
+            RuleFor(rq => rq.PhoneNumber).PhoneNumber();
         }
     }
 }

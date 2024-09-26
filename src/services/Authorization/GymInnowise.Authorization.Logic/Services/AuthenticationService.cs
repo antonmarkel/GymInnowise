@@ -5,10 +5,8 @@ using GymInnowise.Authorization.Persistence.Models.Enities;
 using GymInnowise.Authorization.Persistence.Repositories.Interfaces;
 using GymInnowise.Authorization.Shared.Dtos.RequestModels;
 using GymInnowise.Authorization.Shared.Dtos.ResponseModels;
-using GymInnowise.Authorization.Shared.Enums;
 using Microsoft.Extensions.Logging;
 using OneOf;
-using OneOf.Types;
 
 namespace GymInnowise.Authorization.Logic.Services
 {
@@ -31,32 +29,6 @@ namespace GymInnowise.Authorization.Logic.Services
             _logger = logger;
         }
 
-        public async Task<OneOf<Success, AccountAlreadyExists>> RegisterAsync(
-            RegisterRequest registerRequest)
-        {
-            if (await _accountsRepo.DoesAccountExistAsync(registerRequest))
-            {
-                _logger.LogInformation("Registration failed. Reason: 'Account already exists' Email:'{@Email}'.",
-                    registerRequest.Email);
-
-                return new AccountAlreadyExists();
-            }
-
-            var account = new AccountEntity
-            {
-                Email = registerRequest.Email,
-                PhoneNumber = registerRequest.PhoneNumber,
-                PasswordHash = PasswordHelper.HashPassword(registerRequest.Password),
-                CreatedDate = DateTime.UtcNow,
-                ModifiedDate = DateTime.UtcNow,
-                Roles = [RoleEnum.Client],
-            };
-            await _accountsRepo.CreateAccountAsync(account);
-            _logger.LogInformation("New account with email '{Email}' has been created.", account.Email);
-
-            return new Success();
-        }
-
         public async Task<OneOf<LoginResponse, InvalidCredentials>> LoginAsync(
             LoginRequest loginRequest)
         {
@@ -64,11 +36,11 @@ namespace GymInnowise.Authorization.Logic.Services
                 loginRequest.Email);
             if (account is null || !PasswordHelper.VerifyPassword(loginRequest.Password, account.PasswordHash))
             {
-                _logger.LogInformation("Logging in failed. Reason: '"
-                                       + (account is null
-                                           ? "Account does not exist"
-                                           : "Wrong Password")
-                                       + $"'email: {loginRequest.Email}.");
+                _logger.LogWarning("Logging in failed. Reason: '"
+                                   + (account is null
+                                       ? "Account does not exist"
+                                       : "Wrong Password")
+                                   + $"'email: {loginRequest.Email}.");
 
                 return new InvalidCredentials();
             }
@@ -85,7 +57,7 @@ namespace GymInnowise.Authorization.Logic.Services
                 refreshRequest.RefreshToken, loadAccount: true);
             if (storedRefreshToken is null)
             {
-                _logger.LogInformation("Refresh token is invalid.");
+                _logger.LogWarning("Refresh token is invalid.");
 
                 return new InvalidRefreshToken();
             }
@@ -114,7 +86,7 @@ namespace GymInnowise.Authorization.Logic.Services
                 revokeRequest.RefreshToken, loadAccount: true);
             if (storedRefreshToken is null)
             {
-                _logger.LogInformation("Refresh token is invalid.");
+                _logger.LogWarning("Refresh token is invalid.");
 
                 return;
             }

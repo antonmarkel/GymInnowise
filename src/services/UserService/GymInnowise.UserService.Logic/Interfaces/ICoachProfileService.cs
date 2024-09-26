@@ -1,7 +1,7 @@
-﻿using GymInnowise.UserService.Logic.Results;
-using GymInnowise.UserService.Shared.Dtos.RequestModels.Creates;
-using GymInnowise.UserService.Shared.Dtos.RequestModels.Updates;
-using GymInnowise.UserService.Shared.Dtos.ResponseModels.Gets;
+﻿using GymInnowise.Shared.User.Dtos.RequestModels.Creates;
+using GymInnowise.Shared.User.Dtos.RequestModels.Updates;
+using GymInnowise.Shared.User.Dtos.ResponseModels.Gets;
+using GymInnowise.UserService.Logic.Results;
 using OneOf;
 using OneOf.Types;
 

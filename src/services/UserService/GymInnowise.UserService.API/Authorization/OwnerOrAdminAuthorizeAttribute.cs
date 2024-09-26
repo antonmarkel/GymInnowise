@@ -1,5 +1,5 @@
-﻿using GymInnowise.UserService.Logic.Helpers;
-using GymInnowise.UserService.Shared.Authorization;
+﻿using GymInnowise.Shared.Authorization;
+using GymInnowise.UserService.Logic.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 

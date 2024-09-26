@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using GymInnowise.UserService.Shared.Dtos.RequestModels.Updates;
+using GymInnowise.Shared.User.Dtos.RequestModels.Updates;
 
 namespace GymInnowise.UserService.API.Validators.Updates
 {

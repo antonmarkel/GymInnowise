@@ -1,8 +1,8 @@
-﻿using GymInnowise.UserService.API.Authorization;
+﻿using GymInnowise.Shared.Authorization;
+using GymInnowise.Shared.User.Dtos.RequestModels.Creates;
+using GymInnowise.Shared.User.Dtos.RequestModels.Updates;
+using GymInnowise.UserService.API.Authorization;
 using GymInnowise.UserService.Logic.Interfaces;
-using GymInnowise.UserService.Shared.Authorization;
-using GymInnowise.UserService.Shared.Dtos.RequestModels.Creates;
-using GymInnowise.UserService.Shared.Dtos.RequestModels.Updates;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

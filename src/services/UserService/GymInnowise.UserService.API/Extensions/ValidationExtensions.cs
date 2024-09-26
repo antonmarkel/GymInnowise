@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using GymInnowise.UserService.Shared.Enums;
+using GymInnowise.Shared.User.Enums;
 
 namespace GymInnowise.UserService.API.Extensions
 {

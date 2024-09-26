@@ -1,5 +1,5 @@
-﻿using GymInnowise.UserService.Persistence.Models.Abstract;
-using GymInnowise.UserService.Shared.Enums;
+﻿using GymInnowise.Shared.User.Enums;
+using GymInnowise.UserService.Persistence.Models.Abstract;
 
 namespace GymInnowise.UserService.Persistence.Models
 {

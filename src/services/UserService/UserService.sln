@@ -9,11 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.UserService.Per
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.UserService.Logic", "GymInnowise.UserService.Logic\GymInnowise.UserService.Logic.csproj", "{55D673B1-6530-4FAC-B610-68061D981F41}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.UserService.Shared", "GymInnowise.UserService.Shared\GymInnowise.UserService.Shared.csproj", "{56F1E688-8ACA-4D62-82C5-4AC36CFA892E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.UserService.Configuration", "GymInnowise.UserService.Configuration\GymInnowise.UserService.Configuration.csproj", "{FEFC6C57-9675-4CE4-8BB9-10740BDAB804}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymInnowise.UserService.UnitTests", "GymInnowise.UserService.UnitTests\GymInnowise.UserService.UnitTests.csproj", "{F08ABAE7-70A8-4958-B4B3-AF47AF62BDD7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.UserService.UnitTests", "GymInnowise.UserService.UnitTests\GymInnowise.UserService.UnitTests.csproj", "{F08ABAE7-70A8-4958-B4B3-AF47AF62BDD7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.Shared", "..\..\shared\GymInnowise.Shared\GymInnowise.Shared\GymInnowise.Shared.csproj", "{5B832B84-E174-4B03-8201-3BE2134AD513}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,10 +33,6 @@ Global
 		{55D673B1-6530-4FAC-B610-68061D981F41}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55D673B1-6530-4FAC-B610-68061D981F41}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55D673B1-6530-4FAC-B610-68061D981F41}.Release|Any CPU.Build.0 = Release|Any CPU
-		{56F1E688-8ACA-4D62-82C5-4AC36CFA892E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{56F1E688-8ACA-4D62-82C5-4AC36CFA892E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{56F1E688-8ACA-4D62-82C5-4AC36CFA892E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{56F1E688-8ACA-4D62-82C5-4AC36CFA892E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FEFC6C57-9675-4CE4-8BB9-10740BDAB804}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FEFC6C57-9675-4CE4-8BB9-10740BDAB804}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FEFC6C57-9675-4CE4-8BB9-10740BDAB804}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +41,10 @@ Global
 		{F08ABAE7-70A8-4958-B4B3-AF47AF62BDD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F08ABAE7-70A8-4958-B4B3-AF47AF62BDD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F08ABAE7-70A8-4958-B4B3-AF47AF62BDD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B832B84-E174-4B03-8201-3BE2134AD513}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B832B84-E174-4B03-8201-3BE2134AD513}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B832B84-E174-4B03-8201-3BE2134AD513}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B832B84-E174-4B03-8201-3BE2134AD513}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

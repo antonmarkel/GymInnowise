@@ -1,11 +1,11 @@
-﻿using GymInnowise.UserService.Logic.Interfaces;
+﻿using GymInnowise.Shared.User.Dtos.RequestModels.Creates;
+using GymInnowise.Shared.User.Dtos.RequestModels.Updates;
+using GymInnowise.Shared.User.Dtos.ResponseModels.Gets;
+using GymInnowise.Shared.User.Enums;
+using GymInnowise.UserService.Logic.Interfaces;
 using GymInnowise.UserService.Logic.Results;
 using GymInnowise.UserService.Persistence.Models;
 using GymInnowise.UserService.Persistence.Repositories.Interfaces;
-using GymInnowise.UserService.Shared.Dtos.RequestModels.Creates;
-using GymInnowise.UserService.Shared.Dtos.RequestModels.Updates;
-using GymInnowise.UserService.Shared.Dtos.ResponseModels.Gets;
-using GymInnowise.UserService.Shared.Enums;
 using Microsoft.Extensions.Logging;
 using OneOf;
 using OneOf.Types;

@@ -1,13 +1,13 @@
 ﻿using GymInnowise.FileService.Persistence.Models;
-using GymInnowise.FileService.Persistence.Models.Base;
+using GymInnowise.Shared.Blob.Dtos.Base;
 using Microsoft.EntityFrameworkCore;
 
 namespace GymInnowise.FileService.Persistence.Data
 {
     public class FileServiceDbContext : DbContext
     {
-        public DbSet<DocumentEntity> Documents { get; set; }
-        public DbSet<ImageEntity> Images { get; set; }
+        public DbSet<DocumentMetadataEntity> Documents { get; set; }
+        public DbSet<ImageMetadataEntity> Images { get; set; }
 
         public FileServiceDbContext(DbContextOptions<FileServiceDbContext> options) : base(options)
         {
@@ -19,9 +19,9 @@ namespace GymInnowise.FileService.Persistence.Data
             ConfigureFileMetadataEntity(modelBuilder);
         }
 
-        private void ConfigureFileMetadataEntity(ModelBuilder modelBuilder)
+        private static void ConfigureFileMetadataEntity(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<FileMetadataBase>(entity =>
+            modelBuilder.Entity<MetadataBase>(entity =>
             {
                 entity.HasKey(f => f.Id);
                 entity.Property(f => f.FileName)
@@ -30,8 +30,6 @@ namespace GymInnowise.FileService.Persistence.Data
                 entity.Property(f => f.ContentType)
                     .IsRequired()
                     .HasMaxLength(100);
-                entity.Property(f => f.BlobUrl)
-                    .IsRequired();
                 entity.Property(f => f.Format)
                     .IsRequired()
                     .HasMaxLength(10);

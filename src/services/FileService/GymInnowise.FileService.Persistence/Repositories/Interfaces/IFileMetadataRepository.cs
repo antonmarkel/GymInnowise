@@ -2,7 +2,7 @@
 
 namespace GymInnowise.FileService.Persistence.Repositories.Interfaces
 {
-    public interface IFileMetadataRepository<T> where T : FileMetadataBase
+    public interface IFileMetadataRepository<T> where T : MetadataEntityBase
     {
         Task CreateFileMetadataAsync(T metadata);
         Task<T?> GetFileMetadataByIdAsync(Guid fileId);

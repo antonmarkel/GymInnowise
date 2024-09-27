@@ -5,9 +5,13 @@ VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.Shared", "..\..\shared\GymInnowise.Shared\GymInnowise.Shared\GymInnowise.Shared.csproj", "{7819720A-0719-4EF8-BBB9-69F511C4C39A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymInnowise.FileService.Persistence", "GymInnowise.FileService.Persistence\GymInnowise.FileService.Persistence.csproj", "{FC35B81C-5539-421A-8EA1-6C4A9BFECA81}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.FileService.Persistence", "GymInnowise.FileService.Persistence\GymInnowise.FileService.Persistence.csproj", "{FC35B81C-5539-421A-8EA1-6C4A9BFECA81}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymInnowise.FileService.API", "GymInnowise.FileService.API\GymInnowise.FileService.API.csproj", "{78FBB155-4EEA-47CF-80A1-B4B44EBE3CC6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.FileService.API", "GymInnowise.FileService.API\GymInnowise.FileService.API.csproj", "{78FBB155-4EEA-47CF-80A1-B4B44EBE3CC6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.FileService.Logic", "GymInnowise.FileService.Logic\GymInnowise.FileService.Logic.csproj", "{3560D523-4C9C-4D37-9105-71D2982E3BA5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymInnowise.FileService.Configuration", "GymInnowise.FileService.Configuration\GymInnowise.FileService.Configuration.csproj", "{00E5B4E7-8424-47F6-9D65-F83834C5E08E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +31,14 @@ Global
 		{78FBB155-4EEA-47CF-80A1-B4B44EBE3CC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78FBB155-4EEA-47CF-80A1-B4B44EBE3CC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78FBB155-4EEA-47CF-80A1-B4B44EBE3CC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3560D523-4C9C-4D37-9105-71D2982E3BA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3560D523-4C9C-4D37-9105-71D2982E3BA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3560D523-4C9C-4D37-9105-71D2982E3BA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3560D523-4C9C-4D37-9105-71D2982E3BA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00E5B4E7-8424-47F6-9D65-F83834C5E08E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00E5B4E7-8424-47F6-9D65-F83834C5E08E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00E5B4E7-8424-47F6-9D65-F83834C5E08E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00E5B4E7-8424-47F6-9D65-F83834C5E08E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -2,7 +2,8 @@
 
 namespace GymInnowise.FileService.Persistence.Models
 {
-    public class DocumentEntity : FileMetadataBase
+    public class ImageMetadataEntity : MetadataEntityBase
     {
+        public Guid? ThumbnailId { get; set; }
     }
 }

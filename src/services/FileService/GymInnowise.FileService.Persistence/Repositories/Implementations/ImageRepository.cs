@@ -5,15 +5,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GymInnowise.FileService.Persistence.Repositories.Implementations
 {
-    public class ImageRepository(FileServiceDbContext _context) : IFileMetadataRepository<ImageEntity>
+    public class ImageRepository(FileServiceDbContext _context) : IFileMetadataRepository<ImageMetadataEntity>
     {
-        public async Task CreateFileMetadataAsync(ImageEntity image)
+        public async Task CreateFileMetadataAsync(ImageMetadataEntity image)
         {
             await _context.Images.AddAsync(image);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<ImageEntity?> GetFileMetadataByIdAsync(Guid fileId)
+        public async Task<ImageMetadataEntity?> GetFileMetadataByIdAsync(Guid fileId)
         {
             var image = await _context.Images.FirstOrDefaultAsync(im => im.Id == fileId);
 

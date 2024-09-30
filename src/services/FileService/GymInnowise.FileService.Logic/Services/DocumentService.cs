@@ -4,7 +4,7 @@ using GymInnowise.FileService.Logic.Results;
 using GymInnowise.FileService.Persistence.Models;
 using GymInnowise.FileService.Persistence.Repositories.Interfaces;
 using GymInnowise.FileService.Persistence.Services.Interfaces;
-using GymInnowise.Shared.Blob.Dtos.Base;
+using GymInnowise.Shared.Files.Dtos.Base;
 using Microsoft.Extensions.Options;
 using OneOf;
 

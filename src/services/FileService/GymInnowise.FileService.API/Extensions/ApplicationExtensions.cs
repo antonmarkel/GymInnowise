@@ -1,4 +1,7 @@
 ﻿using Azure.Storage.Blobs;
+using FluentValidation.AspNetCore;
+using FluentValidation;
+using GymInnowise.FileService.API.Validators.FileValidators;
 using GymInnowise.FileService.Configuration.Blob;
 using GymInnowise.FileService.Logic.Interfaces;
 using GymInnowise.FileService.Logic.Services;
@@ -39,12 +42,20 @@ namespace GymInnowise.FileService.API.Extensions
             builder.Services.AddScoped<IFileService<DocumentMetadata>, DocumentService>();
         }
 
+        public static void AddValidation(this IHostApplicationBuilder builder)
+        {
+            builder.Services.AddFluentValidationAutoValidation();
+            builder.Services.AddValidatorsFromAssemblyContaining<DocumentFileValidator>();
+        }
+
         public static void AddConfiguration(this WebApplicationBuilder builder)
         {
             builder.Services.Configure<ContainerSettings>(
                 builder.Configuration.GetSection("ContainerSettings"));
             builder.Services.Configure<ThumbnailSettings>(
                 builder.Configuration.GetSection("ThumbnailSettings"));
+            builder.Services.Configure<FileSettings>(
+                builder.Configuration.GetSection("FileSettings"));
         }
     }
 }

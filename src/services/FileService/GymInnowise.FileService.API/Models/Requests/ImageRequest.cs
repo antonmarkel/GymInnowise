@@ -1,6 +1,8 @@
-﻿namespace GymInnowise.FileService.API.Models.Requests
+﻿using GymInnowise.FileService.API.Models.Base;
+
+namespace GymInnowise.FileService.API.Models.Requests
 {
-    public class ImageUploadRequest
+    public class ImageRequest : FileRequestBase
     {
     }
 }

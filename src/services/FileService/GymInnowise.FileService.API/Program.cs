@@ -7,6 +7,7 @@ builder.Services.AddSwaggerGen();
 builder.AddConfiguration();
 builder.AddPersistenceServices();
 builder.AddFileServices();
+builder.AddValidation();
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment())

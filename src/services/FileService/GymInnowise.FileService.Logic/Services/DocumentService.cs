@@ -5,6 +5,7 @@ using GymInnowise.FileService.Persistence.Models;
 using GymInnowise.FileService.Persistence.Repositories.Interfaces;
 using GymInnowise.FileService.Persistence.Services.Interfaces;
 using GymInnowise.Shared.Files.Dtos.Base;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using OneOf;
 
@@ -13,13 +14,16 @@ namespace GymInnowise.FileService.Logic.Services
     public class DocumentService : IFileService<DocumentMetadata>
     {
         private readonly IFileMetadataRepository<DocumentMetadataEntity> _repo;
+        private readonly ILogger<DocumentService> _logger;
         private readonly IBlobService _blobService;
         private readonly string _container;
 
         public DocumentService(IFileMetadataRepository<DocumentMetadataEntity> repo,
-            IBlobService blobService, IOptions<ContainerSettings> containerSettings)
+            IBlobService blobService, IOptions<ContainerSettings> containerSettings,
+            ILogger<DocumentService> logger)
         {
             _repo = repo;
+            _logger = logger;
             _blobService = blobService;
             _container = containerSettings.Value.DocumentContainer;
         }
@@ -40,6 +44,7 @@ namespace GymInnowise.FileService.Logic.Services
             await _repo.CreateFileMetadataAsync(metadataEntity);
             await _blobService.UploadAsync(stream, metadata.ContentType, metadataEntity.Id.ToString(),
                 _container, cancellationToken);
+            _logger.LogInformation("Document was uploaded. Info: {@Id}", metadataEntity.Id);
 
             return metadataEntity.Id;
         }
@@ -50,6 +55,8 @@ namespace GymInnowise.FileService.Logic.Services
             var metadataEntity = await _repo.GetFileMetadataByIdAsync(fileId);
             if (metadataEntity is null)
             {
+                _logger.LogWarning("Document's metadata was not found. Info: {@fileId}", fileId);
+
                 return new MetadataNotFound();
             }
 
@@ -57,8 +64,12 @@ namespace GymInnowise.FileService.Logic.Services
                 cancellationToken);
             if (stream is null)
             {
+                _logger.LogWarning("Document's file was not found. Info: {@fileId}", fileId);
+
                 return new FileNotFound();
             }
+
+            _logger.LogInformation("Document was downloaded. Info: {@Id}", metadataEntity.Id);
 
             return new FileResult<DocumentMetadata> { Content = stream, Metadata = metadataEntity.ToDto() };
         }
@@ -68,6 +79,8 @@ namespace GymInnowise.FileService.Logic.Services
             var metadataEntity = await _repo.GetFileMetadataByIdAsync(fileId);
             if (metadataEntity is null)
             {
+                _logger.LogWarning("Document's metadata was not found. Info: {@fileId}", fileId);
+
                 return new MetadataNotFound();
             }
 

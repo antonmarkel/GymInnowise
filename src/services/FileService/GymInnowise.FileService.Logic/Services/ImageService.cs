@@ -5,6 +5,7 @@ using GymInnowise.FileService.Persistence.Models;
 using GymInnowise.FileService.Persistence.Repositories.Interfaces;
 using GymInnowise.FileService.Persistence.Services.Interfaces;
 using GymInnowise.Shared.Files.Dtos.Base;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using OneOf;
 
@@ -13,14 +14,17 @@ namespace GymInnowise.FileService.Logic.Services
     public class ImageService : IFileService<ImageMetadata>
     {
         private readonly IFileMetadataRepository<ImageMetadataEntity> _repo;
+        private readonly ILogger<ImageService> _logger;
         private readonly IBlobService _blobService;
         private readonly IThumbnailService _thumbnailService;
         private readonly string _container;
 
         public ImageService(IFileMetadataRepository<ImageMetadataEntity> repo, IBlobService blobService,
-            IThumbnailService thumbnailService, IOptions<ContainerSettings> containerSettings)
+            IThumbnailService thumbnailService, IOptions<ContainerSettings> containerSettings,
+            ILogger<ImageService> logger)
         {
             _repo = repo;
+            _logger = logger;
             _blobService = blobService;
             _container = containerSettings.Value.ImageContainer;
             _thumbnailService = thumbnailService;
@@ -54,6 +58,8 @@ namespace GymInnowise.FileService.Logic.Services
                 metadataEntity.Id.ToString(),
                 _container, cancellationToken);
 
+            _logger.LogInformation("Image was uploaded. Info: {@Id}", metadataEntity.Id);
+
             return metadataEntity.Id;
         }
 
@@ -63,6 +69,8 @@ namespace GymInnowise.FileService.Logic.Services
             var metadataEntity = await _repo.GetFileMetadataByIdAsync(fileId);
             if (metadataEntity is null)
             {
+                _logger.LogWarning("Image's metadata was not found. Info: {@fileId}", fileId);
+
                 return new MetadataNotFound();
             }
 
@@ -70,8 +78,12 @@ namespace GymInnowise.FileService.Logic.Services
                 cancellationToken);
             if (stream is null)
             {
+                _logger.LogWarning("Image's file was not found. Info: {@fileId}", fileId);
+
                 return new FileNotFound();
             }
+
+            _logger.LogInformation("Image was downloaded. Info {@Id}", metadataEntity.Id);
 
             return new FileResult<ImageMetadata> { Content = stream, Metadata = metadataEntity.ToDto() };
         }
@@ -81,6 +93,8 @@ namespace GymInnowise.FileService.Logic.Services
             var metadataEntity = await _repo.GetFileMetadataByIdAsync(fileId);
             if (metadataEntity is null)
             {
+                _logger.LogWarning("Image's metadata was not found. Info: {@fileId}", fileId);
+
                 return new MetadataNotFound();
             }
 

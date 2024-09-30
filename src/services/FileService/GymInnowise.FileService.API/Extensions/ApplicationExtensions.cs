@@ -18,6 +18,8 @@ using GymInnowise.Shared.Configuration.Token;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
+using GymInnowise.FileService.API.Middleware;
 
 namespace GymInnowise.FileService.API.Extensions
 {
@@ -88,6 +90,20 @@ namespace GymInnowise.FileService.API.Extensions
                     RoleClaimType = ClaimTypes.Role
                 };
             });
+        }
+
+        public static void AddLogger(this WebApplicationBuilder builder)
+        {
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration((builder.Configuration))
+                .CreateLogger();
+
+            builder.Services.AddSerilog(Log.Logger);
+        }
+
+        public static void UseGlobalExceptionHandler(this WebApplication app)
+        {
+            app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
         }
     }
 }

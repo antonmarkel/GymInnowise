@@ -3,6 +3,7 @@ using GymInnowise.FileService.Logic.Interfaces;
 using GymInnowise.FileService.Logic.Results;
 using GymInnowise.Shared.Files.Dtos.Base;
 using ImageMagick;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using OneOf;
 
@@ -11,10 +12,12 @@ namespace GymInnowise.FileService.Logic.Services
     public class ThumbnailService : IThumbnailService
     {
         private readonly ThumbnailSettings _thumbnailSettings;
+        private readonly ILogger<ThumbnailService> _logger;
 
-        public ThumbnailService(IOptions<ThumbnailSettings> thumbnailSettings)
+        public ThumbnailService(IOptions<ThumbnailSettings> thumbnailSettings, ILogger<ThumbnailService> logger)
         {
             _thumbnailSettings = thumbnailSettings.Value;
+            _logger = logger;
         }
 
         public async Task<OneOf<FileResult<ImageMetadata>, NotNecessary>> GenerateThumbnailAsync(Stream stream,
@@ -23,6 +26,8 @@ namespace GymInnowise.FileService.Logic.Services
         {
             if (metadata.FileSize < _thumbnailSettings.MaxFileSizeWithoutThumbnail)
             {
+                _logger.LogInformation("Thumbnail for the image is not necessary");
+
                 return new NotNecessary();
             }
 
@@ -35,6 +40,7 @@ namespace GymInnowise.FileService.Logic.Services
 
             var outputStream = new MemoryStream();
             await image.WriteAsync(outputStream, MagickFormat.Jpeg, cancellationToken);
+            _logger.LogInformation("Thumbnail image stream was created");
             outputStream.Position = stream.Position = 0;
             if (outputStream.Length > _thumbnailSettings.MaxFileSizeWithoutThumbnail)
             {
@@ -51,6 +57,7 @@ namespace GymInnowise.FileService.Logic.Services
                 UploadedBy = metadata.UploadedBy,
                 Id = Guid.NewGuid()
             };
+            _logger.LogInformation("Thumbnail was generated");
 
             return new FileResult<ImageMetadata> { Content = outputStream, Metadata = newMetadata };
         }

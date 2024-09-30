@@ -1,4 +1,5 @@
-﻿using Azure.Storage.Blobs;
+﻿using System.Security.Claims;
+using Azure.Storage.Blobs;
 using FluentValidation.AspNetCore;
 using FluentValidation;
 using GymInnowise.FileService.API.Validators.FileValidators;
@@ -13,6 +14,10 @@ using GymInnowise.FileService.Persistence.Services.Implementations;
 using GymInnowise.FileService.Persistence.Services.Interfaces;
 using GymInnowise.Shared.Files.Dtos.Base;
 using Microsoft.EntityFrameworkCore;
+using GymInnowise.Shared.Configuration.Token;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace GymInnowise.FileService.API.Extensions
 {
@@ -56,6 +61,33 @@ namespace GymInnowise.FileService.API.Extensions
                 builder.Configuration.GetSection("ThumbnailSettings"));
             builder.Services.Configure<FileSettings>(
                 builder.Configuration.GetSection("FileSettings"));
+        }
+
+        public static void AddJwtServices(this IHostApplicationBuilder builder)
+        {
+            var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+            builder.Services.Configure<JwtSettings>(jwtSettings);
+            var key = Encoding.ASCII.GetBytes(jwtSettings.Get<JwtSettings>()!.SecretKey);
+            builder.Services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = jwtSettings["Issuer"],
+                    ValidAudience = jwtSettings["Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    RoleClaimType = ClaimTypes.Role
+                };
+            });
         }
     }
 }

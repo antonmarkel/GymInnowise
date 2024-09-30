@@ -15,11 +15,13 @@ namespace GymInnowise.FileService.API.Validators.FileValidators
 
             RuleFor(x => x.File)
                 .NotNull().WithMessage("File must be provided.")
-                .Must(file => _fileSettings.ImageAllowedExtensions.Contains(Path.GetExtension(file.FileName).ToLower()))
+                .Must(file =>
+                    file != null &&
+                    _fileSettings.ImageAllowedExtensions.Contains(Path.GetExtension(file.FileName).ToLower()))
                 .WithMessage(
                     $"File extension is not valid. Allowed extensions are: {string.Join(", ", _fileSettings.ImageAllowedExtensions)}")
-                .Must(file => file.Length <= _fileSettings.MaxImageSize)
-                .WithMessage($"File size must be less than or equal to {_fileSettings.MaxImageSize / 1024}  KB");
+                .Must(file => file != null && file.Length <= _fileSettings.MaxImageSize)
+                .WithMessage($"File size must be less than or equal to {_fileSettings.MaxImageSize / 1024} KB");
         }
     }
 }

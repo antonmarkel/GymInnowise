@@ -7,10 +7,12 @@ namespace GymInnowise.FileService.Persistence.Repositories.Implementations
 {
     public class DocumentRepository(FileServiceDbContext _context) : IFileMetadataRepository<DocumentMetadataEntity>
     {
-        public async Task CreateFileMetadataAsync(DocumentMetadataEntity document)
+        public async Task<Guid> CreateFileMetadataAsync(DocumentMetadataEntity document)
         {
             await _context.Documents.AddAsync(document);
             await _context.SaveChangesAsync();
+
+            return document.Id;
         }
 
         public async Task<DocumentMetadataEntity?> GetFileMetadataByIdAsync(Guid docId)

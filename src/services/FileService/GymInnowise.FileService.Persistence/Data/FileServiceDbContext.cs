@@ -1,5 +1,5 @@
 ﻿using GymInnowise.FileService.Persistence.Models;
-using GymInnowise.Shared.Blob.Dtos.Base;
+using GymInnowise.FileService.Persistence.Models.Base;
 using Microsoft.EntityFrameworkCore;
 
 namespace GymInnowise.FileService.Persistence.Data
@@ -21,7 +21,7 @@ namespace GymInnowise.FileService.Persistence.Data
 
         private static void ConfigureFileMetadataEntity(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<MetadataBase>(entity =>
+            modelBuilder.Entity<MetadataEntityBase>(entity =>
             {
                 entity.HasKey(f => f.Id);
                 entity.Property(f => f.FileName)

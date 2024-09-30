@@ -1,9 +1,11 @@
-﻿using GymInnowise.FileService.Logic.Interfaces;
+﻿using GymInnowise.FileService.Configuration.Blob;
+using GymInnowise.FileService.Logic.Interfaces;
 using GymInnowise.FileService.Logic.Results;
 using GymInnowise.FileService.Persistence.Models;
 using GymInnowise.FileService.Persistence.Repositories.Interfaces;
 using GymInnowise.FileService.Persistence.Services.Interfaces;
 using GymInnowise.Shared.Blob.Dtos.Base;
+using Microsoft.Extensions.Options;
 using OneOf;
 
 namespace GymInnowise.FileService.Logic.Services
@@ -15,14 +17,14 @@ namespace GymInnowise.FileService.Logic.Services
         private readonly string _container;
 
         public DocumentService(IFileMetadataRepository<DocumentMetadataEntity> repo,
-            IBlobService blobService, string container)
+            IBlobService blobService, IOptions<ContainerSettings> containerSettings)
         {
             _repo = repo;
             _blobService = blobService;
-            _container = container;
+            _container = containerSettings.Value.DocumentContainer;
         }
 
-        public async Task UploadAsync(Stream stream, DocumentMetadata metadata,
+        public async Task<Guid> UploadAsync(Stream stream, DocumentMetadata metadata,
             CancellationToken cancellationToken = default)
         {
             var metadataEntity = new DocumentMetadataEntity
@@ -38,6 +40,8 @@ namespace GymInnowise.FileService.Logic.Services
             await _repo.CreateFileMetadataAsync(metadataEntity);
             await _blobService.UploadAsync(stream, metadata.ContentType, metadata.Id.ToString(),
                 _container, cancellationToken);
+
+            return metadataEntity.Id;
         }
 
         public async Task<OneOf<FileResult<DocumentMetadata>, MetadataNotFound, FileNotFound>> DownloadAsync(
@@ -56,18 +60,18 @@ namespace GymInnowise.FileService.Logic.Services
                 return new FileNotFound();
             }
 
-            var metadata = new DocumentMetadata()
-            {
-                ContentType = metadataEntity.ContentType,
-                CreateAt = metadataEntity.CreateAt,
-                FileName = metadataEntity.FileName,
-                FileSize = metadataEntity.FileSize,
-                Format = metadataEntity.Format,
-                Id = metadataEntity.Id,
-                UploadedBy = metadataEntity.UploadedBy
-            };
+            return new FileResult<DocumentMetadata> { Content = stream, Metadata = metadataEntity.ToDto() };
+        }
 
-            return new FileResult<DocumentMetadata> { Content = stream, Metadata = metadata };
+        public async Task<OneOf<DocumentMetadata, MetadataNotFound>> GetMetadataByIdAsync(Guid fileId)
+        {
+            var metadataEntity = await _repo.GetFileMetadataByIdAsync(fileId);
+            if (metadataEntity is null)
+            {
+                return new MetadataNotFound();
+            }
+
+            return metadataEntity.ToDto();
         }
     }
 }

@@ -2,8 +2,7 @@
 {
     public class ContainerSettings
     {
-        public required string ImageContainer { get; set; }
-        public required string DocumentContainer { get; set; }
-        public required string ThumbnailContainer { get; set; }
+        public string ImageContainer { get; set; } = string.Empty;
+        public string DocumentContainer { get; set; } = string.Empty;
     }
 }

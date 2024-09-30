@@ -4,11 +4,13 @@ using OneOf;
 
 namespace GymInnowise.FileService.Logic.Interfaces
 {
-    public interface IFileService<T> where T : MetadataBase
+    public interface IFileService<TMeta> where TMeta : MetadataBase
     {
-        Task UploadAsync(Stream stream, T metadata, CancellationToken cancellationToken = default);
+        Task<Guid> UploadAsync(Stream stream, TMeta metadata, CancellationToken cancellationToken = default);
 
-        Task<OneOf<FileResult<T>, MetadataNotFound, FileNotFound>> DownloadAsync(Guid fileId,
+        Task<OneOf<FileResult<TMeta>, MetadataNotFound, FileNotFound>> DownloadAsync(Guid fileId,
             CancellationToken cancellationToken = default);
+
+        Task<OneOf<TMeta, MetadataNotFound>> GetMetadataByIdAsync(Guid fileId);
     }
 }

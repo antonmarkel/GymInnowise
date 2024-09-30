@@ -5,6 +5,7 @@ using GymInnowise.FileService.Persistence.Models;
 using GymInnowise.FileService.Persistence.Repositories.Interfaces;
 using GymInnowise.FileService.Persistence.Services.Interfaces;
 using GymInnowise.Shared.Blob.Dtos.Base;
+using Microsoft.Extensions.Options;
 using OneOf;
 
 namespace GymInnowise.FileService.Logic.Services
@@ -17,15 +18,15 @@ namespace GymInnowise.FileService.Logic.Services
         private readonly string _container;
 
         public ImageService(IFileMetadataRepository<ImageMetadataEntity> repo, IBlobService blobService,
-            IThumbnailService thumbnailService, ContainerSettings containerSettings)
+            IThumbnailService thumbnailService, IOptions<ContainerSettings> containerSettings)
         {
             _repo = repo;
             _blobService = blobService;
-            _container = containerSettings.ImageContainer;
+            _container = containerSettings.Value.ImageContainer;
             _thumbnailService = thumbnailService;
         }
 
-        public async Task UploadAsync(Stream stream, ImageMetadata metadata,
+        public async Task<Guid> UploadAsync(Stream stream, ImageMetadata metadata,
             CancellationToken cancellationToken = default)
         {
             var metadataEntity = new ImageMetadataEntity()
@@ -35,19 +36,24 @@ namespace GymInnowise.FileService.Logic.Services
                 FileName = metadata.FileName,
                 FileSize = metadata.FileSize,
                 Format = metadata.Format,
+                Id = metadata.Id,
                 ThumbnailId = metadata.ThumbnailId,
                 UploadedBy = metadata.UploadedBy
             };
 
-            await _repo.CreateFileMetadataAsync(metadataEntity);
-            await _blobService.UploadAsync(stream, metadata.ContentType, metadata.Id.ToString(),
-                _container, cancellationToken);
-
             var thumbnail = await _thumbnailService.GenerateThumbnailAsync(stream, metadata, cancellationToken);
             if (thumbnail != null)
             {
-                await this.UploadAsync(thumbnail.Content, thumbnail.Metadata, cancellationToken);
+                metadataEntity.ThumbnailId =
+                    await UploadAsync(thumbnail.Content, thumbnail.Metadata, cancellationToken);
             }
+
+            await _repo.CreateFileMetadataAsync(metadataEntity);
+            await _blobService.UploadAsync(stream, metadata.ContentType,
+                metadataEntity.Id.ToString(),
+                _container, cancellationToken);
+
+            return metadataEntity.Id;
         }
 
         public async Task<OneOf<FileResult<ImageMetadata>, MetadataNotFound, FileNotFound>>
@@ -66,19 +72,18 @@ namespace GymInnowise.FileService.Logic.Services
                 return new FileNotFound();
             }
 
-            var metadata = new ImageMetadata
-            {
-                ContentType = metadataEntity.ContentType,
-                CreateAt = metadataEntity.CreateAt,
-                FileName = metadataEntity.FileName,
-                FileSize = metadataEntity.FileSize,
-                Format = metadataEntity.Format,
-                Id = metadataEntity.Id,
-                ThumbnailId = metadataEntity.ThumbnailId,
-                UploadedBy = metadataEntity.UploadedBy
-            };
+            return new FileResult<ImageMetadata> { Content = stream, Metadata = metadataEntity.ToDto() };
+        }
 
-            return new FileResult<ImageMetadata> { Content = stream, Metadata = metadata };
+        public async Task<OneOf<ImageMetadata, MetadataNotFound>> GetMetadataByIdAsync(Guid fileId)
+        {
+            var metadataEntity = await _repo.GetFileMetadataByIdAsync(fileId);
+            if (metadataEntity is null)
+            {
+                return new MetadataNotFound();
+            }
+
+            return metadataEntity.ToDto();
         }
     }
 }

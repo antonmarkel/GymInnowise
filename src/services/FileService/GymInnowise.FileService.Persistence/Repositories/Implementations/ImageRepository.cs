@@ -7,10 +7,12 @@ namespace GymInnowise.FileService.Persistence.Repositories.Implementations
 {
     public class ImageRepository(FileServiceDbContext _context) : IFileMetadataRepository<ImageMetadataEntity>
     {
-        public async Task CreateFileMetadataAsync(ImageMetadataEntity image)
+        public async Task<Guid> CreateFileMetadataAsync(ImageMetadataEntity image)
         {
             await _context.Images.AddAsync(image);
             await _context.SaveChangesAsync();
+
+            return image.Id;
         }
 
         public async Task<ImageMetadataEntity?> GetFileMetadataByIdAsync(Guid fileId)

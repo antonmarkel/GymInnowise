@@ -2,8 +2,8 @@
 using GymInnowise.FileService.Logic.Interfaces;
 using GymInnowise.FileService.Logic.Results;
 using GymInnowise.Shared.Blob.Dtos.Base;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Processing;
+using ImageMagick;
+using Microsoft.Extensions.Options;
 
 namespace GymInnowise.FileService.Logic.Services
 {
@@ -11,9 +11,9 @@ namespace GymInnowise.FileService.Logic.Services
     {
         private readonly ThumbnailSettings _thumbnailSettings;
 
-        public ThumbnailService(ThumbnailSettings thumbnailSettings)
+        public ThumbnailService(IOptions<ThumbnailSettings> thumbnailSettings)
         {
-            _thumbnailSettings = thumbnailSettings;
+            _thumbnailSettings = thumbnailSettings.Value;
         }
 
         public async Task<FileResult<ImageMetadata>?> GenerateThumbnailAsync(Stream stream,
@@ -25,21 +25,33 @@ namespace GymInnowise.FileService.Logic.Services
                 return null;
             }
 
-            using var image = await Image.LoadAsync(stream, cancellationToken);
-            image.Mutate(im => im.Resize(_thumbnailSettings.ThumbnailWidth, _thumbnailSettings.ThumbnailHeight));
+            using var image = new MagickImage(stream);
+            image.Resize(new MagickGeometry()
+            {
+                Width = _thumbnailSettings.ThumbnailWidth,
+                Height = _thumbnailSettings.ThumbnailHeight,
+            });
 
             var outputStream = new MemoryStream();
-            await image.SaveAsJpegAsync(outputStream, cancellationToken);
-
+            await image.WriteAsync(outputStream, MagickFormat.Jpeg, cancellationToken);
+            outputStream.Position = stream.Position = 0;
             if (outputStream.Length > _thumbnailSettings.MaxFileSizeWithoutThumbnail)
             {
                 throw new InvalidOperationException("Resized image exceeds the size limit!");
             }
 
-            metadata.FileSize = outputStream.Length;
-            metadata.FileName = $"thumbnail_{metadata.FileName}";
+            var newMetadata = new ImageMetadata
+            {
+                ContentType = _thumbnailSettings.ContentType,
+                CreateAt = DateTime.UtcNow,
+                FileName = $"thumbnail_{metadata.FileName}",
+                FileSize = outputStream.Length,
+                Format = _thumbnailSettings.Format,
+                UploadedBy = metadata.UploadedBy,
+                Id = Guid.NewGuid()
+            };
 
-            return new FileResult<ImageMetadata> { Content = outputStream, Metadata = metadata };
+            return new FileResult<ImageMetadata> { Content = outputStream, Metadata = newMetadata };
         }
     }
 }

@@ -1,0 +1,30 @@
+version: '3.4'
+
+services:
+  gyminnowise.fileservice.api:
+    image: ${DOCKER_REGISTRY-}gyminnowisefileserviceapi
+    build:
+      context: ../../
+      dockerfile: services/FileService/GymInnowise.FileService.API/Dockerfile
+    ports:
+    - "5006:5000"
+    - "5007:5001"
+  gyminnowise.fileservice.database:
+    image: postgres:latest
+    container_name: gyminnowise.fileservice.database  
+    environment:
+      - POSTGRES_DB=GymInnowiseFileService
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./.containers/file-service-db:/var/lib/postgresql/file-service
+    ports:
+      - 5436:5432
+  azurite:
+    image: mcr.microsoft.com/azure-storage/azurite
+    container_name: azurite
+    ports:
+      - "10000:10000"
+    volumes:
+      - ./azurite:/data
+    command: "azurite --blobHost 0.0.0.0"

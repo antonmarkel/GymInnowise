@@ -17,6 +17,7 @@ namespace GymInnowise.FileService.Persistence.Services.Implementations
             CancellationToken cancellationToken = default)
         {
             var containerClient = _blobServiceClient.GetBlobContainerClient(container);
+            await containerClient.CreateIfNotExistsAsync(cancellationToken: cancellationToken);
             var blobClient = containerClient.GetBlobClient(fileId);
             var blobExists = await blobClient.ExistsAsync(cancellationToken);
             if (!blobExists.Value)
@@ -33,6 +34,7 @@ namespace GymInnowise.FileService.Persistence.Services.Implementations
             CancellationToken cancellationToken = default)
         {
             var containerClient = _blobServiceClient.GetBlobContainerClient(container);
+            await containerClient.CreateIfNotExistsAsync(cancellationToken: cancellationToken);
             var blobClient = containerClient.GetBlobClient(fileId);
 
             await blobClient.UploadAsync(

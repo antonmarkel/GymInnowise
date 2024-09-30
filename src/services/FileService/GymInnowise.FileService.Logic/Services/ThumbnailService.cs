@@ -4,6 +4,7 @@ using GymInnowise.FileService.Logic.Results;
 using GymInnowise.Shared.Blob.Dtos.Base;
 using ImageMagick;
 using Microsoft.Extensions.Options;
+using OneOf;
 
 namespace GymInnowise.FileService.Logic.Services
 {
@@ -16,13 +17,13 @@ namespace GymInnowise.FileService.Logic.Services
             _thumbnailSettings = thumbnailSettings.Value;
         }
 
-        public async Task<FileResult<ImageMetadata>?> GenerateThumbnailAsync(Stream stream,
+        public async Task<OneOf<FileResult<ImageMetadata>, NotNecessary>> GenerateThumbnailAsync(Stream stream,
             ImageMetadata metadata,
             CancellationToken cancellationToken = default)
         {
             if (metadata.FileSize < _thumbnailSettings.MaxFileSizeWithoutThumbnail)
             {
-                return null;
+                return new NotNecessary();
             }
 
             using var image = new MagickImage(stream);

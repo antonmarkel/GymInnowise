@@ -16,12 +16,13 @@ namespace GymInnowise.FileService.Persistence.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            ConfigureFileMetadataEntity(modelBuilder);
+            ConfigureFileMetadataEntity<DocumentMetadataEntity>(modelBuilder);
+            ConfigureFileMetadataEntity<ImageMetadataEntity>(modelBuilder);
         }
 
-        private static void ConfigureFileMetadataEntity(ModelBuilder modelBuilder)
+        private static void ConfigureFileMetadataEntity<T>(ModelBuilder modelBuilder) where T : MetadataEntityBase
         {
-            modelBuilder.Entity<MetadataEntityBase>(entity =>
+            modelBuilder.Entity<T>(entity =>
             {
                 entity.HasKey(f => f.Id);
                 entity.Property(f => f.FileName)

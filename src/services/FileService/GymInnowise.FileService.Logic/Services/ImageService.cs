@@ -41,9 +41,10 @@ namespace GymInnowise.FileService.Logic.Services
                 UploadedBy = metadata.UploadedBy
             };
 
-            var thumbnail = await _thumbnailService.GenerateThumbnailAsync(stream, metadata, cancellationToken);
-            if (thumbnail != null)
+            var thumbnailResult = await _thumbnailService.GenerateThumbnailAsync(stream, metadata, cancellationToken);
+            if (thumbnailResult.IsT0)
             {
+                var thumbnail = thumbnailResult.AsT0;
                 metadataEntity.ThumbnailId =
                     await UploadAsync(thumbnail.Content, thumbnail.Metadata, cancellationToken);
             }

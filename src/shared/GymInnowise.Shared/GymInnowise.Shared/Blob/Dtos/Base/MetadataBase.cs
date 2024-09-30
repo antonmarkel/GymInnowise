@@ -3,9 +3,9 @@
     public abstract class MetadataBase
     {
         public Guid Id { get; set; }
-        public required string FileName { get; set; }
-        public required string ContentType { get; set; }
-        public required string Format { get; set; }
+        public string FileName { get; set; } = string.Empty;
+        public string ContentType { get; set; } = string.Empty;
+        public string Format { get; set; } = string.Empty;
         public long FileSize { get; set; }
         public DateTime CreateAt { get; set; }
         public Guid UploadedBy { get; set; }

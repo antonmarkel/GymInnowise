@@ -38,7 +38,7 @@ namespace GymInnowise.FileService.Logic.Services
             };
 
             await _repo.CreateFileMetadataAsync(metadataEntity);
-            await _blobService.UploadAsync(stream, metadata.ContentType, metadata.Id.ToString(),
+            await _blobService.UploadAsync(stream, metadata.ContentType, metadataEntity.Id.ToString(),
                 _container, cancellationToken);
 
             return metadataEntity.Id;

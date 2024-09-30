@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 namespace GymInnowise.FileService.API.Controllers
 {
     [ApiController]
-    [Route("api/images")]
-    public class ImageController : FileController<ImageMetadata>
+    [Route("api/documents")]
+    public class DocumentController : FileController<DocumentMetadata>
     {
-        public ImageController(IFileService<ImageMetadata> fileService) : base(fileService)
+        public DocumentController(IFileService<DocumentMetadata> fileService) : base(fileService)
         {
         }
     }

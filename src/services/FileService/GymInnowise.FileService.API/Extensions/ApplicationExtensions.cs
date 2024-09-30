@@ -1,7 +1,7 @@
-﻿using System.Security.Claims;
-using Azure.Storage.Blobs;
-using FluentValidation.AspNetCore;
+﻿using Azure.Storage.Blobs;
 using FluentValidation;
+using FluentValidation.AspNetCore;
+using GymInnowise.FileService.API.Middleware;
 using GymInnowise.FileService.API.Validators.FileValidators;
 using GymInnowise.FileService.Configuration.Blob;
 using GymInnowise.FileService.Logic.Interfaces;
@@ -12,14 +12,14 @@ using GymInnowise.FileService.Persistence.Repositories.Implementations;
 using GymInnowise.FileService.Persistence.Repositories.Interfaces;
 using GymInnowise.FileService.Persistence.Services.Implementations;
 using GymInnowise.FileService.Persistence.Services.Interfaces;
-using GymInnowise.Shared.Files.Dtos.Base;
-using Microsoft.EntityFrameworkCore;
 using GymInnowise.Shared.Configuration.Token;
-using System.Text;
+using GymInnowise.Shared.Files.Dtos.Base;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
-using GymInnowise.FileService.API.Middleware;
+using System.Security.Claims;
+using System.Text;
 
 namespace GymInnowise.FileService.API.Extensions
 {

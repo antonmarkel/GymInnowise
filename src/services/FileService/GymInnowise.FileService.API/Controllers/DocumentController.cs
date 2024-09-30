@@ -1,6 +1,6 @@
 ﻿using GymInnowise.FileService.API.Controllers.Base;
 using GymInnowise.FileService.Logic.Interfaces;
-using GymInnowise.Shared.Blob.Dtos.Base;
+using GymInnowise.Shared.Files.Dtos.Base;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GymInnowise.FileService.API.Controllers

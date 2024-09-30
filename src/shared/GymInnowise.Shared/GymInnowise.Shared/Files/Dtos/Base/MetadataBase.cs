@@ -1,4 +1,4 @@
-﻿namespace GymInnowise.Shared.Blob.Dtos.Base
+﻿namespace GymInnowise.Shared.Files.Dtos.Base
 {
     public abstract class MetadataBase
     {

@@ -1,10 +1,13 @@
-﻿using GymInnowise.FileService.Logic.Interfaces;
-using GymInnowise.Shared.Blob.Dtos.Base;
+﻿using GymInnowise.FileService.API.Models.Base;
+using GymInnowise.FileService.Logic.Interfaces;
+using GymInnowise.Shared.Files.Dtos.Base;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GymInnowise.FileService.API.Controllers.Base
 {
-    public abstract class FileController<TMetadata> : ControllerBase where TMetadata : MetadataBase, new()
+    public abstract class FileController<TMetadata, TFileRequest> : ControllerBase
+        where TMetadata : MetadataBase, new()
+        where TFileRequest : FileRequestBase
     {
         private readonly IFileService<TMetadata> _fileService;
 
@@ -35,8 +38,9 @@ namespace GymInnowise.FileService.API.Controllers.Base
         }
 
         [HttpPost]
-        public async Task<IActionResult> UploadFileAsync(IFormFile file, CancellationToken cancellationToken)
+        public async Task<IActionResult> UploadFileAsync(TFileRequest request, CancellationToken cancellationToken)
         {
+            var file = request.File;
             var metadata = new TMetadata
             {
                 ContentType = file.ContentType,

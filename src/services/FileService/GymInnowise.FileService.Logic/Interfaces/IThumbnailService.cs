@@ -1,5 +1,5 @@
 ﻿using GymInnowise.FileService.Logic.Results;
-using GymInnowise.Shared.Blob.Dtos.Base;
+using GymInnowise.Shared.Files.Dtos.Base;
 using OneOf;
 
 namespace GymInnowise.FileService.Logic.Interfaces

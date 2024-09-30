@@ -1,7 +1,7 @@
 ﻿using GymInnowise.FileService.Configuration.Blob;
 using GymInnowise.FileService.Logic.Interfaces;
 using GymInnowise.FileService.Logic.Results;
-using GymInnowise.Shared.Blob.Dtos.Base;
+using GymInnowise.Shared.Files.Dtos.Base;
 using ImageMagick;
 using Microsoft.Extensions.Options;
 using OneOf;

@@ -1,5 +1,5 @@
 ﻿using GymInnowise.FileService.Persistence.Models.Base;
-using GymInnowise.Shared.Blob.Dtos.Base;
+using GymInnowise.Shared.Files.Dtos.Base;
 
 namespace GymInnowise.FileService.Persistence.Models
 {

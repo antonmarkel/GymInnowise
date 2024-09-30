@@ -8,7 +8,7 @@ using GymInnowise.FileService.Persistence.Repositories.Implementations;
 using GymInnowise.FileService.Persistence.Repositories.Interfaces;
 using GymInnowise.FileService.Persistence.Services.Implementations;
 using GymInnowise.FileService.Persistence.Services.Interfaces;
-using GymInnowise.Shared.Blob.Dtos.Base;
+using GymInnowise.Shared.Files.Dtos.Base;
 using Microsoft.EntityFrameworkCore;
 
 namespace GymInnowise.FileService.API.Extensions

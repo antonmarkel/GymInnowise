@@ -1,13 +1,14 @@
 ﻿using GymInnowise.FileService.API.Controllers.Base;
+using GymInnowise.FileService.API.Models.Requests;
 using GymInnowise.FileService.Logic.Interfaces;
-using GymInnowise.Shared.Blob.Dtos.Base;
+using GymInnowise.Shared.Files.Dtos.Base;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GymInnowise.FileService.API.Controllers
 {
     [ApiController]
     [Route("api/images")]
-    public class ImageController : FileController<ImageMetadata>
+    public class ImageController : FileController<ImageMetadata, ImageRequest>
     {
         public ImageController(IFileService<ImageMetadata> fileService) : base(fileService)
         {

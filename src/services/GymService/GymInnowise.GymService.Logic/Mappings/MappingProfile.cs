@@ -27,7 +27,7 @@ namespace GymInnowise.GymService.Logic.Mappings
             CreateMap<CreateGymRequest, GymEntity>().ForMember(dest => dest.Id, opt => opt.Ignore());
             CreateMap<UpdateGymRequest, GymEntity>();
             CreateMap<GymEntity, GetGymDetailsResponse>();
-            CreateMap<GymPreviewDto, GetGymPreviewResponse>();
+            CreateMap<GymPreviewModel, GetGymPreviewResponse>();
         }
     }
 }

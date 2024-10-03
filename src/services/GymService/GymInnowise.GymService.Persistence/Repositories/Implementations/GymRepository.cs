@@ -26,10 +26,10 @@ namespace GymInnowise.GymService.Persistence.Repositories.Implementations
             return await _dbContext.Gyms.SingleOrDefaultAsync(g => g.Id == id);
         }
 
-        public async Task<List<GymPreviewDto>> GetGymsByTagsAsync(List<GymTag> tags)
+        public async Task<List<GymPreviewModel>> GetGymsByTagsAsync(List<GymTag> tags)
         {
             var gyms = await _dbContext.Gyms
-                .Select(g => new GymPreviewDto
+                .Select(g => new GymPreviewModel
                 {
                     Id = g.Id,
                     Name = g.Name,
@@ -47,10 +47,10 @@ namespace GymInnowise.GymService.Persistence.Repositories.Implementations
             return filteredGyms;
         }
 
-        public async Task<List<GymPreviewDto>> GetAllGymsAsync()
+        public async Task<List<GymPreviewModel>> GetAllGymsAsync()
         {
             return await _dbContext.Gyms
-                .Select(g => new GymPreviewDto
+                .Select(g => new GymPreviewModel
                 {
                     Id = g.Id,
                     Name = g.Name,

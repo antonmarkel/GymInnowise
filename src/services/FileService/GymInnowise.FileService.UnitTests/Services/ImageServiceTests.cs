@@ -41,7 +41,7 @@ namespace GymInnowise.FileService.UnitTests.Services
         public async Task DownloadAsync_MetadataNotFound_ReturnsMetadataNotFound()
         {
             //Arrange
-            Guid fileId = new Guid();
+            Guid fileId = new();
             var stream = A.Fake<Stream>();
             A.CallTo(() =>
                 _repo.GetFileMetadataByIdAsync(fileId)).Returns(Task.FromResult<ImageMetadataEntity?>(null));
@@ -60,7 +60,7 @@ namespace GymInnowise.FileService.UnitTests.Services
         public async Task DownloadAsync_FileNotFound_ReturnsFileNotFound()
         {
             //Arrange
-            Guid fileId = new Guid();
+            Guid fileId = new();
             A.CallTo(() =>
                 _repo.GetFileMetadataByIdAsync(fileId)).Returns(Task.FromResult<ImageMetadataEntity?>(
                 new ImageMetadataEntity()
@@ -84,7 +84,7 @@ namespace GymInnowise.FileService.UnitTests.Services
         public async Task DownloadAsync_Success_ReturnsFileResult()
         {
             //Arrange
-            Guid fileId = new Guid();
+            Guid fileId = new();
             var stream = A.Fake<Stream>();
             A.CallTo(() =>
                 _repo.GetFileMetadataByIdAsync(fileId)).Returns(Task.FromResult<ImageMetadataEntity?>(

@@ -1,6 +1,7 @@
 ﻿using GymInnowise.FileService.Configuration.Blob;
 using GymInnowise.FileService.Logic.Interfaces;
 using GymInnowise.FileService.Logic.Results;
+using GymInnowise.FileService.Logic.Results.Failures;
 using GymInnowise.FileService.Persistence.Models;
 using GymInnowise.FileService.Persistence.Repositories.Interfaces;
 using GymInnowise.FileService.Persistence.Services.Interfaces;

@@ -1,4 +1,5 @@
 ﻿using GymInnowise.FileService.Logic.Results;
+using GymInnowise.FileService.Logic.Results.Failures;
 using GymInnowise.Shared.Files.Dtos.Base;
 using OneOf;
 

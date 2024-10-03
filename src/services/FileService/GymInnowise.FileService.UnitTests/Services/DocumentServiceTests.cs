@@ -7,7 +7,7 @@ using GymInnowise.FileService.Persistence.Services.Interfaces;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace GymInnowise.FileService.UnitTests
+namespace GymInnowise.FileService.UnitTests.Services
 {
     public class DocumentServiceTests
     {

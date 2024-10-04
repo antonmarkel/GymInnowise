@@ -1,13 +1,12 @@
-﻿using GymInnowise.EmailService.Logic.Interfaces;
-using GymInnowise.EmailService.Logic.Results;
+﻿using GymInnowise.EmailService.Logic.Results;
 using OneOf;
 using System.Text;
 
 namespace GymInnowise.EmailService.Logic.Services
 {
-    public class MessageBuilder : IMessageBuilder
+    public static class MessageBuilder
     {
-        public OneOf<string, NotMapped> BuildMessage(string templateBody, Dictionary<string, string> data)
+        public static OneOf<string, NotMapped> BuildMessage(string templateBody, Dictionary<string, string> data)
         {
             if (!CanBeMapped(templateBody, data))
             {

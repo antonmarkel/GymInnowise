@@ -11,14 +11,11 @@ namespace GymInnowise.EmailService.Logic.Services
     {
         private readonly IEmailSender _emailSender;
         private readonly ITemplateRepository _repo;
-        private readonly IMessageBuilder _messageBuilder;
 
-        public EmailService(IEmailSender emailSender, ITemplateRepository repo,
-            IMessageBuilder messageBuilder)
+        public EmailService(IEmailSender emailSender, ITemplateRepository repo)
         {
             _emailSender = emailSender;
             _repo = repo;
-            _messageBuilder = messageBuilder;
         }
 
         public async Task SendMessageAsync(string receiver, string subject, string message)
@@ -41,7 +38,7 @@ namespace GymInnowise.EmailService.Logic.Services
                 return new NotMapped();
             }
 
-            var messageBuildResult = _messageBuilder.BuildMessage(template.Body, model);
+            var messageBuildResult = MessageBuilder.BuildMessage(template.Body, model);
             if (messageBuildResult.IsT1)
             {
                 return new NotMapped();

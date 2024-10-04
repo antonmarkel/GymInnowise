@@ -7,6 +7,5 @@
         public required string SmtpUser { get; set; }
         public required string SmtpPass { get; set; }
         public required string FromAddress { get; set; }
-        public bool EnableSsl { get; set; }
     }
 }

@@ -5,22 +5,22 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GymInnowise.EmailService.Persistence.Repositories.Implementations
 {
-    public class MessageTemplateRepository(EmailServiceContext _context) : IMessageTemplateRepository
+    public class TemplateRepository(EmailServiceContext _context) : ITemplateRepository
     {
-        public async Task<MessageTemplateEntity?> GetTemplateAsync(string name)
+        public async Task<TemplateEntity?> GetTemplateAsync(string name)
         {
             var template = await _context.Templates.SingleOrDefaultAsync(t => t.Name == name);
 
             return template;
         }
 
-        public async Task UpdateTemplateAsync(MessageTemplateEntity entity)
+        public async Task UpdateTemplateAsync(TemplateEntity entity)
         {
             _context.Update(entity);
             await _context.SaveChangesAsync();
         }
 
-        public async Task AddTemplateAsync(MessageTemplateEntity entity)
+        public async Task AddTemplateAsync(TemplateEntity entity)
         {
             await _context.Templates.AddAsync(entity);
             await _context.SaveChangesAsync();

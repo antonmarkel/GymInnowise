@@ -7,7 +7,7 @@ namespace GymInnowise.EmailService.Persistence.Data
 {
     public class EmailServiceContext(DbContextOptions<EmailServiceContext> options) : DbContext(options)
     {
-        public DbSet<MessageTemplateEntity> Templates { get; set; }
+        public DbSet<TemplateEntity> Templates { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -17,10 +17,12 @@ namespace GymInnowise.EmailService.Persistence.Data
         private static void ConfigureTemplateEntity(ModelBuilder modelBuilder)
         {
             var dictConversion = GetDictionaryConverter();
-            modelBuilder.Entity<MessageTemplateEntity>((ent) =>
+            modelBuilder.Entity<TemplateEntity>((ent) =>
             {
                 ent.HasKey(e => e.Name);
                 ent.Property(e => e.Data).HasConversion(dictConversion).HasColumnType("jsonb");
+                ent.Property(e => e.Data).IsRequired().HasMaxLength(100000);
+                ent.Property(e => e.Subject).IsRequired().HasMaxLength(200);
             });
         }
 

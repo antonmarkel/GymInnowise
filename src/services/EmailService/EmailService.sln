@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35013.160
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymInnowise.EmailService.Persistence", "GymInnowise.EmailService.Persistence\GymInnowise.EmailService.Persistence.csproj", "{6FFD7DFC-1FF7-45DA-BCD1-6FFE69020708}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymInnowise.EmailService.Shared", "GymInnowise.EmailService.Shared\GymInnowise.EmailService.Shared.csproj", "{5E52F501-28E8-4E5C-B7E2-9E926AC5B07B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6FFD7DFC-1FF7-45DA-BCD1-6FFE69020708}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FFD7DFC-1FF7-45DA-BCD1-6FFE69020708}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FFD7DFC-1FF7-45DA-BCD1-6FFE69020708}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FFD7DFC-1FF7-45DA-BCD1-6FFE69020708}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E52F501-28E8-4E5C-B7E2-9E926AC5B07B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E52F501-28E8-4E5C-B7E2-9E926AC5B07B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E52F501-28E8-4E5C-B7E2-9E926AC5B07B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E52F501-28E8-4E5C-B7E2-9E926AC5B07B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3827225E-3AAA-48F9-843C-495F7390ED96}
+	EndGlobalSection
+EndGlobal

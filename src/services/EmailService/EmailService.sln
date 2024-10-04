@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymInnowise.EmailService.Lo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymInnowise.EmailService.Configuration", "GymInnowise.EmailService.Configuration\GymInnowise.EmailService.Configuration.csproj", "{BFA494DF-8BFB-4058-8252-31949479A644}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymInnowise.EmailService.API", "GymInnowise.EmailService.API\GymInnowise.EmailService.API.csproj", "{F4576D2D-B861-4FCD-A214-33654119678E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{BFA494DF-8BFB-4058-8252-31949479A644}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFA494DF-8BFB-4058-8252-31949479A644}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BFA494DF-8BFB-4058-8252-31949479A644}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4576D2D-B861-4FCD-A214-33654119678E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4576D2D-B861-4FCD-A214-33654119678E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4576D2D-B861-4FCD-A214-33654119678E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4576D2D-B861-4FCD-A214-33654119678E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

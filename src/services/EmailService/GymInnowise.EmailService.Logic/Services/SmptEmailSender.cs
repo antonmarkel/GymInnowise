@@ -21,7 +21,7 @@ namespace GymInnowise.EmailService.Logic.Services
             smtpClient.Port = _emailSettings.SmtpPort;
             smtpClient.Credentials =
                 new NetworkCredential(_emailSettings.SmtpUser, _emailSettings.SmtpPass);
-            smtpClient.EnableSsl = true;
+            smtpClient.EnableSsl = _emailSettings.EnableSsl;
             var mailMessage = new MailMessage
             {
                 From = new MailAddress(_emailSettings.FromAddress),

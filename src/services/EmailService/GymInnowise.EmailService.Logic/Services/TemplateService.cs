@@ -22,7 +22,7 @@ namespace GymInnowise.EmailService.Logic.Services
             {
                 Body = template.Body,
                 Subject = template.Subject,
-                Data = new Dictionary<string, string>(template.Data),
+                Data = new List<string>(template.Data),
                 TemplateName = template.Name
             };
 

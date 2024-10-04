@@ -5,9 +5,14 @@ using Newtonsoft.Json;
 
 namespace GymInnowise.EmailService.Persistence.Data
 {
-    public class EmailServiceContext(DbContextOptions<EmailServiceContext> options) : DbContext(options)
+    public class EmailServiceContext : DbContext
     {
         public DbSet<TemplateEntity> Templates { get; set; }
+
+        public EmailServiceContext(DbContextOptions<EmailServiceContext> options) : base(options)
+        {
+            Database.EnsureCreated();
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -26,11 +31,11 @@ namespace GymInnowise.EmailService.Persistence.Data
             });
         }
 
-        private static ValueConverter<Dictionary<string, string>, string> GetDictionaryConverter()
+        private static ValueConverter<List<string>, string> GetDictionaryConverter()
         {
-            return new ValueConverter<Dictionary<string, string>, string>(
+            return new ValueConverter<List<string>, string>(
                 v => JsonConvert.SerializeObject(v),
-                v => JsonConvert.DeserializeObject<Dictionary<string, string>>(v)!);
+                v => JsonConvert.DeserializeObject<List<string>>(v)!);
         }
     }
 }

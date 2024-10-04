@@ -3,7 +3,7 @@ namespace GymInnowise.EmailService.Logic.Helpers
 {
     public static class TemplateVerifier
     {
-        public static bool VerifyTemplateBinding(Dictionary<string, string> model, Dictionary<string, string> template)
+        public static bool VerifyTemplateBinding(Dictionary<string, string> model, List<string> template)
         {
             if (model.Count != template.Count)
             {
@@ -12,7 +12,7 @@ namespace GymInnowise.EmailService.Logic.Helpers
 
             foreach (var key in model.Keys)
             {
-                if (!template.ContainsKey(key))
+                if (!template.Contains(key))
                 {
                     return false;
                 }

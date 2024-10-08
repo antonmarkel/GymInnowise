@@ -2,6 +2,7 @@
 using GymInnowise.EmailService.Logic.Interfaces;
 using GymInnowise.EmailService.Logic.Results;
 using GymInnowise.EmailService.Persistence.Repositories.Interfaces;
+using GymInnowise.EmailService.Shared.Dtos.Events;
 using OneOf;
 using OneOf.Types;
 
@@ -23,9 +24,9 @@ namespace GymInnowise.EmailService.Logic.Services
             await _emailSender.SendEmailAsync(receiver, subject, message);
         }
 
-        public async Task<OneOf<Success, NotFound, NotMapped>> SendTemplateMessageAsync(string templateName,
-            Dictionary<string, string> model,
-            string receiver)
+        public async Task<OneOf<Success, NotFound, NotMapped>> SendTemplateMessageAsync(string receiver,
+            string templateName,
+            Dictionary<string, string> data)
         {
             var template = await _repo.GetTemplateAsync(templateName);
             if (template is null)
@@ -33,12 +34,12 @@ namespace GymInnowise.EmailService.Logic.Services
                 return new NotFound();
             }
 
-            if (!TemplateVerifier.VerifyTemplateBinding(model, template.Data))
+            if (!TemplateVerifier.VerifyTemplateBinding(data, template.Data))
             {
                 return new NotMapped();
             }
 
-            var messageBuildResult = MessageBuilder.BuildMessage(template.Body, model);
+            var messageBuildResult = MessageBuilder.BuildMessage(template.Body, data);
             if (messageBuildResult.IsT1)
             {
                 return new NotMapped();
@@ -48,6 +49,14 @@ namespace GymInnowise.EmailService.Logic.Services
             await SendMessageAsync(receiver, template.Subject, message);
 
             return new Success();
+        }
+
+        public async Task SendVerificationMessage(string receiver, string link)
+        {
+            var subject = "Confirm your email!";
+            var message = $"To confirm you email click on the link: {link}";
+
+            await SendMessageAsync(receiver, subject, message);
         }
     }
 }

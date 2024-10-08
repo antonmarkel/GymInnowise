@@ -1,6 +1,6 @@
-﻿namespace GymInnowise.EmailService.Shared.Dtos.Requests
+﻿namespace GymInnowise.EmailService.Shared.Dtos.Events
 {
-    public class SendMessageRequest
+    public class SendMessageEvent
     {
         public required string Receiver { get; set; }
         public required string Subject { get; set; }

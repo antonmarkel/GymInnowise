@@ -1,4 +1,5 @@
-﻿using GymInnowise.EmailService.Persistence.Models;
+﻿using GymInnowise.EmailService.Persistence.Dto;
+using GymInnowise.EmailService.Persistence.Models;
 
 namespace GymInnowise.EmailService.Persistence.Repositories.Interfaces
 {
@@ -6,5 +7,6 @@ namespace GymInnowise.EmailService.Persistence.Repositories.Interfaces
     {
         Task<EmailVerificationEntity?> GetVerificationAsync(Guid token);
         Task RemoveVerificationAsync(EmailVerificationEntity entity);
+        Task CreateVerificationAsync(CreateEmailVerification model);
     }
 }

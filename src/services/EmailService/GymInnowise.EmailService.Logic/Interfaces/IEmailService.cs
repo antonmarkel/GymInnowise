@@ -6,10 +6,9 @@ namespace GymInnowise.EmailService.Logic.Interfaces
 {
     public interface IEmailService
     {
-        Task SendMessageAsync(string receiver, string subject, string message);
+        Task SendMessageAsync(string receiver, string subject, string body);
 
-        Task<OneOf<Success, NotFound, NotMapped>> SendTemplateMessageAsync(string templateName,
-            Dictionary<string, string> model,
-            string receiver);
+        Task<OneOf<Success, NotFound, NotMapped>> SendTemplateMessageAsync(string receiver, string templateName,
+            Dictionary<string, string> data);
     }
 }

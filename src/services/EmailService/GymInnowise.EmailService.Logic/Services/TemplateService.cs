@@ -23,7 +23,6 @@ namespace GymInnowise.EmailService.Logic.Services
                 Body = template.Body,
                 Subject = template.Subject,
                 Keys = template.Data,
-                TemplateName = template.Name
             };
 
             return response;

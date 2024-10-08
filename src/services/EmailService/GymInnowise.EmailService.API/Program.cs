@@ -7,6 +7,7 @@ builder.Services.AddSwaggerGen();
 builder.AddConfiguration();
 builder.AddPersistenceService();
 builder.AddServices();
+builder.AddRabbitMq();
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment())

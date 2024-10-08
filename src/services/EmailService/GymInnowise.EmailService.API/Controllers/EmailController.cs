@@ -6,8 +6,21 @@ namespace GymInnowise.EmailService.API.Controllers
 {
     [ApiController]
     [Route("api/email")]
-    public class EmailController(IEmailService _emailService) : ControllerBase
+    public class EmailController(IEmailService _emailService, IVerificationService _verificationService)
+        : ControllerBase
     {
+        [HttpGet("verify/{token}")]
+        public async Task<IActionResult> VerifyEmailAsync(Guid token)
+        {
+            var result = await _verificationService.VerifyAsync(token);
+
+            return result.Match<IActionResult>(
+                _ => NoContent(),
+                _ => NotFound(),
+                _ => BadRequest("token expired")
+            );
+        }
+
         [HttpPost]
         public async Task<IActionResult> SendMessageAsync([FromBody] SendMessageRequest request)
         {

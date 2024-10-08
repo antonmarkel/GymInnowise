@@ -1,9 +1,9 @@
 ﻿using GymInnowise.EmailService.Configuration.Email;
 using GymInnowise.EmailService.Logic.Interfaces;
+using MailKit.Net.Smtp;
 using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MimeKit;
-using MailKit.Net.Smtp;
 
 namespace GymInnowise.EmailService.Logic.Services
 {

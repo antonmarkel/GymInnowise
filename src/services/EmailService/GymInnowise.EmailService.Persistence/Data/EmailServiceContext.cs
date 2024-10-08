@@ -8,6 +8,7 @@ namespace GymInnowise.EmailService.Persistence.Data
     public class EmailServiceContext : DbContext
     {
         public DbSet<TemplateEntity> Templates { get; set; }
+        public DbSet<EmailVerificationEntity> EmailVerifications { get; set; }
 
         public EmailServiceContext(DbContextOptions<EmailServiceContext> options) : base(options)
         {
@@ -17,6 +18,7 @@ namespace GymInnowise.EmailService.Persistence.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             ConfigureTemplateEntity(modelBuilder);
+            ConfigureEmailVerificationEntity(modelBuilder);
         }
 
         private static void ConfigureTemplateEntity(ModelBuilder modelBuilder)
@@ -28,6 +30,16 @@ namespace GymInnowise.EmailService.Persistence.Data
                 ent.Property(e => e.Data).HasConversion(dictConversion).HasColumnType("jsonb");
                 ent.Property(e => e.Data).IsRequired().HasMaxLength(100000);
                 ent.Property(e => e.Subject).IsRequired().HasMaxLength(200);
+            });
+        }
+
+        private static void ConfigureEmailVerificationEntity(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<EmailVerificationEntity>((ent) =>
+            {
+                ent.HasKey(e => e.Id);
+                ent.Property(e => e.CreatedAt).IsRequired();
+                ent.Property(e => e.ExpireAt).IsRequired();
             });
         }
 

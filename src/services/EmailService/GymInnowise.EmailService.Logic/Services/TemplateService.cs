@@ -22,7 +22,7 @@ namespace GymInnowise.EmailService.Logic.Services
             {
                 Body = template.Body,
                 Subject = template.Subject,
-                Data = new List<string>(template.Data),
+                Keys = template.Data,
                 TemplateName = template.Name
             };
 
@@ -40,7 +40,7 @@ namespace GymInnowise.EmailService.Logic.Services
             {
                 Body = request.Body,
                 Subject = request.Subject,
-                Data = request.Data,
+                Data = [.. request.Keys],
                 Name = request.TemplateName
             };
 
@@ -56,7 +56,7 @@ namespace GymInnowise.EmailService.Logic.Services
                 return new NotFound();
             }
 
-            entity.Data = request.Data;
+            entity.Data = request.Keys;
             entity.Subject = request.Subject;
             entity.Body = request.Body;
             await _repo.UpdateTemplateAsync(entity);

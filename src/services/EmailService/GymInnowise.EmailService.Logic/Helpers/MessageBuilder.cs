@@ -48,7 +48,7 @@ namespace GymInnowise.EmailService.Logic.Services
                     return false;
                 }
 
-                startIndex += index;
+                startIndex = index;
             }
 
             return true;

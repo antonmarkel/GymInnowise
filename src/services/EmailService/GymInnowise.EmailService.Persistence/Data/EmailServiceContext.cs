@@ -31,11 +31,11 @@ namespace GymInnowise.EmailService.Persistence.Data
             });
         }
 
-        private static ValueConverter<List<string>, string> GetDictionaryConverter()
+        private static ValueConverter<HashSet<string>, string> GetDictionaryConverter()
         {
-            return new ValueConverter<List<string>, string>(
+            return new ValueConverter<HashSet<string>, string>(
                 v => JsonConvert.SerializeObject(v),
-                v => JsonConvert.DeserializeObject<List<string>>(v)!);
+                v => JsonConvert.DeserializeObject<HashSet<string>>(v)!);
         }
     }
 }

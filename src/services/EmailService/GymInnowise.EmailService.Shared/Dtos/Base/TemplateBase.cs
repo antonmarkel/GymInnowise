@@ -2,7 +2,7 @@
 {
     public abstract class TemplateBase
     {
-        public List<string> Data { get; set; } = [];
+        public HashSet<string> Keys { get; set; } = [];
         public required string Body { get; set; }
         public required string Subject { get; set; }
     }

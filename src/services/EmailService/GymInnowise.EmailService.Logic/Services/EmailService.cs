@@ -39,7 +39,7 @@ namespace GymInnowise.EmailService.Logic.Services
                 return new NotMapped();
             }
 
-            var messageBuildResult = MessageBuilder.BuildMessage(template.Body, data);
+            var messageBuildResult = MessageMapper.BuildMessage(template.Body, data);
             if (messageBuildResult.IsT1)
             {
                 return new NotMapped();
@@ -49,14 +49,6 @@ namespace GymInnowise.EmailService.Logic.Services
             await SendMessageAsync(receiver, template.Subject, message);
 
             return new Success();
-        }
-
-        public async Task SendVerificationMessage(string receiver, string link)
-        {
-            var subject = "Confirm your email!";
-            var message = $"To confirm you email click on the link: {link}";
-
-            await SendMessageAsync(receiver, subject, message);
         }
     }
 }

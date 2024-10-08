@@ -4,11 +4,11 @@ using System.Text;
 
 namespace GymInnowise.EmailService.Logic.Services
 {
-    public static class MessageBuilder
+    public static class MessageMapper
     {
         public static OneOf<string, NotMapped> BuildMessage(string templateBody, Dictionary<string, string> data)
         {
-            if (!CanBeMapped(templateBody, data))
+            if (!CanBeMapped(templateBody, data.Keys))
             {
                 return new NotMapped();
             }
@@ -37,10 +37,10 @@ namespace GymInnowise.EmailService.Logic.Services
             return stringBuilder.ToString();
         }
 
-        private static bool CanBeMapped(string templateBody, Dictionary<string, string> data)
+        public static bool CanBeMapped(string templateBody, IEnumerable<string> keys)
         {
             var startIndex = 0;
-            foreach (var key in data.Keys)
+            foreach (var key in keys)
             {
                 var index = templateBody.IndexOf($"{{{{{key}}}}}", startIndex, StringComparison.Ordinal);
                 if (index == -1)

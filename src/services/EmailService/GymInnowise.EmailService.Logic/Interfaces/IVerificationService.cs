@@ -6,7 +6,8 @@ namespace GymInnowise.EmailService.Logic.Interfaces
 {
     public interface IVerificationService
     {
-        Task<OneOf<Success, NotFound, Expired>> VerifyTokenAsync(Guid token);
-        Task StartVerificationAsync(string email, string link);
+        Task<OneOf<Success, NotFound, Expired>> VerifyAsync(Guid token);
+        Task<Guid> CreateVerificationToken(string email, Guid accountId);
+        Task SendVerificationAsync(string email, string link);
     }
 }

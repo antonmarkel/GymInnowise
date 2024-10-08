@@ -4,6 +4,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.AddValidation();
 builder.AddConfiguration();
 builder.AddPersistenceService();
 builder.AddServices();

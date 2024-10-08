@@ -20,7 +20,7 @@ namespace GymInnowise.EmailService.Logic.Services
         IPublishEndpoint _publisher)
         : IVerificationService
     {
-        public async Task<OneOf<Success, NotFound, Expired>> VerifyTokenAsync(Guid token)
+        public async Task<OneOf<Success, NotFound, Expired>> VerifyAsync(Guid token)
         {
             var verification = await _repo.GetVerificationAsync(token);
             if (verification is null)
@@ -30,10 +30,12 @@ namespace GymInnowise.EmailService.Logic.Services
 
             if (verification.ExpireAt < DateTime.UtcNow)
             {
+                await _repo.RemoveVerificationAsync(verification);
+
                 return new Expired();
             }
 
-            await _publisher.Publish(new AccountVerifiedEvent()
+            await _publisher.Publish(new AccountVerifiedEvent
             {
                 AccountId = verification.AccountId
             });
@@ -42,7 +44,7 @@ namespace GymInnowise.EmailService.Logic.Services
             return new Success();
         }
 
-        public async Task<Guid> StartVerificationAsync(string email, Guid accountId)
+        public async Task<Guid> CreateVerificationToken(string email, Guid accountId)
         {
             var createEmailVerification = new CreateEmailVerification()
             {

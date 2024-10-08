@@ -2,6 +2,6 @@
 {
     public interface ILinkFactory
     {
-        Task<string> GenerateVerificationLink(Guid token)
+        Task<string> GenerateVerificationLink(Guid token);
     }
 }

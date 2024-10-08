@@ -3,7 +3,8 @@ using GymInnowise.EmailService.API.Services.Interfaces;
 
 namespace GymInnowise.EmailService.API.Services.Implementations
 {
-    public class LinkFactory(IHttpContextAccessor _contextAccessor, LinkGenerator _linkGenerator) : ILinkFactory
+    public class VerificationLinkFactory(IHttpContextAccessor _contextAccessor, LinkGenerator _linkGenerator)
+        : ILinkFactory
     {
         public Task<string> GenerateVerificationLink(Guid token)
         {

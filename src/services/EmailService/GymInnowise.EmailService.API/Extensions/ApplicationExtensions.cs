@@ -1,4 +1,10 @@
-﻿using GymInnowise.EmailService.Configuration.Email;
+﻿using System.Reflection;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using GymInnowise.EmailService.API.Services.Implementations;
+using GymInnowise.EmailService.API.Services.Interfaces;
+using GymInnowise.EmailService.API.Validators;
+using GymInnowise.EmailService.Configuration.Email;
 using GymInnowise.EmailService.Logic.Features.Accounts;
 using GymInnowise.EmailService.Logic.Interfaces;
 using GymInnowise.EmailService.Logic.Services;
@@ -18,13 +24,17 @@ namespace GymInnowise.EmailService.API.Extensions
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddDbContext<EmailServiceContext>(options => options.UseNpgsql(connectionString));
             builder.Services.AddScoped<ITemplateRepository, TemplateRepository>();
+            builder.Services.AddScoped<IEmailVerificationRepository, EmailVerificationRepository>();
         }
 
         public static void AddServices(this WebApplicationBuilder builder)
         {
+            builder.Services.AddHttpContextAccessor();
             builder.Services.AddScoped<IEmailSender, SmtpEmailSender>();
             builder.Services.AddScoped<ITemplateService, TemplateService>();
             builder.Services.AddScoped<IEmailService, Logic.Services.EmailService>();
+            builder.Services.AddScoped<IVerificationService, VerificationService>();
+            builder.Services.AddScoped<ILinkFactory, VerificationLinkFactory>();
         }
 
         public static void AddConfiguration(this WebApplicationBuilder builder)
@@ -51,6 +61,12 @@ namespace GymInnowise.EmailService.API.Extensions
                     configurator.ConfigureEndpoints(context);
                 });
             });
+        }
+
+        public static void AddValidation(this WebApplicationBuilder builder)
+        {
+            builder.Services.AddFluentValidationAutoValidation();
+            builder.Services.AddValidatorsFromAssembly(Assembly.GetAssembly(typeof(CreateTemplateRequestValidator)));
         }
     }
 }

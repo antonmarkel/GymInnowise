@@ -1,9 +1,12 @@
 ﻿using GymInnowise.EmailService.Logic.Interfaces;
 using GymInnowise.EmailService.Shared.Dtos.Requests;
+using GymInnowise.Shared.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GymInnowise.EmailService.API.Controllers
 {
+    [Authorize(Roles = Roles.Admin)]
     [ApiController]
     [Route("api/templates")]
     public class TemplateController(ITemplateService _templateService) : ControllerBase

@@ -5,6 +5,7 @@ builder.Services.AddRouting();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.AddJwtServices();
 builder.AddValidation();
 builder.AddConfiguration();
 builder.AddPersistenceService();
@@ -19,7 +20,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseRouting();
+app.UseAuthentication();
 app.UseAuthorization();
-app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+app.MapControllers();
 app.UseHttpsRedirection();
 app.Run();

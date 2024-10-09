@@ -9,5 +9,6 @@
         public DateTime? CreatedDate { get; set; }
         public DateTime? ModifiedDate { get; set; }
         public List<string> Roles { get; set; } = [];
+        public bool IsEmailConfirmed { get; set; } = false;
     }
 }

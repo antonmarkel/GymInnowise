@@ -1,6 +1,7 @@
 using GymInnowise.EmailService.API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddRouting();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -17,7 +18,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+app.UseRouting();
 app.UseAuthorization();
-app.MapControllers();
+app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+app.UseHttpsRedirection();
 app.Run();

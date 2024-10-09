@@ -6,6 +6,7 @@ builder.AddLogger();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.AddRabbitMq();
 builder.AddValidation();
 builder.AddPersistenceServices();
 builder.AddJwtServices();

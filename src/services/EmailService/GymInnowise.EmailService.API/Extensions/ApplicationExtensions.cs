@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using FluentValidation;
+﻿using FluentValidation;
 using FluentValidation.AspNetCore;
 using GymInnowise.EmailService.API.Services.Implementations;
 using GymInnowise.EmailService.API.Services.Interfaces;
@@ -14,6 +13,7 @@ using GymInnowise.EmailService.Persistence.Repositories.Interfaces;
 using GymInnowise.EmailService.Shared.Configuration;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace GymInnowise.EmailService.API.Extensions
 {

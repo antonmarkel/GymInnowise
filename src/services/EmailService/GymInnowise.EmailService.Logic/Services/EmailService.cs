@@ -2,7 +2,6 @@
 using GymInnowise.EmailService.Logic.Interfaces;
 using GymInnowise.EmailService.Logic.Results;
 using GymInnowise.EmailService.Persistence.Repositories.Interfaces;
-using GymInnowise.EmailService.Shared.Dtos.Events;
 using OneOf;
 using OneOf.Types;
 

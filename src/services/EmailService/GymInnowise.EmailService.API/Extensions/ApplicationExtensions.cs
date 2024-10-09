@@ -41,12 +41,15 @@ namespace GymInnowise.EmailService.API.Extensions
         {
             var jwtSettings = builder.Configuration.GetSection("EmailSettings");
             builder.Services.Configure<EmailSettings>(jwtSettings);
+            var rabbitMqSettings = builder.Configuration.GetSection("RabbitMqSettings");
+            builder.Services.Configure<RabbitMqSettings>(rabbitMqSettings);
+            var verificationSettings = builder.Configuration.GetSection("VerificationSettings");
+            builder.Services.Configure<VerificationSettings>(verificationSettings);
         }
 
         public static void AddRabbitMq(this WebApplicationBuilder builder)
         {
-            var rabbitMqSettings = builder.Configuration.GetSection("RabbitMq");
-            builder.Services.Configure<RabbitMqSettings>(rabbitMqSettings);
+            var rabbitMqSettings = builder.Configuration.GetSection("RabbitMqSettings");
             builder.Services.AddMassTransit(busConfig =>
             {
                 busConfig.SetKebabCaseEndpointNameFormatter();

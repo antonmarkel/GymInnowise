@@ -29,8 +29,7 @@ namespace GymInnowise.FileService.Logic.Services
             _container = containerSettings.Value.DocumentContainer;
         }
 
-        public async Task<Guid> UploadAsync(Stream stream, DocumentMetadata metadata,
-            CancellationToken cancellationToken = default)
+        public async Task<Guid> UploadAsync(Stream stream, DocumentMetadata metadata)
         {
             var metadataEntity = new DocumentMetadataEntity
             {
@@ -45,7 +44,7 @@ namespace GymInnowise.FileService.Logic.Services
 
             await _repo.CreateFileMetadataAsync(metadataEntity);
             await _blobService.UploadAsync(stream, metadata.ContentType, metadataEntity.Id.ToString(),
-                _container, cancellationToken);
+                _container);
             _logger.LogInformation("Document was uploaded. Info: {@Id}", metadataEntity.Id);
 
             return metadataEntity.Id;

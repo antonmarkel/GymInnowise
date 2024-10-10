@@ -1,19 +1,20 @@
-﻿using GymInnowise.FileService.API.Models.Base;
+﻿using FluentValidation;
 using GymInnowise.FileService.Logic.Interfaces;
 using GymInnowise.Shared.Files.Dtos.Base;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GymInnowise.FileService.API.Controllers.Base
 {
-    public abstract class FileController<TMetadata, TFileRequest> : ControllerBase
+    public abstract class FileController<TMetadata> : ControllerBase
         where TMetadata : MetadataBase, new()
-        where TFileRequest : FileRequestBase
     {
         private readonly IFileService<TMetadata> _fileService;
+        private readonly AbstractValidator<Stream> _streamValidator;
 
-        protected FileController(IFileService<TMetadata> fileService)
+        protected FileController(IFileService<TMetadata> fileService, AbstractValidator<Stream> streamValidator)
         {
             _fileService = fileService;
+            _streamValidator = streamValidator;
         }
 
         [HttpGet("{fileId}")]
@@ -38,21 +39,17 @@ namespace GymInnowise.FileService.API.Controllers.Base
         }
 
         [HttpPost]
-        public async Task<IActionResult> UploadFileAsync(TFileRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> UploadFileAsync(TMetadata metadata, CancellationToken cancellationToken)
         {
-            var file = request.File;
-            var metadata = new TMetadata
+            if (!Request.Body.CanRead ||
+                !(await _streamValidator.ValidateAsync(Request.Body, cancellationToken)).IsValid)
             {
-                ContentType = file.ContentType,
-                FileName = file.FileName,
-                Format = Path.GetExtension(file.FileName),
-                FileSize = file.Length,
-                CreateAt = DateTime.UtcNow,
-                UploadedBy = Guid.NewGuid() // TODO: get from cookies
-            };
-            var fileId = await _fileService.UploadAsync(file.OpenReadStream(), metadata, cancellationToken);
+                return BadRequest();
+            }
 
-            return Created(file.FileName, fileId);
+            var fileId = await _fileService.UploadAsync(Request.Body, metadata);
+
+            return Created(fileId.ToString(), fileId);
         }
     }
 }

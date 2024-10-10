@@ -52,7 +52,7 @@ namespace GymInnowise.FileService.API.Extensions
         public static void AddValidation(this IHostApplicationBuilder builder)
         {
             builder.Services.AddFluentValidationAutoValidation();
-            builder.Services.AddValidatorsFromAssemblyContaining<DocumentFileValidator>();
+            builder.Services.AddValidatorsFromAssemblyContaining<DocumentStreamValidator>();
         }
 
         public static void AddConfiguration(this WebApplicationBuilder builder)

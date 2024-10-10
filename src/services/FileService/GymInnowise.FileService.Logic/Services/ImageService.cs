@@ -31,8 +31,7 @@ namespace GymInnowise.FileService.Logic.Services
             _thumbnailService = thumbnailService;
         }
 
-        public async Task<Guid> UploadAsync(Stream stream, ImageMetadata metadata,
-            CancellationToken cancellationToken = default)
+        public async Task<Guid> UploadAsync(Stream stream, ImageMetadata metadata)
         {
             var metadataEntity = new ImageMetadataEntity()
             {
@@ -46,18 +45,18 @@ namespace GymInnowise.FileService.Logic.Services
                 UploadedBy = metadata.UploadedBy
             };
 
-            var thumbnailResult = await _thumbnailService.GenerateThumbnailAsync(stream, metadata, cancellationToken);
+            var thumbnailResult = await _thumbnailService.GenerateThumbnailAsync(stream, metadata);
             if (thumbnailResult.IsT0)
             {
                 var thumbnail = thumbnailResult.AsT0;
                 metadataEntity.ThumbnailId =
-                    await UploadAsync(thumbnail.Content, thumbnail.Metadata, cancellationToken);
+                    await UploadAsync(thumbnail.Content, thumbnail.Metadata);
             }
 
             await _repo.CreateFileMetadataAsync(metadataEntity);
             await _blobService.UploadAsync(stream, metadata.ContentType,
                 metadataEntity.Id.ToString(),
-                _container, cancellationToken);
+                _container);
 
             _logger.LogInformation("Image was uploaded. Info: {@Id}", metadataEntity.Id);
 

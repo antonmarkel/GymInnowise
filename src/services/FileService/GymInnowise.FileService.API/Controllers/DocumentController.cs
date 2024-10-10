@@ -1,7 +1,7 @@
 ﻿using GymInnowise.FileService.API.Controllers.Base;
 using GymInnowise.FileService.API.Models.Requests;
 using GymInnowise.FileService.Logic.Interfaces;
-using GymInnowise.Shared.Files.Dtos.Base;
+using GymInnowise.Shared.Files.Dtos.Metadata;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

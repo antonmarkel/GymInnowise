@@ -13,7 +13,7 @@ using GymInnowise.FileService.Persistence.Repositories.Interfaces;
 using GymInnowise.FileService.Persistence.Services.Implementations;
 using GymInnowise.FileService.Persistence.Services.Interfaces;
 using GymInnowise.Shared.Configuration.Token;
-using GymInnowise.Shared.Files.Dtos.Base;
+using GymInnowise.Shared.Files.Dtos.Metadata;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;

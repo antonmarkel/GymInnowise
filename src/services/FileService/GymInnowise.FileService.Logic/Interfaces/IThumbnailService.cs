@@ -1,6 +1,6 @@
 ﻿using GymInnowise.FileService.Logic.Results;
 using GymInnowise.FileService.Logic.Results.Failures;
-using GymInnowise.Shared.Files.Dtos.Base;
+using GymInnowise.Shared.Files.Dtos.Metadata;
 using OneOf;
 
 namespace GymInnowise.FileService.Logic.Interfaces

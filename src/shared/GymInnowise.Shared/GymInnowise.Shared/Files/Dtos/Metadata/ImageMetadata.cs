@@ -1,4 +1,6 @@
-﻿namespace GymInnowise.Shared.Files.Dtos.Base
+﻿using GymInnowise.Shared.Files.Dtos.Base;
+
+namespace GymInnowise.Shared.Files.Dtos.Metadata
 {
     public class ImageMetadata : MetadataBase
     {

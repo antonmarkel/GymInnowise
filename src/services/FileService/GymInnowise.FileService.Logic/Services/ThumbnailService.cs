@@ -2,7 +2,7 @@
 using GymInnowise.FileService.Logic.Interfaces;
 using GymInnowise.FileService.Logic.Results;
 using GymInnowise.FileService.Logic.Results.Failures;
-using GymInnowise.Shared.Files.Dtos.Base;
+using GymInnowise.Shared.Files.Dtos.Metadata;
 using ImageMagick;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;

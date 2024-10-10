@@ -1,7 +1,7 @@
 ﻿using FakeItEasy;
 using GymInnowise.FileService.Configuration.Blob;
 using GymInnowise.FileService.Logic.Services;
-using GymInnowise.Shared.Files.Dtos.Base;
+using GymInnowise.Shared.Files.Dtos.Metadata;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 

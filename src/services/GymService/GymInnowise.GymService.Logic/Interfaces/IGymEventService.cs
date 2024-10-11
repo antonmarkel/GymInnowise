@@ -13,6 +13,6 @@ namespace GymInnowise.GymService.Logic.Interfaces
         Task<OneOf<GetGymEventResponse, NotFound>> GetEventByIdAsync(Guid eventId);
         Task RemoveGymEventAsync(Guid eventId);
         Task<OneOf<Guid, NotFound>> GetGymIdAsync(Guid eventId);
-        Task<List<GetGymEventResponse>> GetEventsByGymIdAsync(Guid gymId);
+        Task<IEnumerable<GetGymEventResponse>> GetEventsByGymIdAsync(Guid gymId);
     }
 }

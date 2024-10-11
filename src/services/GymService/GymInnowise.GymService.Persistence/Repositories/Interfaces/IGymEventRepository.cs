@@ -8,6 +8,6 @@ namespace GymInnowise.GymService.Persistence.Repositories.Interfaces
         Task UpdateEventAsync(GymEventEntity gymEventEntity);
         Task RemoveEventAsync(Guid id);
         Task<GymEventEntity?> GetGymEventByIdAsync(Guid eventId);
-        Task<List<GymEventEntity>> GetGymEventsByGymIdAsync(Guid gymId);
+        Task<IEnumerable<GymEventEntity>> GetGymEventsByGymIdAsync(Guid gymId);
     }
 }

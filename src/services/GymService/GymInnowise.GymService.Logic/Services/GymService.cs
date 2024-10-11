@@ -53,7 +53,7 @@ namespace GymInnowise.GymService.Logic.Services
             return _mapper.Map<GetGymDetailsResponse>(gymEntity);
         }
 
-        public async Task<List<GetGymPreviewResponse>> GetGymPreviewsByTagsAsync(List<GymTag> tags)
+        public async Task<IEnumerable<GetGymPreviewResponse>> GetGymPreviewsByTagsAsync(IEnumerable<GymTag> tags)
         {
             if (!tags.Any())
             {

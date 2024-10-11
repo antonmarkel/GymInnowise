@@ -62,7 +62,7 @@ namespace GymInnowise.GymService.Logic.Services
             await _repo.RemoveEventAsync(eventId);
         }
 
-        public async Task<List<GetGymEventResponse>> GetEventsByGymIdAsync(Guid gymId)
+        public async Task<IEnumerable<GetGymEventResponse>> GetEventsByGymIdAsync(Guid gymId)
         {
             var gymsEvents = await _repo.GetGymEventsByGymIdAsync(gymId);
 

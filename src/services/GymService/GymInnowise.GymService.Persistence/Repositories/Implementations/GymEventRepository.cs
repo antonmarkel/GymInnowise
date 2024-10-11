@@ -31,7 +31,7 @@ namespace GymInnowise.GymService.Persistence.Repositories.Implementations
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<List<GymEventEntity>> GetGymEventsByGymIdAsync(Guid gymId)
+        public async Task<IEnumerable<GymEventEntity>> GetGymEventsByGymIdAsync(Guid gymId)
         {
             var events = await _dbContext.GymEvents.Where(ev => ev.GymId == gymId).AsNoTracking().ToListAsync();
 

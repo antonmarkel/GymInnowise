@@ -14,11 +14,13 @@ namespace GymInnowise.GymService.Logic.Services
 {
     public class GymService(IGymRepository _repo, IMapper _mapper, ILogger<GymService> _logger) : IGymService
     {
-        public async Task CreateGymAsync(CreateGymRequest request)
+        public async Task<Guid> CreateGymAsync(CreateGymRequest request)
         {
             var gymEntity = _mapper.Map<GymEntity>(request);
             await _repo.AddGymAsync(gymEntity);
             _logger.LogInformation("Gym was created. Info: {@gymEntity}", gymEntity);
+
+            return gymEntity.Id;
         }
 
         public async Task<OneOf<Success, NotFound>> UpdateGymAsync(Guid gymId, UpdateGymRequest updateRequest)

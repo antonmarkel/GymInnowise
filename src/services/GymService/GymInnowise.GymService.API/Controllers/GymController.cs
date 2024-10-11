@@ -5,20 +5,21 @@ using GymInnowise.Shared.Gym.Dtos.Requests.Updates;
 using GymInnowise.Shared.Gym.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace GymInnowise.GymService.API.Controllers
 {
     [ApiController]
     [Route("api/gyms")]
-    public class GymsController(IGymService _gymService) : ControllerBase
+    public class GymsController(IGymService _gymService, IGymEventService _eventService) : ControllerBase
     {
         [Authorize(Roles = Roles.Admin)]
         [HttpPost]
         public async Task<IActionResult> CreateGymAsync([FromBody] CreateGymRequest request)
         {
-            await _gymService.CreateGymAsync(request);
+            var gymId = await _gymService.CreateGymAsync(request);
 
-            return Created();
+            return CreatedAtAction("GetGym", new { gymId }, gymId);
         }
 
         [Authorize(Roles = Roles.Admin)]
@@ -34,6 +35,16 @@ namespace GymInnowise.GymService.API.Controllers
             );
         }
 
+        [Authorize]
+        [HttpGet("{gymId}/events")]
+        public async Task<IActionResult> GetEventsByGymIdAsync([FromRoute] Guid gymId)
+        {
+            var result = await _eventService.GetEventsByGymIdAsync(gymId);
+
+            return Ok(result);
+        }
+
+        [ActionName("GetGym")]
         [Authorize]
         [HttpGet("{gymId}")]
         public async Task<IActionResult> GetGymByIdAsync([FromRoute] Guid gymId)

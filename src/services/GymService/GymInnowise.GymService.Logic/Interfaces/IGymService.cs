@@ -9,7 +9,7 @@ namespace GymInnowise.GymService.Logic.Interfaces
 {
     public interface IGymService
     {
-        Task CreateGymAsync(CreateGymRequest request);
+        Task<Guid> CreateGymAsync(CreateGymRequest request);
         Task<OneOf<Success, NotFound>> UpdateGymAsync(Guid gymId, UpdateGymRequest updateRequest);
         Task<OneOf<GetGymDetailsResponse, NotFound>> GetGymDetailsByIdAsync(Guid gymId);
         Task<List<GetGymPreviewResponse>> GetGymPreviewsByTagsAsync(List<GymTag> tags);

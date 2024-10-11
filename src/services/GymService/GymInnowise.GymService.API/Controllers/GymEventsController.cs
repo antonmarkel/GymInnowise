@@ -4,6 +4,7 @@ using GymInnowise.Shared.Gym.Dtos.Requests.Creates;
 using GymInnowise.Shared.Gym.Dtos.Requests.Updates;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace GymInnowise.GymService.API.Controllers
 {
@@ -16,9 +17,9 @@ namespace GymInnowise.GymService.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateGymEventAsync([FromBody] CreateGymEventDtoRequest dtoRequest)
         {
-            await _eventService.CreateGymEventAsync(dtoRequest);
+            var eventId = await _eventService.CreateGymEventAsync(dtoRequest);
 
-            return Created();
+            return CreatedAtAction("GetEvent", new { eventId }, eventId);
         }
 
         [Authorize(Roles = Roles.Admin)]
@@ -52,12 +53,17 @@ namespace GymInnowise.GymService.API.Controllers
             return NoContent();
         }
 
-        [HttpGet("{gymId}")]
-        public async Task<IActionResult> GetEventsByGymIdAsync([FromRoute] Guid gymId)
+        [Authorize]
+        [ActionName("GetEvent")]
+        [HttpGet("{eventId}")]
+        public async Task<IActionResult> GetEventByIdAsync([FromRoute] Guid eventId)
         {
-            var result = await _eventService.GetEventsByGymIdAsync(gymId);
+            var result = await _eventService.GetEventByIdAsync(eventId);
 
-            return Ok(result);
+            return result.Match<IActionResult>(
+                ev => Ok(ev),
+                _ => NotFound()
+            );
         }
     }
 }

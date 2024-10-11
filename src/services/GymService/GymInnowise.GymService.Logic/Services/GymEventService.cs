@@ -68,8 +68,8 @@ namespace GymInnowise.GymService.Logic.Services
 
         public async Task RemoveGymEventAsync(Guid eventId)
         {
-            _logger.LogInformation("event with id {@eventId} was deleted", eventId);
             await _repo.RemoveEventAsync(eventId);
+            _logger.LogInformation("event with id {@eventId} was deleted", eventId);
         }
 
         public async Task<IEnumerable<GetGymEventResponse>> GetEventsByGymIdAsync(Guid gymId)

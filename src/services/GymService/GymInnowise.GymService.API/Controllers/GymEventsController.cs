@@ -35,7 +35,10 @@ namespace GymInnowise.GymService.API.Controllers
 
             var result = await _eventService.UpdateGymEventAsync(eventId, dtoRequest);
 
-            return result.Match<IActionResult>(_ => NoContent(), _ => NotFound());
+            return result.Match<IActionResult>(
+                _ => NoContent(),
+                _ => NotFound()
+            );
         }
 
         [Authorize(Roles = Roles.Admin)]

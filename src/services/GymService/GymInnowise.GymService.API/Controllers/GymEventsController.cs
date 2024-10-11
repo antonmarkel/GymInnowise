@@ -23,7 +23,7 @@ namespace GymInnowise.GymService.API.Controllers
 
         [Authorize(Roles = Roles.Admin)]
         [HttpPut("{eventId}")]
-        public async Task<IActionResult> UpdateGymEventAsync(Guid eventId,
+        public async Task<IActionResult> UpdateGymEventAsync([FromRoute] Guid eventId,
             [FromBody] UpdateGymEventDtoRequest dtoRequest)
         {
             var gymIdResult = await _eventService.GetGymIdAsync(eventId);
@@ -39,7 +39,7 @@ namespace GymInnowise.GymService.API.Controllers
 
         [Authorize(Roles = Roles.Admin)]
         [HttpDelete("{eventId}")]
-        public async Task<IActionResult> RemoveGymEventAsync(Guid eventId)
+        public async Task<IActionResult> RemoveGymEventAsync([FromRoute] Guid eventId)
         {
             var gymIdResult = await _eventService.GetGymIdAsync(eventId);
             if (gymIdResult.IsT1)
@@ -53,7 +53,7 @@ namespace GymInnowise.GymService.API.Controllers
         }
 
         [HttpGet("{gymId}")]
-        public async Task<IActionResult> GetEventsByGymIdAsync(Guid gymId)
+        public async Task<IActionResult> GetEventsByGymIdAsync([FromRoute] Guid gymId)
         {
             var result = await _eventService.GetEventsByGymIdAsync(gymId);
 

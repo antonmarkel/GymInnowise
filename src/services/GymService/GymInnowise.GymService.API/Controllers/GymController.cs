@@ -23,7 +23,7 @@ namespace GymInnowise.GymService.API.Controllers
 
         [Authorize(Roles = Roles.Admin)]
         [HttpPut("{gymId}")]
-        public async Task<IActionResult> UpdateGymAsync(Guid gymId,
+        public async Task<IActionResult> UpdateGymAsync([FromRoute] Guid gymId,
             [FromBody] UpdateGymRequest request)
         {
             var result = await _gymService.UpdateGymAsync(gymId, request);
@@ -36,7 +36,7 @@ namespace GymInnowise.GymService.API.Controllers
 
         [Authorize]
         [HttpGet("{gymId}")]
-        public async Task<IActionResult> GetGymByIdAsync(Guid gymId)
+        public async Task<IActionResult> GetGymByIdAsync([FromRoute] Guid gymId)
         {
             var result = await _gymService.GetGymDetailsByIdAsync(gymId);
 

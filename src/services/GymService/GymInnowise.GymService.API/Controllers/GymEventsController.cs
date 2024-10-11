@@ -4,15 +4,21 @@ using GymInnowise.Shared.Gym.Dtos.Requests.Creates;
 using GymInnowise.Shared.Gym.Dtos.Requests.Updates;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace GymInnowise.GymService.API.Controllers
 {
     [ApiController]
     [Route("api/gym-events")]
-    public class GymEventsController(IGymEventService _eventService)
+    public class GymEventsController
         : ControllerBase
     {
+        private readonly IGymEventService _eventService;
+
+        public GymEventsController(IGymEventService eventService)
+        {
+            _eventService = eventService;
+        }
+
         [Authorize(Roles = Roles.Admin)]
         [HttpPost]
         public async Task<IActionResult> CreateGymEventAsync([FromBody] CreateGymEventDtoRequest dtoRequest)

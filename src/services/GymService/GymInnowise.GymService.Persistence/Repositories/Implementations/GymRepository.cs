@@ -7,8 +7,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GymInnowise.GymService.Persistence.Repositories.Implementations
 {
-    public class GymRepository(GymServiceDbContext _dbContext) : IGymRepository
+    public class GymRepository : IGymRepository
     {
+        private readonly GymServiceDbContext _dbContext;
+
+        public GymRepository(GymServiceDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
         public async Task AddGymAsync(GymEntity gymEntity)
         {
             await _dbContext.Gyms.AddAsync(gymEntity);

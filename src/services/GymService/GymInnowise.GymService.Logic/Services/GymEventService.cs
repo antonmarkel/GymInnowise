@@ -11,9 +11,19 @@ using OneOf.Types;
 
 namespace GymInnowise.GymService.Logic.Services
 {
-    public class GymEventService(IGymEventRepository _repo, IMapper _mapper, ILogger<GymEventService> _logger)
-        : IGymEventService
+    public class GymEventService : IGymEventService
     {
+        private readonly IGymEventRepository _repo;
+        private readonly IMapper _mapper;
+        private readonly ILogger<GymEventService> _logger;
+
+        public GymEventService(IGymEventRepository repo, IMapper mapper, ILogger<GymEventService> logger)
+        {
+            _repo = repo;
+            _mapper = mapper;
+            _logger = logger;
+        }
+
         public async Task<Guid> CreateGymEventAsync(CreateGymEventDtoRequest dtoRequest)
         {
             var eventEntity = _mapper.Map<GymEventEntity>(dtoRequest);

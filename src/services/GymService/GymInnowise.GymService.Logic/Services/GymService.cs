@@ -66,13 +66,6 @@ namespace GymInnowise.GymService.Logic.Services
 
         public async Task<IEnumerable<GetGymPreviewResponse>> GetGymPreviewsByTagsAsync(IEnumerable<GymTag> tags)
         {
-            if (!tags.Any())
-            {
-                var gyms = await _repo.GetAllGymsAsync();
-
-                return gyms.Select(_mapper.Map<GetGymPreviewResponse>).ToList();
-            }
-
             var gymPreviewDtos = await _repo.GetGymsByTagsAsync(tags);
 
             return gymPreviewDtos.Select(_mapper.Map<GetGymPreviewResponse>).ToList();

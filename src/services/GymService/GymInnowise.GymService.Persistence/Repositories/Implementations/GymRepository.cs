@@ -35,6 +35,11 @@ namespace GymInnowise.GymService.Persistence.Repositories.Implementations
 
         public async Task<IEnumerable<GymPreviewModel>> GetGymsByTagsAsync(IEnumerable<GymTag> tags)
         {
+            if (!tags.Any())
+            {
+                return await GetAllGymsAsync();
+            }
+
             var gyms = await _dbContext.Gyms
                 .Select(g => new GymPreviewModel
                 {

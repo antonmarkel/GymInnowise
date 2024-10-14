@@ -1,5 +1,5 @@
 ﻿using GymInnowise.ReportService.Perstistence.Data;
-using GymInnowise.ReportService.Perstistence.Models;
+using GymInnowise.ReportService.Perstistence.Models.Entities;
 using GymInnowise.ReportService.Perstistence.Reporisitories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 

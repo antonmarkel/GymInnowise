@@ -28,14 +28,8 @@ namespace GymInnowise.GymService.Persistence.Repositories.Implementations
 
         public async Task RemoveEventAsync(Guid id)
         {
-            var eventEntity = await _dbContext.GymEvents.SingleOrDefaultAsync(bl => bl.Id == id);
-            if (eventEntity is null)
-            {
-                return;
-            }
-
-            _dbContext.GymEvents.Remove(eventEntity);
-            await _dbContext.SaveChangesAsync();
+            var eventEntity =
+                await _dbContext.GymEvents.Where(ev => ev.Id == id).ExecuteDeleteAsync();
         }
 
         public async Task<IEnumerable<GymEventEntity>> GetGymEventsByGymIdAsync(Guid gymId)

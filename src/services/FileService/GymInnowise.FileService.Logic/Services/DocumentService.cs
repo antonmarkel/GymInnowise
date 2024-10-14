@@ -29,7 +29,8 @@ namespace GymInnowise.FileService.Logic.Services
             _container = containerSettings.Value.DocumentContainer;
         }
 
-        public async Task<Guid> UploadAsync(Stream stream, DocumentMetadata metadata)
+        public async Task<Guid> UploadAsync(Stream stream, DocumentMetadata metadata,
+            CancellationToken cancellationToken = default)
         {
             var metadataEntity = new DocumentMetadataEntity
             {
@@ -42,7 +43,7 @@ namespace GymInnowise.FileService.Logic.Services
                 Id = metadata.Id,
             };
 
-            await _repo.CreateFileMetadataAsync(metadataEntity);
+            await _repo.CreateFileMetadataAsync(metadataEntity, cancellationToken);
             await _blobService.UploadAsync(stream, metadata.ContentType, metadataEntity.Id.ToString(),
                 _container);
             _logger.LogInformation("Document was uploaded. Info: {@Id}", metadataEntity.Id);
@@ -53,7 +54,7 @@ namespace GymInnowise.FileService.Logic.Services
         public async Task<OneOf<FileResult<DocumentMetadata>, MetadataNotFound, FileNotFound>> DownloadAsync(
             Guid fileId, CancellationToken cancellationToken = default)
         {
-            var metadataEntity = await _repo.GetFileMetadataByIdAsync(fileId);
+            var metadataEntity = await _repo.GetFileMetadataByIdAsync(fileId, cancellationToken);
             if (metadataEntity is null)
             {
                 _logger.LogWarning("Document's metadata was not found. Info: {@fileId}", fileId);
@@ -75,9 +76,10 @@ namespace GymInnowise.FileService.Logic.Services
             return new FileResult<DocumentMetadata> { Content = stream, Metadata = metadataEntity.ToDto() };
         }
 
-        public async Task<OneOf<DocumentMetadata, MetadataNotFound>> GetMetadataByIdAsync(Guid fileId)
+        public async Task<OneOf<DocumentMetadata, MetadataNotFound>> GetMetadataByIdAsync(Guid fileId,
+            CancellationToken cancellationToken = default)
         {
-            var metadataEntity = await _repo.GetFileMetadataByIdAsync(fileId);
+            var metadataEntity = await _repo.GetFileMetadataByIdAsync(fileId, cancellationToken);
             if (metadataEntity is null)
             {
                 _logger.LogWarning("Document's metadata was not found. Info: {@fileId}", fileId);

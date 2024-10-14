@@ -31,7 +31,8 @@ namespace GymInnowise.FileService.Logic.Services
             _thumbnailService = thumbnailService;
         }
 
-        public async Task<Guid> UploadAsync(Stream stream, ImageMetadata metadata)
+        public async Task<Guid> UploadAsync(Stream stream, ImageMetadata metadata,
+            CancellationToken cancellationToken = default)
         {
             var metadataEntity = new ImageMetadataEntity()
             {
@@ -45,15 +46,15 @@ namespace GymInnowise.FileService.Logic.Services
                 UploadedBy = metadata.UploadedBy
             };
 
-            var thumbnailResult = await _thumbnailService.GenerateThumbnailAsync(stream, metadata);
+            var thumbnailResult = await _thumbnailService.GenerateThumbnailAsync(stream, metadata, cancellationToken);
             if (thumbnailResult.IsT0)
             {
                 var thumbnail = thumbnailResult.AsT0;
                 metadataEntity.ThumbnailId =
-                    await UploadAsync(thumbnail.Content, thumbnail.Metadata);
+                    await UploadAsync(thumbnail.Content, thumbnail.Metadata, cancellationToken);
             }
 
-            await _repo.CreateFileMetadataAsync(metadataEntity);
+            await _repo.CreateFileMetadataAsync(metadataEntity, cancellationToken);
             await _blobService.UploadAsync(stream, metadata.ContentType,
                 metadataEntity.Id.ToString(),
                 _container);
@@ -66,7 +67,7 @@ namespace GymInnowise.FileService.Logic.Services
         public async Task<OneOf<FileResult<ImageMetadata>, MetadataNotFound, FileNotFound>>
             DownloadAsync(Guid fileId, CancellationToken cancellationToken = default)
         {
-            var metadataEntity = await _repo.GetFileMetadataByIdAsync(fileId);
+            var metadataEntity = await _repo.GetFileMetadataByIdAsync(fileId, cancellationToken);
             if (metadataEntity is null)
             {
                 _logger.LogWarning("Image's metadata was not found. Info: {@fileId}", fileId);
@@ -88,9 +89,10 @@ namespace GymInnowise.FileService.Logic.Services
             return new FileResult<ImageMetadata> { Content = stream, Metadata = metadataEntity.ToDto() };
         }
 
-        public async Task<OneOf<ImageMetadata, MetadataNotFound>> GetMetadataByIdAsync(Guid fileId)
+        public async Task<OneOf<ImageMetadata, MetadataNotFound>> GetMetadataByIdAsync(Guid fileId,
+            CancellationToken cancellationToken = default)
         {
-            var metadataEntity = await _repo.GetFileMetadataByIdAsync(fileId);
+            var metadataEntity = await _repo.GetFileMetadataByIdAsync(fileId, cancellationToken);
             if (metadataEntity is null)
             {
                 _logger.LogWarning("Image's metadata was not found. Info: {@fileId}", fileId);

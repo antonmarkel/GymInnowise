@@ -2,7 +2,6 @@
 using GymInnowise.GymService.Persistence.Models.Dtos;
 using GymInnowise.GymService.Persistence.Models.Entities;
 using GymInnowise.GymService.Persistence.Repositories.Interfaces;
-using GymInnowise.Shared.Gym.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace GymInnowise.GymService.Persistence.Repositories.Implementations
@@ -33,45 +32,24 @@ namespace GymInnowise.GymService.Persistence.Repositories.Implementations
             return await _dbContext.Gyms.SingleOrDefaultAsync(g => g.Id == id);
         }
 
-        public async Task<IEnumerable<GymPreviewModel>> GetGymsByTagsAsync(IEnumerable<GymTag> tags)
+        public async Task<IEnumerable<GymPreviewModel>> GetGymsByTagsAsync(IEnumerable<string> tags)
         {
-            if (!tags.Any())
+            var query = _dbContext.Gyms.AsNoTracking();
+            if (tags.Any())
             {
-                return await GetAllGymsAsync();
+                query = query.Where(gym => tags.Any(tag => gym.Tags.Contains(tag)));
             }
 
-            var gyms = await _dbContext.Gyms
-                .Select(g => new GymPreviewModel
-                {
-                    Id = g.Id,
-                    Name = g.Name,
-                    Address = g.Address,
-                    ContactInfo = g.ContactInfo,
-                    Tags = g.Tags
-                })
-                .AsNoTracking()
-                .ToListAsync();
+            var gyms = await query.Select(gym => new GymPreviewModel()
+            {
+                Address = gym.Address,
+                ContactInfo = gym.ContactInfo,
+                Id = gym.Id,
+                Name = gym.Name,
+                Tags = gym.Tags
+            }).ToListAsync();
 
-            var filteredGyms = gyms
-                .Where(g => g.Tags.Intersect(tags).Any())
-                .ToList();
-
-            return filteredGyms;
-        }
-
-        public async Task<IEnumerable<GymPreviewModel>> GetAllGymsAsync()
-        {
-            return await _dbContext.Gyms
-                .Select(g => new GymPreviewModel
-                {
-                    Id = g.Id,
-                    Name = g.Name,
-                    Address = g.Address,
-                    ContactInfo = g.ContactInfo,
-                    Tags = g.Tags
-                })
-                .AsNoTracking()
-                .ToListAsync();
+            return gyms;
         }
     }
 }

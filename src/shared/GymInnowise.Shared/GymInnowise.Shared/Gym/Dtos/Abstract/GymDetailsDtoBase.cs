@@ -15,6 +15,6 @@ namespace GymInnowise.Shared.Gym.Dtos.Abstract
         public byte DaysAvailableMask { get; set; }
         public GymPayType PayType { get; set; }
         public decimal CostValue { get; set; }
-        public List<GymTag> Tags { get; set; } = [];
+        public string[] Tags { get; set; } = [];
     }
 }

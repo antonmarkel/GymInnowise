@@ -5,7 +5,6 @@ using GymInnowise.GymService.Persistence.Repositories.Interfaces;
 using GymInnowise.Shared.Gym.Dtos.Requests.Creates;
 using GymInnowise.Shared.Gym.Dtos.Requests.Updates;
 using GymInnowise.Shared.Gym.Dtos.Responses.Gets;
-using GymInnowise.Shared.Gym.Enums;
 using Microsoft.Extensions.Logging;
 using OneOf;
 using OneOf.Types;
@@ -64,7 +63,7 @@ namespace GymInnowise.GymService.Logic.Services
             return _mapper.Map<GetGymDetailsResponse>(gymEntity);
         }
 
-        public async Task<IEnumerable<GetGymPreviewResponse>> GetGymPreviewsByTagsAsync(IEnumerable<GymTag> tags)
+        public async Task<IEnumerable<GetGymPreviewResponse>> GetGymPreviewsByTagsAsync(IEnumerable<string> tags)
         {
             var gymPreviewDtos = await _repo.GetGymsByTagsAsync(tags);
 

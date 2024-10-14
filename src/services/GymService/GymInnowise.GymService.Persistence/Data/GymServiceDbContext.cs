@@ -1,9 +1,6 @@
 ﻿using GymInnowise.GymService.Persistence.Data.Configuration;
 using GymInnowise.GymService.Persistence.Models.Entities;
-using GymInnowise.Shared.Gym.Enums;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Newtonsoft.Json;
 
 namespace GymInnowise.GymService.Persistence.Data
 {

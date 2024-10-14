@@ -1,6 +1,4 @@
-﻿using GymInnowise.Shared.Gym.Enums;
-
-namespace GymInnowise.GymService.Persistence.Models.Dtos
+﻿namespace GymInnowise.GymService.Persistence.Models.Dtos
 {
     public class GymPreviewModel
     {
@@ -8,6 +6,6 @@ namespace GymInnowise.GymService.Persistence.Models.Dtos
         public string Name { get; set; } = string.Empty;
         public string Address { get; set; } = string.Empty;
         public string ContactInfo { get; set; } = string.Empty;
-        public List<GymTag> Tags { get; set; } = [];
+        public string[] Tags { get; set; } = [];
     }
 }

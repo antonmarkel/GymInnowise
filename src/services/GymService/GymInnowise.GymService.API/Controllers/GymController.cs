@@ -2,7 +2,6 @@
 using GymInnowise.Shared.Authorization;
 using GymInnowise.Shared.Gym.Dtos.Requests.Creates;
 using GymInnowise.Shared.Gym.Dtos.Requests.Updates;
-using GymInnowise.Shared.Gym.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -67,7 +66,7 @@ namespace GymInnowise.GymService.API.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> GetGymsAsync([FromQuery] List<GymTag>? tags)
+        public async Task<IActionResult> GetGymsAsync([FromQuery] List<string>? tags)
         {
             return Ok(await _gymService.GetGymPreviewsByTagsAsync(tags ?? []));
         }

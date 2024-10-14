@@ -17,7 +17,7 @@ namespace GymInnowise.FileService.API.Controllers.Base
             _streamValidator = streamValidator;
         }
 
-        [HttpGet("{fileId}")]
+        [HttpGet("{fileId}"), ActionName("GetFile")]
         public async Task<IActionResult> GetFileByIdAsync([FromRoute] Guid fileId, CancellationToken cancellationToken)
         {
             var result = await _fileService.DownloadAsync(fileId, cancellationToken);
@@ -50,7 +50,7 @@ namespace GymInnowise.FileService.API.Controllers.Base
 
             var fileId = await _fileService.UploadAsync(Request.Body, metadata);
 
-            return Created(fileId.ToString(), fileId);
+            return CreatedAtAction("GetFile", new { fileId }, fileId);
         }
     }
 }

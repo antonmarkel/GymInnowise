@@ -1,7 +1,11 @@
-﻿namespace GymInnowise.ReportService.Logic.Interfaces
+﻿using GymInnowise.ReportService.Logic.Results;
+using OneOf;
+
+namespace GymInnowise.ReportService.Logic.Interfaces
 {
     public interface IPdfGenerator
     {
-        Task<Stream> GeneratePdfFromHtmlAsync(string htmlReport, CancellationToken cancellationToken = default);
+        Task<OneOf<Stream, PdfGenerationFailed>> GeneratePdfFromHtmlAsync(string htmlReport,
+            CancellationToken cancellationToken = default);
     }
 }

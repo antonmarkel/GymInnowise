@@ -16,10 +16,7 @@ namespace GymInnowise.GymService.Persistence.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            var gymConfigurator = new GymEntityTypeConfiguration();
-            var gymEventConfigurator = new GymEventEntityTypeConfiguration();
-            gymConfigurator.Configure(modelBuilder.Entity<GymEntity>());
-            gymEventConfigurator.Configure(modelBuilder.Entity<GymEventEntity>());
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(GymEntityTypeConfiguration).Assembly);
         }
     }
 }

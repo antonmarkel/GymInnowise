@@ -26,7 +26,7 @@ namespace GymInnowise.GymService.API.Controllers
         {
             var gymId = await _gymService.CreateGymAsync(request);
 
-            return CreatedAtAction("GetGym", new { gymId }, gymId);
+            return CreatedAtAction(nameof(GetGymByIdAsync), new { gymId }, gymId);
         }
 
         [Authorize(Roles = Roles.Admin)]
@@ -51,7 +51,7 @@ namespace GymInnowise.GymService.API.Controllers
             return Ok(result);
         }
 
-        [ActionName("GetGym")]
+        [ActionName(nameof(GetGymByIdAsync))]
         [Authorize]
         [HttpGet("{gymId}")]
         public async Task<IActionResult> GetGymByIdAsync([FromRoute] Guid gymId)

@@ -25,7 +25,7 @@ namespace GymInnowise.GymService.API.Controllers
         {
             var eventId = await _eventService.CreateGymEventAsync(dtoRequest);
 
-            return CreatedAtAction("GetEvent", new { eventId }, eventId);
+            return CreatedAtAction(nameof(GetEventByIdAsync), new { eventId }, eventId);
         }
 
         [Authorize(Roles = Roles.Admin)]
@@ -63,7 +63,7 @@ namespace GymInnowise.GymService.API.Controllers
         }
 
         [Authorize]
-        [ActionName("GetEvent")]
+        [ActionName(nameof(GetEventByIdAsync))]
         [HttpGet("{eventId}")]
         public async Task<IActionResult> GetEventByIdAsync([FromRoute] Guid eventId)
         {

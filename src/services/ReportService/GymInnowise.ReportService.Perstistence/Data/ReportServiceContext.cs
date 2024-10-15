@@ -1,4 +1,4 @@
-﻿using GymInnowise.ReportService.Perstistence.Data.Configuration;
+using GymInnowise.ReportService.Perstistence.Data.Configuration;
 using GymInnowise.ReportService.Perstistence.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 

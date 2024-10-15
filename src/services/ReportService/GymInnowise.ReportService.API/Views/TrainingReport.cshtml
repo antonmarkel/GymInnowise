@@ -1,0 +1,153 @@
+﻿@model GymInnowise.Shared.Reports.TrainingReport
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Training Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .section-header {
+            color: #777;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .report-details, .participants, .coaches {
+            margin-bottom: 20px;
+        }
+
+        .report-details th, .participants th, .coaches th {
+            text-align: left;
+            padding: 10px;
+            background-color: #f8f8f8;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .report-details td, .participants td, .coaches td {
+            padding: 10px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .section {
+            font-weight: bold;
+        }
+
+        .gym {
+            font-weight: bold;
+        }
+
+        .footer {
+            margin-top: 40px;
+            font-size: 12px;
+            color: #777;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Training Report</h1>
+
+        <div class="section-header">Details</div>
+
+        <table class="report-details">
+            <tr>
+                <th>Section</th>
+                <td class="section">@Model.Section ?? "N/A"</td>
+            </tr>
+            <tr>
+                <th>Gym</th>
+                <td class="gym">@Model.Gym ?? "N/A"</td>
+            </tr>
+            <tr>
+                <th>Start Time (UTC)</th>
+                <td>@Model.StartUtc.ToString("MMMM dd, yyyy - HH:mm")</td>
+            </tr>
+            <tr>
+                <th>End Time (UTC)</th>
+                <td>@Model.EndUtc.ToString("MMMM dd, yyyy - HH:mm")</td>
+            </tr>
+        </table>
+
+        <div class="section-header">Participants</div>
+        <table class="participants">
+            <tr>
+                <th>Name</th>
+            </tr>
+            @if (Model.Participants != null && Model.Participants.Length > 0)
+            {
+                foreach (var participant in Model.Participants)
+                {
+                    <tr>
+                        <td>@participant</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td>No participants available</td>
+                </tr>
+            }
+        </table>
+
+        <div class="section-header">Coaches</div>
+        <table class="coaches">
+            <tr>
+                <th>Name</th>
+            </tr>
+            @if (Model.Coaches != null && Model.Coaches.Length > 0)
+            {
+                foreach (var coach in Model.Coaches)
+                {
+                    <tr>
+                        <td>@coach</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td>No coaches available</td>
+                </tr>
+            }
+        </table>
+
+        <div class="footer">
+            Report generated on @DateTime.UtcNow.ToString("MMMM dd, yyyy - HH:mm") UTC
+        </div>
+    </div>
+</body>
+</html>

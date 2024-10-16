@@ -1,7 +1,9 @@
-﻿namespace GymInnowise.ReportService.Perstistence.Models.Interfaces
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace GymInnowise.ReportService.Perstistence.Models.Interfaces
 {
     public interface IReportEntity
     {
-        public Guid Id { get; set; }
+        [Key] public Guid Id { get; set; }
     }
 }

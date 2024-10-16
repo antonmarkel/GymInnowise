@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.ReportService.P
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.ReportService.Logic", "GymInnowise.ReportService.Logic\GymInnowise.ReportService.Logic.csproj", "{08D62AD4-B93E-4ED1-B3D0-640F57C27934}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymInnowise.ReportService.Configuration", "GymInnowise.ReportService.Configuration\GymInnowise.ReportService.Configuration.csproj", "{EF58E3A1-0039-40D2-B955-264655E50A3F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.ReportService.Configuration", "GymInnowise.ReportService.Configuration\GymInnowise.ReportService.Configuration.csproj", "{EF58E3A1-0039-40D2-B955-264655E50A3F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,11 +1,10 @@
 ﻿using GymInnowise.ReportService.Perstistence.Models.Interfaces;
-using GymInnowise.Shared.Reports;
+using GymInnowise.Shared.Reports.Trainings;
 
 namespace GymInnowise.ReportService.Perstistence.Models.Entities
 {
-    public class TrainingReportEntity : TrainingReport, IReportEntity
+    public class IndividualWithCoachTrainingReportEntity : IndividualWithCoachTrainingReport, IReportEntity
     {
         public Guid Id { get; set; }
     }
 }
-

@@ -2,5 +2,6 @@
 {
     public interface IReport
     {
+        public DateTime DateStampUtc { get; set; }
     }
 }

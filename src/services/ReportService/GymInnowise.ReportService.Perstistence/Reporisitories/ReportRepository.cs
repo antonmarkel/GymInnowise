@@ -1,12 +1,12 @@
 ﻿using GymInnowise.ReportService.Perstistence.Data;
-using GymInnowise.ReportService.Perstistence.Models.Base;
+using GymInnowise.ReportService.Perstistence.Models.Interfaces;
 using GymInnowise.ReportService.Perstistence.Reporisitories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace GymInnowise.ReportService.Perstistence.Reporisitories
 {
     public class ReportRepository<TReportEntity> : IReportRepository<TReportEntity>
-        where TReportEntity : ReportEntityBase
+        where TReportEntity : class, IReportEntity
     {
         private readonly ReportServiceContext _context;
 

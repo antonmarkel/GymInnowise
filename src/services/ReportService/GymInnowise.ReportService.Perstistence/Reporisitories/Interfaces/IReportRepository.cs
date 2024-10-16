@@ -1,8 +1,8 @@
-﻿using GymInnowise.ReportService.Perstistence.Models.Base;
+﻿using GymInnowise.ReportService.Perstistence.Models.Interfaces;
 
 namespace GymInnowise.ReportService.Perstistence.Reporisitories.Interfaces
 {
-    public interface IReportRepository<TReportEntity> where TReportEntity : ReportEntityBase
+    public interface IReportRepository<TReportEntity> where TReportEntity : class, IReportEntity
     {
         Task AddReportAsync(TReportEntity report);
         Task<TReportEntity?> GetReportAsync(Guid reportId);

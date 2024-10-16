@@ -1,4 +1,6 @@
-﻿using GymInnowise.ReportService.Configuration.Settings;
+﻿using System.Text;
+using GymInnowise.ReportService.Configuration.Settings;
+using GymInnowise.ReportService.Logic.Helpers;
 using GymInnowise.ReportService.Logic.Interfaces;
 using GymInnowise.ReportService.Logic.Results;
 using GymInnowise.Shared.Reports.Interfaces;
@@ -19,7 +21,7 @@ namespace GymInnowise.ReportService.Logic.Services
 
         public async Task<OneOf<string, HtmlGenerationFailed>> GenerateHtmlAsync(TReport report)
         {
-            var viewPath = Path.Combine(_viewSettings.BaseViewPath, typeof(TReport).Name);
+            var viewPath = PathHelper.GetViewPath(_viewSettings.BaseViewPath, typeof(TReport));
             var renderResult = await RazorTemplateEngine.TryRenderPartialAsync(viewPath, report);
             if (!renderResult.ViewExists)
             {

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using GymInnowise.ReportService.Logic.Interfaces;
-using GymInnowise.ReportService.Perstistence.Models.Base;
+using GymInnowise.ReportService.Perstistence.Models.Interfaces;
 using GymInnowise.ReportService.Perstistence.Reporisitories.Interfaces;
 using GymInnowise.Shared.Reports.Interfaces;
 using OneOf;
@@ -10,7 +10,7 @@ namespace GymInnowise.ReportService.Logic.Services
 {
     public class ReportService<TReport, TReportEntity> : IReportService<TReport, TReportEntity>
         where TReport : IReport
-        where TReportEntity : ReportEntityBase
+        where TReportEntity : class, TReport, IReportEntity
     {
         private readonly IReportRepository<TReportEntity> _repo;
         private readonly IMapper _mapper;
@@ -21,9 +21,10 @@ namespace GymInnowise.ReportService.Logic.Services
             _mapper = mapper;
         }
 
-        public async Task CreateReportAsync(TReport report)
+        public async Task CreateReportAsync(TReport report, Guid reportId)
         {
             var entity = _mapper.Map<TReportEntity>(report);
+            entity.Id = reportId;
             await _repo.AddReportAsync(entity);
         }
 

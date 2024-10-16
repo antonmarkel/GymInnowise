@@ -19,20 +19,22 @@ namespace GymInnowise.ReportService.Logic.Services
         public async Task<OneOf<Stream, HtmlGenerationFailed, PdfGenerationFailed>> GenerateReportAsync(TReport report)
         {
             var htmlGenerationResult = await _htmlGenerator.GenerateHtmlAsync(report);
-            var html = htmlGenerationResult.AsT0;
-            if (html is null)
+            if (htmlGenerationResult.IsT1)
             {
                 return new HtmlGenerationFailed();
             }
 
-            var pdfGenerationResult = await _pdfGenerator.GeneratePdfFromHtmlAsync(html);
-            var pdfStream = pdfGenerationResult.AsT0;
-            if (pdfStream is null)
+            var pdfGenerationResult = await _pdfGenerator.GeneratePdfFromHtmlAsync(htmlGenerationResult.AsT0);
+
+            if (pdfGenerationResult.IsT1)
             {
                 return new PdfGenerationFailed();
             }
 
-            return pdfStream;
+            var stream = pdfGenerationResult.AsT0;
+            stream.Position = 0;
+
+            return stream;
         }
     }
 }

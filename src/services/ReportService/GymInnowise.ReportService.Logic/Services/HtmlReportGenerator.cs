@@ -1,5 +1,4 @@
-﻿using Amazon.Runtime.Internal.Util;
-using GymInnowise.ReportService.Configuration.Settings;
+﻿using GymInnowise.ReportService.Configuration.Settings;
 using GymInnowise.ReportService.Logic.Helpers;
 using GymInnowise.ReportService.Logic.Interfaces;
 using GymInnowise.ReportService.Logic.Results;

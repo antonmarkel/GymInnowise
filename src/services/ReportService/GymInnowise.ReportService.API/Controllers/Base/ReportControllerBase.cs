@@ -1,10 +1,12 @@
 ﻿using GymInnowise.ReportService.Logic.Interfaces;
 using GymInnowise.ReportService.Perstistence.Models.Interfaces;
 using GymInnowise.Shared.Reports.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GymInnowise.ReportService.API.Controllers.Base
 {
+    [Authorize]
     public class ReportControllerBase<TReport, TReportEntity> : ControllerBase
         where TReport : IReport
         where TReportEntity : class, TReport, IReportEntity

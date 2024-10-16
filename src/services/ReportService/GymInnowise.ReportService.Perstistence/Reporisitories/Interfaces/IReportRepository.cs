@@ -6,5 +6,6 @@ namespace GymInnowise.ReportService.Perstistence.Reporisitories.Interfaces
     {
         Task AddReportAsync(TReportEntity report);
         Task<TReportEntity?> GetReportAsync(Guid reportId);
+        Task UpdateReportAsync(TReportEntity reportEntity);
     }
 }

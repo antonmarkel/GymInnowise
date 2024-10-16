@@ -11,5 +11,6 @@ namespace GymInnowise.ReportService.Logic.Interfaces
     {
         Task CreateReportAsync(TReport report, Guid reportId);
         Task<OneOf<TReport, NotFound>> GetReportAsync(Guid reportId);
+        Task<OneOf<Success, NotFound>> UpdateReportAsync(Guid reportId, TReport report);
     }
 }

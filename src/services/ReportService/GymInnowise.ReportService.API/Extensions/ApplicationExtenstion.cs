@@ -1,4 +1,5 @@
-﻿using GymInnowise.ReportService.Configuration.Settings;
+﻿using GymInnowise.ReportService.API.Middleware;
+using GymInnowise.ReportService.Configuration.Settings;
 using GymInnowise.ReportService.Logic.Consumers;
 using GymInnowise.ReportService.Logic.Interfaces;
 using GymInnowise.ReportService.Logic.Mappings.Base;
@@ -13,6 +14,7 @@ using GymInnowise.Shared.Reports.Payment;
 using GymInnowise.Shared.Reports.Trainings;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace GymInnowise.ReportService.API.Extensions
 {
@@ -79,6 +81,20 @@ namespace GymInnowise.ReportService.API.Extensions
                     configurator.ConfigureEndpoints(context);
                 });
             });
+        }
+
+        public static void AddLogger(this WebApplicationBuilder builder)
+        {
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration((builder.Configuration))
+                .CreateLogger();
+
+            builder.Services.AddSerilog(Log.Logger);
+        }
+
+        public static void UseGlobalExceptionHandler(this WebApplication app)
+        {
+            app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
         }
     }
 }

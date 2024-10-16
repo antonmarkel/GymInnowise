@@ -59,11 +59,21 @@ namespace GymInnowise.ReportService.API.Controllers.Base
 
             var result = await _fileGenerator.GenerateReportAsync(reportResult.AsT0);
 
-            //c2b80888-bb13-4fbf-b749-fddd4824df15
             return result.Match<IActionResult>(
                 stream => File(stream, "application/pdf"),
                 _ => BadRequest("Generation Failed (Html convert)"),
                 _ => BadRequest("Generation Failed (Pdf convert)")
+            );
+        }
+
+        [HttpPut("{reportId}")]
+        public async Task<IActionResult> UpdateReportAsync([FromRoute] Guid reportId, [FromBody] TReport report)
+        {
+            var result = await _reportService.UpdateReportAsync(reportId, report);
+
+            return result.Match<IActionResult>(
+                _ => NoContent(),
+                _ => NotFound()
             );
         }
     }

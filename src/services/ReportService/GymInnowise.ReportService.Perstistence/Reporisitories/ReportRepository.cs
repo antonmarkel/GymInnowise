@@ -25,5 +25,11 @@ namespace GymInnowise.ReportService.Perstistence.Reporisitories
         {
             return await _context.Set<TReportEntity>().SingleOrDefaultAsync(rep => rep.Id == reportId);
         }
+
+        public async Task UpdateReportAsync(TReportEntity reportEntity)
+        {
+            _context.Set<TReportEntity>().Update(reportEntity);
+            await _context.SaveChangesAsync();
+        }
     }
 }

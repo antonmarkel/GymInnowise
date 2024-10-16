@@ -48,7 +48,6 @@ namespace GymInnowise.ReportService.API.Controllers.Base
             );
         }
 
-
         [HttpPost("generate/{reportId}")]
         public async Task<IActionResult> GenerateReportAsync([FromRoute] Guid reportId)
         {

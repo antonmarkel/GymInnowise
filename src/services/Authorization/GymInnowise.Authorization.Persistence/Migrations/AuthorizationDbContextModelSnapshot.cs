@@ -91,6 +91,26 @@ namespace GymInnowise.Authorization.Persistence.Migrations
                     b.ToTable("RefreshTokens", (string)null);
                 });
 
+            modelBuilder.Entity("GymInnowise.Authorization.Persistence.Models.Enities.VerificationEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("AccountId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("ExpireAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Verifications");
+                });
+
             modelBuilder.Entity("GymInnowise.Authorization.Persistence.Models.Enities.RefreshTokenEntity", b =>
                 {
                     b.HasOne("GymInnowise.Authorization.Persistence.Models.Enities.AccountEntity", "Account")

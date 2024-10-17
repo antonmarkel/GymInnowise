@@ -1,7 +1,7 @@
 ﻿using GymInnowise.EmailService.Configuration.Email;
 using GymInnowise.EmailService.Logic.Interfaces;
 using GymInnowise.EmailService.Logic.Results;
-using GymInnowise.EmailService.Persistence.Dto;
+using GymInnowise.EmailService.Persistence.Models;
 using GymInnowise.EmailService.Persistence.Repositories.Interfaces;
 using GymInnowise.EmailService.Shared.Dtos.Events;
 using MassTransit;
@@ -11,13 +11,23 @@ using OneOf.Types;
 
 namespace GymInnowise.EmailService.Logic.Services
 {
-    public class VerificationService(
-        IEmailVerificationRepository _repo,
-        IEmailService _emailService,
-        IOptions<VerificationSettings> _settings,
-        IPublishEndpoint _publisher)
-        : IVerificationService
+    public class VerificationService : IVerificationService
     {
+        private readonly IEmailVerificationRepository _repo;
+        private readonly IEmailService _emailService;
+        private readonly VerificationSettings _settings;
+        private readonly IPublishEndpoint _publisher;
+
+        public VerificationService(IEmailVerificationRepository repo, IEmailService emailService,
+            IOptions<VerificationSettings> settings, IPublishEndpoint publisher)
+        {
+            _repo = repo;
+            _emailService = emailService;
+            _settings = settings.Value;
+            _publisher = publisher;
+        }
+
+
         public async Task<OneOf<Success, NotFound, Expired>> VerifyAsync(Guid token)
         {
             var verification = await _repo.GetVerificationAsync(token);
@@ -42,13 +52,13 @@ namespace GymInnowise.EmailService.Logic.Services
             return new Success();
         }
 
-        public async Task<Guid> CreateVerificationToken(string email, Guid accountId)
+        public async Task<Guid> CreateVerificationTokenAsync(Guid accountId)
         {
-            var createEmailVerification = new CreateEmailVerification()
+            var createEmailVerification = new EmailVerificationEntity()
             {
                 AccountId = accountId,
                 CreatedAt = DateTime.UtcNow,
-                ExpireAt = DateTime.UtcNow.AddMinutes(_settings.Value.ExpireAfterMinutes)
+                ExpireAt = DateTime.UtcNow.AddMinutes(_settings.ExpireAfterMinutes)
             };
             await _repo.CreateVerificationAsync(createEmailVerification);
 
@@ -57,6 +67,7 @@ namespace GymInnowise.EmailService.Logic.Services
 
         public async Task SendVerificationAsync(string email, string link)
         {
+            //TODO: SEND TEMPLATED MESSAGE
             var subject = "Confirm your email!";
             var message = $"To confirm your email follow the link: {link}";
             await _emailService.SendMessageAsync(email, subject, message);

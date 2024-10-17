@@ -1,13 +1,11 @@
-﻿using GymInnowise.EmailService.Persistence.Models;
+﻿using GymInnowise.EmailService.Persistence.Data.Configuration;
+using GymInnowise.EmailService.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Newtonsoft.Json;
 
 namespace GymInnowise.EmailService.Persistence.Data
 {
     public class EmailServiceContext : DbContext
     {
-        public DbSet<TemplateEntity> Templates { get; set; }
         public DbSet<EmailVerificationEntity> EmailVerifications { get; set; }
 
         public EmailServiceContext(DbContextOptions<EmailServiceContext> options) : base(options)
@@ -17,37 +15,7 @@ namespace GymInnowise.EmailService.Persistence.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            ConfigureTemplateEntity(modelBuilder);
-            ConfigureEmailVerificationEntity(modelBuilder);
-        }
-
-        private static void ConfigureTemplateEntity(ModelBuilder modelBuilder)
-        {
-            var dictConversion = GetDictionaryConverter();
-            modelBuilder.Entity<TemplateEntity>((ent) =>
-            {
-                ent.HasKey(e => e.Name);
-                ent.Property(e => e.Data).HasConversion(dictConversion).HasColumnType("jsonb");
-                ent.Property(e => e.Data).IsRequired().HasMaxLength(100000);
-                ent.Property(e => e.Subject).IsRequired().HasMaxLength(200);
-            });
-        }
-
-        private static void ConfigureEmailVerificationEntity(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<EmailVerificationEntity>((ent) =>
-            {
-                ent.HasKey(e => e.Id);
-                ent.Property(e => e.CreatedAt).IsRequired();
-                ent.Property(e => e.ExpireAt).IsRequired();
-            });
-        }
-
-        private static ValueConverter<HashSet<string>, string> GetDictionaryConverter()
-        {
-            return new ValueConverter<HashSet<string>, string>(
-                v => JsonConvert.SerializeObject(v),
-                v => JsonConvert.DeserializeObject<HashSet<string>>(v)!);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(EmailVerificationEntityConfiguration).Assembly);
         }
     }
 }

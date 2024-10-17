@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using GymInnowise.Authorization.API.Features.Consumers;
 using GymInnowise.Authorization.API.Middleware;
 using GymInnowise.Authorization.API.Validators;
+using GymInnowise.Authorization.Configuration;
 using GymInnowise.Authorization.Configuration.Token;
 using GymInnowise.Authorization.Logic.Interfaces;
 using GymInnowise.Authorization.Logic.Services;
@@ -31,6 +31,7 @@ namespace GymInnowise.Authorization.API.Extensions
             builder.Services.AddDbContext<AuthorizationDbContext>(options => options.UseNpgsql(connectionString));
             builder.Services.AddScoped<IAccountsRepository, AccountsRepository>();
             builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+            builder.Services.AddScoped<IVerificationRepository, VerificationRepository>();
         }
 
         public static void AddRabbitMq(this WebApplicationBuilder builder)
@@ -39,7 +40,6 @@ namespace GymInnowise.Authorization.API.Extensions
             builder.Services.AddMassTransit(busConfig =>
             {
                 busConfig.SetKebabCaseEndpointNameFormatter();
-                busConfig.AddConsumer<AccountVerifiedConsumer>();
                 busConfig.UsingRabbitMq((context, configurator) =>
                 {
                     configurator.Host(new Uri(rabbitMqSettings["Host"]!), h =>
@@ -50,6 +50,13 @@ namespace GymInnowise.Authorization.API.Extensions
                     configurator.ConfigureEndpoints(context);
                 });
             });
+        }
+
+        public static void AddVerificationService(this WebApplicationBuilder builder)
+        {
+            builder.Services.Configure<VerificationSettings>(
+                builder.Configuration.GetSection(nameof(VerificationSettings)));
+            builder.Services.AddScoped<IVerificationService, VerificationService>();
         }
 
         public static void AddJwtServices(this IHostApplicationBuilder builder)

@@ -1,7 +1,7 @@
 ﻿using GymInnowise.Authorization.Logic.Helpers;
 using GymInnowise.Authorization.Logic.Interfaces;
-using GymInnowise.Authorization.Logic.Services.Results;
-using GymInnowise.Authorization.Persistence.Models.Enities;
+using GymInnowise.Authorization.Logic.Results;
+using GymInnowise.Authorization.Persistence.Models.Entities;
 using GymInnowise.Authorization.Persistence.Repositories.Interfaces;
 using GymInnowise.EmailService.Shared.Dtos.Events;
 using GymInnowise.Shared.Authorization;
@@ -18,12 +18,14 @@ namespace GymInnowise.Authorization.Logic.Services
         private readonly IAccountsRepository _accountsRepo;
         private readonly ILogger<AccountService> _logger;
         private readonly IPublishEndpoint _publishEndpoint;
+        private readonly IVerificationService _verificationService;
 
         public AccountService(IAccountsRepository accountsRepo, IPublishEndpoint publishEndpoint,
-            ILogger<AccountService> logger)
+            ILogger<AccountService> logger, IVerificationService verificationService)
         {
             _accountsRepo = accountsRepo;
             _logger = logger;
+            _verificationService = verificationService;
             _publishEndpoint = publishEndpoint;
         }
 
@@ -52,6 +54,8 @@ namespace GymInnowise.Authorization.Logic.Services
 
             var accountCreatedEvent = new AccountCreatedEvent { AccountId = account.Id, Email = account.Email };
             await _publishEndpoint.Publish(accountCreatedEvent);
+
+            _verificationService.StartVerificationAsync(account.Id, account.Email);
 
             return new Success();
         }

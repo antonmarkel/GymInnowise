@@ -1,27 +1,20 @@
 ﻿using GymInnowise.EmailService.Persistence.Data;
-using GymInnowise.EmailService.Persistence.Dto;
 using GymInnowise.EmailService.Persistence.Models;
 using GymInnowise.EmailService.Persistence.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace GymInnowise.EmailService.Persistence.Repositories.Implementations
 {
-    public class EmailVerificationRepository(EmailServiceContext _context) : IEmailVerificationRepository
+    public class EmailVerificationRepository(EmailServiceContext context) : IEmailVerificationRepository
     {
+        private readonly EmailServiceContext _context = context;
         public async Task<EmailVerificationEntity?> GetVerificationAsync(Guid token)
         {
             return await _context.EmailVerifications.FirstOrDefaultAsync(ver => ver.Id == token);
         }
 
-        public async Task CreateVerificationAsync(CreateEmailVerification model)
+        public async Task CreateVerificationAsync(EmailVerificationEntity entity)
         {
-            var entity = new EmailVerificationEntity()
-            {
-                AccountId = model.AccountId,
-                CreatedAt = model.CreatedAt,
-                ExpireAt = model.ExpireAt,
-                Id = model.Id
-            };
             await _context.AddAsync(entity);
             await _context.SaveChangesAsync();
         }

@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GymInnowise.EmailService.Shared\GymInnowise.EmailService.Shared.csproj" />
+    <ProjectReference Include="..\..\..\shared\GymInnowise.Shared\GymInnowise.Shared\GymInnowise.Shared.csproj" />
   </ItemGroup>
 
 </Project>

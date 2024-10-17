@@ -6,10 +6,12 @@ builder.AddLogger();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.AddJwtServices();
+builder.Services.AddHttpContextAccessor();
+builder.AddVerificationService();
 builder.AddRabbitMq();
 builder.AddValidation();
 builder.AddPersistenceServices();
-builder.AddJwtServices();
 
 var app = builder.Build();
 app.UseSerilogRequestLogging();

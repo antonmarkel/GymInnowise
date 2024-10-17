@@ -1,11 +1,8 @@
-﻿using GymInnowise.Shared.User.Enums;
+﻿using GymInnowise.Shared.User.Dtos.Profiles;
 
 namespace GymInnowise.Shared.User.Dtos.ResponseModels.Gets
 {
-    public class GetCoachProfileResponse : GetClientProfileResponse
+    public class GetCoachProfileResponse : CoachProfile
     {
-        public DateTime HiredAt { get; set; }
-        public decimal CostPerHour { get; set; }
-        public CoachStatus CoachStatus { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿using GymInnowise.Authorization.Logic.Services.Results;
+﻿using GymInnowise.Authorization.Logic.Results;
 using GymInnowise.Shared.Authorization.Dtos.RequestModels;
 using OneOf;
 using OneOf.Types;

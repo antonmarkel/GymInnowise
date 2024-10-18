@@ -8,6 +8,7 @@ using GymInnowise.Shared.Configuration.Token;
 using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 using System.Text;
 
 namespace GymInnowise.EmailService.API.Extensions
@@ -48,6 +49,15 @@ namespace GymInnowise.EmailService.API.Extensions
                     configurator.ConfigureEndpoints(context);
                 });
             });
+        }
+
+        public static void AddLogger(this WebApplicationBuilder builder)
+        {
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration((builder.Configuration))
+                .CreateLogger();
+
+            builder.Services.AddSerilog(Log.Logger);
         }
 
         public static void AddJwtServices(this IHostApplicationBuilder builder)

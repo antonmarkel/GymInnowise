@@ -6,15 +6,18 @@ using OneOf;
 using OneOf.Types;
 using Razor.Templating.Core;
 using System.Text.Json;
+using Microsoft.Extensions.Logging;
 
 namespace GymInnowise.EmailService.Logic.Services
 {
     public class MessageBuilder : IMessageBuilder
     {
         private readonly TemplateSettings _templateSettings;
+        private readonly ILogger<MessageBuilder> _logger;
 
-        public MessageBuilder(IOptions<TemplateSettings> templateSettings)
+        public MessageBuilder(IOptions<TemplateSettings> templateSettings, ILogger<MessageBuilder> logger)
         {
+            _logger = logger;
             _templateSettings = templateSettings.Value;
         }
 
@@ -33,6 +36,9 @@ namespace GymInnowise.EmailService.Logic.Services
 
             if (!htmlResult.ViewExists)
             {
+                _logger.LogWarning("Template on path @{template} does not exists!",
+                    templateMessage.Template.ToString());
+
                 return new NotFound();
             }
 
@@ -42,6 +48,8 @@ namespace GymInnowise.EmailService.Logic.Services
                 Receiver = templateMessage.Receiver,
                 Subject = templateMessage.Subject
             };
+            _logger.LogInformation("Message was successfully build. Template:@{template}",
+                templateMessage.Template.ToString());
 
             return message;
         }

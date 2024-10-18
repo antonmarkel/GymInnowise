@@ -5,6 +5,7 @@ builder.Services.AddRouting();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.AddLogger();
 builder.AddJwtServices();
 builder.AddConfiguration();
 builder.AddServices();

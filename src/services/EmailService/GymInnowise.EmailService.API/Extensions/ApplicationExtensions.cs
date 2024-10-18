@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using GymInnowise.EmailService.Logic.Consumers;
 
 namespace GymInnowise.EmailService.API.Extensions
 {
@@ -50,6 +51,7 @@ namespace GymInnowise.EmailService.API.Extensions
             {
                 busConfig.SetKebabCaseEndpointNameFormatter();
                 busConfig.AddConsumer<SendMessageConsumer>();
+                busConfig.AddConsumer<SendTemplateMessageConsumer>();
                 busConfig.UsingRabbitMq((context, configurator) =>
                 {
                     configurator.Host(new Uri(rabbitMqSettings["Host"]!), h =>

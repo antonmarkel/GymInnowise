@@ -3,8 +3,10 @@ using GymInnowise.Authorization.Logic.Interfaces;
 using GymInnowise.Authorization.Logic.Results;
 using GymInnowise.Authorization.Persistence.Models.Entities;
 using GymInnowise.Authorization.Persistence.Repositories.Interfaces;
-using GymInnowise.EmailService.Shared.Dtos.Events;
+using GymInnowise.Shared.Email.Enums;
 using GymInnowise.Shared.Email.Messages;
+using GymInnowise.Shared.Email.Models;
+using GymInnowise.Shared.RabbitMq.Events;
 using MassTransit;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -68,13 +70,14 @@ namespace GymInnowise.Authorization.Logic.Services
             var verifyLink = _linkGenerator.GetUriByName(_contextAccessor.HttpContext!,
                 IVerificationService.VerificationActionName, values: new { verificationToken });
 
-            var messageEvent = new SendMessageEvent()
+            var messageEvent = new SendTemplateMessageEvent()
             {
-                EmailMessage = new Message()
+                TemplateMessage = new TemplateMessage()
                 {
-                    Body = $"Confirm your email, following the link:{verifyLink}",
+                    Template = TemplateEnum.EmailVerification,
+                    Model = new EmailVerificationModel() { VerificationLink = verifyLink! },
                     Receiver = email,
-                    Subject = "Email confirmation"
+                    Subject = "Please, confirm your email"
                 }
             };
             await _publisher.Publish(messageEvent);

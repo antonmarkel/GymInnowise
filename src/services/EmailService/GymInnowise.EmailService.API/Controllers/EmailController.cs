@@ -12,12 +12,10 @@ namespace GymInnowise.EmailService.API.Controllers
         : ControllerBase
     {
         private readonly IEmailService _emailService;
-        private readonly IMessageBuilder _messageBuilder;
 
-        public EmailController(IEmailService emailService, IMessageBuilder messageBuilder)
+        public EmailController(IEmailService emailService)
         {
             _emailService = emailService;
-            _messageBuilder = messageBuilder;
         }
 
         [Authorize(Roles = Roles.Admin)]

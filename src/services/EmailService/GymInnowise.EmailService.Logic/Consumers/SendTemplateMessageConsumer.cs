@@ -1,5 +1,4 @@
 ﻿using GymInnowise.EmailService.Logic.Interfaces;
-using GymInnowise.Shared.Email.Messages;
 using GymInnowise.Shared.RabbitMq.Events;
 using MassTransit;
 using Microsoft.Extensions.Logging;

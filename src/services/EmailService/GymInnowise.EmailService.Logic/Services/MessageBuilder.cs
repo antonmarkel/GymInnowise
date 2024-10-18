@@ -1,12 +1,12 @@
 ﻿using GymInnowise.EmailService.Configuration.Templates;
 using GymInnowise.EmailService.Logic.Interfaces;
 using GymInnowise.Shared.Email.Messages;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using OneOf;
 using OneOf.Types;
 using Razor.Templating.Core;
 using System.Text.Json;
-using Microsoft.Extensions.Logging;
 
 namespace GymInnowise.EmailService.Logic.Services
 {

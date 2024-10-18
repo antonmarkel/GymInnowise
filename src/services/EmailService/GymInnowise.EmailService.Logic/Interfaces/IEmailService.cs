@@ -1,7 +1,12 @@
-﻿namespace GymInnowise.EmailService.Logic.Interfaces
+﻿using GymInnowise.Shared.Email.Messages;
+using OneOf.Types;
+using OneOf;
+
+namespace GymInnowise.EmailService.Logic.Interfaces
 {
     public interface IEmailService
     {
-        Task SendMessageAsync(string receiver, string subject, string body);
+        Task SendMessageAsync(Message message);
+        Task<OneOf<Success, NotFound>> SendTemplateMessageAsync(TemplateMessage templateMessage);
     }
 }

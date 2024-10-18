@@ -1,9 +1,9 @@
 ﻿using GymInnowise.Shared.Email.Messages;
 
-namespace GymInnowise.EmailService.Shared.Dtos.Events
+namespace GymInnowise.Shared.RabbitMq.Events
 {
-    public class SendTemplateMessageEvent<T> where T : class
+    public class SendTemplateMessageEvent
     {
-        public required TemplatedMessage<T> TemplatedMessage { get; set; }
+        public required TemplateMessage TemplateMessage { get; set; }
     }
 }

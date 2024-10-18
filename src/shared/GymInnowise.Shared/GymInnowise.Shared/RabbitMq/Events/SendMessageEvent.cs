@@ -1,6 +1,6 @@
 ﻿using GymInnowise.Shared.Email.Messages;
 
-namespace GymInnowise.EmailService.Shared.Dtos.Events
+namespace GymInnowise.Shared.RabbitMq.Events
 {
     public class SendMessageEvent
     {

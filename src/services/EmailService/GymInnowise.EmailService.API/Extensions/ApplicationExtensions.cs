@@ -1,4 +1,6 @@
-﻿using GymInnowise.EmailService.Configuration.Email;
+﻿using GymInnowise.EmailService.API.Features.Consumers;
+using GymInnowise.EmailService.Configuration.Email;
+using GymInnowise.EmailService.Configuration.Templates;
 using GymInnowise.EmailService.Logic.Interfaces;
 using GymInnowise.EmailService.Logic.Services;
 using GymInnowise.EmailService.Persistence.Data;
@@ -11,7 +13,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using GymInnowise.EmailService.API.Features.Consumers;
 
 namespace GymInnowise.EmailService.API.Extensions
 {
@@ -29,19 +30,17 @@ namespace GymInnowise.EmailService.API.Extensions
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddScoped<IEmailSender, SmtpEmailSender>();
             builder.Services.AddScoped<IEmailService, Logic.Services.EmailService>();
-            builder.Services.AddScoped<IVerificationService, VerificationService>();
+            builder.Services.AddScoped<IMessageBuilder, MessageBuilder>();
         }
 
         public static void AddConfiguration(this WebApplicationBuilder builder)
         {
-            var emailSettings = builder.Configuration.GetSection("EmailSettings");
-            builder.Services.Configure<EmailSettings>(emailSettings);
-            var rabbitMqSettings = builder.Configuration.GetSection("RabbitMqSettings");
-            builder.Services.Configure<RabbitMqSettings>(rabbitMqSettings);
-            var verificationSettings = builder.Configuration.GetSection("VerificationSettings");
-            builder.Services.Configure<VerificationSettings>(verificationSettings);
-            var jwtSettings = builder.Configuration.GetSection("JwtSettings");
-            builder.Services.Configure<JwtSettings>(jwtSettings);
+            builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection(nameof(EmailSettings)));
+            builder.Services.Configure<RabbitMqSettings>(builder.Configuration.GetSection(nameof(RabbitMqSettings)));
+            builder.Services.Configure<VerificationSettings>(
+                builder.Configuration.GetSection(nameof(VerificationSettings)));
+            builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection(nameof(JwtSettings)));
+            builder.Services.Configure<TemplateSettings>(builder.Configuration.GetSection(nameof(TemplateSettings)));
         }
 
         public static void AddRabbitMq(this WebApplicationBuilder builder)

@@ -1,0 +1,82 @@
+﻿@using GymInnowise.Shared.Email.Models
+@using Newtonsoft.Json
+@{
+    var verifyModel = JsonConvert.DeserializeObject<EmailVerificationModel>((Model as string)!);
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            color: #4CAF50;
+        }
+
+        p {
+            font-size: 18px;
+            color: #555;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 12px 20px;
+            margin-top: 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #ffffff;
+            background-color: #4CAF50;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+            .button:hover {
+                background-color: #45a049;
+            }
+
+        footer {
+            margin-top: 30px;
+            font-size: 12px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Email Verification Required</h1>
+        <p>Thank you for signing up! To complete your registration, please verify your email address by clicking the button below:</p>
+        <a href="@verifyModel!.VerificationLink" class="button">Verify Email</a>
+        <p>If the button doesn't work, you can copy and paste the following link into your browser:</p>
+        <p><a href="@verifyModel!.VerificationLink">@verifyModel.VerificationLink</a></p>
+        <footer>
+            <p>If you didn't sign up for this account, you can safely ignore this email.</p>
+        </footer>
+    </div>
+</body>
+</html>
+

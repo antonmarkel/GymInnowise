@@ -1,6 +1,6 @@
 ﻿using GymInnowise.Shared.Email.Messages;
-using OneOf.Types;
 using OneOf;
+using OneOf.Types;
 
 namespace GymInnowise.EmailService.Logic.Interfaces
 {

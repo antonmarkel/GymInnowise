@@ -2,7 +2,7 @@
 using GymInnowise.Shared.RabbitMq.Events;
 using MassTransit;
 
-namespace GymInnowise.EmailService.API.Features.Consumers
+namespace GymInnowise.EmailService.Logic.Consumers
 {
     public class SendMessageConsumer : IConsumer<SendMessageEvent>
     {

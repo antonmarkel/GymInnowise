@@ -38,7 +38,7 @@ namespace GymInnowise.EmailService.Logic.Services
 
             var message = new Message()
             {
-                Body = htmlResult.RenderedView,
+                Body = htmlResult.RenderedView!,
                 Receiver = templateMessage.Receiver,
                 Subject = templateMessage.Subject
             };

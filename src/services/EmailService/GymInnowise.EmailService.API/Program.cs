@@ -7,7 +7,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.AddJwtServices();
 builder.AddConfiguration();
-builder.AddPersistenceService();
 builder.AddServices();
 builder.AddRabbitMq();
 

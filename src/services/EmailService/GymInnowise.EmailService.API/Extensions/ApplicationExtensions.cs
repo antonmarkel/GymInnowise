@@ -1,31 +1,19 @@
-﻿using GymInnowise.EmailService.API.Features.Consumers;
-using GymInnowise.EmailService.Configuration.Email;
+﻿using GymInnowise.EmailService.Configuration.Email;
 using GymInnowise.EmailService.Configuration.Templates;
+using GymInnowise.EmailService.Logic.Consumers;
 using GymInnowise.EmailService.Logic.Interfaces;
 using GymInnowise.EmailService.Logic.Services;
-using GymInnowise.EmailService.Persistence.Data;
-using GymInnowise.EmailService.Persistence.Repositories.Implementations;
-using GymInnowise.EmailService.Persistence.Repositories.Interfaces;
 using GymInnowise.Shared.Configuration;
 using GymInnowise.Shared.Configuration.Token;
 using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using GymInnowise.EmailService.Logic.Consumers;
 
 namespace GymInnowise.EmailService.API.Extensions
 {
     public static class ApplicationExtensions
     {
-        public static void AddPersistenceService(this WebApplicationBuilder builder)
-        {
-            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-            builder.Services.AddDbContext<EmailServiceContext>(options => options.UseNpgsql(connectionString));
-            builder.Services.AddScoped<IEmailVerificationRepository, EmailVerificationRepository>();
-        }
-
         public static void AddServices(this WebApplicationBuilder builder)
         {
             builder.Services.AddHttpContextAccessor();
@@ -38,8 +26,6 @@ namespace GymInnowise.EmailService.API.Extensions
         {
             builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection(nameof(EmailSettings)));
             builder.Services.Configure<RabbitMqSettings>(builder.Configuration.GetSection(nameof(RabbitMqSettings)));
-            builder.Services.Configure<VerificationSettings>(
-                builder.Configuration.GetSection(nameof(VerificationSettings)));
             builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection(nameof(JwtSettings)));
             builder.Services.Configure<TemplateSettings>(builder.Configuration.GetSection(nameof(TemplateSettings)));
         }

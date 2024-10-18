@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.EmailService.Persistence", "GymInnowise.EmailService.Persistence\GymInnowise.EmailService.Persistence.csproj", "{6FFD7DFC-1FF7-45DA-BCD1-6FFE69020708}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.EmailService.Logic", "GymInnowise.EmailService.Logic\GymInnowise.EmailService.Logic.csproj", "{D8E86E2E-41E1-41F4-95BF-71B62485CD5E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.EmailService.Configuration", "GymInnowise.EmailService.Configuration\GymInnowise.EmailService.Configuration.csproj", "{BFA494DF-8BFB-4058-8252-31949479A644}"
@@ -19,10 +17,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{6FFD7DFC-1FF7-45DA-BCD1-6FFE69020708}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6FFD7DFC-1FF7-45DA-BCD1-6FFE69020708}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6FFD7DFC-1FF7-45DA-BCD1-6FFE69020708}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6FFD7DFC-1FF7-45DA-BCD1-6FFE69020708}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D8E86E2E-41E1-41F4-95BF-71B62485CD5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D8E86E2E-41E1-41F4-95BF-71B62485CD5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8E86E2E-41E1-41F4-95BF-71B62485CD5E}.Release|Any CPU.ActiveCfg = Release|Any CPU

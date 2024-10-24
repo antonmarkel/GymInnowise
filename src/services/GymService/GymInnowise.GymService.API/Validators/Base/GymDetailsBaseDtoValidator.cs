@@ -40,9 +40,6 @@ namespace GymInnowise.GymService.API.Validators.Base
 
             RuleFor(gym => gym.Tags)
                 .NotEmpty().WithMessage("At least one tag is required.");
-
-            RuleForEach(gym => gym.Tags)
-                .IsInEnum().WithMessage("Invalid tag.");
         }
     }
 }

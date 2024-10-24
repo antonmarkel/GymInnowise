@@ -1,6 +1,5 @@
 ﻿using GymInnowise.GymService.Persistence.Models.Dtos;
 using GymInnowise.GymService.Persistence.Models.Entities;
-using GymInnowise.Shared.Gym.Enums;
 
 namespace GymInnowise.GymService.Persistence.Repositories.Interfaces
 {
@@ -9,7 +8,6 @@ namespace GymInnowise.GymService.Persistence.Repositories.Interfaces
         Task AddGymAsync(GymEntity gymEntity);
         Task UpdateGymAsync(GymEntity gymEntity);
         Task<GymEntity?> GetGymByIdAsync(Guid id);
-        Task<List<GymPreviewDto>> GetAllGymsAsync();
-        Task<List<GymPreviewDto>> GetGymsByTagsAsync(List<GymTag> tags);
+        Task<IEnumerable<GymPreviewModel>> GetGymsByTagsAsync(IEnumerable<string> tags);
     }
 }

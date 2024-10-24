@@ -1,6 +1,6 @@
-﻿namespace GymInnowise.Shared.Gym.Dtos.Abstract
+﻿namespace GymInnowise.GymService.Persistence.Models.Dtos
 {
-    public abstract class GymPreviewDtoBase
+    public class GymPreviewModel
     {
         public Guid Id { get; set; }
         public string Name { get; set; } = string.Empty;

@@ -8,10 +8,11 @@ namespace GymInnowise.GymService.Logic.Interfaces
 {
     public interface IGymEventService
     {
-        Task CreateGymEventAsync(CreateGymEventDtoRequest dtoRequest);
+        Task<Guid> CreateGymEventAsync(CreateGymEventDtoRequest dtoRequest);
         Task<OneOf<Success, NotFound>> UpdateGymEventAsync(Guid eventId, UpdateGymEventDtoRequest dtoRequest);
+        Task<OneOf<GetGymEventResponse, NotFound>> GetEventByIdAsync(Guid eventId);
         Task RemoveGymEventAsync(Guid eventId);
         Task<OneOf<Guid, NotFound>> GetGymIdAsync(Guid eventId);
-        Task<List<GetGymEventResponse>> GetEventsByGymIdAsync(Guid gymId);
+        Task<IEnumerable<GetGymEventResponse>> GetEventsByGymIdAsync(Guid gymId);
     }
 }

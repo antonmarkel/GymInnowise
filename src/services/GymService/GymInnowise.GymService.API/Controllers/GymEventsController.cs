@@ -9,21 +9,28 @@ namespace GymInnowise.GymService.API.Controllers
 {
     [ApiController]
     [Route("api/gym-events")]
-    public class GymEventsController(IGymEventService _eventService)
+    public class GymEventsController
         : ControllerBase
     {
+        private readonly IGymEventService _eventService;
+
+        public GymEventsController(IGymEventService eventService)
+        {
+            _eventService = eventService;
+        }
+
         [Authorize(Roles = Roles.Admin)]
         [HttpPost]
         public async Task<IActionResult> CreateGymEventAsync([FromBody] CreateGymEventDtoRequest dtoRequest)
         {
-            await _eventService.CreateGymEventAsync(dtoRequest);
+            var eventId = await _eventService.CreateGymEventAsync(dtoRequest);
 
-            return Created();
+            return CreatedAtAction(nameof(GetEventByIdAsync), new { eventId }, eventId);
         }
 
         [Authorize(Roles = Roles.Admin)]
         [HttpPut("{eventId}")]
-        public async Task<IActionResult> UpdateGymEventAsync(Guid eventId,
+        public async Task<IActionResult> UpdateGymEventAsync([FromRoute] Guid eventId,
             [FromBody] UpdateGymEventDtoRequest dtoRequest)
         {
             var gymIdResult = await _eventService.GetGymIdAsync(eventId);
@@ -34,12 +41,15 @@ namespace GymInnowise.GymService.API.Controllers
 
             var result = await _eventService.UpdateGymEventAsync(eventId, dtoRequest);
 
-            return result.Match<IActionResult>(_ => NoContent(), _ => NotFound());
+            return result.Match<IActionResult>(
+                _ => NoContent(),
+                _ => NotFound()
+            );
         }
 
         [Authorize(Roles = Roles.Admin)]
         [HttpDelete("{eventId}")]
-        public async Task<IActionResult> RemoveGymEventAsync(Guid eventId)
+        public async Task<IActionResult> RemoveGymEventAsync([FromRoute] Guid eventId)
         {
             var gymIdResult = await _eventService.GetGymIdAsync(eventId);
             if (gymIdResult.IsT1)
@@ -52,12 +62,17 @@ namespace GymInnowise.GymService.API.Controllers
             return NoContent();
         }
 
-        [HttpGet("{gymId}")]
-        public async Task<IActionResult> GetEventsByGymIdAsync(Guid gymId)
+        [Authorize]
+        [ActionName(nameof(GetEventByIdAsync))]
+        [HttpGet("{eventId}")]
+        public async Task<IActionResult> GetEventByIdAsync([FromRoute] Guid eventId)
         {
-            var result = await _eventService.GetEventsByGymIdAsync(gymId);
+            var result = await _eventService.GetEventByIdAsync(eventId);
 
-            return Ok(result);
+            return result.Match<IActionResult>(
+                ev => Ok(ev),
+                _ => NotFound()
+            );
         }
     }
 }

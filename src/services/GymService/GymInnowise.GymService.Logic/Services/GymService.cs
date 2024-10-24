@@ -5,20 +5,32 @@ using GymInnowise.GymService.Persistence.Repositories.Interfaces;
 using GymInnowise.Shared.Gym.Dtos.Requests.Creates;
 using GymInnowise.Shared.Gym.Dtos.Requests.Updates;
 using GymInnowise.Shared.Gym.Dtos.Responses.Gets;
-using GymInnowise.Shared.Gym.Enums;
 using Microsoft.Extensions.Logging;
 using OneOf;
 using OneOf.Types;
 
 namespace GymInnowise.GymService.Logic.Services
 {
-    public class GymService(IGymRepository _repo, IMapper _mapper, ILogger<GymService> _logger) : IGymService
+    public class GymService : IGymService
     {
-        public async Task CreateGymAsync(CreateGymRequest request)
+        private readonly IGymRepository _repo;
+        private readonly IMapper _mapper;
+        private readonly ILogger<GymService> _logger;
+
+        public GymService(IGymRepository repo, IMapper mapper, ILogger<GymService> logger)
+        {
+            _repo = repo;
+            _mapper = mapper;
+            _logger = logger;
+        }
+
+        public async Task<Guid> CreateGymAsync(CreateGymRequest request)
         {
             var gymEntity = _mapper.Map<GymEntity>(request);
             await _repo.AddGymAsync(gymEntity);
             _logger.LogInformation("Gym was created. Info: {@gymEntity}", gymEntity);
+
+            return gymEntity.Id;
         }
 
         public async Task<OneOf<Success, NotFound>> UpdateGymAsync(Guid gymId, UpdateGymRequest updateRequest)
@@ -51,15 +63,8 @@ namespace GymInnowise.GymService.Logic.Services
             return _mapper.Map<GetGymDetailsResponse>(gymEntity);
         }
 
-        public async Task<List<GetGymPreviewResponse>> GetGymPreviewsByTagsAsync(List<GymTag> tags)
+        public async Task<IEnumerable<GetGymPreviewResponse>> GetGymPreviewsByTagsAsync(IEnumerable<string> tags)
         {
-            if (!tags.Any())
-            {
-                var gyms = await _repo.GetAllGymsAsync();
-
-                return gyms.Select(_mapper.Map<GetGymPreviewResponse>).ToList();
-            }
-
             var gymPreviewDtos = await _repo.GetGymsByTagsAsync(tags);
 
             return gymPreviewDtos.Select(_mapper.Map<GetGymPreviewResponse>).ToList();

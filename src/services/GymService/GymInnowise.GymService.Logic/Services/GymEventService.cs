@@ -11,14 +11,26 @@ using OneOf.Types;
 
 namespace GymInnowise.GymService.Logic.Services
 {
-    public class GymEventService(IGymEventRepository _repo, IMapper _mapper, ILogger<GymEventService> _logger)
-        : IGymEventService
+    public class GymEventService : IGymEventService
     {
-        public async Task CreateGymEventAsync(CreateGymEventDtoRequest dtoRequest)
+        private readonly IGymEventRepository _repo;
+        private readonly IMapper _mapper;
+        private readonly ILogger<GymEventService> _logger;
+
+        public GymEventService(IGymEventRepository repo, IMapper mapper, ILogger<GymEventService> logger)
+        {
+            _repo = repo;
+            _mapper = mapper;
+            _logger = logger;
+        }
+
+        public async Task<Guid> CreateGymEventAsync(CreateGymEventDtoRequest dtoRequest)
         {
             var eventEntity = _mapper.Map<GymEventEntity>(dtoRequest);
             _logger.LogInformation("Gym event was created @{eventEntity}", eventEntity);
             await _repo.AddEventAsync(eventEntity);
+
+            return eventEntity.Id;
         }
 
         public async Task<OneOf<Success, NotFound>> UpdateGymEventAsync(Guid eventId,
@@ -56,15 +68,28 @@ namespace GymInnowise.GymService.Logic.Services
 
         public async Task RemoveGymEventAsync(Guid eventId)
         {
-            _logger.LogInformation("event with id {@eventId} was deleted", eventId);
             await _repo.RemoveEventAsync(eventId);
+            _logger.LogInformation("event with id {@eventId} was deleted", eventId);
         }
 
-        public async Task<List<GetGymEventResponse>> GetEventsByGymIdAsync(Guid gymId)
+        public async Task<IEnumerable<GetGymEventResponse>> GetEventsByGymIdAsync(Guid gymId)
         {
             var gymsEvents = await _repo.GetGymEventsByGymIdAsync(gymId);
 
             return gymsEvents.Select(_mapper.Map<GetGymEventResponse>).ToList();
+        }
+
+        public async Task<OneOf<GetGymEventResponse, NotFound>> GetEventByIdAsync(Guid eventId)
+        {
+            var entity = await _repo.GetGymEventByIdAsync(eventId);
+            if (entity is null)
+            {
+                _logger.LogWarning("Gym event with id {@eventId} was not found", eventId);
+
+                return new NotFound();
+            }
+
+            return _mapper.Map<GetGymEventResponse>(entity);
         }
     }
 }

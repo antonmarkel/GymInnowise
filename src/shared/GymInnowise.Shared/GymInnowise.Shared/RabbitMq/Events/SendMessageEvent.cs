@@ -1,9 +1,9 @@
-﻿namespace GymInnowise.Shared.Dtos.Events
+﻿using GymInnowise.Shared.Email.Messages;
+
+namespace GymInnowise.Shared.RabbitMq.Events
 {
     public class SendMessageEvent
     {
-        public required string Receiver { get; set; }
-        public required string Subject { get; set; }
-        public required string Body { get; set; }
+        public required Message EmailMessage { get; set; }
     }
 }

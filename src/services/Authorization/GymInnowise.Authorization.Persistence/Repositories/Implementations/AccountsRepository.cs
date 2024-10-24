@@ -1,5 +1,5 @@
 ﻿using GymInnowise.Authorization.Persistence.Data;
-using GymInnowise.Authorization.Persistence.Models.Enities;
+using GymInnowise.Authorization.Persistence.Models.Entities;
 using GymInnowise.Authorization.Persistence.Repositories.Interfaces;
 using GymInnowise.Shared.Authorization.Dtos.RequestModels;
 using Microsoft.EntityFrameworkCore;
@@ -34,6 +34,12 @@ namespace GymInnowise.Authorization.Persistence.Repositories.Implementations
         {
             _context.Update(entity);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateAccountVerificationStatusAsync(Guid accountId, bool isConfirmed = true)
+        {
+            await _context.Accounts.Where(a => a.Id == accountId)
+                .ExecuteUpdateAsync(setter => setter.SetProperty(v => v.IsEmailConfirmed, isConfirmed));
         }
 
         public async Task<AccountEntity?> GetAccountByIdAsync(Guid accountId)

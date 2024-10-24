@@ -1,4 +1,4 @@
-﻿namespace GymInnowise.Shared.Dtos.Events
+﻿namespace GymInnowise.Shared.RabbitMq.Events
 {
     public record AccountCreatedEvent
     {

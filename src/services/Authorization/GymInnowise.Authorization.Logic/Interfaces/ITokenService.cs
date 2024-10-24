@@ -1,4 +1,4 @@
-﻿using GymInnowise.Authorization.Persistence.Models.Enities;
+﻿using GymInnowise.Authorization.Persistence.Models.Entities;
 
 namespace GymInnowise.Authorization.Logic.Interfaces
 {

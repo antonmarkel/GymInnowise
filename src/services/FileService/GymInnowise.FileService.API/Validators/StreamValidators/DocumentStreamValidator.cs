@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using GymInnowise.FileService.Configuration.Blob;
-using GymInnowise.Shared.Files.Dtos.Base;
 using Microsoft.Extensions.Options;
 
 namespace GymInnowise.FileService.API.Validators.FileValidators

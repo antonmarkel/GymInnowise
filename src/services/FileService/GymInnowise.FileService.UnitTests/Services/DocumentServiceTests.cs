@@ -41,7 +41,8 @@ namespace GymInnowise.FileService.UnitTests.Services
             Guid fileId = new();
             var stream = A.Fake<Stream>();
             A.CallTo(() =>
-                _repo.GetFileMetadataByIdAsync(fileId)).Returns(Task.FromResult<DocumentMetadataEntity?>(null));
+                    _repo.GetFileMetadataByIdAsync(fileId, _cacnelletaionToken))
+                .Returns(Task.FromResult<DocumentMetadataEntity?>(null));
             A.CallTo(() => _blobService.DownloadAsync(fileId.ToString(), _containerSettings.DocumentContainer,
                     _cacnelletaionToken))
                 .Returns(Task.FromResult<Stream?>(stream));
@@ -59,13 +60,14 @@ namespace GymInnowise.FileService.UnitTests.Services
             //Arrange
             Guid fileId = new();
             A.CallTo(() =>
-                _repo.GetFileMetadataByIdAsync(fileId)).Returns(Task.FromResult<DocumentMetadataEntity?>(
-                new DocumentMetadataEntity()
-                {
-                    FileName = "fileName",
-                    ContentType = "contentType",
-                    Format = "format"
-                }));
+                _repo.GetFileMetadataByIdAsync(fileId, _cacnelletaionToken)).Returns(
+                Task.FromResult<DocumentMetadataEntity?>(
+                    new DocumentMetadataEntity()
+                    {
+                        FileName = "fileName",
+                        ContentType = "contentType",
+                        Format = "format"
+                    }));
             A.CallTo(() => _blobService.DownloadAsync(fileId.ToString(), _containerSettings.DocumentContainer,
                     _cacnelletaionToken))
                 .Returns(Task.FromResult<Stream?>(null));
@@ -84,13 +86,14 @@ namespace GymInnowise.FileService.UnitTests.Services
             Guid fileId = new();
             var stream = A.Fake<Stream>();
             A.CallTo(() =>
-                _repo.GetFileMetadataByIdAsync(fileId)).Returns(Task.FromResult<DocumentMetadataEntity?>(
-                new DocumentMetadataEntity()
-                {
-                    FileName = "fileName",
-                    ContentType = "contentType",
-                    Format = "format"
-                }));
+                _repo.GetFileMetadataByIdAsync(fileId, _cacnelletaionToken)).Returns(
+                Task.FromResult<DocumentMetadataEntity?>(
+                    new DocumentMetadataEntity()
+                    {
+                        FileName = "fileName",
+                        ContentType = "contentType",
+                        Format = "format"
+                    }));
             A.CallTo(() => _blobService.DownloadAsync(fileId.ToString(), _containerSettings.DocumentContainer,
                     _cacnelletaionToken))
                 .Returns(Task.FromResult<Stream?>(stream));
@@ -107,7 +110,7 @@ namespace GymInnowise.FileService.UnitTests.Services
         {
             //Arrange
             var fileId = new Guid();
-            A.CallTo(() => _repo.GetFileMetadataByIdAsync(fileId))
+            A.CallTo(() => _repo.GetFileMetadataByIdAsync(fileId, _cacnelletaionToken))
                 .Returns(Task.FromResult<DocumentMetadataEntity?>(null));
 
             //Act
@@ -122,7 +125,7 @@ namespace GymInnowise.FileService.UnitTests.Services
         {
             //Arrange
             var fileId = new Guid();
-            A.CallTo(() => _repo.GetFileMetadataByIdAsync(fileId))
+            A.CallTo(() => _repo.GetFileMetadataByIdAsync(fileId, _cacnelletaionToken))
                 .Returns(Task.FromResult<DocumentMetadataEntity?>(new DocumentMetadataEntity()
                 {
                     FileName = "fileName",

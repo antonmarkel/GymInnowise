@@ -1,5 +1,5 @@
 ﻿using GymInnowise.Authorization.Persistence.Data;
-using GymInnowise.Authorization.Persistence.Models.Enities;
+using GymInnowise.Authorization.Persistence.Models.Entities;
 using GymInnowise.Authorization.Persistence.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 

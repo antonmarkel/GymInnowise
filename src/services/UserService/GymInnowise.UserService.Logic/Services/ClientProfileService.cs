@@ -51,7 +51,10 @@ namespace GymInnowise.UserService.Logic.Services
                 accountId);
 
             await _publishEndpoint.Publish(new ClientProfileCreatedEvent
-                { CreatedProfile = request });
+            {
+                AccountId = profileModel.AccountId,
+                CreatedProfile = request
+            });
 
             return new Success();
         }
@@ -84,6 +87,7 @@ namespace GymInnowise.UserService.Logic.Services
 
             await _publishEndpoint.Publish(new ClientProfileUpdatedEvent()
             {
+                AccountId = accountId,
                 UpdateProfileRequest = request
             });
 
@@ -114,7 +118,10 @@ namespace GymInnowise.UserService.Logic.Services
                 accountId);
 
             await _publishEndpoint.Publish(new ClientProfileStatusUpdatedEvent
-                { UpdateClientProfileStatusRequest = request });
+            {
+                AccountId = accountId,
+                UpdateClientProfileStatusRequest = request
+            });
 
             return new Success();
         }

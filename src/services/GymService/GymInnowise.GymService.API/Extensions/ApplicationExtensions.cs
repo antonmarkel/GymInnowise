@@ -8,6 +8,7 @@ using GymInnowise.GymService.Logic.Services;
 using GymInnowise.GymService.Persistence.Data;
 using GymInnowise.GymService.Persistence.Repositories.Implementations;
 using GymInnowise.GymService.Persistence.Repositories.Interfaces;
+using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -38,6 +39,24 @@ namespace GymInnowise.GymService.API.Extensions
         {
             builder.Services.AddFluentValidationAutoValidation();
             builder.Services.AddValidatorsFromAssembly(Assembly.GetAssembly(typeof(GymDetailsBaseDtoValidator)));
+        }
+
+        public static void AddRabbitMq(this WebApplicationBuilder builder)
+        {
+            var rabbitMqSettings = builder.Configuration.GetSection("RabbitMqSettings");
+            builder.Services.AddMassTransit(busConfig =>
+            {
+                busConfig.SetKebabCaseEndpointNameFormatter();
+                busConfig.UsingRabbitMq((context, configurator) =>
+                {
+                    configurator.Host(new Uri(rabbitMqSettings["Host"]!), h =>
+                    {
+                        h.Username(rabbitMqSettings["Username"]!);
+                        h.Password(rabbitMqSettings["Password"]!);
+                    });
+                    configurator.ConfigureEndpoints(context);
+                });
+            });
         }
 
         public static void UseGlobalExceptionHandler(this WebApplication app)

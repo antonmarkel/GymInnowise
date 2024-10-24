@@ -3,6 +3,7 @@ using FakeItEasy;
 using GymInnowise.GymService.Persistence.Models.Entities;
 using GymInnowise.GymService.Persistence.Repositories.Interfaces;
 using GymInnowise.Shared.Gym.Dtos.Requests.Updates;
+using MassTransit;
 using Microsoft.Extensions.Logging;
 
 namespace GymInnowise.GymService.UnitTests.Services
@@ -16,7 +17,8 @@ namespace GymInnowise.GymService.UnitTests.Services
         {
             _repo = A.Fake<IGymRepository>();
             _gymService =
-                new Logic.Services.GymService(_repo, A.Fake<IMapper>(), A.Fake<ILogger<Logic.Services.GymService>>());
+                new Logic.Services.GymService(_repo, A.Fake<IMapper>(), A.Fake<ILogger<Logic.Services.GymService>>(),
+                    A.Fake<IPublishEndpoint>());
         }
 
         [Fact]

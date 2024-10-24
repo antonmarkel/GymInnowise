@@ -4,6 +4,7 @@ using GymInnowise.Shared.User.Dtos.RequestModels.Updates;
 using GymInnowise.UserService.Logic.Services;
 using GymInnowise.UserService.Persistence.Models;
 using GymInnowise.UserService.Persistence.Repositories.Interfaces;
+using MassTransit;
 using Microsoft.Extensions.Logging;
 
 namespace GymInnowise.UserService.UnitTests.Services
@@ -17,7 +18,8 @@ namespace GymInnowise.UserService.UnitTests.Services
         {
             _clientRepo = A.Fake<IProfileRepository<ClientProfileEntity>>();
 
-            _clientProfileService = new ClientProfileService(_clientRepo, A.Fake<ILogger<ClientProfileService>>());
+            _clientProfileService = new ClientProfileService(_clientRepo, A.Fake<ILogger<ClientProfileService>>(),
+                A.Fake<IPublishEndpoint>());
         }
 
         [Fact]

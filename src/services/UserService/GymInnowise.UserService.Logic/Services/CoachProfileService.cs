@@ -1,4 +1,5 @@
-﻿using GymInnowise.Shared.User.Dtos.RequestModels.Creates;
+﻿using GymInnowise.Shared.RabbitMq.Events.Profiles;
+using GymInnowise.Shared.User.Dtos.RequestModels.Creates;
 using GymInnowise.Shared.User.Dtos.RequestModels.Updates;
 using GymInnowise.Shared.User.Dtos.ResponseModels.Gets;
 using GymInnowise.Shared.User.Enums;
@@ -6,6 +7,7 @@ using GymInnowise.UserService.Logic.Interfaces;
 using GymInnowise.UserService.Logic.Results;
 using GymInnowise.UserService.Persistence.Models;
 using GymInnowise.UserService.Persistence.Repositories.Interfaces;
+using MassTransit;
 using Microsoft.Extensions.Logging;
 using OneOf;
 using OneOf.Types;
@@ -14,7 +16,8 @@ namespace GymInnowise.UserService.Logic.Services
 {
     public class CoachProfileService(
         IProfileRepository<CoachProfileEntity> _coachRepo,
-        ILogger<CoachProfileService> _logger) : ICoachProfileService
+        ILogger<CoachProfileService> _logger,
+        IPublishEndpoint _publishEndpoint) : ICoachProfileService
     {
         public async Task<OneOf<Success, ProfileAlreadyExists>> CreateCoachProfileAsync(Guid accountId,
             CreateCoachProfileRequest request)
@@ -40,13 +43,18 @@ namespace GymInnowise.UserService.Logic.Services
                 HiredAt = DateTime.UtcNow,
                 AccountStatus = ClientStatus.Active,
                 CostPerHour = request.CostPerHour,
-                CoachStatus = CoachStatus.Trial
+                CoachStatus = CoachStatus.Trial,
+                ThumbnailId = request.ThumbnailId,
+                DocumentFileIds = request.DocumentFileIds
             };
 
             await _coachRepo.CreateProfileAsync(profileModel);
             _logger.LogInformation(
                 "Coach profile was created successfully. Info: {@accountId}",
                 accountId);
+
+            await _publishEndpoint.Publish(new CoachProfileCreatedEvent
+                { CreatedProfile = request });
 
             return new Success();
         }
@@ -70,11 +78,15 @@ namespace GymInnowise.UserService.Logic.Services
             coach.Gender = request.Gender;
             coach.Tags = request.Tags;
             coach.UpdatedAt = DateTime.UtcNow;
+            coach.ThumbnailId = request.ThumbnailId;
+            coach.DocumentFileIds = request.DocumentFileIds;
 
             await _coachRepo.UpdateProfileAsync(coach);
             _logger.LogInformation(
                 "Coach profile was updated successfully. Info: {@accountId}",
                 accountId);
+
+            await _publishEndpoint.Publish(new CoachProfileUpdatedEvent() { UpdateProfileRequest = request });
 
             return new Success();
         }
@@ -102,6 +114,9 @@ namespace GymInnowise.UserService.Logic.Services
             _logger.LogInformation(
                 "Coach profile was updated successfully. Info: {@accountId}",
                 accountId);
+
+            await _publishEndpoint.Publish(new CoachProfileStatusUpdatedEvent()
+                { UpdateClientProfileStatusRequest = request });
 
             return new Success();
         }
@@ -132,7 +147,9 @@ namespace GymInnowise.UserService.Logic.Services
                 Tags = account.Tags,
                 HiredAt = account.HiredAt,
                 CostPerHour = account.CostPerHour,
-                CoachStatus = account.CoachStatus
+                CoachStatus = account.CoachStatus,
+                ThumbnailId = account.ThumbnailId,
+                DocumentFileIds = account.DocumentFileIds
             };
         }
     }

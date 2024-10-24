@@ -1,4 +1,5 @@
-﻿using GymInnowise.Shared.User.Dtos.RequestModels.Creates;
+﻿using GymInnowise.Shared.RabbitMq.Events.Profiles;
+using GymInnowise.Shared.User.Dtos.RequestModels.Creates;
 using GymInnowise.Shared.User.Dtos.RequestModels.Updates;
 using GymInnowise.Shared.User.Dtos.ResponseModels.Gets;
 using GymInnowise.Shared.User.Enums;
@@ -6,6 +7,7 @@ using GymInnowise.UserService.Logic.Interfaces;
 using GymInnowise.UserService.Logic.Results;
 using GymInnowise.UserService.Persistence.Models;
 using GymInnowise.UserService.Persistence.Repositories.Interfaces;
+using MassTransit;
 using Microsoft.Extensions.Logging;
 using OneOf;
 using OneOf.Types;
@@ -14,7 +16,9 @@ namespace GymInnowise.UserService.Logic.Services
 {
     public class ClientProfileService(
         IProfileRepository<ClientProfileEntity> _clientRepo,
-        ILogger<ClientProfileService> _logger) : IClientProfileService
+        ILogger<ClientProfileService> _logger,
+        IPublishEndpoint _publishEndpoint) : IClientProfileService
+
     {
         public async Task<OneOf<Success, ProfileAlreadyExists>> CreateClientProfileAsync(Guid accountId,
             CreateClientProfileRequest request)
@@ -37,13 +41,17 @@ namespace GymInnowise.UserService.Logic.Services
                 Gender = request.Gender,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
-                AccountStatus = ClientStatus.Active
+                AccountStatus = ClientStatus.Active,
+                ThumbnailId = request.ThumbnailId
             };
 
             await _clientRepo.CreateProfileAsync(profileModel);
             _logger.LogInformation(
                 "Client profile was created successfully. Info: {@accountId}",
                 accountId);
+
+            await _publishEndpoint.Publish(new ClientProfileCreatedEvent
+                { CreatedProfile = request });
 
             return new Success();
         }
@@ -67,11 +75,17 @@ namespace GymInnowise.UserService.Logic.Services
             client.Gender = request.Gender;
             client.Tags = request.Tags;
             client.UpdatedAt = DateTime.UtcNow;
+            client.ThumbnailId = request.ThumbnailId;
 
             await _clientRepo.UpdateProfileAsync(client);
             _logger.LogInformation(
                 "Client profile was updated successfully. Info: {@accountId}",
                 accountId);
+
+            await _publishEndpoint.Publish(new ClientProfileUpdatedEvent()
+            {
+                UpdateProfileRequest = request
+            });
 
             return new Success();
         }
@@ -99,6 +113,9 @@ namespace GymInnowise.UserService.Logic.Services
                 "Client profile was updated successfully. Info: {@accountId}",
                 accountId);
 
+            await _publishEndpoint.Publish(new ClientProfileStatusUpdatedEvent
+                { UpdateClientProfileStatusRequest = request });
+
             return new Success();
         }
 
@@ -125,7 +142,8 @@ namespace GymInnowise.UserService.Logic.Services
                 AccountStatus = account.AccountStatus,
                 StatusNotes = account.StatusNotes,
                 ExpectedReturnDate = account.ExpectedReturnDate,
-                Tags = account.Tags
+                Tags = account.Tags,
+                ThumbnailId = account.ThumbnailId
             };
         }
     }

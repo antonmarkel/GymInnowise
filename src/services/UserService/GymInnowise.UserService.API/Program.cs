@@ -9,6 +9,7 @@ builder.Services.AddAuthorization();
 builder.AddJwtServices();
 builder.AddPersistenceServices();
 builder.AddUserServices();
+builder.AddRabbitMq();
 builder.AddValidation();
 
 var app = builder.Build();

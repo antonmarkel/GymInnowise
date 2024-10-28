@@ -1,6 +1,6 @@
 ﻿using GymInnowise.Authorization.Logic.Services.Results;
-using GymInnowise.Authorization.Shared.Dtos.RequestModels;
-using GymInnowise.Authorization.Shared.Dtos.ResponseModels;
+using GymInnowise.Shared.Authorization.Dtos.RequestModels;
+using GymInnowise.Shared.Authorization.Dtos.ResponseModels;
 using OneOf;
 
 namespace GymInnowise.Authorization.Logic.Interfaces

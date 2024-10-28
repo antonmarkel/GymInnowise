@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GymInnowise.UserService.Persistence\GymInnowise.UserService.Persistence.csproj" />
-    <ProjectReference Include="..\GymInnowise.UserService.Shared\GymInnowise.UserService.Shared.csproj" />
   </ItemGroup>
 
 </Project>

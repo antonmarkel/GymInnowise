@@ -1,4 +1,4 @@
-﻿using GymInnowise.UserService.Shared.Enums;
+﻿using GymInnowise.Shared.User.Enums;
 
 namespace GymInnowise.UserService.Persistence.Models
 {

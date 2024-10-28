@@ -1,8 +1,8 @@
 ﻿using FakeItEasy;
+using GymInnowise.Shared.User.Dtos.RequestModels.Updates;
 using GymInnowise.UserService.Logic.Services;
 using GymInnowise.UserService.Persistence.Models;
 using GymInnowise.UserService.Persistence.Repositories.Interfaces;
-using GymInnowise.UserService.Shared.Dtos.RequestModels.Updates;
 using Microsoft.Extensions.Logging;
 
 namespace GymInnowise.UserService.UnitTests.Services

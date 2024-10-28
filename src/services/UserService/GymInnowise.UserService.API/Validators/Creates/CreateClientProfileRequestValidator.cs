@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
+using GymInnowise.Shared.User.Dtos.RequestModels.Creates;
 using GymInnowise.UserService.API.Extensions;
-using GymInnowise.UserService.Shared.Dtos.RequestModels.Creates;
 
 namespace GymInnowise.UserService.API.Validators.Creates
 {

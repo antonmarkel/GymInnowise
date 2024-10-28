@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using GymInnowise.Authorization.API.Extensions;
-using GymInnowise.Authorization.Shared.Dtos.RequestModels;
+using GymInnowise.Shared.Authorization.Dtos.RequestModels;
 
 namespace GymInnowise.Authorization.API.Validators
 {

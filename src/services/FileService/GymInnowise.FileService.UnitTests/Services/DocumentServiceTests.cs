@@ -9,6 +9,8 @@ using GymInnowise.FileService.Persistence.Services.Interfaces;
 using Microsoft.Extensions.Options;
 using Moq;
 
+namespace GymInnowise.FileService.UnitTests.Services;
+
 public class DocumentServiceTests
 {
     private readonly IFixture _fixture;

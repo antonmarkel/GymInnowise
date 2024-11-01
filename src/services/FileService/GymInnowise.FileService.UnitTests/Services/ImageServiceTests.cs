@@ -23,7 +23,6 @@ namespace GymInnowise.FileService.UnitTests.Services
         public ImageServiceTests()
         {
             _fixture = new Fixture().Customize(new AutoMoqCustomization());
-
             _repo = _fixture.Freeze<Mock<IFileMetadataRepository<ImageMetadataEntity>>>();
             _blobService = _fixture.Freeze<Mock<IBlobService>>();
             _containerSettings = new ContainerSettings { ImageContainer = "Images" };

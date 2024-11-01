@@ -27,7 +27,7 @@ namespace GymInnowise.FileService.Logic.Services
         {
             if (metadata.FileSize < _thumbnailSettings.MaxFileSizeWithoutThumbnail)
             {
-                _logger.LogInformation("Thumbnail for the image is not necessary");
+                _logger.LogInformation("Thumbnail for the image is not necessary {Id}", metadata.Id);
 
                 return new NotNecessary();
             }
@@ -41,7 +41,7 @@ namespace GymInnowise.FileService.Logic.Services
 
             var outputStream = new MemoryStream();
             await image.WriteAsync(outputStream, MagickFormat.Jpeg, cancellationToken);
-            _logger.LogInformation("Thumbnail image stream was created");
+            _logger.LogInformation("Thumbnail image stream was created  for {Id}", metadata.Id);
             outputStream.Position = stream.Position = 0;
             if (outputStream.Length > _thumbnailSettings.MaxFileSizeWithoutThumbnail)
             {

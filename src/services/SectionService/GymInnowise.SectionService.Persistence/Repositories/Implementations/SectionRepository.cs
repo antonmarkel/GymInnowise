@@ -54,7 +54,8 @@ namespace GymInnowise.SectionService.Persistence.Repositories.Implementations
                             .SetProperty(sect => sect.CostPerTraining, updateData.CostPerTraining)
                             .SetProperty(sect => sect.Tags, updateData.Tags)
                             .SetProperty(sect => sect.Description, updateData.Description)
-                            .SetProperty(sect => sect.IsActive, updateData.IsActive),
+                            .SetProperty(sect => sect.IsActive, updateData.IsActive)
+                            .SetProperty(sect => sect.ThumbnailId, updateData.ThumbnailId),
                     cancellationToken: cancellationToken);
         }
 

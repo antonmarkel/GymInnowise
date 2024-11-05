@@ -1,6 +1,8 @@
-﻿namespace GymInnowise.Shared.Sections.Base
+﻿using GymInnowise.Shared.Sections.Interfaces;
+
+namespace GymInnowise.Shared.Sections.Base
 {
-    public class GymBase
+    public abstract class GymBase
     {
         public required string Name { get; set; }
         public Guid? ThumbnailId { get; set; }

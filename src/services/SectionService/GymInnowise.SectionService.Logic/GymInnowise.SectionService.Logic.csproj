@@ -7,12 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="OneOf" Version="3.0.271" />
+    <PackageReference Include="MediatR" Version="12.4.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Sections\Dtos\" />
+    <ProjectReference Include="..\GymInnowise.SectionService.Persistence\GymInnowise.SectionService.Persistence.csproj" />
   </ItemGroup>
 
 </Project>

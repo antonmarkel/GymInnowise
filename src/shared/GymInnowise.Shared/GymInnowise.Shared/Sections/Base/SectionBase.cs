@@ -1,7 +1,7 @@
 ﻿
 namespace GymInnowise.Shared.Sections.Base
 {
-    public class SectionBase
+    public abstract class SectionBase
     {
         public required string Name { get; set; }
         public required string Description { get; set; }

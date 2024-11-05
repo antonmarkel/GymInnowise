@@ -1,6 +1,4 @@
-﻿using GymInnowise.Shared.Sections.Interfaces;
-
-namespace GymInnowise.Shared.Sections.SectionRelations.Information.Base
+﻿namespace GymInnowise.Shared.Sections.SectionRelations.Information.Base
 {
     public abstract class RelationInformationBase
     {

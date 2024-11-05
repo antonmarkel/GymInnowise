@@ -22,7 +22,7 @@ public abstract class RedundantRepository<TEntity> : IRedundantRepository<TEntit
         await _context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task UpdateByIdAsync(TEntity entity, CancellationToken cancellationToken = default)
+    public async Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
         _context.Set<TEntity>().Update(entity);
         await _context.SaveChangesAsync(cancellationToken);

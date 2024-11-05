@@ -1,9 +1,9 @@
-﻿namespace GymInnowise.Shared.Sections.SectionRelations.Information
+﻿using GymInnowise.Shared.Sections.SectionRelations.Information.Base;
+
+namespace GymInnowise.Shared.Sections.SectionRelations.Information
 {
-    public class MembershipInformation
+    public class MembershipInformation : RelationInformationBase
     {
-        public required string FullName { get; set; }
-        public DateTime AddedOnUtc { get; set; }
         public string Goal { get; set; } = string.Empty;
     }
 }

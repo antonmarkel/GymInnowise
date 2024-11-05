@@ -11,7 +11,7 @@ namespace GymInnowise.SectionService.Logic.Features.Mappers.RelationInformationM
         {
             return new MembershipInformation
             {
-                FullName = $"{source.Member.FirstName} {source.Member.LastName}",
+                FullName = $"{source.Member!.FirstName} {source.Member.LastName}",
                 ThumbnailId = source.Member.ThumbnailId,
                 AddedOnUtc = source.AddedOnUtc,
                 Goal = source.Goal,

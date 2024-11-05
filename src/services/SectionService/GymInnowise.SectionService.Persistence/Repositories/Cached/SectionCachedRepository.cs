@@ -21,7 +21,8 @@ namespace GymInnowise.SectionService.Persistence.Repositories.Cached
             _cacheSettings = cacheSettings.Value;
         }
 
-        public async Task<SectionEntity?> GetSectionPreviewByIdAsync(Guid sectionId, CancellationToken cancellationToken)
+        public async Task<SectionEntity?> GetSectionPreviewByIdAsync(Guid sectionId, bool asNoTracking = false,
+            CancellationToken cancellationToken = default)
         {
             var key = $"section-preview{sectionId}";
 
@@ -31,7 +32,7 @@ namespace GymInnowise.SectionService.Persistence.Repositories.Cached
                         TimeSpan.FromMinutes(_cacheSettings.AbsoluteExpirationInMinutes);
                     factory.SlidingExpiration = TimeSpan.FromMinutes(_cacheSettings.NotUsedExpirationInMinutes);
 
-                    return await _decorated.GetSectionPreviewByIdAsync(sectionId, cancellationToken);
+                    return await _decorated.GetSectionPreviewByIdAsync(sectionId, asNoTracking, cancellationToken);
                 }
             );
         }

@@ -25,7 +25,7 @@ namespace GymInnowise.SectionService.Logic.Handlers.Redundant
         public async Task Handle(UpdateRedundantCommand<TRedundant> request, CancellationToken cancellationToken)
         {
             var entity = _redundantMapper.Map(request.UpdateData);
-            await _redundantRepository.UploadAsync(entity, cancellationToken);
+            await _redundantRepository.UpdateAsync(entity, cancellationToken);
         }
     }
 }

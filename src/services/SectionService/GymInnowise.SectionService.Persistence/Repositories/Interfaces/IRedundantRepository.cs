@@ -6,7 +6,7 @@ namespace GymInnowise.SectionService.Persistence.Repositories.Interfaces
         where TEntity : class, IEntity
     {
         Task UploadAsync(TEntity entity, CancellationToken cancellationToken = default);
-        Task UpdateByIdAsync(TEntity entity, CancellationToken cancellationToken = default);
+        Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default);
         Task<bool> ExistsByIdAsync(Guid id, CancellationToken cancellationToken = default);
     }
 }

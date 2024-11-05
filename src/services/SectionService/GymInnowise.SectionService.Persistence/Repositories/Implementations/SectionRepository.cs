@@ -15,11 +15,17 @@ namespace GymInnowise.SectionService.Persistence.Repositories.Implementations
             _context = context;
         }
 
-        public async Task<SectionEntity?> GetSectionPreviewByIdAsync(Guid sectionId,
+        public async Task<SectionEntity?> GetSectionPreviewByIdAsync(Guid sectionId, bool asNoTracking = false,
             CancellationToken cancellationToken = default)
         {
+            var query = _context.Sections.AsQueryable();
+            if (asNoTracking)
+            {
+                query = query.AsNoTracking();
+            }
+
             var entity = await
-                _context.Sections.FirstOrDefaultAsync(ent => ent.Id == sectionId, cancellationToken);
+                query.FirstOrDefaultAsync(ent => ent.Id == sectionId, cancellationToken);
 
             return entity;
         }
@@ -27,7 +33,7 @@ namespace GymInnowise.SectionService.Persistence.Repositories.Implementations
         public async Task<SectionEntity?> GetSectionIncludeReferencesByIdAsync(Guid sectionId,
             CancellationToken cancellationToken = default)
         {
-            var entity = await _context.Sections
+            var entity = await _context.Sections.AsNoTracking()
                 .Include(ent => ent.Coaches)
                 .ThenInclude(rel => rel.Coach)
                 .Include(ent => ent.Gyms)

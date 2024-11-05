@@ -5,7 +5,7 @@ namespace GymInnowise.SectionService.Persistence.Repositories.Interfaces
 {
     public interface ISectionRepository
     {
-        Task<SectionEntity?> GetSectionPreviewByIdAsync(Guid sectionId,
+        Task<SectionEntity?> GetSectionPreviewByIdAsync(Guid sectionId, bool asNoTracking = false,
             CancellationToken cancellationToken = default);
 
         Task<SectionEntity?> GetSectionIncludeReferencesByIdAsync(Guid sectionId,

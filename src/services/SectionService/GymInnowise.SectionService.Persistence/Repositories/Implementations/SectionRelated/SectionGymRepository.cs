@@ -1,10 +1,10 @@
 ﻿using GymInnowise.SectionService.Persistence.Data;
-using GymInnowise.SectionService.Persistence.Entities;
+using GymInnowise.SectionService.Persistence.Entities.JoinEntities;
 using GymInnowise.SectionService.Persistence.Repositories.Interfaces;
 
 namespace GymInnowise.SectionService.Persistence.Repositories.Implementations.SectionRelated
 {
-    public class SectionGymRepository : ISectionRelatedRepository<GymEntity>
+    public class SectionGymRepository : ISectionRelatedRepository<SectionGymEntity>
     {
         private readonly SectionDbContext _context;
 
@@ -13,16 +13,16 @@ namespace GymInnowise.SectionService.Persistence.Repositories.Implementations.Se
             _context = context;
         }
 
-        public async Task AddAsync(SectionEntity sectionEntity, GymEntity gymEntity)
+        public async Task AddAsync(SectionGymEntity relation, CancellationToken cancellationToken = default)
         {
-            sectionEntity.Gyms.Add(gymEntity);
-            await _context.SaveChangesAsync();
+            await _context.SectionGyms.AddAsync(relation, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task RemoveAsync(SectionEntity sectionEntity, GymEntity gymEntity)
+        public async Task RemoveAsync(SectionGymEntity relation, CancellationToken cancellationToken = default)
         {
-            sectionEntity.Gyms.Remove(gymEntity);
-            await _context.SaveChangesAsync();
+            _context.SectionGyms.Remove(relation);
+            await _context.SaveChangesAsync(cancellationToken);
         }
     }
 }

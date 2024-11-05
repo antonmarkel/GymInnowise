@@ -14,4 +14,8 @@
     <ProjectReference Include="..\GymInnowise.SectionService.Persistence\GymInnowise.SectionService.Persistence.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Handlers\AddToSectionHandlers\" />
+  </ItemGroup>
+
 </Project>

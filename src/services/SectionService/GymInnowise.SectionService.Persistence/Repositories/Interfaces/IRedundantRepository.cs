@@ -5,8 +5,8 @@ namespace GymInnowise.SectionService.Persistence.Repositories.Interfaces
     public interface IRedundantRepository<TEntity>
         where TEntity : class, IEntity
     {
-        Task UploadAsync(TEntity entity, CancellationToken cancellationToken);
-        Task UpdateByIdAsync(TEntity entity, CancellationToken cancellationToken);
-        Task<TEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+        Task UploadAsync(TEntity entity, CancellationToken cancellationToken = default);
+        Task UpdateByIdAsync(TEntity entity, CancellationToken cancellationToken = default);
+        Task<bool> ExistsByIdAsync(Guid id, CancellationToken cancellationToken = default);
     }
 }

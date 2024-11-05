@@ -1,10 +1,10 @@
 ﻿using GymInnowise.SectionService.Persistence.Data;
-using GymInnowise.SectionService.Persistence.Entities;
+using GymInnowise.SectionService.Persistence.Entities.JoinEntities;
 using GymInnowise.SectionService.Persistence.Repositories.Interfaces;
 
 namespace GymInnowise.SectionService.Persistence.Repositories.Implementations.SectionRelated
 {
-    public class SectionCoachRepository : ISectionRelatedRepository<ProfileEntity>
+    public class SectionCoachRepository : ISectionRelatedRepository<SectionCoachEntity>
     {
         private readonly SectionDbContext _context;
 
@@ -13,16 +13,16 @@ namespace GymInnowise.SectionService.Persistence.Repositories.Implementations.Se
             _context = context;
         }
 
-        public async Task AddAsync(SectionEntity sectionEntity, ProfileEntity coachEntity)
+        public async Task AddAsync(SectionCoachEntity relation, CancellationToken cancellationToken = default)
         {
-            sectionEntity.Coaches.Add(coachEntity);
-            await _context.SaveChangesAsync();
+            await _context.SectionCoaches.AddAsync(relation, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task RemoveAsync(SectionEntity sectionEntity, ProfileEntity coachEntity)
+        public async Task RemoveAsync(SectionCoachEntity relation, CancellationToken cancellationToken = default)
         {
-            sectionEntity.Coaches.Remove(coachEntity);
-            await _context.SaveChangesAsync();
+            _context.SectionCoaches.Remove(relation);
+            await _context.SaveChangesAsync(cancellationToken);
         }
     }
 }

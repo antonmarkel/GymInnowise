@@ -1,12 +1,11 @@
-﻿using GymInnowise.SectionService.Persistence.Entities;
-using GymInnowise.SectionService.Persistence.Entities.Base;
+﻿using GymInnowise.SectionService.Persistence.Entities.Base;
 
 namespace GymInnowise.SectionService.Persistence.Repositories.Interfaces
 {
-    public interface ISectionRelatedRepository<TEntity>
-        where TEntity : class, IEntity
+    public interface ISectionRelatedRepository<TSectionRelated>
+        where TSectionRelated : class, IJoinEntity
     {
-        Task AddAsync(SectionEntity sectionEntity, TEntity relatedEntity);
-        Task RemoveAsync(SectionEntity sectionEntity, TEntity relatedEntity);
+        Task AddAsync(TSectionRelated relation, CancellationToken cancellationToken = default);
+        Task RemoveAsync(TSectionRelated relation, CancellationToken cancellationToken = default);
     }
 }

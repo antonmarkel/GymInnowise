@@ -16,22 +16,22 @@ public abstract class RedundantRepository<TEntity> : IRedundantRepository<TEntit
         _context = context;
     }
 
-    public async Task UploadAsync(TEntity entity, CancellationToken cancellationToken)
+    public async Task UploadAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
         await _context.Set<TEntity>().AddAsync(entity, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task UpdateByIdAsync(TEntity entity, CancellationToken cancellationToken)
+    public async Task UpdateByIdAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
         _context.Set<TEntity>().Update(entity);
         await _context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<TEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+    public async Task<bool> ExistsByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        var entity = await _context.Set<TEntity>().FirstOrDefaultAsync(ent => ent.Id == id, cancellationToken);
+        var doesExist = await _context.Set<TEntity>().AnyAsync(ent => ent.Id == id, cancellationToken);
 
-        return entity;
+        return doesExist;
     }
 }

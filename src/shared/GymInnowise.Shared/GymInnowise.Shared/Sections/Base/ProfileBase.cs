@@ -1,6 +1,4 @@
-﻿using GymInnowise.Shared.Sections.Interfaces;
-
-namespace GymInnowise.Shared.Sections.Base
+﻿namespace GymInnowise.Shared.Sections.Base
 {
     public abstract class ProfileBase
     {

@@ -8,5 +8,6 @@ namespace GymInnowise.Shared.Sections.Base
         public decimal CostPerTraining { get; set; }
         public bool IsActive { get; set; }
         public string[] Tags { get; set; } = [];
+        public Guid? ThumbnailId { get; set; }
     }
 }

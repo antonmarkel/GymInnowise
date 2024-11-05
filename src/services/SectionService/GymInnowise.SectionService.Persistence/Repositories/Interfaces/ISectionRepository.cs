@@ -6,17 +6,17 @@ namespace GymInnowise.SectionService.Persistence.Repositories.Interfaces
     public interface ISectionRepository
     {
         Task<SectionEntity?> GetSectionPreviewByIdAsync(Guid sectionId,
-            CancellationToken cancellationToken);
+            CancellationToken cancellationToken = default);
 
         Task<SectionEntity?> GetSectionIncludeReferencesByIdAsync(Guid sectionId,
-            CancellationToken cancellationToken);
+            CancellationToken cancellationToken = default);
 
         Task<IReadOnlyList<SectionEntity>> GetSectionsByTagsAsync(string[] tags,
-            CancellationToken cancellationToken);
+            CancellationToken cancellationToken = default);
 
         Task UpdateSectionByIdAsync(Guid sectionId, SectionBase updateData,
-            CancellationToken cancellationToken);
+            CancellationToken cancellationToken = default);
 
-        Task CreateSectionAsync(SectionEntity entity, CancellationToken cancellationToken);
+        Task CreateSectionAsync(SectionEntity entity, CancellationToken cancellationToken = default);
     }
 }

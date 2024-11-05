@@ -16,7 +16,7 @@ namespace GymInnowise.SectionService.Persistence.Repositories.Implementations
         }
 
         public async Task<SectionEntity?> GetSectionPreviewByIdAsync(Guid sectionId,
-            CancellationToken cancellationToken)
+            CancellationToken cancellationToken = default)
         {
             var entity = await
                 _context.Sections.FirstOrDefaultAsync(ent => ent.Id == sectionId, cancellationToken);
@@ -25,7 +25,7 @@ namespace GymInnowise.SectionService.Persistence.Repositories.Implementations
         }
 
         public async Task<SectionEntity?> GetSectionIncludeReferencesByIdAsync(Guid sectionId,
-            CancellationToken cancellationToken)
+            CancellationToken cancellationToken = default)
         {
             var entity = await _context.Sections.Include(ent => ent.Coaches)
                 .Include(ent => ent.Gyms)
@@ -36,7 +36,7 @@ namespace GymInnowise.SectionService.Persistence.Repositories.Implementations
         }
 
         public async Task<IReadOnlyList<SectionEntity>> GetSectionsByTagsAsync(string[] tags,
-            CancellationToken cancellationToken)
+            CancellationToken cancellationToken = default)
         {
             var sections = await _context.Sections.AsNoTracking()
                 .Where(ent => ent.Tags.Any(tag => tags.Contains(tag)))
@@ -46,7 +46,7 @@ namespace GymInnowise.SectionService.Persistence.Repositories.Implementations
         }
 
         public async Task UpdateSectionByIdAsync(Guid sectionId, SectionBase updateData,
-            CancellationToken cancellationToken)
+            CancellationToken cancellationToken = default)
         {
             await _context.Sections.Where(ent => ent.Id == sectionId)
                 .ExecuteUpdateAsync(section =>
@@ -56,10 +56,10 @@ namespace GymInnowise.SectionService.Persistence.Repositories.Implementations
                             .SetProperty(sect => sect.Description, updateData.Description)
                             .SetProperty(sect => sect.IsActive, updateData.IsActive)
                             .SetProperty(sect => sect.ThumbnailId, updateData.ThumbnailId),
-                    cancellationToken: cancellationToken);
+                    cancellationToken: cancellationToken = default);
         }
 
-        public async Task CreateSectionAsync(SectionEntity entity, CancellationToken cancellationToken)
+        public async Task CreateSectionAsync(SectionEntity entity, CancellationToken cancellationToken = default)
         {
             await _context.Sections.AddAsync(entity, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);

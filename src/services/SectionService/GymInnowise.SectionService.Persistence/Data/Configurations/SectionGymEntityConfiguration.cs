@@ -8,10 +8,10 @@ namespace GymInnowise.SectionService.Persistence.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<SectionGymEntity> builder)
         {
-            builder.HasKey(ent => new { ent.GymId, ent.SectionId });
+            builder.HasKey(ent => new { GymId = ent.RelatedId, ent.SectionId });
             builder.HasOne(ent => ent.Gym)
                 .WithMany(gym => gym.SectionsOnBoard)
-                .HasForeignKey(ent => ent.GymId);
+                .HasForeignKey(ent => ent.RelatedId);
 
             builder.HasOne(ent => ent.Section)
                 .WithMany(section => section.Gyms)

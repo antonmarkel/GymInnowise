@@ -18,5 +18,6 @@ namespace GymInnowise.SectionService.Persistence.Repositories.Interfaces
             CancellationToken cancellationToken = default);
 
         Task CreateSectionAsync(SectionEntity entity, CancellationToken cancellationToken = default);
+        Task<bool> ExistsByIdAsync(Guid id, CancellationToken cancellationToken = default);
     }
 }

@@ -27,9 +27,13 @@ namespace GymInnowise.SectionService.Persistence.Repositories.Implementations
         public async Task<SectionEntity?> GetSectionIncludeReferencesByIdAsync(Guid sectionId,
             CancellationToken cancellationToken = default)
         {
-            var entity = await _context.Sections.Include(ent => ent.Coaches)
+            var entity = await _context.Sections
+                .Include(ent => ent.Coaches)
+                .ThenInclude(rel => rel.Coach)
                 .Include(ent => ent.Gyms)
+                .ThenInclude(rel => rel.Gym)
                 .Include(ent => ent.Members)
+                .ThenInclude(rel => rel.Member)
                 .FirstOrDefaultAsync(ent => ent.Id == sectionId, cancellationToken);
 
             return entity;
@@ -63,6 +67,11 @@ namespace GymInnowise.SectionService.Persistence.Repositories.Implementations
         {
             await _context.Sections.AddAsync(entity, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task<bool> ExistsByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            return await _context.Sections.AnyAsync(sect => sect.Id == id, cancellationToken);
         }
     }
 }

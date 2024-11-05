@@ -2,7 +2,7 @@
 
 namespace GymInnowise.SectionService.Persistence.Repositories.Interfaces
 {
-    public interface IRedundantRepository<TEntity>
+    public interface IRedundantRepository<in TEntity>
         where TEntity : class, IEntity
     {
         Task UploadAsync(TEntity entity, CancellationToken cancellationToken = default);

@@ -65,5 +65,10 @@ namespace GymInnowise.SectionService.Persistence.Repositories.Cached
         {
             await _decorated.CreateSectionAsync(entity, cancellationToken);
         }
+
+        public async Task<bool> ExistsByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            return await _decorated.ExistsByIdAsync(id, cancellationToken);
+        }
     }
 }

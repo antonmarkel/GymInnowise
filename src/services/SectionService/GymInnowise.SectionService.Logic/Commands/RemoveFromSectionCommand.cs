@@ -3,6 +3,6 @@ using MediatR;
 
 namespace GymInnowise.SectionService.Logic.Commands
 {
-    public sealed record RemoveFromSectionCommand<TRedundant>(Guid SectionId, Guid RedundantId) : IRequest
-        where TRedundant : class, IRedundant;
+    public sealed record RemoveFromSectionCommand<TSectionRelation>(Guid SectionId, Guid RelatedId) : IRequest
+        where TSectionRelation : class, ISectionRelation;
 }

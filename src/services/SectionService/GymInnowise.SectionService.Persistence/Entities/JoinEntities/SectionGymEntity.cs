@@ -1,13 +1,11 @@
 ﻿using GymInnowise.SectionService.Persistence.Entities.Base;
+using GymInnowise.Shared.Sections.SectionRelations;
 
 namespace GymInnowise.SectionService.Persistence.Entities.JoinEntities
 {
-    public class SectionGymEntity : IJoinEntity
+    public class SectionGymEntity : GymRelation, IJoinEntity
     {
-        public Guid SectionId { get; set; }
         public SectionEntity? Section { get; set; }
-        public Guid GymId { get; set; }
         public GymEntity? Gym { get; set; }
-        public string Notes { get; set; } = string.Empty;
     }
 }

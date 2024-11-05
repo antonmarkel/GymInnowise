@@ -11,10 +11,11 @@ namespace GymInnowise.SectionService.Persistence.Data.Configurations
             builder.HasKey(ent => new { ent.Member, ent.SectionId });
             builder.HasOne(ent => ent.Member)
                 .WithMany(member => member.VisitedSections)
-                .HasForeignKey(ent => ent.MemberId);
+                .HasForeignKey(ent => ent.RelatedId);
             builder.HasOne(ent => ent.Section)
                 .WithMany(section => section.Members)
                 .HasForeignKey(ent => ent.SectionId);
+            builder.Property(ent => ent.Goal).HasMaxLength(250);
         }
     }
 }

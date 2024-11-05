@@ -6,6 +6,7 @@ namespace GymInnowise.Shared.Sections.Base
         public required string Name { get; set; }
         public required string Description { get; set; }
         public decimal CostPerTraining { get; set; }
+        public bool IsActive { get; set; }
         public string[] Tags { get; set; } = [];
     }
 }

@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymInnowise.SectionService.Persistence", "GymInnowise.SectionService.Persistence\GymInnowise.SectionService.Persistence.csproj", "{D6DB2AE5-CC97-4403-9FCF-B282B0801ACB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.SectionService.Persistence", "GymInnowise.SectionService.Persistence\GymInnowise.SectionService.Persistence.csproj", "{D6DB2AE5-CC97-4403-9FCF-B282B0801ACB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.Shared", "..\..\shared\GymInnowise.Shared\GymInnowise.Shared\GymInnowise.Shared.csproj", "{EDB5AAFF-D57F-4AD8-B0B8-B7A31D8E81C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymInnowise.SectionService.Configuration", "GymInnowise.SectionService.Configuration\GymInnowise.SectionService.Configuration.csproj", "{7ECCC245-22B9-447F-B3D8-92D0030D3524}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{EDB5AAFF-D57F-4AD8-B0B8-B7A31D8E81C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EDB5AAFF-D57F-4AD8-B0B8-B7A31D8E81C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EDB5AAFF-D57F-4AD8-B0B8-B7A31D8E81C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7ECCC245-22B9-447F-B3D8-92D0030D3524}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7ECCC245-22B9-447F-B3D8-92D0030D3524}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7ECCC245-22B9-447F-B3D8-92D0030D3524}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7ECCC245-22B9-447F-B3D8-92D0030D3524}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

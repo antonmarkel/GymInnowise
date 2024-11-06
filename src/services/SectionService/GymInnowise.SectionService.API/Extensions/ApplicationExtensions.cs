@@ -13,6 +13,9 @@ using System.Security.Claims;
 using System.Text;
 using GymInnowise.SectionService.Logic.Features.Consumers;
 using GymInnowise.Shared.RabbitMq.Events.Profiles;
+using FluentValidation.AspNetCore;
+using FluentValidation;
+using GymInnowise.SectionService.API.Validators;
 
 namespace GymInnowise.SectionService.API.Extensions
 {
@@ -91,6 +94,16 @@ namespace GymInnowise.SectionService.API.Extensions
         public static WebApplicationBuilder AddConfiguration(this WebApplicationBuilder builder)
         {
             builder.Services.Configure<CacheSettings>(builder.Configuration.GetSection(nameof(CacheSettings)));
+            builder.Services.Configure<SectionDataRestrictions>(
+                builder.Configuration.GetSection(nameof(SectionDataRestrictions)));
+
+            return builder;
+        }
+
+        public static WebApplicationBuilder AddValidation(this WebApplicationBuilder builder)
+        {
+            builder.Services.AddFluentValidationAutoValidation();
+            builder.Services.AddValidatorsFromAssemblyContaining<CreateSectionRequestValidator>();
 
             return builder;
         }

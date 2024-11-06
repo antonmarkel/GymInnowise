@@ -4,7 +4,6 @@ using GymInnowise.Shared.Sections.Dtos.Queries;
 using GymInnowise.Shared.Sections.Dtos.Request;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.TagHelpers.Cache;
 
 namespace GymInnowise.SectionService.API.Controllers
 {

@@ -37,6 +37,14 @@ namespace GymInnowise.SectionService.Persistence.Repositories.Implementations.Ab
                 cancellationToken);
         }
 
+        public async Task<TRelationEntity?> GetAsync(Guid sectionId, Guid relatedId,
+            CancellationToken cancellationToken = default)
+        {
+            return await _context.Set<TRelationEntity>().AsNoTracking()
+                .FirstOrDefaultAsync(rel => rel.RelatedId == relatedId && rel.SectionId == sectionId,
+                    cancellationToken);
+        }
+
         public async Task UpdateAsync(TRelationEntity relation, CancellationToken cancellationToken = default)
         {
             _context.Set<TRelationEntity>().Update(relation);

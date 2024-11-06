@@ -24,7 +24,7 @@ namespace GymInnowise.SectionService.Logic.Handlers.Sections
             var entity = _sectionMapper.Map(request.SectionData);
             await _sectionRepository.CreateSectionAsync(entity, cancellationToken);
 
-            return entity.Id;
+            return entity.PrimaryId;
         }
     }
 }

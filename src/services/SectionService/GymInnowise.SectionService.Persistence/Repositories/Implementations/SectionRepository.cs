@@ -25,7 +25,7 @@ namespace GymInnowise.SectionService.Persistence.Repositories.Implementations
             }
 
             var entity = await
-                query.FirstOrDefaultAsync(ent => ent.Id == sectionId, cancellationToken);
+                query.FirstOrDefaultAsync(ent => ent.PrimaryId == sectionId, cancellationToken);
 
             return entity;
         }
@@ -40,7 +40,7 @@ namespace GymInnowise.SectionService.Persistence.Repositories.Implementations
                 .ThenInclude(rel => rel.Gym)
                 .Include(ent => ent.Members)
                 .ThenInclude(rel => rel.Member)
-                .FirstOrDefaultAsync(ent => ent.Id == sectionId, cancellationToken);
+                .FirstOrDefaultAsync(ent => ent.PrimaryId == sectionId, cancellationToken);
 
             return entity;
         }
@@ -58,7 +58,7 @@ namespace GymInnowise.SectionService.Persistence.Repositories.Implementations
         public async Task UpdateSectionByIdAsync(Guid sectionId, SectionBase updateData,
             CancellationToken cancellationToken = default)
         {
-            await _context.Sections.Where(ent => ent.Id == sectionId)
+            await _context.Sections.Where(ent => ent.PrimaryId == sectionId)
                 .ExecuteUpdateAsync(section =>
                         section.SetProperty(sect => sect.Name, updateData.Name)
                             .SetProperty(sect => sect.CostPerTraining, updateData.CostPerTraining)
@@ -77,7 +77,7 @@ namespace GymInnowise.SectionService.Persistence.Repositories.Implementations
 
         public async Task<bool> ExistsByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            return await _context.Sections.AnyAsync(sect => sect.Id == id, cancellationToken);
+            return await _context.Sections.AnyAsync(sect => sect.PrimaryId == id, cancellationToken);
         }
     }
 }

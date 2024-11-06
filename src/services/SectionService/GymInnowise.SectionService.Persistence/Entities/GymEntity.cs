@@ -1,12 +1,11 @@
 ﻿using GymInnowise.SectionService.Persistence.Entities.Base;
 using GymInnowise.SectionService.Persistence.Entities.JoinEntities;
-using GymInnowise.Shared.Sections.Base;
+using GymInnowise.Shared.Sections.Redundant;
 
 namespace GymInnowise.SectionService.Persistence.Entities
 {
-    public class GymEntity : GymBase, IEntity
+    public class GymEntity : Gym, IEntity
     {
-        public Guid Id { get; set; }
         public ICollection<SectionGymEntity> SectionsOnBoard { get; set; } = [];
     }
 }

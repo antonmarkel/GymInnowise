@@ -30,7 +30,7 @@ public abstract class RedundantRepository<TEntity> : IRedundantRepository<TEntit
 
     public async Task<bool> ExistsByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        var doesExist = await _context.Set<TEntity>().AnyAsync(ent => ent.Id == id, cancellationToken);
+        var doesExist = await _context.Set<TEntity>().AnyAsync(ent => ent.PrimaryId == id, cancellationToken);
 
         return doesExist;
     }

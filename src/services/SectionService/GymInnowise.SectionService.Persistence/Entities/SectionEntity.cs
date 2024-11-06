@@ -6,7 +6,7 @@ namespace GymInnowise.SectionService.Persistence.Entities
 {
     public class SectionEntity : SectionBase, IEntity
     {
-        public Guid Id { get; set; }
+        public Guid PrimaryId { get; set; }
         public ICollection<SectionMemberEntity> Members { get; set; } = [];
         public ICollection<SectionCoachEntity> Coaches { get; set; } = [];
         public ICollection<SectionGymEntity> Gyms { get; set; } = [];

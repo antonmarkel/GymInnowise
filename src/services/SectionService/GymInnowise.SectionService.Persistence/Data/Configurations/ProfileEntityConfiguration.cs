@@ -8,7 +8,7 @@ namespace GymInnowise.SectionService.Persistence.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<ProfileEntity> builder)
         {
-            builder.HasKey(ent => ent.Id);
+            builder.HasKey(ent => ent.PrimaryId);
             builder.Property(ent => ent.FirstName).HasMaxLength(50);
             builder.Property(ent => ent.LastName).HasMaxLength(50);
         }

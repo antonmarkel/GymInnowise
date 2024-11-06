@@ -10,7 +10,7 @@ namespace GymInnowise.SectionService.Logic.Features.Mappers
         {
             return new ProfileEntity
             {
-                Id = source.PrimaryId,
+                PrimaryId = source.PrimaryId,
                 FirstName = source.FirstName,
                 LastName = source.LastName,
                 ThumbnailId = source.ThumbnailId

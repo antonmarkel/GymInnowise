@@ -10,8 +10,8 @@ using OneOf.Types;
 namespace GymInnowise.SectionService.Logic.Handlers.RelationHandlers
 {
     public class
-        UpdateSectionRelatedHandler<TRelationEntity, TRelation> : IRequestHandler<UpdateSectionRelatedCommand<TRelation>
-        ,
+        UpdateSectionRelationHandler<TRelationEntity, TRelation> : IRequestHandler<
+        UpdateSectionRelationCommand<TRelation>,
         OneOf<Success, NotFound>>
         where TRelation : class, ISectionRelation
         where TRelationEntity : class, TRelation, IJoinEntity, new()
@@ -19,14 +19,14 @@ namespace GymInnowise.SectionService.Logic.Handlers.RelationHandlers
         private readonly ISectionRelationRepository<TRelationEntity> _relationRepository;
         private readonly IMapper<TRelation, TRelationEntity> _relationMapper;
 
-        public UpdateSectionRelatedHandler(ISectionRelationRepository<TRelationEntity> relationRepository,
+        public UpdateSectionRelationHandler(ISectionRelationRepository<TRelationEntity> relationRepository,
             IMapper<TRelation, TRelationEntity> relationMapper)
         {
             _relationRepository = relationRepository;
             _relationMapper = relationMapper;
         }
 
-        public async Task<OneOf<Success, NotFound>> Handle(UpdateSectionRelatedCommand<TRelation> request,
+        public async Task<OneOf<Success, NotFound>> Handle(UpdateSectionRelationCommand<TRelation> request,
             CancellationToken cancellationToken)
         {
             var entity = _relationMapper.Map(request.UpdatedData);

@@ -5,6 +5,7 @@ namespace GymInnowise.Shared.Gym.Dtos.Abstract
     public abstract class GymDetailsDtoBase
     {
         public string Name { get; set; } = string.Empty;
+        public Guid? ThumbnailId { get; set; }
         public string Address { get; set; } = string.Empty;
         public string ContactInfo { get; set; } = string.Empty;
         public int MaxOccupancy { get; set; }

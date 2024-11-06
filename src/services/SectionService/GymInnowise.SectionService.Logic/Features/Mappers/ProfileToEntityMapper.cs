@@ -13,7 +13,8 @@ namespace GymInnowise.SectionService.Logic.Features.Mappers
                 PrimaryId = source.PrimaryId,
                 FirstName = source.FirstName,
                 LastName = source.LastName,
-                ThumbnailId = source.ThumbnailId
+                ThumbnailId = source.ThumbnailId,
+                Role = source.Role
             };
         }
     }

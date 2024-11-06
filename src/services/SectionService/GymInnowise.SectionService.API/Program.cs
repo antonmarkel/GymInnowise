@@ -7,7 +7,8 @@ builder
     .AddJwtServices()
     .AddPersistence()
     .AddMappers()
-    .AddMediatr();
+    .AddMediatr()
+    .AddRabbitMq();
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment())

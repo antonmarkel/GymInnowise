@@ -5,11 +5,14 @@ using GymInnowise.SectionService.Persistence.Repositories.Cached;
 using GymInnowise.SectionService.Persistence.Repositories.Implementations;
 using GymInnowise.SectionService.Persistence.Repositories.Interfaces;
 using GymInnowise.Shared.Configuration.Token;
+using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Text;
+using GymInnowise.SectionService.Logic.Features.Consumers;
+using GymInnowise.Shared.RabbitMq.Events.Profiles;
 
 namespace GymInnowise.SectionService.API.Extensions
 {
@@ -88,6 +91,27 @@ namespace GymInnowise.SectionService.API.Extensions
         public static WebApplicationBuilder AddConfiguration(this WebApplicationBuilder builder)
         {
             builder.Services.Configure<CacheSettings>(builder.Configuration.GetSection(nameof(CacheSettings)));
+
+            return builder;
+        }
+
+        public static WebApplicationBuilder AddRabbitMq(this WebApplicationBuilder builder)
+        {
+            var rabbitMqSettings = builder.Configuration.GetSection("RabbitMqSettings");
+            builder.Services.AddMassTransit(busConfig =>
+            {
+                busConfig.SetKebabCaseEndpointNameFormatter();
+                busConfig.AddConsumersFromNamespaceContaining(typeof(ClientProfileCreatedConsumer));
+                busConfig.UsingRabbitMq((context, configurator) =>
+                {
+                    configurator.Host(new Uri(rabbitMqSettings["Host"]!), h =>
+                    {
+                        h.Username(rabbitMqSettings["Username"]!);
+                        h.Password(rabbitMqSettings["Password"]!);
+                    });
+                    configurator.ConfigureEndpoints(context);
+                });
+            });
 
             return builder;
         }

@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GymInnowise.SectionService.API.Controllers.Base
 {
-    [ApiController]
     public class SectionRelationController<TRelation> : ControllerBase
         where TRelation : class, ISectionRelation
     {
@@ -37,7 +36,8 @@ namespace GymInnowise.SectionService.API.Controllers.Base
             return result.Match<IActionResult>(
                 _ => CreatedAtAction(nameof(GetRelationByIdAsync), new { relation.SectionId, relation.RelatedId },
                     relation),
-                _ => NotFound()
+                _ => NotFound(),
+                err => BadRequest(err.Value)
             );
         }
 

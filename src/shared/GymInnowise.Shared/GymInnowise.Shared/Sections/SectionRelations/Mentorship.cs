@@ -2,7 +2,7 @@
 
 namespace GymInnowise.Shared.Sections.SectionRelations
 {
-    public class Mentorship : ISectionRelation
+    public class Mentorship : ISectionRelation, ITimeStampModel
     {
         public Guid SectionId { get; set; }
         public Guid RelatedId { get; set; }

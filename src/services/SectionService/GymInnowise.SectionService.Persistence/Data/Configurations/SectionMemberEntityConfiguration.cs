@@ -8,7 +8,7 @@ namespace GymInnowise.SectionService.Persistence.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<SectionMemberEntity> builder)
         {
-            builder.HasKey(ent => new { ent.Member, ent.SectionId });
+            builder.HasKey(ent => new { ent.RelatedId, ent.SectionId });
             builder.HasOne(ent => ent.Member)
                 .WithMany(member => member.VisitedSections)
                 .HasForeignKey(ent => ent.RelatedId);

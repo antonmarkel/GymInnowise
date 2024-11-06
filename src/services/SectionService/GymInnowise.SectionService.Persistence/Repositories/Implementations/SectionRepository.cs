@@ -45,12 +45,16 @@ namespace GymInnowise.SectionService.Persistence.Repositories.Implementations
             return entity;
         }
 
-        public async Task<IReadOnlyList<SectionEntity>> GetSectionsByTagsAsync(string[] tags,
+        public async Task<IReadOnlyList<SectionEntity>> GetSectionsByTagsAsync(string[]? tags,
             CancellationToken cancellationToken = default)
         {
-            var sections = await _context.Sections.AsNoTracking()
-                .Where(ent => ent.Tags.Any(tag => tags.Contains(tag)))
-                .ToListAsync(cancellationToken);
+            var query = _context.Sections.AsNoTracking();
+            if (tags != null && tags.Length != 0)
+            {
+                query = query.Where(ent => ent.Tags.Any(tag => tags.Contains(tag)));
+            }
+
+            var sections = await query.ToListAsync(cancellationToken);
 
             return sections;
         }

@@ -1,28 +1,30 @@
-﻿using GymInnowise.SectionService.Logic.Commands;
-using GymInnowise.SectionService.Logic.Handlers.Redundant;
-using GymInnowise.SectionService.Logic.Handlers.RelationHandlers;
-using GymInnowise.SectionService.Logic.Handlers.Sections;
-using GymInnowise.SectionService.Logic.Queries;
+﻿using System.Security.Claims;
+using GymInnowise.SectionService.Configuration;
+using GymInnowise.SectionService.Logic.Features.Mappers.Interfaces;
 using GymInnowise.SectionService.Persistence.Data;
-using GymInnowise.SectionService.Persistence.Entities;
-using GymInnowise.SectionService.Persistence.Entities.Base;
-using GymInnowise.SectionService.Persistence.Entities.JoinEntities;
 using GymInnowise.SectionService.Persistence.Repositories.Interfaces;
-using GymInnowise.Shared.Sections.Base;
-using GymInnowise.Shared.Sections.Dtos.Responses;
-using GymInnowise.Shared.Sections.Interfaces;
-using GymInnowise.Shared.Sections.Redundant;
-using GymInnowise.Shared.Sections.SectionRelations;
-using MediatR;
+using GymInnowise.Shared.Configuration.Token;
 using Microsoft.EntityFrameworkCore;
-using OneOf;
-using OneOf.Types;
+using System.Text;
+using GymInnowise.SectionService.Persistence.Repositories.Cached;
+using GymInnowise.SectionService.Persistence.Repositories.Implementations;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace GymInnowise.SectionService.API.Extensions
 {
     public static class ApplicationExtensions
     {
-        public static void AddPersistence(this WebApplicationBuilder builder)
+        public static WebApplicationBuilder AddBase(this WebApplicationBuilder builder)
+        {
+            builder.Services.AddControllers();
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
+
+            return builder;
+        }
+
+        public static WebApplicationBuilder AddPersistence(this WebApplicationBuilder builder)
         {
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddDbContext<SectionDbContext>(options => options.UseNpgsql(connectionString));
@@ -31,74 +33,63 @@ namespace GymInnowise.SectionService.API.Extensions
                 .AddClasses(classes => classes.AssignableTo(typeof(IRedundantRepository<>)))
                 .AsImplementedInterfaces()
                 .WithScopedLifetime()
-                .AddClasses(classes => classes.AssignableTo<ISectionRepository>())
-                .AsImplementedInterfaces()
-                .WithScopedLifetime()
                 .AddClasses(classes => classes.AssignableTo(typeof(ISectionRelationRepository<>)))
                 .AsImplementedInterfaces()
                 .WithScopedLifetime()
             );
+            builder.Services.AddMemoryCache();
+            builder.Services.AddScoped<ISectionRepository, SectionRepository>();
+            builder.Services.Decorate<ISectionRepository, SectionCachedRepository>();
+
+            return builder;
         }
 
-        public static void AddMediatr(this WebApplicationBuilder builder)
+        public static WebApplicationBuilder AddMappers(this WebApplicationBuilder builder)
         {
-            builder.Services.AddMediatR(cfg =>
-                cfg.RegisterServicesFromAssembly(typeof(AddToSectionCommand<>).Assembly));
-            builder.Services
-                .AddRedundantHandlers<Profile, ProfileEntity>()
-                .AddRedundantHandlers<Gym, GymEntity>()
-                .AddRelationHandlers<Membership, SectionMemberEntity, ProfileEntity>()
-                .AddRelationHandlers<Mentorship, SectionCoachEntity, ProfileEntity>()
-                .AddRelationHandlers<GymRelation, SectionGymEntity, GymEntity>()
-                .AddSectionHandlers();
+            builder.Services.Scan(scan => scan
+                .FromAssembliesOf(typeof(IMapper<,>))
+                .AddClasses(classes => classes.AssignableTo(typeof(IMapper<,>)))
+                .AsImplementedInterfaces()
+                .WithTransientLifetime());
+
+            return builder;
         }
 
-        private static IServiceCollection AddRedundantHandlers<TRedundant, TRedundantEntity>(
-            this IServiceCollection services)
-            where TRedundant : class, IRedundant
-            where TRedundantEntity : class, TRedundant, IEntity
+        public static WebApplicationBuilder AddJwtServices(this WebApplicationBuilder builder)
         {
-            return services
-                .AddTransient<IRequestHandler<CreateRedundantCommand<TRedundant>>,
-                    CreateRedundantHandler<TRedundant, TRedundantEntity>>()
-                .AddTransient<IRequestHandler<UpdateRedundantCommand<TRedundant>>,
-                    UpdateRedundantHandler<TRedundant, TRedundantEntity>>();
+            var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+            builder.Services.Configure<JwtSettings>(jwtSettings);
+            var key = Encoding.ASCII.GetBytes(jwtSettings.Get<JwtSettings>()!.SecretKey);
+            builder.Services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = jwtSettings["Issuer"],
+                    ValidAudience = jwtSettings["Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    RoleClaimType = ClaimTypes.Role
+                };
+            });
+            builder.Services.AddAuthorization();
+
+            return builder;
         }
 
-        private static IServiceCollection AddRelationHandlers<TRelation, TRelationEntity, TEntity>(
-            this IServiceCollection services)
-            where TRelation : class, ISectionRelation
-            where TRelationEntity : class, TRelation, IJoinEntity, new()
-            where TEntity : class, IEntity
+        public static WebApplicationBuilder AddConfiguration(this WebApplicationBuilder builder)
         {
-            return services
-                .AddTransient<IRequestHandler<AddToSectionCommand<TRelation>,
-                        OneOf<Success, NotFound>>,
-                    AddToSectionHandler<TRelationEntity, TEntity, TRelation>>()
-                .AddTransient<IRequestHandler<GetSectionRelationQuery<TRelation>,
-                        OneOf<TRelation, NotFound>>,
-                    GetSectionRelationHandler<TRelation, TRelationEntity>>()
-                .AddTransient<IRequestHandler<GetSectionRelationQuery<TRelation>,
-                        OneOf<TRelation, NotFound>>,
-                    GetSectionRelationHandler<TRelation, TRelationEntity>>()
-                .AddTransient<IRequestHandler<UpdateSectionRelationCommand<TRelation>,
-                        OneOf<Success, NotFound>>,
-                    UpdateSectionRelationHandler<TRelationEntity, TRelation>>();
-        }
+            builder.Services.Configure<CacheSettings>(builder.Configuration.GetSection(nameof(CacheSettings)));
 
-        private static IServiceCollection AddSectionHandlers(this IServiceCollection services)
-        {
-            return services
-                .AddTransient<IRequestHandler<CreateSectionCommand, Guid>,
-                    CreateSectionHandler>()
-                .AddTransient<IRequestHandler<GetSectionFullQuery, OneOf<GetSectionFullResponse, NotFound>>,
-                    GetSectionFullHandler>()
-                .AddTransient<IRequestHandler<GetSectionPreviewQuery, OneOf<SectionBase, NotFound>>,
-                    GetSectionPreviewHandler>()
-                .AddTransient<IRequestHandler<GetSectionsByTagsQuery, IReadOnlyList<SectionBase>>,
-                    GetSectionsByTagsHandler>()
-                .AddTransient<IRequestHandler<UpdateSectionCommand, OneOf<Success, NotFound>>,
-                    UpdateSectionHandler>();
+            return builder;
         }
     }
 }

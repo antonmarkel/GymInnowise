@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GymInnowise.SectionService.API.Controllers
 {
+    [ApiController]
     [Route("api/membership")]
     public class MembershipController : SectionRelationController<Membership>
     {

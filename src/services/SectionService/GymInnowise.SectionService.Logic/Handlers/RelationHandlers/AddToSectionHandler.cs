@@ -11,7 +11,7 @@ namespace GymInnowise.SectionService.Logic.Handlers.RelationHandlers
 {
     public class
         AddToSectionHandler<TRelationEntity, TEntity, TRelation> : IRequestHandler<AddToSectionCommand<TRelation>,
-        OneOf<Success, NotFound>>
+        OneOf<Success, NotFound, Error<string>>>
         where TRelation : class, ISectionRelation
         where TRelationEntity : class, TRelation, IJoinEntity
         where TEntity : class, IEntity
@@ -31,18 +31,24 @@ namespace GymInnowise.SectionService.Logic.Handlers.RelationHandlers
             _relationMapper = relationMapper;
         }
 
-        public async Task<OneOf<Success, NotFound>> Handle(AddToSectionCommand<TRelation> request,
+        public async Task<OneOf<Success, NotFound, Error<string>>> Handle(AddToSectionCommand<TRelation> request,
             CancellationToken cancellationToken)
         {
-            var mentorship = request.Relation;
-            var profileExistTask = _entityRepository.ExistsByIdAsync(mentorship.RelatedId, cancellationToken);
-            var sectionExistTask = _sectionRepository.ExistsByIdAsync(mentorship.SectionId, cancellationToken);
-            if (!await profileExistTask || !await sectionExistTask)
+            var relation = request.Relation;
+            if (!(await _entityRepository.ExistsByIdAsync(relation.RelatedId, cancellationToken) &&
+                  await _sectionRepository.ExistsByIdAsync(relation.SectionId, cancellationToken)))
             {
                 return new NotFound();
             }
 
-            await _relationRepository.AddAsync(_relationMapper.Map(mentorship), cancellationToken);
+            relation.AddedOnUtc = DateTime.UtcNow;
+            var entity = _relationMapper.Map(relation);
+            if (await _relationRepository.ExistsAsync(entity, cancellationToken))
+            {
+                return new Error<string>("This relation already exists!");
+            }
+
+            await _relationRepository.AddAsync(_relationMapper.Map(relation), cancellationToken);
 
             return new Success();
         }

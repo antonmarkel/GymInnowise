@@ -3,5 +3,5 @@ using MediatR;
 
 namespace GymInnowise.SectionService.Logic.Commands
 {
-    public sealed record CreateSectionCommand(SectionBase SectionData) : IRequest;
+    public sealed record CreateSectionCommand(SectionBase SectionData) : IRequest<Guid>;
 }

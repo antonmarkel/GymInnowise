@@ -7,7 +7,7 @@ using MediatR;
 
 namespace GymInnowise.SectionService.Logic.Handlers.Sections
 {
-    public class CreateSectionHandler : IRequestHandler<CreateSectionCommand>
+    public class CreateSectionHandler : IRequestHandler<CreateSectionCommand, Guid>
     {
         private readonly ISectionRepository _sectionRepository;
         private readonly IMapper<SectionBase, SectionEntity> _sectionMapper;
@@ -19,10 +19,12 @@ namespace GymInnowise.SectionService.Logic.Handlers.Sections
             _sectionMapper = sectionMapper;
         }
 
-        public async Task Handle(CreateSectionCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(CreateSectionCommand request, CancellationToken cancellationToken)
         {
             var entity = _sectionMapper.Map(request.SectionData);
             await _sectionRepository.CreateSectionAsync(entity, cancellationToken);
+
+            return entity.Id;
         }
     }
 }

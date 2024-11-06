@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.SectionService.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.Shared", "..\..\shared\GymInnowise.Shared\GymInnowise.Shared\GymInnowise.Shared.csproj", "{EDB5AAFF-D57F-4AD8-B0B8-B7A31D8E81C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymInnowise.SectionService.Configuration", "GymInnowise.SectionService.Configuration\GymInnowise.SectionService.Configuration.csproj", "{7ECCC245-22B9-447F-B3D8-92D0030D3524}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.SectionService.Configuration", "GymInnowise.SectionService.Configuration\GymInnowise.SectionService.Configuration.csproj", "{7ECCC245-22B9-447F-B3D8-92D0030D3524}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymInnowise.SectionService.Logic", "GymInnowise.SectionService.Logic\GymInnowise.SectionService.Logic.csproj", "{A9E41AD4-6D30-47D7-8641-159B3510F935}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.SectionService.Logic", "GymInnowise.SectionService.Logic\GymInnowise.SectionService.Logic.csproj", "{A9E41AD4-6D30-47D7-8641-159B3510F935}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymInnowise.SectionService.API", "GymInnowise.SectionService.API\GymInnowise.SectionService.API.csproj", "{C671FD2D-C889-4168-B147-09B3249D6597}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{A9E41AD4-6D30-47D7-8641-159B3510F935}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9E41AD4-6D30-47D7-8641-159B3510F935}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9E41AD4-6D30-47D7-8641-159B3510F935}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C671FD2D-C889-4168-B147-09B3249D6597}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C671FD2D-C889-4168-B147-09B3249D6597}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C671FD2D-C889-4168-B147-09B3249D6597}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C671FD2D-C889-4168-B147-09B3249D6597}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

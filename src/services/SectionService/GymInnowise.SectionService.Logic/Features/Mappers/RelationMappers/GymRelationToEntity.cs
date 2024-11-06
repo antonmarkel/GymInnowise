@@ -1,18 +1,17 @@
 ﻿using GymInnowise.SectionService.Logic.Features.Mappers.Interfaces;
 using GymInnowise.SectionService.Persistence.Entities.JoinEntities;
-using GymInnowise.Shared.Sections.SectionRelations;
+using GymInnowise.Shared.Sections.Base.Relations;
 
 namespace GymInnowise.SectionService.Logic.Features.Mappers.RelationMappers
 {
-    public class GymRelationToEntity : IMapper<GymRelation, SectionGymEntity>
+    public class GymRelationToEntity : IMapper<GymRelationBase, SectionGymEntity>
     {
-        public SectionGymEntity Map(GymRelation source)
+        public SectionGymEntity Map(GymRelationBase source)
         {
             return new SectionGymEntity
             {
                 RelatedId = source.RelatedId,
                 SectionId = source.SectionId,
-                AddedOnUtc = source.AddedOnUtc,
                 Notes = source.Notes,
             };
         }

@@ -1,15 +1,15 @@
-﻿using System.Security.Claims;
-using GymInnowise.SectionService.Configuration;
+﻿using GymInnowise.SectionService.Configuration;
 using GymInnowise.SectionService.Logic.Features.Mappers.Interfaces;
 using GymInnowise.SectionService.Persistence.Data;
-using GymInnowise.SectionService.Persistence.Repositories.Interfaces;
-using GymInnowise.Shared.Configuration.Token;
-using Microsoft.EntityFrameworkCore;
-using System.Text;
 using GymInnowise.SectionService.Persistence.Repositories.Cached;
 using GymInnowise.SectionService.Persistence.Repositories.Implementations;
+using GymInnowise.SectionService.Persistence.Repositories.Interfaces;
+using GymInnowise.Shared.Configuration.Token;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
+using System.Text;
 
 namespace GymInnowise.SectionService.API.Extensions
 {

@@ -3,17 +3,17 @@ using GymInnowise.SectionService.Logic.Handlers.Redundant;
 using GymInnowise.SectionService.Logic.Handlers.RelationHandlers;
 using GymInnowise.SectionService.Logic.Handlers.Sections;
 using GymInnowise.SectionService.Logic.Queries;
+using GymInnowise.SectionService.Persistence.Entities;
 using GymInnowise.SectionService.Persistence.Entities.Base;
 using GymInnowise.SectionService.Persistence.Entities.JoinEntities;
-using GymInnowise.SectionService.Persistence.Entities;
 using GymInnowise.Shared.Sections.Base;
+using GymInnowise.Shared.Sections.Base.Relations;
 using GymInnowise.Shared.Sections.Dtos.Responses;
 using GymInnowise.Shared.Sections.Interfaces;
 using GymInnowise.Shared.Sections.Redundant;
-using GymInnowise.Shared.Sections.SectionRelations;
 using MediatR;
-using OneOf.Types;
 using OneOf;
+using OneOf.Types;
 
 namespace GymInnowise.SectionService.API.Extensions
 {
@@ -26,9 +26,9 @@ namespace GymInnowise.SectionService.API.Extensions
             builder.Services
                 .AddRedundantHandlers<Profile, ProfileEntity>()
                 .AddRedundantHandlers<Gym, GymEntity>()
-                .AddRelationHandlers<Membership, SectionMemberEntity, ProfileEntity>()
-                .AddRelationHandlers<Mentorship, SectionCoachEntity, ProfileEntity>()
-                .AddRelationHandlers<GymRelation, SectionGymEntity, GymEntity>()
+                .AddRelationHandlers<MembershipBase, SectionMemberEntity, ProfileEntity>()
+                .AddRelationHandlers<MentorshipBase, SectionCoachEntity, ProfileEntity>()
+                .AddRelationHandlers<GymRelationBase, SectionGymEntity, GymEntity>()
                 .AddSectionHandlers();
 
             return builder;
@@ -48,8 +48,8 @@ namespace GymInnowise.SectionService.API.Extensions
 
         private static IServiceCollection AddRelationHandlers<TRelation, TRelationEntity, TEntity>(
             this IServiceCollection services)
-            where TRelation : class, ISectionRelation, ITimeStampModel
-            where TRelationEntity : class, TRelation, IJoinEntity, new()
+            where TRelation : class, ISectionRelation
+            where TRelationEntity : class, TRelation, IJoinEntity, ITimeStampedModel, new()
             where TEntity : class, IEntity
         {
             return services

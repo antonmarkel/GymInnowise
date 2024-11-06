@@ -1,6 +1,5 @@
 ﻿using GymInnowise.SectionService.Persistence.Entities.Base;
 using GymInnowise.SectionService.Persistence.Entities.JoinEntities;
-using GymInnowise.Shared.Sections.Base;
 using GymInnowise.Shared.Sections.Redundant;
 
 namespace GymInnowise.SectionService.Persistence.Entities

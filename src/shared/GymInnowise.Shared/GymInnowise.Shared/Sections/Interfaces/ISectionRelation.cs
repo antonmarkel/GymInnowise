@@ -4,6 +4,5 @@
     {
         Guid SectionId { get; set; }
         Guid RelatedId { get; set; }
-        DateTime AddedOnUtc { get; set; }
     }
 }

@@ -1,12 +1,10 @@
-﻿using GymInnowise.Shared.Sections.Interfaces;
+﻿using GymInnowise.Shared.Sections.Base.Relations;
+using GymInnowise.Shared.Sections.Interfaces;
 
 namespace GymInnowise.Shared.Sections.SectionRelations
 {
-    public class Membership : ISectionRelation
+    public class Membership : MembershipBase, ITimeStampedModel
     {
-        public Guid RelatedId { get; set; }
-        public Guid SectionId { get; set; }
         public DateTime AddedOnUtc { get; set; }
-        public string Goal { get; set; } = string.Empty;
     }
 }

@@ -13,7 +13,7 @@ namespace GymInnowise.SectionService.Logic.Handlers.RelationHandlers
         AddToSectionHandler<TRelationEntity, TEntity, TRelation> : IRequestHandler<AddToSectionCommand<TRelation>,
         OneOf<Success, NotFound, Error<string>>>
         where TRelation : class, ISectionRelation
-        where TRelationEntity : class, TRelation, IJoinEntity
+        where TRelationEntity : class, TRelation, IJoinEntity, ITimeStampedModel
         where TEntity : class, IEntity
     {
         private readonly ISectionRelationRepository<TRelationEntity> _relationRepository;
@@ -41,14 +41,14 @@ namespace GymInnowise.SectionService.Logic.Handlers.RelationHandlers
                 return new NotFound();
             }
 
-            relation.AddedOnUtc = DateTime.UtcNow;
             var entity = _relationMapper.Map(relation);
             if (await _relationRepository.ExistsAsync(entity, cancellationToken))
             {
                 return new Error<string>("This relation already exists!");
             }
 
-            await _relationRepository.AddAsync(_relationMapper.Map(relation), cancellationToken);
+            entity.AddedOnUtc = DateTime.UtcNow;
+            await _relationRepository.AddAsync(entity, cancellationToken);
 
             return new Success();
         }

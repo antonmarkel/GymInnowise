@@ -6,6 +6,7 @@ using GymInnowise.Shared.RabbitMq.Events.Sections;
 using GymInnowise.Shared.Sections.Base;
 using MassTransit;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace GymInnowise.SectionService.Logic.Handlers.Sections
 {
@@ -14,13 +15,16 @@ namespace GymInnowise.SectionService.Logic.Handlers.Sections
         private readonly ISectionRepository _sectionRepository;
         private readonly IMapper<SectionBase, SectionEntity> _sectionMapper;
         private readonly IPublishEndpoint _publisher;
+        private readonly ILogger<CreateSectionHandler> _logger;
 
         public CreateSectionHandler(ISectionRepository sectionRepository,
-            IMapper<SectionBase, SectionEntity> sectionMapper, IPublishEndpoint publisher)
+            IMapper<SectionBase, SectionEntity> sectionMapper, IPublishEndpoint publisher,
+            ILogger<CreateSectionHandler> logger)
         {
             _sectionRepository = sectionRepository;
             _sectionMapper = sectionMapper;
             _publisher = publisher;
+            _logger = logger;
         }
 
         public async Task<Guid> Handle(CreateSectionCommand request, CancellationToken cancellationToken)
@@ -34,6 +38,7 @@ namespace GymInnowise.SectionService.Logic.Handlers.Sections
                 SectionId = entity.PrimaryId
             };
             await _publisher.Publish(createdEvent);
+            _logger.LogInformation("Section was created! {sectionId}", entity.PrimaryId);
 
             return entity.PrimaryId;
         }

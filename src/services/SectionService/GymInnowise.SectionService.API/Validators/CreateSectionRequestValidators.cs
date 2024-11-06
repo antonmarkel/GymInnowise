@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using GymInnowise.SectionService.Configuration;
-using GymInnowise.Shared.Sections.Base;
 using GymInnowise.Shared.Sections.Dtos.Request;
 using Microsoft.Extensions.Options;
 

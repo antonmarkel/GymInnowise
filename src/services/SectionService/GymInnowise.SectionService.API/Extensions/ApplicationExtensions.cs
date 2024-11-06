@@ -1,4 +1,8 @@
-﻿using GymInnowise.SectionService.Configuration;
+﻿using FluentValidation;
+using FluentValidation.AspNetCore;
+using GymInnowise.SectionService.API.Validators;
+using GymInnowise.SectionService.Configuration;
+using GymInnowise.SectionService.Logic.Features.Consumers;
 using GymInnowise.SectionService.Logic.Features.Mappers.Interfaces;
 using GymInnowise.SectionService.Persistence.Data;
 using GymInnowise.SectionService.Persistence.Repositories.Cached;
@@ -9,13 +13,9 @@ using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 using System.Security.Claims;
 using System.Text;
-using GymInnowise.SectionService.Logic.Features.Consumers;
-using GymInnowise.Shared.RabbitMq.Events.Profiles;
-using FluentValidation.AspNetCore;
-using FluentValidation;
-using GymInnowise.SectionService.API.Validators;
 
 namespace GymInnowise.SectionService.API.Extensions
 {
@@ -96,6 +96,17 @@ namespace GymInnowise.SectionService.API.Extensions
             builder.Services.Configure<CacheSettings>(builder.Configuration.GetSection(nameof(CacheSettings)));
             builder.Services.Configure<SectionDataRestrictions>(
                 builder.Configuration.GetSection(nameof(SectionDataRestrictions)));
+
+            return builder;
+        }
+
+        public static WebApplicationBuilder AddLogger(this WebApplicationBuilder builder)
+        {
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration((builder.Configuration))
+                .CreateLogger();
+
+            builder.Services.AddSerilog(Log.Logger);
 
             return builder;
         }

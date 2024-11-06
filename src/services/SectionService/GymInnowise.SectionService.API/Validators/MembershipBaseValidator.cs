@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using FluentValidation.AspNetCore;
 using GymInnowise.SectionService.Configuration;
 using GymInnowise.Shared.Sections.Base.Relations;
 using Microsoft.Extensions.Options;

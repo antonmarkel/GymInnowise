@@ -4,6 +4,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder
     .AddBase()
     .AddConfiguration()
+    .AddLogger()
     .AddValidation()
     .AddJwtServices()
     .AddPersistence()

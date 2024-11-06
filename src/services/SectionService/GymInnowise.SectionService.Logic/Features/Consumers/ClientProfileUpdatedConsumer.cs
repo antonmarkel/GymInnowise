@@ -4,16 +4,19 @@ using GymInnowise.Shared.RabbitMq.Events.Profiles;
 using GymInnowise.Shared.Sections.Redundant;
 using MassTransit;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace GymInnowise.SectionService.Logic.Features.Consumers
 {
     public class ClientProfileUpdatedConsumer : IConsumer<ClientProfileUpdatedEvent>
     {
         private readonly ISender _sender;
+        private readonly ILogger<ClientProfileUpdatedConsumer> _logger;
 
-        public ClientProfileUpdatedConsumer(ISender sender)
+        public ClientProfileUpdatedConsumer(ISender sender, ILogger<ClientProfileUpdatedConsumer> logger)
         {
             _sender = sender;
+            _logger = logger;
         }
 
         public async Task Consume(ConsumeContext<ClientProfileUpdatedEvent> context)
@@ -28,6 +31,7 @@ namespace GymInnowise.SectionService.Logic.Features.Consumers
                 ThumbnailId = updatedProfile.ThumbnailId
             };
             await _sender.Send(new UpdateRedundantCommand<Profile>(profile));
+            _logger.LogInformation("Event was consumer {event}", nameof(ClientProfileUpdatedConsumer));
         }
     }
 }

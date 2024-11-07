@@ -9,9 +9,9 @@ namespace GymInnowise.FileService.API.Controllers.Base
         where TMetadata : MetadataBase, new()
     {
         private readonly IFileService<TMetadata> _fileService;
-        private readonly AbstractValidator<Stream> _streamValidator;
+        private readonly IValidator<Stream> _streamValidator;
 
-        protected FileController(IFileService<TMetadata> fileService, AbstractValidator<Stream> streamValidator)
+        protected FileController(IFileService<TMetadata> fileService, IValidator<Stream> streamValidator)
         {
             _fileService = fileService;
             _streamValidator = streamValidator;
@@ -34,7 +34,7 @@ namespace GymInnowise.FileService.API.Controllers.Base
             var result = await _fileService.GetMetadataByIdAsync(fileId);
 
             return result.Match<IActionResult>(
-                res => Ok(res),
+                Ok,
                 _ => NotFound());
         }
 

@@ -1,52 +1,43 @@
-﻿using FakeItEasy;
+﻿using AutoFixture;
+using AutoFixture.AutoMoq;
+using FluentAssertions;
 using GymInnowise.FileService.Configuration.Blob;
 using GymInnowise.FileService.Logic.Services;
 using GymInnowise.Shared.Files.Dtos.Metadata;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Moq;
 
-namespace GymInnowise.FileService.UnitTests.Services
+namespace GymInnowise.FileService.UnitTests.Services;
+
+public class ThumbnailServiceTests
 {
-    public class ThumbnailServiceTests
+    private readonly IFixture _fixture;
+    private readonly ThumbnailSettings _thumbnailSettings;
+    private readonly ThumbnailService _thumbnailService;
+
+    public ThumbnailServiceTests()
     {
-        private readonly ThumbnailSettings _thumbnailSettings;
-        private readonly ILogger<ThumbnailService> _logger;
-        private readonly ThumbnailService _thumbnailService;
+        _fixture = new Fixture().Customize(new AutoMoqCustomization());
+        _fixture.Freeze<Mock<ILogger<ThumbnailService>>>();
+        var thumbnailOptions = _fixture.Freeze<Mock<IOptions<ThumbnailSettings>>>();
+        _thumbnailSettings = _fixture.Create<ThumbnailSettings>();
 
-        public ThumbnailServiceTests()
-        {
-            _logger = A.Fake<ILogger<ThumbnailService>>();
-            _thumbnailSettings = new ThumbnailSettings()
-            {
-                ContentType = "type",
-                Format = "format",
-                MaxFileSizeWithoutThumbnail = 500,
-                ThumbnailHeight = 500,
-                ThumbnailWidth = 500,
-            };
-            var thumbnailOptions = A.Fake<IOptions<ThumbnailSettings>>();
-            A.CallTo(() => thumbnailOptions.Value).Returns(_thumbnailSettings);
-            _thumbnailService = new ThumbnailService(thumbnailOptions, _logger);
-        }
+        thumbnailOptions.Setup(o => o.Value).Returns(_thumbnailSettings);
+        _thumbnailService = _fixture.Create<ThumbnailService>();
+    }
 
-        [Fact]
-        public async Task GenerateThumbnailAsync_NotNecessary_ReturnsNotNecessary()
-        {
-            //Arrange
-            var stream = A.Fake<Stream>();
-            A.CallTo(() => stream.Length).Returns(_thumbnailSettings.MaxFileSizeWithoutThumbnail - 1);
-            var metadata = new ImageMetadata()
-            {
-                FileName = "fileName",
-                ContentType = "contentType",
-                Format = "format"
-            };
+    [Fact]
+    public async Task GenerateThumbnailAsync_NotNecessary_ReturnsNotNecessary()
+    {
+        var stream = _fixture.Create<Mock<Stream>>();
+        stream.Setup(s => s.Length).Returns(_thumbnailSettings.MaxFileSizeWithoutThumbnail - 1);
+        var metadata = _fixture.Create<ImageMetadata>();
 
-            //Act
-            var result = await _thumbnailService.GenerateThumbnailAsync(stream, metadata);
+        // Act
+        var result = await _thumbnailService.GenerateThumbnailAsync(stream.Object, metadata);
 
-            //Assert
-            Assert.True(result.IsT1);
-        }
+        // Assert
+        result.IsT1.Should().BeTrue();
     }
 }

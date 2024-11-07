@@ -1,5 +1,8 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
+using GymInnowise.SectionService.API.Authorization.Handlers;
+using GymInnowise.SectionService.API.Authorization.Helpers;
+using GymInnowise.SectionService.API.Authorization.Requirements;
 using GymInnowise.SectionService.API.Validators;
 using GymInnowise.SectionService.Configuration;
 using GymInnowise.SectionService.Logic.Features.Consumers;
@@ -11,6 +14,7 @@ using GymInnowise.SectionService.Persistence.Repositories.Interfaces;
 using GymInnowise.Shared.Configuration.Token;
 using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
@@ -86,7 +90,11 @@ namespace GymInnowise.SectionService.API.Extensions
                     RoleClaimType = ClaimTypes.Role
                 };
             });
-            builder.Services.AddAuthorization();
+            builder.Services.AddAuthorization(options => options.AddPolicy("MentorOrAdminPolicy", policy =>
+                policy.Requirements.Add(new MentorOrSuperiorRequirement()))
+            );
+            builder.Services.AddSingleton<IAuthorizationHandler, MentorOrSuperiorHandler>();
+            builder.Services.AddScoped<AuthorizationPolicyService>();
 
             return builder;
         }

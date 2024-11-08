@@ -13,7 +13,6 @@ namespace GymInnowise.ReportService.API.Controllers.Base
     {
         private readonly IReportService<TReport, TReportEntity> _reportService;
         private readonly IReportFileGenerator<TReport> _fileGenerator;
-
         public ReportControllerBase(IReportService<TReport, TReportEntity> reportService,
             IReportFileGenerator<TReport> fileGenerator)
         {
@@ -50,7 +49,7 @@ namespace GymInnowise.ReportService.API.Controllers.Base
             );
         }
 
-        [HttpPost("generate/{reportId}")]
+        [HttpPost("{reportId}/generate")]
         public async Task<IActionResult> GenerateReportAsync([FromRoute] Guid reportId)
         {
             var reportResult = await _reportService.GetReportAsync(reportId);
@@ -65,17 +64,6 @@ namespace GymInnowise.ReportService.API.Controllers.Base
                 stream => File(stream, "application/pdf"),
                 _ => BadRequest("Generation Failed (Html convert)"),
                 _ => BadRequest("Generation Failed (Pdf convert)")
-            );
-        }
-
-        [HttpPut("{reportId}")]
-        public async Task<IActionResult> UpdateReportAsync([FromRoute] Guid reportId, [FromBody] TReport report)
-        {
-            var result = await _reportService.UpdateReportAsync(reportId, report);
-
-            return result.Match<IActionResult>(
-                _ => NoContent(),
-                _ => NotFound()
             );
         }
     }

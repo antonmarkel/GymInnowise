@@ -1,0 +1,46 @@
+{
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:5010",
+    "DownstreamScheme": "http",
+    "DownstreamHostAndPorts": [
+      {
+        "Host": "gyminnowise.authorization.api",
+        "Port": 5000
+      }
+    ]
+  },
+  "Routes": [
+    {
+      "UpstreamPathTemplate": "/gateway/auth/{action}",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/auth/{action}"
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/accounts",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/accounts"
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/accounts/{id}",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/api/accounts/{id}",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/accounts/{id}/roles",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/api/accounts/{id}/roles",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "Admin" ]
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/verification/{verificationToken}",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/api/verification/{verificationToken}"
+    }
+  ]
+}

@@ -10,6 +10,14 @@ services:
     ports:
       - "5672:5672"   
       - "15672:15672" 
+#gateway service
+  gyminnowise.gateway.api:
+    image: ${DOCKER_REGISTRY-}gyminnowisegatewayapi
+    build:
+      context: ./
+      dockerfile: gateway/GymInnowise.ApiGateWay/Dockerfile
+    ports:
+    - "5010:5010" 
 #authorization services
   gyminnowise.authorization.api:
     image: ${DOCKER_REGISTRY-}gyminnowiseauthorizationapi

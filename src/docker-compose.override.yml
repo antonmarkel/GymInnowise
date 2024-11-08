@@ -1,6 +1,16 @@
 version: '3.4'
 
 services:
+  gyminnowise.gateway.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=5010
+    ports:
+      - "5010:5010"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+
   gyminnowise.authorization.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development

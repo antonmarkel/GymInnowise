@@ -44,7 +44,7 @@ namespace GymInnowise.UserService.API.Controllers
             );
         }
 
-        [Authorize(Roles = Roles.Coach)]
+        [Authorize(Roles = $"{Roles.Coach},{Roles.Admin}")]
         [OwnerOrAdminAuthorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProfileAsync(Guid id, [FromBody] UpdateCoachProfileRequest request)
@@ -57,7 +57,7 @@ namespace GymInnowise.UserService.API.Controllers
             );
         }
 
-        [Authorize(Roles = Roles.Coach)]
+        [Authorize(Roles = $"{Roles.Coach},{Roles.Admin}")]
         [OwnerOrAdminAuthorize]
         [HttpPut("{id}/status")]
         public async Task<IActionResult> UpdateProfileStatusAsync(Guid id,

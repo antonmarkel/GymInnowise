@@ -1,17 +1,10 @@
-var builder = WebApplication.CreateBuilder(args);
+using GymInnowise.ApiGateway.Extensions;
+using Ocelot.Middleware;
 
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-var app = builder.Build();
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+var app = WebApplication.CreateBuilder(args)
+    .AddJwtServices()
+    .AddOcelot()
+    .Build();
 
-app.UseHttpsRedirection();
-app.UseAuthorization();
-app.MapControllers();
-
+await app.UseOcelot();
 app.Run();

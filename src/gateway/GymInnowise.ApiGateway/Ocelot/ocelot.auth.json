@@ -1,29 +1,41 @@
 {
   "GlobalConfiguration": {
     "BaseUrl": "http://localhost:5010",
-    "DownstreamScheme": "http",
-    "DownstreamHostAndPorts": [
-      {
-        "Host": "gyminnowise.authorization.api",
-        "Port": 5000
-      }
-    ]
+    "DownstreamScheme": "http"
   },
   "Routes": [
     {
       "UpstreamPathTemplate": "/gateway/auth/{action}",
       "UpstreamHttpMethod": [ "Post" ],
-      "DownstreamPathTemplate": "/api/auth/{action}"
+      "DownstreamPathTemplate": "/api/auth/{action}",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gyminnowise.authorization.api",
+          "Port": 5000
+        }
+      ]
     },
     {
       "UpstreamPathTemplate": "/gateway/accounts",
       "UpstreamHttpMethod": [ "Post" ],
-      "DownstreamPathTemplate": "/api/accounts"
+      "DownstreamPathTemplate": "/api/accounts",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gyminnowise.authorization.api",
+          "Port": 5000
+        }
+      ]
     },
     {
       "UpstreamPathTemplate": "/gateway/accounts/{id}",
       "UpstreamHttpMethod": [ "Put" ],
       "DownstreamPathTemplate": "/api/accounts/{id}",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gyminnowise.authorization.api",
+          "Port": 5000
+        }
+      ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
       }
@@ -32,6 +44,12 @@
       "UpstreamPathTemplate": "/gateway/accounts/{id}/roles",
       "UpstreamHttpMethod": [ "Put" ],
       "DownstreamPathTemplate": "/api/accounts/{id}/roles",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gyminnowise.authorization.api",
+          "Port": 5000
+        }
+      ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": [ "Admin" ]
@@ -40,7 +58,13 @@
     {
       "UpstreamPathTemplate": "/gateway/verification/{verificationToken}",
       "UpstreamHttpMethod": [ "Put" ],
-      "DownstreamPathTemplate": "/api/verification/{verificationToken}"
+      "DownstreamPathTemplate": "/api/verification/{verificationToken}",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gyminnowise.authorization.api",
+          "Port": 5000
+        }
+      ]
     }
   ]
 }

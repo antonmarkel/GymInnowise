@@ -2,18 +2,21 @@
   "GlobalConfiguration": {
     "BaseUrl": "http://localhost:5010",
     "DownstreamScheme": "http",
-    "DownstreamHostAndPorts": [
-      {
-        "Host": "gyminnowise.sectionservice.api",
-        "Port": 5006
-      }
-    ]
+    "AuthenticationOptions": {
+      "AuthenticationProviderKey": "Bearer"
+    }
   },
   "Routes": [
     {
       "UpstreamPathTemplate": "/gateway/sections/{id}",
       "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/sections/{id}",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gyminnowise.sectionservice.api",
+          "Port": 5006
+        }
+      ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
       }
@@ -22,6 +25,12 @@
       "UpstreamPathTemplate": "/gateway/sections/{id}/details",
       "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/sections/{id}/details",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gyminnowise.sectionservice.api",
+          "Port": 5006
+        }
+      ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
       }
@@ -30,6 +39,12 @@
       "UpstreamPathTemplate": "/gateway/sections",
       "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/sections",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gyminnowise.sectionservice.api",
+          "Port": 5006
+        }
+      ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
       }
@@ -38,6 +53,12 @@
       "UpstreamPathTemplate": "/gateway/sections",
       "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/sections",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gyminnowise.sectionservice.api",
+          "Port": 5006
+        }
+      ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": [ "Admin" ]
@@ -47,6 +68,12 @@
       "UpstreamPathTemplate": "/gateway/sections/{id}",
       "UpstreamHttpMethod": [ "Put" ],
       "DownstreamPathTemplate": "/api/sections/{id}",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gyminnowise.sectionservice.api",
+          "Port": 5006
+        }
+      ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
       }

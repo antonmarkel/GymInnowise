@@ -1,21 +1,27 @@
-﻿using GymInnowise.SectionService.Logic.Commands;
+﻿using GymInnowise.SectionService.API.Authorization.Helpers;
+using GymInnowise.SectionService.Logic.Commands;
 using GymInnowise.SectionService.Logic.Queries;
+using GymInnowise.Shared.Authorization;
 using GymInnowise.Shared.Sections.Dtos.Queries;
 using GymInnowise.Shared.Sections.Dtos.Request;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GymInnowise.SectionService.API.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/sections")]
     public class SectionController : ControllerBase
     {
         private readonly ISender _sender;
+        private readonly AuthorizationPolicyService _policyHelper;
 
-        public SectionController(ISender sender)
+        public SectionController(ISender sender, AuthorizationPolicyService policyHelper)
         {
             _sender = sender;
+            _policyHelper = policyHelper;
         }
 
         [ActionName(nameof(GetSectionByIdAsync))]
@@ -48,6 +54,7 @@ namespace GymInnowise.SectionService.API.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = Roles.Admin)]
         [HttpPost]
         public async Task<IActionResult> CreateSectionAsync([FromBody] CreateSectionRequest request)
         {
@@ -60,6 +67,12 @@ namespace GymInnowise.SectionService.API.Controllers
         public async Task<IActionResult> UpdateSectionByIdAsync([FromRoute] Guid id,
             [FromBody] UpdateSectionRequest request)
         {
+            var authResult = await _policyHelper.AuthorizeMentorOrAdminAsync(User, id);
+            if (authResult.IsT1)
+            {
+                return Forbid();
+            }
+
             var result = await _sender.Send(new UpdateSectionCommand(id, request));
 
             return result.Match<IActionResult>(

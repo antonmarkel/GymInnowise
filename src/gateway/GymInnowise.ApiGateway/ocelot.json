@@ -135,9 +135,9 @@
 
     //file gateways
     {
-      "UpstreamPathTemplate": "/gateway/{file-type}/{fileId}",
+      "UpstreamPathTemplate": "/gateway/documents/{fileId}",
       "UpstreamHttpMethod": [ "Get" ],
-      "DownstreamPathTemplate": "/api/{file-type}/{fileId}",
+      "DownstreamPathTemplate": "/api/documents/{fileId}",
       "DownstreamHostAndPorts": [
         {
           "Host": "gyminnowise.fileservice.api",
@@ -149,9 +149,9 @@
       }
     },
     {
-      "UpstreamPathTemplate": "/gateway/{file-type}/{fileId}/meta",
+      "UpstreamPathTemplate": "/gateway/documents/{fileId}/meta",
       "UpstreamHttpMethod": [ "Get" ],
-      "DownstreamPathTemplate": "/api/{file-type}/{fileId}/meta",
+      "DownstreamPathTemplate": "/api/documents/{fileId}/meta",
       "DownstreamHostAndPorts": [
         {
           "Host": "gyminnowise.fileservice.api",
@@ -163,9 +163,51 @@
       }
     },
     {
-      "UpstreamPathTemplate": "/gateway/{file-type}",
+      "UpstreamPathTemplate": "/gateway/documents",
       "UpstreamHttpMethod": [ "Post" ],
-      "DownstreamPathTemplate": "/api/{file-type}",
+      "DownstreamPathTemplate": "/api/documents",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gyminnowise.fileservice.api",
+          "Port": 5003
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/images/{fileId}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/images/{fileId}",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gyminnowise.fileservice.api",
+          "Port": 5003
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/images/{fileId}/meta",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/images/{fileId}/meta",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gyminnowise.fileservice.api",
+          "Port": 5003
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/images",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/images",
       "DownstreamHostAndPorts": [
         {
           "Host": "gyminnowise.fileservice.api",
@@ -437,11 +479,40 @@
         "AuthenticationProviderKey": "Bearer"
       }
     },
+
     //Section relation gateways
     {
-      "UpstreamPathTemplate": "/gateway/{any-relation}/{sectionId}/{relatedId}",
+      "UpstreamPathTemplate": "/gateway/gym-relation/{sectionId}/{relatedId}",
       "UpstreamHttpMethod": [ "Get" ],
-      "DownstreamPathTemplate": "/api/{any-relation}/{sectionId}/{relatedId}",
+      "DownstreamPathTemplate": "/api/gym-relation/{sectionId}/{relatedId}",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gyminnowise.sectionservice.api",
+          "Port": 5006
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/membership/{sectionId}/{relatedId}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/membership/{sectionId}/{relatedId}",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gyminnowise.sectionservice.api",
+          "Port": 5006
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/mentorship/{sectionId}/{relatedId}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/mentorship/{sectionId}/{relatedId}",
       "DownstreamHostAndPorts": [
         {
           "Host": "gyminnowise.sectionservice.api",

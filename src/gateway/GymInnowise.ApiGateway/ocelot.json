@@ -248,9 +248,9 @@
       }
     },
     {
-      "UpstreamPathTemplate": "/gateway/coach-profile/{id}",
+      "UpstreamPathTemplate": "/gateway/coach-profiles/{id}",
       "UpstreamHttpMethod": [ "Post" ],
-      "DownstreamPathTemplate": "/api/coach-profile/{id}",
+      "DownstreamPathTemplate": "/api/coach-profiles/{id}",
       "DownstreamHostAndPorts": [
         {
           "Host": "gyminnowise.userservice.api",
@@ -263,9 +263,9 @@
       }
     },
     {
-      "UpstreamPathTemplate": "/gateway/coach-profile/{id}",
+      "UpstreamPathTemplate": "/gateway/coach-profiles/{id}",
       "UpstreamHttpMethod": [ "Get" ],
-      "DownstreamPathTemplate": "/api/coach-profile/{id}",
+      "DownstreamPathTemplate": "/api/coach-profiles/{id}",
       "DownstreamHostAndPorts": [
         {
           "Host": "gyminnowise.userservice.api",
@@ -277,9 +277,9 @@
       }
     },
     {
-      "UpstreamPathTemplate": "/gateway/coach-profile/{id}",
+      "UpstreamPathTemplate": "/gateway/coach-profiles/{id}",
       "UpstreamHttpMethod": [ "Put" ],
-      "DownstreamPathTemplate": "/api/coach-profile/{id}",
+      "DownstreamPathTemplate": "/api/coach-profiles/{id}",
       "DownstreamHostAndPorts": [
         {
           "Host": "gyminnowise.userservice.api",
@@ -292,9 +292,9 @@
       }
     },
     {
-      "UpstreamPathTemplate": "/gateway/coach-profile/{id}/status",
+      "UpstreamPathTemplate": "/gateway/coach-profiles/{id}/status",
       "UpstreamHttpMethod": [ "Put" ],
-      "DownstreamPathTemplate": "/api/coach-profile/{id}/status",
+      "DownstreamPathTemplate": "/api/coach-profiles/{id}/status",
       "DownstreamHostAndPorts": [
         {
           "Host": "gyminnowise.userservice.api",

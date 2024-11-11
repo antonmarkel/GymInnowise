@@ -26,6 +26,8 @@ services:
       dockerfile: services/Authorization/GymInnowise.Authorization.API/Dockerfile
     ports:
     - "5000:5000"
+    depends_on:
+      - rabbitmq
   gyminnowise.authorization.database:
     image: postgres:latest
     container_name: gyminnowise.authorization.database  
@@ -74,6 +76,8 @@ services:
       dockerfile: services/GymService/GymInnowise.GymService.API/Dockerfile
     ports:
     - "5002:5002"
+    depends_on:
+      - rabbitmq
   gyminnowise.gymservice.database:
     image: postgres:latest
     container_name: gyminnowise.gymservice.database  
@@ -93,6 +97,8 @@ services:
       dockerfile: services/FileService/GymInnowise.FileService.API/Dockerfile
     ports:
     - "5003:5003"
+    depends_on:
+      - rabbitmq
   gyminnowise.fileservice.database:
     image: postgres:latest
     container_name: gyminnowise.fileservice.database  
@@ -121,6 +127,8 @@ services:
       dockerfile: services/EmailService/GymInnowise.EmailService.API/Dockerfile
     ports:
     - "5004:5004"
+    depends_on:
+      - rabbitmq
 #report services
   gyminnowise.reportservice.api:
     image: ${DOCKER_REGISTRY-}gyminnowisereportserviceapi
@@ -131,6 +139,7 @@ services:
     - "5005:5005"
     depends_on:
       - gyminnowise.reportservice.mongodb
+      - rabbitmq
   gyminnowise.reportservice.mongodb:
     image: mongo:latest
     container_name: gyminnowise.reportservice.mongodb
@@ -149,6 +158,8 @@ services:
       dockerfile: services/SectionService/GymInnowise.SectionService.API/Dockerfile
     ports:
     - "5006:5006"
+    depends_on:
+      - rabbitmq
   gyminnowise.sectionservice.database:
     image: postgres:latest
     container_name: gyminnowise.sectionservice.database  

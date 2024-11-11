@@ -20,4 +20,8 @@
     <ProjectReference Include="..\..\shared\GymInnowise.Shared\GymInnowise.Shared\GymInnowise.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Ocelot\" />
+  </ItemGroup>
+
 </Project>

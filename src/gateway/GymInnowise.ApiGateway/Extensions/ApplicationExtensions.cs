@@ -1,10 +1,9 @@
-﻿using System.Security.Claims;
-using System.Text;
-using GymInnowise.Shared.Configuration.Token;
+﻿using GymInnowise.Shared.Configuration.Token;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using Ocelot.DependencyInjection;
+using System.Security.Claims;
+using System.Text;
 
 namespace GymInnowise.ApiGateway.Extensions
 {

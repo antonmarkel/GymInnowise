@@ -49,14 +49,8 @@ namespace GymInnowise.ApiGateway.Extensions
 
         public static WebApplicationBuilder AddOcelot(this WebApplicationBuilder builder)
         {
-            var ocelotConfigFolder = Path.Combine(Directory.GetCurrentDirectory(), "Ocelot");
-            foreach (var filePath in Directory.GetFiles(ocelotConfigFolder, "*.json"))
-            {
-                builder.Configuration.AddJsonFile(filePath, optional: false, reloadOnChange: true);
-            }
-
-            builder.Services.AddOcelot(builder.Configuration);
-
+            builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
+            builder.Services.AddOcelot();
             return builder;
         }
     }

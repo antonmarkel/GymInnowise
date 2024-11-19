@@ -9,13 +9,6 @@ namespace GymInnowise.ApiGateway.Extensions
 {
     public static class ApplicationExtensions
     {
-        public static WebApplicationBuilder AddControllers(this WebApplicationBuilder builder)
-        {
-            builder.Services.AddControllers();
-
-            return builder;
-        }
-
         public static WebApplicationBuilder AddJwtServices(this WebApplicationBuilder builder)
         {
             var jwtSettings = builder.Configuration.GetSection("JwtSettings");

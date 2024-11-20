@@ -12,9 +12,8 @@ namespace GymInnowise.TrainingService.Persistence.Data.Configuration
             builder.HasKey(ent => ent.Id);
             builder.Property(ent => ent.Title).HasMaxLength(255);
             builder.HasOne(ent => ent.Gym).WithMany().HasForeignKey(ent => ent.GymId);
-            builder.HasOne(ent => ent.Recurrence);
             builder.Property(ent => ent.Status).HasConversion<string>();
-            builder.HasMany(ent => ent.Goals);
+            builder.HasMany(ent => ent.Goals).WithOne().HasForeignKey(goal => goal.TrainingId);
             builder.HasOne(ent => ent.Recurrence)
                 .WithOne()
                 .HasForeignKey<RecurrenceEntity>(rec => rec.TrainingId)

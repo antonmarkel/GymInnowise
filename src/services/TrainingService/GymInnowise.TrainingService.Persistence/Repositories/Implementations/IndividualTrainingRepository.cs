@@ -20,6 +20,7 @@ namespace GymInnowise.TrainingService.Persistence.Repositories.Implementations
             var query = _context.IndividualTrainings.AsQueryable();
             if (includeReferences)
             {
+                query = IncludeBaseReferencesAsSplitQuery(query);
                 query = query.Include(training => training.Account);
             }
 

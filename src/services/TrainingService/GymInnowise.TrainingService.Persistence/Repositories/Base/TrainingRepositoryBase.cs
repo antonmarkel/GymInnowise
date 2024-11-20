@@ -28,28 +28,41 @@ namespace GymInnowise.TrainingService.Persistence.Repositories.Base
         public virtual async Task UpdateTrainingGeneralAsync(TTrainingEntity entity,
             CancellationToken cancellationToken = default)
         {
-            await _trainings.ExecuteUpdateAsync(setter =>
-                    setter.SetProperty(ent => ent.Title, entity.Title)
-                        .SetProperty(ent => ent.GymId, entity.GymId)
-                        .SetProperty(ent => ent.DateStartUtc, entity.DateStartUtc)
-                        .SetProperty(ent => ent.DateEndUtc, entity.DateEndUtc),
-                cancellationToken);
+            await _trainings
+                .Where(training => training.Id == entity.Id)
+                .ExecuteUpdateAsync(setter =>
+                        setter.SetProperty(ent => ent.Title, entity.Title)
+                            .SetProperty(ent => ent.GymId, entity.GymId)
+                            .SetProperty(ent => ent.DateStartUtc, entity.DateStartUtc)
+                            .SetProperty(ent => ent.DateEndUtc, entity.DateEndUtc),
+                    cancellationToken);
         }
 
         public virtual async Task UpdateTrainingStatusAsync(Guid trainingId, TrainingStatusEnum status,
             CancellationToken cancellationToken = default)
         {
-            await _trainings.ExecuteUpdateAsync(setter =>
-                    setter.SetProperty(ent => ent.Status, status),
-                cancellationToken);
+            await _trainings
+                .Where(training => training.Id == trainingId)
+                .ExecuteUpdateAsync(setter =>
+                        setter.SetProperty(ent => ent.Status, status),
+                    cancellationToken);
         }
 
         public virtual async Task UpdateTrainingReportAsync(Guid trainingId, Guid reportId,
             CancellationToken cancellationToken = default)
         {
-            await _trainings.ExecuteUpdateAsync(setter =>
-                    setter.SetProperty(ent => ent.ReportId, reportId),
-                cancellationToken);
+            await _trainings
+                .Where(training => training.Id == trainingId)
+                .ExecuteUpdateAsync(setter =>
+                        setter.SetProperty(ent => ent.ReportId, reportId),
+                    cancellationToken);
+        }
+
+        public IQueryable<TTrainingEntity> IncludeBaseReferencesAsSplitQuery(IQueryable<TTrainingEntity> query)
+        {
+            return query.Include(training => training.Recurrence)
+                .Include(training => training.Goals)
+                .AsSplitQuery();
         }
 
         public abstract Task<TTrainingEntity?> GetTrainingByIdAsync(Guid trainingId,

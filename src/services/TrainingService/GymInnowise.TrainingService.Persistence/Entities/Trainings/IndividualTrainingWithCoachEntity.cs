@@ -1,7 +1,9 @@
-﻿namespace GymInnowise.TrainingService.Persistence.Entities.Trainings
+﻿using GymInnowise.TrainingService.Persistence.Entities.Redundant;
+
+namespace GymInnowise.TrainingService.Persistence.Entities.Trainings
 {
     public class IndividualTrainingWithCoachEntity : IndividualTrainingEntity
     {
-        public Guid Coach { get; set; }
+        public required ProfileEntity Coach { get; set; }
     }
 }

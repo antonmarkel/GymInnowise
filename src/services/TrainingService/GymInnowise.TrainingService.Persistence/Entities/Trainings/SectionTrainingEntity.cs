@@ -1,9 +1,10 @@
 ﻿using GymInnowise.TrainingService.Persistence.Entities.Base;
+using GymInnowise.TrainingService.Persistence.Entities.Redundant;
 
 namespace GymInnowise.TrainingService.Persistence.Entities.Trainings
 {
     public class SectionTrainingEntity : TrainingEntityBase
     {
-        public Guid? SectionId { get; set; }
+        public required SectionEntity Section { get; set; }
     }
 }

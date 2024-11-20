@@ -3,7 +3,7 @@
     public class SectionEntity
     {
         public Guid SectionId { get; set; }
-        public string Name { get; set; }
+        public required string Name { get; set; }
         public Guid? ThumbnailId { get; set; }
     }
 }

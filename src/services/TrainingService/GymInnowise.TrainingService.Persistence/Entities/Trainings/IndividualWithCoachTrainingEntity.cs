@@ -2,7 +2,7 @@
 
 namespace GymInnowise.TrainingService.Persistence.Entities.Trainings
 {
-    public class IndividualTrainingWithCoachEntity : IndividualTrainingEntity
+    public class IndividualWithCoachTrainingEntity : IndividualTrainingEntity
     {
         public required ProfileEntity Coach { get; set; }
     }

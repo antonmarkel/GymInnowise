@@ -8,7 +8,7 @@ namespace GymInnowise.TrainingService.Persistence.Data.Configuration
     {
         public void Configure(EntityTypeBuilder<ProfileEntity> builder)
         {
-            builder.HasKey(ent => ent.AccountId);
+            builder.HasKey(ent => ent.OriginalId);
             builder.Property(ent => ent.FirstName)
                 .IsRequired()
                 .HasMaxLength(255);

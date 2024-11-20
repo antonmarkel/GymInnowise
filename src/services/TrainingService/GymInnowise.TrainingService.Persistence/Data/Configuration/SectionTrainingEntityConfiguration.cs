@@ -8,7 +8,7 @@ namespace GymInnowise.TrainingService.Persistence.Data.Configuration
     {
         public void Configure(EntityTypeBuilder<SectionTrainingEntity> builder)
         {
-            builder.HasOne(ent => ent.Section)
+            builder.HasOne(ent => ent.Section);
         }
     }
 }

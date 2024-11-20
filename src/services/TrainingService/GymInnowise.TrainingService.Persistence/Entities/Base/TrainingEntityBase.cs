@@ -3,7 +3,7 @@ using GymInnowise.TrainingService.Persistence.Entities.Redundant;
 
 namespace GymInnowise.TrainingService.Persistence.Entities.Base
 {
-    public abstract class TrainingEntityBase
+    public class TrainingEntityBase
     {
         public Guid Id { get; set; }
         public required string Title { get; set; }

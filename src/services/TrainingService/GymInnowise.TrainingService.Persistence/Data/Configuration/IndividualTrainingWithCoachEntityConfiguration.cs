@@ -5,12 +5,14 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace GymInnowise.TrainingService.Persistence.Data.Configuration
 {
     public class IndividualTrainingWithCoachEntityConfiguration
-        : IEntityTypeConfiguration<IndividualWithCoachTrainingEntity>
+        : TrainingEntityBaseConfiguration<IndividualWithCoachTrainingEntity>
     {
-        public void Configure(EntityTypeBuilder<IndividualWithCoachTrainingEntity> builder)
+        public override void Configure(EntityTypeBuilder<IndividualWithCoachTrainingEntity> builder)
         {
+            base.Configure(builder);
             builder.HasOne(ent => ent.Account);
             builder.HasOne(ent => ent.Coach);
+            builder.ToTable("IndividualWithCoachTrainings");
         }
     }
 }

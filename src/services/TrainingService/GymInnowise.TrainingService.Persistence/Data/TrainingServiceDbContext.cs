@@ -1,5 +1,6 @@
 ﻿using GymInnowise.TrainingService.Persistence.Data.Configuration;
 using GymInnowise.TrainingService.Persistence.Entities;
+using GymInnowise.TrainingService.Persistence.Entities.Base;
 using GymInnowise.TrainingService.Persistence.Entities.Redundant;
 using GymInnowise.TrainingService.Persistence.Entities.Trainings;
 using Microsoft.EntityFrameworkCore;
@@ -24,6 +25,7 @@ namespace GymInnowise.TrainingService.Persistence.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Ignore<TrainingEntityBase>();
             modelBuilder.ApplyConfigurationsFromAssembly(ConfigurationAssemblyAccessor.Assembly);
         }
     }

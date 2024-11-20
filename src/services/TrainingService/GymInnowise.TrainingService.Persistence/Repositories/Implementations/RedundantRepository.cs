@@ -9,34 +9,36 @@ namespace GymInnowise.TrainingService.Persistence.Repositories.Implementations
         where TRedundantEntity : class, IRedundantEntity
     {
         private readonly TrainingServiceDbContext _context;
+        private readonly DbSet<TRedundantEntity> _redundant;
 
         public RedundantRepository(TrainingServiceDbContext context)
         {
             _context = context;
+            _redundant = context.Set<TRedundantEntity>();
         }
 
         public async Task AddRedundantAsync(TRedundantEntity entity, CancellationToken cancellationToken = default)
         {
-            await _context.Set<TRedundantEntity>().AddAsync(entity, cancellationToken);
+            await _redundant.AddAsync(entity, cancellationToken);
             await _context.SaveChangesAsync();
         }
 
         public async Task UpdateRedundantAsync(TRedundantEntity entity, CancellationToken cancellationToken = default)
         {
-            _context.Set<TRedundantEntity>().Update(entity);
+            _redundant.Update(entity);
             await _context.SaveChangesAsync(cancellationToken);
         }
 
         public async Task RemoveRedundantAsync(TRedundantEntity entity, CancellationToken cancellationToken = default)
         {
-            _context.Set<TRedundantEntity>().Remove(entity);
+            _redundant.Remove(entity);
             await _context.SaveChangesAsync(cancellationToken);
         }
 
         public async Task<TRedundantEntity?> GetRedundantAsync(Guid redundantID,
             CancellationToken cancellationToken = default)
         {
-            var nullableEntity = await _context.Set<TRedundantEntity>()
+            var nullableEntity = await _redundant
                 .SingleOrDefaultAsync(red => red.OriginalId == redundantID, cancellationToken);
 
             return nullableEntity;

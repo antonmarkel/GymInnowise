@@ -7,6 +7,7 @@ namespace GymInnowise.TrainingService.Persistence.Entities.Base
     {
         public Guid Id { get; set; }
         public required string Title { get; set; }
+        public Guid? GymId { get; set; }
         public GymEntity? Gym { get; set; }
         public DateTime DateStartUtc { get; set; }
         public DateTime DateEndUtc { get; set; }

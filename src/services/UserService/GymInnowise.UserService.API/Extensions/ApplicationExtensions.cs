@@ -11,6 +11,7 @@ using GymInnowise.UserService.Persistence.Migrations;
 using GymInnowise.UserService.Persistence.Models;
 using GymInnowise.UserService.Persistence.Repositories.Implementations;
 using GymInnowise.UserService.Persistence.Repositories.Interfaces;
+using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
@@ -99,6 +100,24 @@ namespace GymInnowise.UserService.API.Extensions
                 .CreateLogger();
 
             builder.Services.AddSerilog(Log.Logger);
+        }
+
+        public static void AddRabbitMq(this WebApplicationBuilder builder)
+        {
+            var rabbitMqSettings = builder.Configuration.GetSection("RabbitMqSettings");
+            builder.Services.AddMassTransit(busConfig =>
+            {
+                busConfig.SetKebabCaseEndpointNameFormatter();
+                busConfig.UsingRabbitMq((context, configurator) =>
+                {
+                    configurator.Host(new Uri(rabbitMqSettings["Host"]!), h =>
+                    {
+                        h.Username(rabbitMqSettings["Username"]!);
+                        h.Password(rabbitMqSettings["Password"]!);
+                    });
+                    configurator.ConfigureEndpoints(context);
+                });
+            });
         }
     }
 }

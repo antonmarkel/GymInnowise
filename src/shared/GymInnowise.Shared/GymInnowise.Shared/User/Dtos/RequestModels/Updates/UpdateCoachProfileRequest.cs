@@ -3,5 +3,6 @@
     public class UpdateCoachProfileRequest : UpdateClientProfileRequest
     {
         public decimal CostPerHour { get; set; }
+        public Guid[] DocumentFileIds { get; set; } = [];
     }
 }

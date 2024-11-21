@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  gyminnowise.reportservice.api:
+    image: ${DOCKER_REGISTRY-}gyminnowisereportserviceapi
+    build:
+      context: .
+      dockerfile: GymInnowise.ReportService.API/Dockerfile

@@ -5,6 +5,8 @@ using GymInnowise.GymService.Persistence.Repositories.Interfaces;
 using GymInnowise.Shared.Gym.Dtos.Requests.Creates;
 using GymInnowise.Shared.Gym.Dtos.Requests.Updates;
 using GymInnowise.Shared.Gym.Dtos.Responses.Gets;
+using GymInnowise.Shared.RabbitMq.Events.Gym;
+using MassTransit;
 using Microsoft.Extensions.Logging;
 using OneOf;
 using OneOf.Types;
@@ -16,12 +18,15 @@ namespace GymInnowise.GymService.Logic.Services
         private readonly IGymEventRepository _repo;
         private readonly IMapper _mapper;
         private readonly ILogger<GymEventService> _logger;
+        private readonly IPublishEndpoint _publishEndpoint;
 
-        public GymEventService(IGymEventRepository repo, IMapper mapper, ILogger<GymEventService> logger)
+        public GymEventService(IGymEventRepository repo, IMapper mapper, ILogger<GymEventService> logger,
+            IPublishEndpoint publishEndpoint)
         {
             _repo = repo;
             _mapper = mapper;
             _logger = logger;
+            _publishEndpoint = publishEndpoint;
         }
 
         public async Task<Guid> CreateGymEventAsync(CreateGymEventDtoRequest dtoRequest)
@@ -29,6 +34,9 @@ namespace GymInnowise.GymService.Logic.Services
             var eventEntity = _mapper.Map<GymEventEntity>(dtoRequest);
             _logger.LogInformation("Gym event was created @{eventEntity}", eventEntity);
             await _repo.AddEventAsync(eventEntity);
+
+            await _publishEndpoint.Publish(new GymEventCreatedEvent
+                { EventId = eventEntity.Id, CreatedEvent = dtoRequest });
 
             return eventEntity.Id;
         }
@@ -50,6 +58,9 @@ namespace GymInnowise.GymService.Logic.Services
             _logger.LogInformation("Gym event was successfully updated. Info: {@eventId} {@reguest}", eventId,
                 dtoRequest);
 
+            await _publishEndpoint.Publish(new GymEventUpdatedEvent
+                { EventId = eventId, UpdatedGymEvent = dtoRequest });
+
             return new Success();
         }
 
@@ -70,6 +81,7 @@ namespace GymInnowise.GymService.Logic.Services
         {
             await _repo.RemoveEventAsync(eventId);
             _logger.LogInformation("event with id {@eventId} was deleted", eventId);
+            await _publishEndpoint.Publish(new GymEventRemovedEvent { EventId = eventId });
         }
 
         public async Task<IEnumerable<GetGymEventResponse>> GetEventsByGymIdAsync(Guid gymId)

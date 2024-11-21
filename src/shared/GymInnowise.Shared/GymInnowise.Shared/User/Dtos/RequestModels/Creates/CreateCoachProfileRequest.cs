@@ -1,7 +1,8 @@
-﻿namespace GymInnowise.Shared.User.Dtos.RequestModels.Creates
+﻿using GymInnowise.Shared.User.Dtos.Profiles;
+
+namespace GymInnowise.Shared.User.Dtos.RequestModels.Creates
 {
-    public class CreateCoachProfileRequest : CreateClientProfileRequest
+    public class CreateCoachProfileRequest : CoachProfile
     {
-        public decimal CostPerHour { get; set; }
     }
 }

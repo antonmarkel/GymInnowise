@@ -1,5 +1,15 @@
 
 services:
+# RabbitMQ service
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    ports:
+      - "5672:5672"   
+      - "15672:15672" 
 #authorization services
   gyminnowise.authorization.api:
     image: ${DOCKER_REGISTRY-}gyminnowiseauthorizationapi
@@ -98,3 +108,37 @@ services:
     volumes:
       - ./azurite:/data
     command: "azurite --blobHost 0.0.0.0"
+
+#email services
+  gyminnowise.emailservice.api:
+    image: ${DOCKER_REGISTRY-}gyminnowiseemailserviceapi
+    build:
+      context: ./
+      dockerfile: services/EmailService/GymInnowise.EmailService.API/Dockerfile
+    ports:
+    - "5008:5008"
+    - "5009:5009"
+#report services
+  gyminnowise.reportservice.api:
+    image: ${DOCKER_REGISTRY-}gyminnowisereportserviceapi
+    build:
+      context: ./
+      dockerfile: services/ReportService/GymInnowise.ReportService.API/Dockerfile
+    ports:
+    - "5010:5010"
+    - "5011:5011"
+    depends_on:
+      - gyminnowise.reportservice.mongodb
+  gyminnowise.reportservice.mongodb:
+    image: mongo:latest
+    container_name: gyminnowise.reportservice.mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: guest
+      MONGO_INITDB_ROOT_PASSWORD: guest
+    volumes:
+      - mongo-data:/data/db
+volumes:
+  mongo-data:
+    

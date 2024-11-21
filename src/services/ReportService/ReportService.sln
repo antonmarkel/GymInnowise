@@ -5,13 +5,13 @@ VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.ReportService.API", "GymInnowise.ReportService.API\GymInnowise.ReportService.API.csproj", "{C0E25F5C-9CAF-46B8-B890-46EEE6428AAB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.Shared", "..\..\shared\GymInnowise.Shared\GymInnowise.Shared\GymInnowise.Shared.csproj", "{D46A0908-8A88-4972-8570-7B9501638043}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.ReportService.Perstistence", "GymInnowise.ReportService.Perstistence\GymInnowise.ReportService.Perstistence.csproj", "{D0555A5E-C4FB-4C81-918A-DD2E5A10C73B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.ReportService.Logic", "GymInnowise.ReportService.Logic\GymInnowise.ReportService.Logic.csproj", "{08D62AD4-B93E-4ED1-B3D0-640F57C27934}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.ReportService.Configuration", "GymInnowise.ReportService.Configuration\GymInnowise.ReportService.Configuration.csproj", "{EF58E3A1-0039-40D2-B955-264655E50A3F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.Shared", "..\..\shared\GymInnowise.Shared\GymInnowise.Shared\GymInnowise.Shared.csproj", "{2723AEF3-73C3-4D48-A576-47D41D8AD68B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,6 @@ Global
 		{C0E25F5C-9CAF-46B8-B890-46EEE6428AAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0E25F5C-9CAF-46B8-B890-46EEE6428AAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0E25F5C-9CAF-46B8-B890-46EEE6428AAB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D46A0908-8A88-4972-8570-7B9501638043}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D46A0908-8A88-4972-8570-7B9501638043}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D46A0908-8A88-4972-8570-7B9501638043}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D46A0908-8A88-4972-8570-7B9501638043}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D0555A5E-C4FB-4C81-918A-DD2E5A10C73B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D0555A5E-C4FB-4C81-918A-DD2E5A10C73B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0555A5E-C4FB-4C81-918A-DD2E5A10C73B}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,6 +35,10 @@ Global
 		{EF58E3A1-0039-40D2-B955-264655E50A3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF58E3A1-0039-40D2-B955-264655E50A3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF58E3A1-0039-40D2-B955-264655E50A3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2723AEF3-73C3-4D48-A576-47D41D8AD68B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2723AEF3-73C3-4D48-A576-47D41D8AD68B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2723AEF3-73C3-4D48-A576-47D41D8AD68B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2723AEF3-73C3-4D48-A576-47D41D8AD68B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

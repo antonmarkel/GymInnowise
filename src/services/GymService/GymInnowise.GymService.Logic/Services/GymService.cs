@@ -5,6 +5,8 @@ using GymInnowise.GymService.Persistence.Repositories.Interfaces;
 using GymInnowise.Shared.Gym.Dtos.Requests.Creates;
 using GymInnowise.Shared.Gym.Dtos.Requests.Updates;
 using GymInnowise.Shared.Gym.Dtos.Responses.Gets;
+using GymInnowise.Shared.RabbitMq.Events.Gym;
+using MassTransit;
 using Microsoft.Extensions.Logging;
 using OneOf;
 using OneOf.Types;
@@ -16,12 +18,15 @@ namespace GymInnowise.GymService.Logic.Services
         private readonly IGymRepository _repo;
         private readonly IMapper _mapper;
         private readonly ILogger<GymService> _logger;
+        private readonly IPublishEndpoint _publishEndpoint;
 
-        public GymService(IGymRepository repo, IMapper mapper, ILogger<GymService> logger)
+        public GymService(IGymRepository repo, IMapper mapper, ILogger<GymService> logger,
+            IPublishEndpoint publishEndpoint)
         {
             _repo = repo;
             _mapper = mapper;
             _logger = logger;
+            _publishEndpoint = publishEndpoint;
         }
 
         public async Task<Guid> CreateGymAsync(CreateGymRequest request)
@@ -29,6 +34,8 @@ namespace GymInnowise.GymService.Logic.Services
             var gymEntity = _mapper.Map<GymEntity>(request);
             await _repo.AddGymAsync(gymEntity);
             _logger.LogInformation("Gym was created. Info: {@gymEntity}", gymEntity);
+
+            await _publishEndpoint.Publish(new GymCreatedEvent { GymId = gymEntity.Id, CreatedGym = request });
 
             return gymEntity.Id;
         }
@@ -46,6 +53,8 @@ namespace GymInnowise.GymService.Logic.Services
             _mapper.Map(updateRequest, gymEntity);
             await _repo.UpdateGymAsync(gymEntity);
             _logger.LogInformation("Gym was successfully updated. Info: {@gymId}", gymId);
+
+            await _publishEndpoint.Publish(new GymUpdatedEvent { GymId = gymId, UpdatedGym = updateRequest });
 
             return new Success();
         }

@@ -1,10 +1,8 @@
-﻿namespace GymInnowise.Shared.User.Dtos.RequestModels.Creates
+﻿using GymInnowise.Shared.User.Dtos.Profiles;
+
+namespace GymInnowise.Shared.User.Dtos.RequestModels.Creates
 {
-    public class CreateClientProfileRequest
+    public class CreateClientProfileRequest : ClientProfile
     {
-        public string FirstName { get; set; } = string.Empty;
-        public string LastName { get; set; } = string.Empty;
-        public DateTime DateOfBirth { get; set; }
-        public string? Gender { get; set; }
     }
 }

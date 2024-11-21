@@ -139,6 +139,26 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: guest
     volumes:
       - mongo-data:/data/db
+      
+#section services
+  gyminnowise.sectionservice.api:
+    image: ${DOCKER_REGISTRY-}gyminnowisesectionserviceapi
+    build:
+      context: ./
+      dockerfile: services/SectionService/GymInnowise.SectionService.API/Dockerfile
+    ports:
+    - "5012:5012"
+  gyminnowise.sectionservice.database:
+    image: postgres:latest
+    container_name: gyminnowise.sectionservice.database  
+    environment:
+      - POSTGRES_DB=GymInnowiseSectionService
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./.containers/section-service-db:/var/lib/postgresql/section-service
+    ports:
+      - 5436:5432
 volumes:
   mongo-data:
     

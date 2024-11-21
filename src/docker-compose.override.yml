@@ -1,14 +1,22 @@
 version: '3.4'
 
 services:
+  gyminnowise.gateway.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=5010
+    ports:
+      - "5010:5010"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+
   gyminnowise.authorization.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=5000
-      - ASPNETCORE_HTTPS_PORTS=5001
     ports:
       - "5000:5000"
-      - "5001:5001"
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
@@ -17,11 +25,9 @@ services:
   gyminnowise.userservice.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_HTTP_PORTS=5002
-      - ASPNETCORE_HTTPS_PORTS=5003
+      - ASPNETCORE_HTTP_PORTS=5001
     ports:
-      - "5002:5002"
-      - "5003:5003"
+      - "5001:5001"
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
@@ -30,11 +36,9 @@ services:
   gyminnowise.gymservice.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_HTTP_PORTS=5004
-      - ASPNETCORE_HTTPS_PORTS=5005
+      - ASPNETCORE_HTTP_PORTS=5002
     ports:
-      - "5004:5004"
-      - "5005:5005"
+      - "5002:5002"
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
@@ -43,11 +47,9 @@ services:
   gyminnowise.fileservice.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_HTTP_PORTS=5006
-      - ASPNETCORE_HTTPS_PORTS=5007
+      - ASPNETCORE_HTTP_PORTS=5003
     ports:
-      - "5006:5006"
-      - "5007:5007"
+      - "5003:5003"
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
@@ -56,11 +58,9 @@ services:
   gyminnowise.emailservice.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_HTTP_PORTS=5008
-      - ASPNETCORE_HTTPS_PORTS=5009
+      - ASPNETCORE_HTTP_PORTS=5004
     ports:
-      - "5008:5008"
-      - "5009:5009"
+      - "5004:5004"
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
@@ -69,11 +69,9 @@ services:
   gyminnowise.reportservice.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_HTTP_PORTS=5010
-      - ASPNETCORE_HTTPS_PORTS=5011
+      - ASPNETCORE_HTTP_PORTS=5005
     ports:
-      - "5010:5010"
-      - "5011:5011"
+      - "5005:5005"
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
@@ -82,9 +80,9 @@ services:
   gyminnowise.sectionservice.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_HTTP_PORTS=5012
+      - ASPNETCORE_HTTP_PORTS=5006
     ports:
-      - "5012:5012"
+      - "5006:5006"
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro

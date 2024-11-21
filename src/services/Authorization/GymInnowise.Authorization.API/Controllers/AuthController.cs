@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace GymInnowise.Authorization.API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/auth")]
     public class AuthController : ControllerBase
     {
         private readonly IAuthenticationService _authenticationService;

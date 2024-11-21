@@ -70,7 +70,7 @@ namespace GymInnowise.GymService.API.Controllers
             var result = await _eventService.GetEventByIdAsync(eventId);
 
             return result.Match<IActionResult>(
-                ev => Ok(ev),
+                Ok,
                 _ => NotFound()
             );
         }

@@ -10,6 +10,14 @@ services:
     ports:
       - "5672:5672"   
       - "15672:15672" 
+#gateway service
+  gyminnowise.gateway.api:
+    image: ${DOCKER_REGISTRY-}gyminnowisegatewayapi
+    build:
+      context: ./
+      dockerfile: gateway/GymInnowise.ApiGateWay/Dockerfile
+    ports:
+    - "5010:5010" 
 #authorization services
   gyminnowise.authorization.api:
     image: ${DOCKER_REGISTRY-}gyminnowiseauthorizationapi
@@ -18,7 +26,6 @@ services:
       dockerfile: services/Authorization/GymInnowise.Authorization.API/Dockerfile
     ports:
     - "5000:5000"
-    - "5001:5001"
   gyminnowise.authorization.database:
     image: postgres:latest
     container_name: gyminnowise.authorization.database  
@@ -37,8 +44,7 @@ services:
       context: ./
       dockerfile: services/UserService/GymInnowise.UserService.API/Dockerfile
     ports:
-    - "5002:5002"
-    - "5003:5003"
+    - "5001:5001"
     depends_on:
       gyminnowise.userservice.database:
         condition: service_healthy
@@ -67,8 +73,7 @@ services:
       context: ./
       dockerfile: services/GymService/GymInnowise.GymService.API/Dockerfile
     ports:
-    - "5004:5004"
-    - "5005:5005"
+    - "5002:5002"
   gyminnowise.gymservice.database:
     image: postgres:latest
     container_name: gyminnowise.gymservice.database  
@@ -87,8 +92,7 @@ services:
       context: ./
       dockerfile: services/FileService/GymInnowise.FileService.API/Dockerfile
     ports:
-    - "5006:5006"
-    - "5007:5007"
+    - "5003:5003"
   gyminnowise.fileservice.database:
     image: postgres:latest
     container_name: gyminnowise.fileservice.database  
@@ -116,8 +120,7 @@ services:
       context: ./
       dockerfile: services/EmailService/GymInnowise.EmailService.API/Dockerfile
     ports:
-    - "5008:5008"
-    - "5009:5009"
+    - "5004:5004"
 #report services
   gyminnowise.reportservice.api:
     image: ${DOCKER_REGISTRY-}gyminnowisereportserviceapi
@@ -125,8 +128,7 @@ services:
       context: ./
       dockerfile: services/ReportService/GymInnowise.ReportService.API/Dockerfile
     ports:
-    - "5010:5010"
-    - "5011:5011"
+    - "5005:5005"
     depends_on:
       - gyminnowise.reportservice.mongodb
   gyminnowise.reportservice.mongodb:
@@ -147,7 +149,7 @@ services:
       context: ./
       dockerfile: services/SectionService/GymInnowise.SectionService.API/Dockerfile
     ports:
-    - "5012:5012"
+    - "5006:5006"
   gyminnowise.sectionservice.database:
     image: postgres:latest
     container_name: gyminnowise.sectionservice.database  

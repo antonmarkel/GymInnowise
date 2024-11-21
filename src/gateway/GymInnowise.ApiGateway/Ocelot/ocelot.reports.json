@@ -1,0 +1,44 @@
+{
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:5010",
+    "DownstreamScheme": "http",
+    "AuthenticationOptions": {
+      "AuthenticationProviderKey": "Bearer"
+    }
+  },
+  "Routes": [
+    {
+      "UpstreamPathTemplate": "/gateway/reports/{report-type}/{reportId}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/reports/{report-type}/{reportId}",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gyminnowise.reportservice.api",
+          "Port": 5005
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/reports/{report-type}",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/reports/{report-type}",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gyminnowise.reportservice.api",
+          "Port": 5005
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/reports/{report-type}/{reportId}/generate",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/reports/{report-type}/{reportId}/generate",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gyminnowise.reportservice.api",
+          "Port": 5005
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35013.160
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.Authorization.API", "services\Authorization\GymInnowise.Authorization.API\GymInnowise.Authorization.API.csproj", "{9FF6B11D-FA07-48E1-BEDD-B49514031BEA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.UserService.API", "services\UserService\GymInnowise.UserService.API\GymInnowise.UserService.API.csproj", "{4CAFC7CC-B7D0-403C-B834-1A2C0D5CF13B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.GymService.API", "services\GymService\GymInnowise.GymService.API\GymInnowise.GymService.API.csproj", "{C1D8B48D-A90A-4D72-A194-F4008C18671A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.FileService.API", "services\FileService\GymInnowise.FileService.API\GymInnowise.FileService.API.csproj", "{1D0820BD-2B7B-40E2-9930-1C973B921E0A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.EmailService.API", "services\EmailService\GymInnowise.EmailService.API\GymInnowise.EmailService.API.csproj", "{8B4212E7-B86E-4A17-B7BE-52FC733EFAEE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.ReportService.API", "services\ReportService\GymInnowise.ReportService.API\GymInnowise.ReportService.API.csproj", "{44382289-9F38-4092-B349-5E086DE85C51}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.SectionService.API", "services\SectionService\GymInnowise.SectionService.API\GymInnowise.SectionService.API.csproj", "{24565075-5449-447B-8FEF-8DEB1FFB6D7D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.ApiGateway", "gateway\GymInnowise.ApiGateway\GymInnowise.ApiGateway.csproj", "{DDD617A6-CA84-4D6E-94B6-0EC1D3A3327B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.Shared", "shared\GymInnowise.Shared\GymInnowise.Shared\GymInnowise.Shared.csproj", "{BC8ADEB5-62CD-45F3-B782-B80886D5BAF8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9FF6B11D-FA07-48E1-BEDD-B49514031BEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FF6B11D-FA07-48E1-BEDD-B49514031BEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FF6B11D-FA07-48E1-BEDD-B49514031BEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FF6B11D-FA07-48E1-BEDD-B49514031BEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CAFC7CC-B7D0-403C-B834-1A2C0D5CF13B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CAFC7CC-B7D0-403C-B834-1A2C0D5CF13B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CAFC7CC-B7D0-403C-B834-1A2C0D5CF13B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CAFC7CC-B7D0-403C-B834-1A2C0D5CF13B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1D8B48D-A90A-4D72-A194-F4008C18671A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1D8B48D-A90A-4D72-A194-F4008C18671A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1D8B48D-A90A-4D72-A194-F4008C18671A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1D8B48D-A90A-4D72-A194-F4008C18671A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D0820BD-2B7B-40E2-9930-1C973B921E0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D0820BD-2B7B-40E2-9930-1C973B921E0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D0820BD-2B7B-40E2-9930-1C973B921E0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D0820BD-2B7B-40E2-9930-1C973B921E0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B4212E7-B86E-4A17-B7BE-52FC733EFAEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B4212E7-B86E-4A17-B7BE-52FC733EFAEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B4212E7-B86E-4A17-B7BE-52FC733EFAEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B4212E7-B86E-4A17-B7BE-52FC733EFAEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44382289-9F38-4092-B349-5E086DE85C51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44382289-9F38-4092-B349-5E086DE85C51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44382289-9F38-4092-B349-5E086DE85C51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44382289-9F38-4092-B349-5E086DE85C51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24565075-5449-447B-8FEF-8DEB1FFB6D7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24565075-5449-447B-8FEF-8DEB1FFB6D7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24565075-5449-447B-8FEF-8DEB1FFB6D7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24565075-5449-447B-8FEF-8DEB1FFB6D7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDD617A6-CA84-4D6E-94B6-0EC1D3A3327B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDD617A6-CA84-4D6E-94B6-0EC1D3A3327B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDD617A6-CA84-4D6E-94B6-0EC1D3A3327B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDD617A6-CA84-4D6E-94B6-0EC1D3A3327B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC8ADEB5-62CD-45F3-B782-B80886D5BAF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC8ADEB5-62CD-45F3-B782-B80886D5BAF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC8ADEB5-62CD-45F3-B782-B80886D5BAF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC8ADEB5-62CD-45F3-B782-B80886D5BAF8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CCFBF7F5-2EDF-4563-9679-3AA89E7F4DA4}
+	EndGlobalSection
+EndGlobal

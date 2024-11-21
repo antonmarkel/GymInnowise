@@ -139,6 +139,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: guest
     volumes:
       - mongo-data:/data/db
+      
 #section services
   gyminnowise.sectionservice.api:
     image: ${DOCKER_REGISTRY-}gyminnowisesectionserviceapi

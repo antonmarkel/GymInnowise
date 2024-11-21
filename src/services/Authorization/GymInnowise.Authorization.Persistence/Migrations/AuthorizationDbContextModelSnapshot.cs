@@ -36,6 +36,9 @@ namespace GymInnowise.Authorization.Persistence.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
 
+                    b.Property<bool>("IsEmailConfirmed")
+                        .HasColumnType("boolean");
+
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("timestamp with time zone");
 
@@ -86,6 +89,26 @@ namespace GymInnowise.Authorization.Persistence.Migrations
                         .IsUnique();
 
                     b.ToTable("RefreshTokens", (string)null);
+                });
+
+            modelBuilder.Entity("GymInnowise.Authorization.Persistence.Models.Enities.VerificationEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("AccountId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("ExpireAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Verifications");
                 });
 
             modelBuilder.Entity("GymInnowise.Authorization.Persistence.Models.Enities.RefreshTokenEntity", b =>

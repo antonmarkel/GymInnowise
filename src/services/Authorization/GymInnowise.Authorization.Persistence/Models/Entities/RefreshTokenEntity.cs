@@ -1,4 +1,4 @@
-﻿namespace GymInnowise.Authorization.Persistence.Models.Enities
+﻿namespace GymInnowise.Authorization.Persistence.Models.Entities
 {
     public class RefreshTokenEntity
     {

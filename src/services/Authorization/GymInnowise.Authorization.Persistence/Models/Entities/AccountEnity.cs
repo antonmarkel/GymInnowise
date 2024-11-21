@@ -1,4 +1,4 @@
-﻿namespace GymInnowise.Authorization.Persistence.Models.Enities
+﻿namespace GymInnowise.Authorization.Persistence.Models.Entities
 {
     public class AccountEntity
     {
@@ -9,5 +9,6 @@
         public DateTime? CreatedDate { get; set; }
         public DateTime? ModifiedDate { get; set; }
         public List<string> Roles { get; set; } = [];
+        public bool IsEmailConfirmed { get; set; } = false;
     }
 }

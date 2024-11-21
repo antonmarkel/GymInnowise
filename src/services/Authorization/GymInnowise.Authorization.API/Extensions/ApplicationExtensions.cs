@@ -1,12 +1,14 @@
 ﻿using FluentValidation;
 using GymInnowise.Authorization.API.Middleware;
 using GymInnowise.Authorization.API.Validators;
+using GymInnowise.Authorization.Configuration;
 using GymInnowise.Authorization.Configuration.Token;
 using GymInnowise.Authorization.Logic.Interfaces;
 using GymInnowise.Authorization.Logic.Services;
 using GymInnowise.Authorization.Persistence.Data;
 using GymInnowise.Authorization.Persistence.Repositories.Implementations;
 using GymInnowise.Authorization.Persistence.Repositories.Interfaces;
+using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -29,6 +31,32 @@ namespace GymInnowise.Authorization.API.Extensions
             builder.Services.AddDbContext<AuthorizationDbContext>(options => options.UseNpgsql(connectionString));
             builder.Services.AddScoped<IAccountsRepository, AccountsRepository>();
             builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+            builder.Services.AddScoped<IVerificationRepository, VerificationRepository>();
+        }
+
+        public static void AddRabbitMq(this WebApplicationBuilder builder)
+        {
+            var rabbitMqSettings = builder.Configuration.GetSection("RabbitMqSettings");
+            builder.Services.AddMassTransit(busConfig =>
+            {
+                busConfig.SetKebabCaseEndpointNameFormatter();
+                busConfig.UsingRabbitMq((context, configurator) =>
+                {
+                    configurator.Host(new Uri(rabbitMqSettings["Host"]!), h =>
+                    {
+                        h.Username(rabbitMqSettings["Username"]!);
+                        h.Password(rabbitMqSettings["Password"]!);
+                    });
+                    configurator.ConfigureEndpoints(context);
+                });
+            });
+        }
+
+        public static void AddVerificationService(this WebApplicationBuilder builder)
+        {
+            builder.Services.Configure<VerificationSettings>(
+                builder.Configuration.GetSection(nameof(VerificationSettings)));
+            builder.Services.AddScoped<IVerificationService, VerificationService>();
         }
 
         public static void AddJwtServices(this IHostApplicationBuilder builder)

@@ -1,10 +1,12 @@
 ﻿using GymInnowise.Authorization.Logic.Helpers;
 using GymInnowise.Authorization.Logic.Interfaces;
-using GymInnowise.Authorization.Logic.Services.Results;
-using GymInnowise.Authorization.Persistence.Models.Enities;
+using GymInnowise.Authorization.Logic.Results;
+using GymInnowise.Authorization.Persistence.Models.Entities;
 using GymInnowise.Authorization.Persistence.Repositories.Interfaces;
 using GymInnowise.Shared.Authorization;
 using GymInnowise.Shared.Authorization.Dtos.RequestModels;
+using GymInnowise.Shared.RabbitMq.Events;
+using MassTransit;
 using Microsoft.Extensions.Logging;
 using OneOf;
 using OneOf.Types;
@@ -15,11 +17,16 @@ namespace GymInnowise.Authorization.Logic.Services
     {
         private readonly IAccountsRepository _accountsRepo;
         private readonly ILogger<AccountService> _logger;
+        private readonly IPublishEndpoint _publishEndpoint;
+        private readonly IVerificationService _verificationService;
 
-        public AccountService(IAccountsRepository accountsRepo, ILogger<AccountService> logger)
+        public AccountService(IAccountsRepository accountsRepo, IPublishEndpoint publishEndpoint,
+            ILogger<AccountService> logger, IVerificationService verificationService)
         {
             _accountsRepo = accountsRepo;
             _logger = logger;
+            _verificationService = verificationService;
+            _publishEndpoint = publishEndpoint;
         }
 
         public async Task<OneOf<Success, AccountAlreadyExists>> RegisterAsync(
@@ -44,6 +51,11 @@ namespace GymInnowise.Authorization.Logic.Services
             };
             await _accountsRepo.CreateAccountAsync(account);
             _logger.LogInformation("New account with email '{Email}' has been created.", account.Email);
+
+            var accountCreatedEvent = new AccountCreatedEvent { AccountId = account.Id, Email = account.Email };
+            await _publishEndpoint.Publish(accountCreatedEvent);
+
+            _verificationService.StartVerificationAsync(account.Id, account.Email);
 
             return new Success();
         }

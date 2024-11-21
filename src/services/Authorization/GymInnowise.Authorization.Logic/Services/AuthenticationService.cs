@@ -1,7 +1,7 @@
 ﻿using GymInnowise.Authorization.Logic.Helpers;
 using GymInnowise.Authorization.Logic.Interfaces;
-using GymInnowise.Authorization.Logic.Services.Results;
-using GymInnowise.Authorization.Persistence.Models.Enities;
+using GymInnowise.Authorization.Logic.Results;
+using GymInnowise.Authorization.Persistence.Models.Entities;
 using GymInnowise.Authorization.Persistence.Repositories.Interfaces;
 using GymInnowise.Shared.Authorization.Dtos.RequestModels;
 using GymInnowise.Shared.Authorization.Dtos.ResponseModels;

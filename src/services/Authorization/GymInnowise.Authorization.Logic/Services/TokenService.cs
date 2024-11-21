@@ -1,6 +1,6 @@
 ﻿using GymInnowise.Authorization.Configuration.Token;
 using GymInnowise.Authorization.Logic.Interfaces;
-using GymInnowise.Authorization.Persistence.Models.Enities;
+using GymInnowise.Authorization.Persistence.Models.Entities;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;

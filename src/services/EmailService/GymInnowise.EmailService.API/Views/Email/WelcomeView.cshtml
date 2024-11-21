@@ -1,0 +1,48 @@
+﻿@using GymInnowise.Shared.Email.Models
+@using Newtonsoft.Json
+@{
+    var welcomeModel = JsonConvert.DeserializeObject<WelcomeModel>((Model as string)!);
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Gym Innowise</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            color: #4CAF50;
+        }
+        p {
+            font-size: 18px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+<h1>Welcome to Gym Innowise!</h1>
+<p>Hi there! We're thrilled to have you join our gym community.</p>
+<p>Your journey to better health and fitness starts now! With access to top-notch facilities, personal trainers, and a supportive community, we’re here to help you every step of the way.</p>
+<p>If you have any questions or need assistance, feel free to reach out to us anytime.</p>
+    <a href="@welcomeModel!.LogInLink" class="button">Get Started</a>
+<p>We can't wait to see you at the gym!</p>
+<p>Best regards,<br />The Gym Innowise Team</p>
+</body>
+</html>

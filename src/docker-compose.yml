@@ -1,0 +1,166 @@
+
+services:
+# RabbitMQ service
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    ports:
+      - "5672:5672"   
+      - "15672:15672" 
+#gateway service
+  gyminnowise.gateway.api:
+    image: ${DOCKER_REGISTRY-}gyminnowisegatewayapi
+    build:
+      context: ./
+      dockerfile: gateway/GymInnowise.ApiGateWay/Dockerfile
+    ports:
+    - "5010:5010" 
+#authorization services
+  gyminnowise.authorization.api:
+    image: ${DOCKER_REGISTRY-}gyminnowiseauthorizationapi
+    build:
+      context: ./
+      dockerfile: services/Authorization/GymInnowise.Authorization.API/Dockerfile
+    ports:
+    - "5000:5000"
+  gyminnowise.authorization.database:
+    image: postgres:latest
+    container_name: gyminnowise.authorization.database  
+    environment:
+      - POSTGRES_DB=GymInnowiseAuthorization
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./.containers/gym-auth-db:/var/lib/postgresql/gym-auth
+    ports:
+      - 5432:5432
+#user services
+  gyminnowise.userservice.api:
+    image: ${DOCKER_REGISTRY-}gyminnowiseuserserviceapi
+    build:
+      context: ./
+      dockerfile: services/UserService/GymInnowise.UserService.API/Dockerfile
+    ports:
+    - "5001:5001"
+    depends_on:
+      gyminnowise.userservice.database:
+        condition: service_healthy
+
+  gyminnowise.userservice.database:
+    image: postgres:latest
+    container_name: gyminnowise.userservice.database
+    environment:
+      - POSTGRES_DB=GymInnowiseUserService
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./.containers/gym-user-db:/var/lib/postgresql/user-service
+    ports:
+      - 5430:5432
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+
+#gym services
+  gyminnowise.gymservice.api:
+    image: ${DOCKER_REGISTRY-}gyminnowisegymserviceapi
+    build:
+      context: ./
+      dockerfile: services/GymService/GymInnowise.GymService.API/Dockerfile
+    ports:
+    - "5002:5002"
+  gyminnowise.gymservice.database:
+    image: postgres:latest
+    container_name: gyminnowise.gymservice.database  
+    environment:
+      - POSTGRES_DB=GymInnowiseGymService
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./.containers/gym-service-db:/var/lib/postgresql/gym-service
+    ports:
+      - 5434:5432
+#file services
+  gyminnowise.fileservice.api:
+    image: ${DOCKER_REGISTRY-}gyminnowisefileserviceapi
+    build:
+      context: ./
+      dockerfile: services/FileService/GymInnowise.FileService.API/Dockerfile
+    ports:
+    - "5003:5003"
+  gyminnowise.fileservice.database:
+    image: postgres:latest
+    container_name: gyminnowise.fileservice.database  
+    environment:
+      - POSTGRES_DB=GymInnowiseFileService
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./.containers/file-service-db:/var/lib/postgresql/file-service
+    ports:
+      - 5435:5432
+  azurite:
+    image: mcr.microsoft.com/azure-storage/azurite
+    container_name: azurite
+    ports:
+      - "10000:10000"
+    volumes:
+      - ./azurite:/data
+    command: "azurite --blobHost 0.0.0.0"
+
+#email services
+  gyminnowise.emailservice.api:
+    image: ${DOCKER_REGISTRY-}gyminnowiseemailserviceapi
+    build:
+      context: ./
+      dockerfile: services/EmailService/GymInnowise.EmailService.API/Dockerfile
+    ports:
+    - "5004:5004"
+#report services
+  gyminnowise.reportservice.api:
+    image: ${DOCKER_REGISTRY-}gyminnowisereportserviceapi
+    build:
+      context: ./
+      dockerfile: services/ReportService/GymInnowise.ReportService.API/Dockerfile
+    ports:
+    - "5005:5005"
+    depends_on:
+      - gyminnowise.reportservice.mongodb
+  gyminnowise.reportservice.mongodb:
+    image: mongo:latest
+    container_name: gyminnowise.reportservice.mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: guest
+      MONGO_INITDB_ROOT_PASSWORD: guest
+    volumes:
+      - mongo-data:/data/db
+      
+#section services
+  gyminnowise.sectionservice.api:
+    image: ${DOCKER_REGISTRY-}gyminnowisesectionserviceapi
+    build:
+      context: ./
+      dockerfile: services/SectionService/GymInnowise.SectionService.API/Dockerfile
+    ports:
+    - "5006:5006"
+  gyminnowise.sectionservice.database:
+    image: postgres:latest
+    container_name: gyminnowise.sectionservice.database  
+    environment:
+      - POSTGRES_DB=GymInnowiseSectionService
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./.containers/section-service-db:/var/lib/postgresql/section-service
+    ports:
+      - 5436:5432
+volumes:
+  mongo-data:
+    

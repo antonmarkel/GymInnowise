@@ -1,0 +1,116 @@
+﻿@model GymInnowise.Shared.Reports.Payment.BillReport
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bill Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9; /* Light background */
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #e74c3c; /* Red color */
+            font-size: 26px;
+            text-align: center;
+        }
+
+        .section-header {
+            color: #333;
+            font-size: 20px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #e74c3c;
+            padding-bottom: 5px;
+        }
+
+        .details-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+            .details-table th, .details-table td {
+                text-align: left;
+                padding: 10px;
+                border-bottom: 1px solid #e0e0e0;
+            }
+
+            .details-table th {
+                background-color: #f8f8f8; /* Light gray for header */
+            }
+
+        .footer {
+            margin-top: 40px;
+            font-size: 12px;
+            color: #777;
+            text-align: center;
+        }
+
+        .total-amount {
+            font-weight: bold;
+            font-size: 18px;
+            color: #e74c3c; /* Red for total amount */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bill Report</h1>
+
+        <div class="section-header">Customer Information</div>
+        <table class="details-table">
+            <tr>
+                <th>Name</th>
+                <td>@Model.CustomerName</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>@Model.CustomerEmail</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>@Model.Status</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>@Model.DateStampUtc.ToString("MMMM dd, yyyy")</td>
+            </tr>
+        </table>
+
+        <div class="section-header">Billing Summary</div>
+        <table class="details-table">
+            <tr>
+                <th>Currency</th>
+                <td>@Model.Currency</td>
+            </tr>
+            <tr>
+                <th>Total Amount</th>
+                <td class="total-amount">@Model.TotalAmount</td>
+            </tr>
+            <tr>
+                <th>Notes</th>
+                <td>@(Model.Notes ?? "No additional notes")</td>
+            </tr>
+        </table>
+
+        <div class="footer">
+            Report generated on @DateTime.UtcNow.ToString("MMMM dd, yyyy - HH:mm") UTC
+        </div>
+    </div>
+</body>
+</html>
+

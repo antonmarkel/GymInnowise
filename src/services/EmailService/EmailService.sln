@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35013.160
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.EmailService.Logic", "GymInnowise.EmailService.Logic\GymInnowise.EmailService.Logic.csproj", "{D8E86E2E-41E1-41F4-95BF-71B62485CD5E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.EmailService.Configuration", "GymInnowise.EmailService.Configuration\GymInnowise.EmailService.Configuration.csproj", "{BFA494DF-8BFB-4058-8252-31949479A644}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.EmailService.API", "GymInnowise.EmailService.API\GymInnowise.EmailService.API.csproj", "{F4576D2D-B861-4FCD-A214-33654119678E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymInnowise.Shared", "..\..\shared\GymInnowise.Shared\GymInnowise.Shared\GymInnowise.Shared.csproj", "{403B56C9-43B2-41B9-9B04-751EDCFBAC84}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D8E86E2E-41E1-41F4-95BF-71B62485CD5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8E86E2E-41E1-41F4-95BF-71B62485CD5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8E86E2E-41E1-41F4-95BF-71B62485CD5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8E86E2E-41E1-41F4-95BF-71B62485CD5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFA494DF-8BFB-4058-8252-31949479A644}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFA494DF-8BFB-4058-8252-31949479A644}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFA494DF-8BFB-4058-8252-31949479A644}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFA494DF-8BFB-4058-8252-31949479A644}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4576D2D-B861-4FCD-A214-33654119678E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4576D2D-B861-4FCD-A214-33654119678E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4576D2D-B861-4FCD-A214-33654119678E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4576D2D-B861-4FCD-A214-33654119678E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{403B56C9-43B2-41B9-9B04-751EDCFBAC84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{403B56C9-43B2-41B9-9B04-751EDCFBAC84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{403B56C9-43B2-41B9-9B04-751EDCFBAC84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{403B56C9-43B2-41B9-9B04-751EDCFBAC84}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3827225E-3AAA-48F9-843C-495F7390ED96}
+	EndGlobalSection
+EndGlobal

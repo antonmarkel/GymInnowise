@@ -1,0 +1,65 @@
+{
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:5010",
+    "DownstreamScheme": "http"
+  },
+  "Routes": [
+    {
+      "UpstreamPathTemplate": "/gateway/personal-goals/{ownerId}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/personal-goals/{ownerId}",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gyminnowise.userservice.api",
+          "Port": 5001
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/personal-goals/{ownerId}/supervised-goals",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/personal-goals/{ownerId}/supervised-goals",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gyminnowise.userservice.api",
+          "Port": 5001
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "Coach", "Admin" ]
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/personal-goals/{goalId}",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/api/personal-goals/{goalId}",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gyminnowise.userservice.api",
+          "Port": 5001
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/personal-goals/{ownerId}",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/personal-goals/{ownerId}",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gyminnowise.userservice.api",
+          "Port": 5001
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      }
+    }
+  ]
+}

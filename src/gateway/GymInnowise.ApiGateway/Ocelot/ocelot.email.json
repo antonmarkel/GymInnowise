@@ -1,0 +1,34 @@
+{
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:5010",
+    "DownstreamScheme": "http",
+    "AuthenticationOptions": {
+      "AuthenticationProviderKey": "Bearer",
+      "AllowedScopes": [ "Admin" ]
+    }
+  },
+  "Routes": [
+    {
+      "UpstreamPathTemplate": "/gateway/email/send",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/email/send",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gyminnowise.emailservice.api",
+          "Port": 5004
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/email/send/template",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/email/send/template",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gyminnowise.emailservice.api",
+          "Port": 5004
+        }
+      ]
+    }
+  ]
+}

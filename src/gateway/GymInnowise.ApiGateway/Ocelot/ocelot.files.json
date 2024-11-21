@@ -1,0 +1,44 @@
+{
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:5010",
+    "DownstreamScheme": "http",
+    "AuthenticationOptions": {
+      "AuthenticationProviderKey": "Bearer"
+    }
+  },
+  "Routes": [
+    {
+      "UpstreamPathTemplate": "/gateway/{file-type}/{fileId}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/{file-type}/{fileId}",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gyminnowise.fileservice.api",
+          "Port": 5003
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/{file-type}/{fileId}/meta",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/{file-type}/{fileId}/meta",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gyminnowise.fileservice.api",
+          "Port": 5003
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/{file-type}",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/{file-type}",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gyminnowise.fileservice.api",
+          "Port": 5003
+        }
+      ]
+    }
+  ]
+}

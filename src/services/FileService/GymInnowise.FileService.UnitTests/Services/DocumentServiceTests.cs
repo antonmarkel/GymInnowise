@@ -1,144 +1,131 @@
-﻿using FakeItEasy;
+﻿using AutoFixture;
+using AutoFixture.AutoMoq;
+using FluentAssertions;
 using GymInnowise.FileService.Configuration.Blob;
 using GymInnowise.FileService.Logic.Services;
 using GymInnowise.FileService.Persistence.Models;
 using GymInnowise.FileService.Persistence.Repositories.Interfaces;
 using GymInnowise.FileService.Persistence.Services.Interfaces;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Moq;
 
-namespace GymInnowise.FileService.UnitTests.Services
+namespace GymInnowise.FileService.UnitTests.Services;
+
+public class DocumentServiceTests
 {
-    public class DocumentServiceTests
+    private readonly IFixture _fixture;
+    private readonly Mock<IFileMetadataRepository<DocumentMetadataEntity>> _repo;
+    private readonly Mock<IBlobService> _blobService;
+    private readonly ContainerSettings _containerSettings;
+    private readonly DocumentService _documentService;
+    private readonly CancellationToken _cancellationToken;
+
+    public DocumentServiceTests()
     {
-        private readonly IFileMetadataRepository<DocumentMetadataEntity> _repo;
-        private readonly IBlobService _blobService;
-        private readonly ILogger<DocumentService> _logger;
-        private readonly ContainerSettings _containerSettings;
-        private readonly DocumentService _documentService;
-        private readonly CancellationToken _cacnelletaionToken;
+        _fixture = new Fixture().Customize(new AutoMoqCustomization());
+        _repo = _fixture.Freeze<Mock<IFileMetadataRepository<DocumentMetadataEntity>>>();
+        _blobService = _fixture.Freeze<Mock<IBlobService>>();
+        _containerSettings = new ContainerSettings { DocumentContainer = "documents" };
+        var containerOptions = _fixture.Freeze<Mock<IOptions<ContainerSettings>>>();
+        containerOptions.Setup(c => c.Value).Returns(_containerSettings);
+        _documentService = _fixture.Create<DocumentService>();
+        _cancellationToken = new CancellationTokenSource().Token;
+    }
 
-        public DocumentServiceTests()
-        {
-            _repo = A.Fake<IFileMetadataRepository<DocumentMetadataEntity>>();
-            _blobService = A.Fake<IBlobService>();
-            _logger = A.Fake<ILogger<DocumentService>>();
-            var containerOptions = A.Fake<IOptions<ContainerSettings>>();
-            _containerSettings = new ContainerSettings()
-            {
-                DocumentContainer = "documents",
-            };
-            A.CallTo(() => containerOptions.Value).Returns(_containerSettings);
-            _documentService = new DocumentService(_repo, _blobService,
-                containerOptions, _logger);
-            _cacnelletaionToken = new CancellationTokenSource().Token;
-        }
+    [Fact]
+    public async Task DownloadAsync_MetadataNotFound_ReturnsMetadataNotFound()
+    {
+        // Arrange
+        var fileId = _fixture.Create<Guid>();
+        var stream = _fixture.Create<Stream>();
 
-        [Fact]
-        public async Task DownloadAsync_MetadataNotFound_ReturnsMetadataNotFound()
-        {
-            //Arrange
-            Guid fileId = new();
-            var stream = A.Fake<Stream>();
-            A.CallTo(() =>
-                    _repo.GetFileMetadataByIdAsync(fileId, _cacnelletaionToken))
-                .Returns(Task.FromResult<DocumentMetadataEntity?>(null));
-            A.CallTo(() => _blobService.DownloadAsync(fileId.ToString(), _containerSettings.DocumentContainer,
-                    _cacnelletaionToken))
-                .Returns(Task.FromResult<Stream?>(stream));
+        _repo.Setup(r => r.GetFileMetadataByIdAsync(fileId, _cancellationToken))
+            .ReturnsAsync((DocumentMetadataEntity?)null);
 
-            //Act
-            var result = await _documentService.DownloadAsync(fileId);
+        _blobService.Setup(b =>
+                b.DownloadAsync(fileId.ToString(), _containerSettings.DocumentContainer, _cancellationToken))
+            .ReturnsAsync(stream);
 
-            //Assert
-            Assert.True(result.IsT1);
-        }
+        // Act
+        var result = await _documentService.DownloadAsync(fileId, _cancellationToken);
 
-        [Fact]
-        public async Task DownloadAsync_FileNotFound_ReturnsFileNotFound()
-        {
-            //Arrange
-            Guid fileId = new();
-            A.CallTo(() =>
-                _repo.GetFileMetadataByIdAsync(fileId, _cacnelletaionToken)).Returns(
-                Task.FromResult<DocumentMetadataEntity?>(
-                    new DocumentMetadataEntity()
-                    {
-                        FileName = "fileName",
-                        ContentType = "contentType",
-                        Format = "format"
-                    }));
-            A.CallTo(() => _blobService.DownloadAsync(fileId.ToString(), _containerSettings.DocumentContainer,
-                    _cacnelletaionToken))
-                .Returns(Task.FromResult<Stream?>(null));
+        // Assert
+        result.IsT1.Should().BeTrue();
+    }
 
-            //Act
-            var result = await _documentService.DownloadAsync(fileId, cancellationToken: _cacnelletaionToken);
+    [Fact]
+    public async Task DownloadAsync_FileNotFound_ReturnsFileNotFound()
+    {
+        // Arrange
+        var fileId = _fixture.Create<Guid>();
+        var metadata = _fixture.Create<DocumentMetadataEntity>();
 
-            //Assert
-            Assert.True(result.IsT2);
-        }
+        _repo.Setup(r => r.GetFileMetadataByIdAsync(fileId, _cancellationToken))
+            .ReturnsAsync(metadata);
 
-        [Fact]
-        public async Task DownloadAsync_Success_ReturnsFileResult()
-        {
-            //Arrange
-            Guid fileId = new();
-            var stream = A.Fake<Stream>();
-            A.CallTo(() =>
-                _repo.GetFileMetadataByIdAsync(fileId, _cacnelletaionToken)).Returns(
-                Task.FromResult<DocumentMetadataEntity?>(
-                    new DocumentMetadataEntity()
-                    {
-                        FileName = "fileName",
-                        ContentType = "contentType",
-                        Format = "format"
-                    }));
-            A.CallTo(() => _blobService.DownloadAsync(fileId.ToString(), _containerSettings.DocumentContainer,
-                    _cacnelletaionToken))
-                .Returns(Task.FromResult<Stream?>(stream));
+        _blobService.Setup(b =>
+                b.DownloadAsync(fileId.ToString(), _containerSettings.DocumentContainer, _cancellationToken))
+            .ReturnsAsync((Stream?)null);
 
-            //Act
-            var result = await _documentService.DownloadAsync(fileId);
+        // Act
+        var result = await _documentService.DownloadAsync(fileId, cancellationToken: _cancellationToken);
 
-            //Assert
-            Assert.True(result.IsT0);
-        }
+        // Assert
+        result.IsT2.Should().BeTrue();
+    }
 
-        [Fact]
-        public async Task GetMetadataByIdAsync_MetadataNotFound_ReturnsMetadataNotFound()
-        {
-            //Arrange
-            var fileId = new Guid();
-            A.CallTo(() => _repo.GetFileMetadataByIdAsync(fileId, _cacnelletaionToken))
-                .Returns(Task.FromResult<DocumentMetadataEntity?>(null));
+    [Fact]
+    public async Task DownloadAsync_Success_ReturnsFileResult()
+    {
+        // Arrange
+        var fileId = _fixture.Create<Guid>();
+        var stream = _fixture.Create<Stream>();
+        var metadata = _fixture.Create<DocumentMetadataEntity>();
 
-            //Act
-            var result = await _documentService.GetMetadataByIdAsync(fileId);
+        _repo.Setup(r => r.GetFileMetadataByIdAsync(fileId, _cancellationToken))
+            .ReturnsAsync(metadata);
 
-            //Assert
-            Assert.True(result.IsT1);
-        }
+        _blobService.Setup(b =>
+                b.DownloadAsync(fileId.ToString(), _containerSettings.DocumentContainer, _cancellationToken))
+            .ReturnsAsync(stream);
 
-        [Fact]
-        public async Task GetMetadataByIdAsync_Success_ReturnsDocumentMetadata()
-        {
-            //Arrange
-            var fileId = new Guid();
-            A.CallTo(() => _repo.GetFileMetadataByIdAsync(fileId, _cacnelletaionToken))
-                .Returns(Task.FromResult<DocumentMetadataEntity?>(new DocumentMetadataEntity()
-                {
-                    FileName = "fileName",
-                    ContentType = "contentType",
-                    Format = "format"
-                }));
+        // Act
+        var result = await _documentService.DownloadAsync(fileId, _cancellationToken);
 
-            //Act
-            var result = await _documentService.GetMetadataByIdAsync(fileId);
+        // Assert
+        result.IsT0.Should().BeTrue();
+    }
 
-            //Assert
-            Assert.True(result.IsT0);
-        }
+    [Fact]
+    public async Task GetMetadataByIdAsync_MetadataNotFound_ReturnsMetadataNotFound()
+    {
+        // Arrange
+        var fileId = _fixture.Create<Guid>();
+
+        _repo.Setup(r => r.GetFileMetadataByIdAsync(fileId, _cancellationToken))
+            .ReturnsAsync((DocumentMetadataEntity?)null);
+
+        // Act
+        var result = await _documentService.GetMetadataByIdAsync(fileId, _cancellationToken);
+
+        // Assert
+        result.IsT1.Should().BeTrue();
+    }
+
+    [Fact]
+    public async Task GetMetadataByIdAsync_Success_ReturnsDocumentMetadata()
+    {
+        // Arrange
+        var fileId = _fixture.Create<Guid>();
+        var metadata = _fixture.Create<DocumentMetadataEntity>();
+
+        _repo.Setup(r => r.GetFileMetadataByIdAsync(fileId, _cancellationToken))
+            .ReturnsAsync(metadata);
+
+        // Act
+        var result = await _documentService.GetMetadataByIdAsync(fileId, _cancellationToken);
+
+        // Assert
+        result.IsT0.Should().BeTrue();
     }
 }
-

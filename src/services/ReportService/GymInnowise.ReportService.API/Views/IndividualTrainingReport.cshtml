@@ -1,0 +1,111 @@
+﻿@model GymInnowise.Shared.Reports.Trainings.IndividualTrainingReport
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Individual Training Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9; /* Light background */
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            max-width: 700px;
+            margin: 0 auto;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #3498db; /* Blue color */
+            font-size: 26px;
+            text-align: center;
+        }
+
+        .section-header {
+            color: #333;
+            font-size: 20px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #3498db; /* Lighter blue */
+            padding-bottom: 5px;
+        }
+
+        .details-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+            .details-table th, .details-table td {
+                text-align: left;
+                padding: 10px;
+                border-bottom: 1px solid #e0e0e0;
+            }
+
+            .details-table th {
+                background-color: #f8f8f8; /* Light gray for header */
+            }
+
+        .footer {
+            margin-top: 40px;
+            font-size: 12px;
+            color: #777;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Individual Training Report</h1>
+
+        <div class="section-header">Training Details</div>
+        <table class="details-table">
+            <tr>
+                <th>Start Time</th>
+                <td>@Model.StartUtc.ToString("MMMM dd, yyyy - HH:mm")</td>
+            </tr>
+            <tr>
+                <th>End Time</th>
+                <td>@Model.EndUtc.ToString("MMMM dd, yyyy - HH:mm")</td>
+            </tr>
+            <tr>
+                <th>Goals</th>
+                <td>
+                    <ul>
+                        @foreach (var goal in Model.Goals)
+                        {
+                            <li>@goal.Key @if (goal.Value)
+                                {
+                                    <span>(Achieved)</span>
+                                }
+                                else
+                                {
+                                    <span>(Not Achieved)</span>
+                                }</li>
+                        }
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <th>Gym</th>
+                <td>@(Model.Gym ?? "N/A")</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>@Model.DateStampUtc.ToString("MMMM dd, yyyy")</td>
+            </tr>
+        </table>
+
+        <div class="footer">
+            Report generated on @DateTime.UtcNow.ToString("MMMM dd, yyyy - HH:mm") UTC
+        </div>
+    </div>
+</body>
+</html>
